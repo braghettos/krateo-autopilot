@@ -11,7 +11,7 @@ kubectl create secret generic github-token --from-literal=token=<your_token>
 
 2. Create a secret for your Google Vertex AI credentials
 
-First create a Service account from Google Cloud UI. Then create the secret.
+First create a service account from Google Cloud's UI. Then create the secret.
 
 ```bash
 kubectl create secret generic gcloud-credentials --from-file=~/.config/gcloud/application_default_credentials.json
