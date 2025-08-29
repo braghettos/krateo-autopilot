@@ -1,0 +1,9 @@
+# temporary monster clusterrole for development purposes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: google-adk-cluster-admin-role
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]

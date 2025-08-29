@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: google-adk-cluster-admin-binding
+subjects:
+- kind: ServiceAccount
+  name: google-adk-sa
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: google-adk-cluster-admin-role
+  apiGroup: rbac.authorization.k8s.io

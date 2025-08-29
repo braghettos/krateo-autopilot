@@ -1,0 +1,11 @@
+**/.yaml
+**/.env
+init.sh
+Dockerfile
+.dockerignore
+**/__pycache__/
+manifests/
+LICENSE
+README.md
+.gitignore
+.git/

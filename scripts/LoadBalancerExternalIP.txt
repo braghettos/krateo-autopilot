@@ -1,0 +1,18 @@
+Wait for Krateo PlatformOps to be up&running:
+
+kubectl wait krateoplatformops krateo --for condition=Ready=True --namespace krateo-system --timeout=300s
+
+At the end of this process:
+
+    Find the Krateo Composable Portal IP:
+
+kubectl get svc krateo-frontend -n krateo-system  -o=jsonpath='{.status.loadBalancer.ingress[0].ip}'
+
+    The Krateo Composable Portal will be accessible at previous IP at port 8080.
+    The admin user password can be retrieved with the following command:
+
+kubectl get secret admin-password  -n krateo-system -o jsonpath="{.data.password}" | base64 -d
+
+INFO
+
+The installer by default deploys a composable-portal-basic with examples to immediately start to play with Krateo PlatformOps. The chart is available here: https://github.com/krateoplatformops/composable-portal-basic.
