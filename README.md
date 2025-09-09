@@ -26,7 +26,7 @@ kubectl create secret generic github-token \
 
 ## 3. Create a secret for your Google Vertex AI credentials
 
-Now, create a Kubernetes secret from the JSON key file you downloaded in the previous step. This authenticates the autopilot with Google Cloud.
+Now, create a Kubernetes secret from the JSON key file you downloaded in the previous step. This authenticates Autopilot with Google Cloud.
 
 ```bash
 # Path to your downloaded service account key JSON file
