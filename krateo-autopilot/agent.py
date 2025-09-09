@@ -6,7 +6,7 @@ GEMINI_2_5_FLASH = "gemini-2.5-flash"
 GEMINI_2_5_PRO = "gemini-2.5-pro"
 
 # --- Prompts ---
-PORTAL_AGENT_PROMPT = open("prompts/portal_agent.md").read() 
+PORTAL_AGENT_PROMPT = open("prompts/portal_agent_2.md").read() 
 COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent_4.md").read()
 ROOT_AGENT_PROMPT = open("prompts/krateo_autopilot_2.md").read()
 DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent.md").read()

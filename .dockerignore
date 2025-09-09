@@ -9,3 +9,6 @@ LICENSE
 README.md
 .gitignore
 .git/
+.venv/
+.github/
+.vscode/
