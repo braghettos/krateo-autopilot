@@ -121,97 +121,6 @@ def create_file(filename: str, content: str) -> str:
     except Exception as e:
         return f"Error creating file '{filename}': {str(e)}"
 
-def create_repository(repo_name: str, description: str = "", private: bool = True) -> str:
-    """Creates a new Github repository with the given name.
-    
-    Args:
-        repo_name (str): The name of the repository to create.
-        description (str, optional): A short description of the repository.
-        private (boolean, optional): Whether repo should be private. 
-
-    Returns:
-        str: A message indicating success or failure, including the repo URL on success.
-    """
-    
-    token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        return "Error: GITHUB_TOKEN environment variable not set. Please create a personal access token and set it."
-
-    url = "https://api.github.com/user/repos"
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json",
-    }
-    data = {
-        "name": repo_name,
-        "description": description,
-        "private": private
-    }
-
-    try:
-        response = requests.post(url, headers=headers, data=json.dumps(data))
-        response.raise_for_status()
-
-        if response.status_code == 201:  # 201 Created is the success code
-            repo_url = response.json().get("html_url")
-            return f"Successfully created repository '{repo_name}'. URL: {repo_url}"
-        else:
-            return f"Failed to create repository. Status code: {response.status_code}, Response: {response.text}"
-
-    except requests.exceptions.HTTPError as http_err:
-        if response.status_code == 422:
-            return f"Error: Repository '{repo_name}' already exists. Details: {response.json().get('errors', '')}"
-        return f"HTTP error occurred: {http_err} - {response.text}"
-    except requests.exceptions.RequestException as err:
-        return f"An error occurred: {err}"
-    
-def create_or_update_file(branch: str, content: str, message: str, owner: str, path: str, repo: str, sha: str = None) -> str:
-    """Creates or updates a file in a GitHub repository.
-
-    Args:
-        branch (str): The branch to create or update the file in.
-        content (str): The content of the file.
-        message (str): The commit message.
-        owner (str): The owner of the repository (username or organization).
-        path (str): Path where to create/update the file.
-        repo (str): The name of the repository.
-        sha (str, optional): Required if updating an existing file. The blob SHA of the file being replaced.
-
-    Returns:
-        str: A message indicating success or failure.
-    """
-    token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        return "Error: GITHUB_TOKEN environment variable not set. Please create a personal access token and set it."
-
-    url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json",
-    }
-    data = {
-        "branch": branch,
-        "content": b64encode(content.encode()).decode(),
-        "message": message,
-    }
-    if sha:
-        data["sha"] = sha  # Include SHA for updates
-
-    try:
-        response = requests.put(url, headers=headers, data=json.dumps(data))
-        response.raise_for_status()
-
-        if response.status_code in [200, 201]:  # 200 OK for update, 201 Created for new file
-            action = "updated" if sha else "created"
-            return f"Successfully {action} file '{path}' in repository '{repo}'."
-        else:
-            return f"Failed to create/update file. Status code: {response.status_code}, Response: {response.text}"
-
-    except requests.exceptions.HTTPError as http_err:
-        return f"HTTP error occurred: {http_err} - {response.text}"
-    except requests.exceptions.RequestException as err:
-        return f"An error occurred: {err}"
-
 def push_chart_to_ghcr(path: str, owner: str) -> str:
     """
     Packages a Helm chart, authenticates to GHCR, pushes the chart,
@@ -343,3 +252,18 @@ def apply_composition_definition(path: str, owner: str) -> str:
         return f"Composition definition applied successfully.\n{apply_result}"
     except Exception as e:
         return f"Error applying composition definition: {e}"
+    
+def read_file(file_path: str) -> str:
+    """Reads the content of a file.
+
+    Args:
+        file_path (str): The path to the file.
+
+    Returns:
+        str: The content of the file or an error message if the file cannot be read.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            return file.read()
+    except Exception as e:
+        return f"Error reading file '{file_path}': {str(e)}"
