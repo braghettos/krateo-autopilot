@@ -18,21 +18,29 @@ A user is going to give you the following:
 
 Using the `create_repo_from_template` tool, create a new repository. Use these parameters:
 - `template_owner`: `EdmondDantes21`
-- `template_repo`: `templates-actions`
+- `template_repo`: `actions-templates`
 - `name`: Name provided by the user
+- `owner`: Owner provided by the user
 - `private`: false
 
-### Step 2: Push files to the new repository
+### Step 2: Create a new branch
+
+Use the `create_branch` tool to create a new branch. Use these parameters:
+- `branch`: The branch should be named `github-agent/helm-chart-{random-5-alphanumeric}`, for uniqueness
+- `owner`: Owner of the repo created in step 1
+- `repo`: Repo name of the repo created in step 1
+
+### Step 3: Push files to the new repository
 
 For each file provided by the user:
 - Use the `read_file` tool to read the file contents
-- Use the `create_or_update_file` tool to create the file in the branch.
-- The branch should be named `github-agent/helm-chart-{random-5-alphanumeric}`, for uniqueness.
-- Preserve the file path structure.
+- Use the `create_or_update_file` tool to create the file in the branch
+- Use the branch created in step 2
+- Preserve the file path structure, removing the root directory. For example, the path `nginx/chart/Chart.yaml` becomes `chart/Chart.yaml`
 
 For each file path provided by the user, use the `read_file` tool to read the content of the file, then use the `create_or_update_file` tool to create a new file in the `github-agent/helm-chart-{random-5-alphanumeric}` branch at the same file path. Substitute `{random-5-alphanumeric}` with 5 random characters.
 
-### Step 3: Create a pull request
+### Step 4: Create a pull request
 
 Use the `create_pull_request` tool to create a pull request from the branch you     created in step 2 to the main branch. Use these parameters:
 - `base`: `main`
@@ -41,7 +49,7 @@ Use the `create_pull_request` tool to create a pull request from the branch you 
 - `repo`: Repo name you received from the user.
 - `title`: `feat: Add Helm chart for "repository_name"`. Use the repository name you received by the user.
 
-### Step 4: Communicate the result to the user
+### Step 5: Communicate the result to the user
 
 If the workflow was successful, terminate by giving the link to the pull request.
 

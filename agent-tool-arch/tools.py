@@ -3,9 +3,12 @@ import yaml
 import json
 import tempfile
 import requests
+import logging
 import subprocess
 from pathlib import Path
 from base64 import b64encode
+
+log = logging.getLogger(__name__)
 
 def apply_manifest(manifest: str) -> str:
     """
@@ -263,7 +266,9 @@ def read_file(file_path: str) -> str:
         str: The content of the file or an error message if the file cannot be read.
     """
     try:
+        log.debug(f"Reading file at path: {file_path}")
         with open(file_path, 'r') as file:
             return file.read()
     except Exception as e:
+        log.error(f"Error reading file '{file_path}': {e}")
         return f"Error reading file '{file_path}': {str(e)}"

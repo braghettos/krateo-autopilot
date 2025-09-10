@@ -27,7 +27,7 @@ try:
                         "Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}"
                     }
                 ),
-                tool_filter=['create_or_update_file', 'create_pull_request']
+                tool_filter=['create_or_update_file', 'create_pull_request', 'create_branch']
             ), 
             git_tools.create_repo_from_template, # TODO: remove when the MCP server above supports it
             tools.read_file 
