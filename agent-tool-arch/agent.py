@@ -60,7 +60,7 @@ try:
         name="agent",
         instruction=COMPOSITION_AGENT_PROMPT,
         description="Creates Krateo compositions.", # Crucial for delegation
-        tools=[tools.create_file, tools.apply_composition_definition, tools.apply_manifest, portal_agent_tool, github_agent_tool]
+        tools=[tools.create_file, tools.apply_manifest, portal_agent_tool, github_agent_tool]
     )
     print(f"✅ Agent '{composition_agent.name}' created using model '{composition_agent.model}'.")
 except Exception as e:
