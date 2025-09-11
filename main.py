@@ -5,6 +5,16 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from google.adk.cli.fast_api import get_fast_api_app
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(levelname)s] - [%(asctime)s] - [%(name)s]: %(message)s"
+)
+
+# Make module1 verbose
+logging.getLogger("git_tools").setLevel(logging.DEBUG)
+logging.getLogger("tools").setLevel(logging.DEBUG)
 
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))

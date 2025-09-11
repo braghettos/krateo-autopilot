@@ -44,7 +44,7 @@ spec:
 
 ## composition.yaml
 
-When we deploy a `CompositionDefinition`, Krateo creates an additional Kubernetes custom resource (CR) based on the specified Helm chart. For example, if the chart pointed by the composition definition is named `fireworks-app`, Krateo creates a CR named `FireworksApp`.
+When we deploy a `CompositionDefinition`, Krateo creates an additional Kubernetes custom resource definition (CRD) based on the specified Helm chart. For example, if the chart pointed by the composition definition is named `fireworks-app`, Krateo creates a CRD named `FireworksApp`.
 
 When we deploy a composition, which in the previous example is a CR `kind: Fireworksapp` we deploy the helm chart specified in the `CompositionDefinition`. 
 

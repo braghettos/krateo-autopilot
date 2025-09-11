@@ -17,7 +17,6 @@ curl \
 bash \
 tar \
 gzip \
-tree \
 ca-certificates \
 && rm -rf /var/lib/apt/lists/*
 # Install Helm
