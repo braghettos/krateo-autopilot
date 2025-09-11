@@ -2,6 +2,8 @@ import os
 import json
 import requests
 import logging
+import time
+from . import create_repo_secret as repo_secret
 
 log = logging.getLogger(__name__)
 
@@ -85,7 +87,15 @@ def create_repo_from_template(template_owner: str, template_repo: str, name: str
         actions_url = f"https://api.github.com/repos/{owner}/{name}/actions/permissions"
         actions_data = {"enabled": True, "allowed_actions": "all"}
         requests.put(actions_url, headers=headers, json=actions_data)
-        log.info(f"Enabled GitHub Actions for repository '{name}'.")
+        
+        # add repo secret
+        log.info(f"Adding GIT_TOKEN secret to the new repository '{name}'...")
+        repo_secret.create_or_update_repo_secret(
+            owner=owner,
+            repo=name,  
+            secret_name="GIT_TOKEN",
+            secret_value=token
+        )
         
         return response_data
 
