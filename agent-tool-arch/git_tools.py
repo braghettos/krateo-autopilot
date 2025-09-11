@@ -3,6 +3,7 @@ import json
 import requests
 import logging
 import time
+from . import create_repo_secret as repo_secret
 
 log = logging.getLogger(__name__)
 
@@ -85,7 +86,16 @@ def create_repo_from_template(template_owner: str, template_repo: str, name: str
         # explicitly enable Actions
         actions_url = f"https://api.github.com/repos/{owner}/{name}/actions/permissions"
         actions_data = {"enabled": True, "allowed_actions": "all"}
-        actions_response = requests.put(actions_url, headers=headers, json=actions_data)
+        requests.put(actions_url, headers=headers, json=actions_data)
+        
+        # add repo secret
+        log.info(f"Adding GIT_TOKEN secret to the new repository '{name}'...")
+        repo_secret.create_or_update_repo_secret(
+            owner=owner,
+            repo=name,  
+            secret_name="GIT_TOKEN",
+            secret_value=token
+        )
         
         return response_data
 
@@ -99,9 +109,8 @@ if __name__ == "__main__":
     # Example usage
     template_owner = "EdmondDantes21"
     template_repo = "actions-templates"
-    new_repo_name = "krateo-autopilot-composition-example-6"
-    new_repo_owner = "leovice-org"
-    # new_repo_owner = "EdmondDantes21"  # For testing purposes, create under your own user
+    new_repo_name = "krateo-autopilot-composition-example-8"
+    # new_repo_owner = "leovice-org"
+    new_repo_owner = "EdmondDantes21"  # For testing purposes, create under your own user
     
     create_repo_from_template(template_owner, template_repo, new_repo_name, new_repo_owner, private=False)
-    print(get_github_user_name())
