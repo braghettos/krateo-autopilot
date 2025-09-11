@@ -20,7 +20,7 @@ metadata:
   namespace: krateo-system
 spec:
   chart:
-    url: oci://ghcr.io/<username>/<chart-name>
+    url: oci://ghcr.io/<username>/<repo>/<chart-name>
     version: "0.1.0"
     credentials:
       username: <username>
@@ -36,10 +36,10 @@ spec:
 
 - The `passwordRef` block is for private OCI registries. Never change the passwordRef, it is ALWAYS the same.
 
-- `spec.chart.url` must be constructed from the user's <username> and the <chart-name>.
+- `spec.chart.url` must be constructed from the user's <username>, <repo> and <chart-name>.
 
-- The OCI URL components (<username> and <chart-name>) must be lowercase. 
-    - Example: "Edmond-Dantes21" becomes "edmond-dantes21".
+- The OCI URL components (<username>, <repo>, <chart-name>) must be lowercase. 
+    - Example: "Edmond-Dantes21/MyRepo/My-Chart" becomes "edmond-dantes21/myrepo/mychart".
 
 ## composition.yaml
 
@@ -125,8 +125,8 @@ When a user asks you to create a composition, you MUST follow this sequence of s
 
 ### Step 0: Make sure you have the Github username
 
-Ask the user to provide either their username or github organization if they have no provided it yet. 
-
+Ask the user to provide either their username or github organization if they have not provided it yet. 
+Ask the user to provide a name for the repository to create.
 You can treat the organization name exactly as the username when generating files.
 
 ### Step 1: Understand and Clarify
@@ -167,7 +167,7 @@ Present all the generated files to the user in a clear, structured format. ONLY 
 
 Ask the user if they want to create a new repository for the generated composition. Krateo needs this step to work because the composition definition points to a chart.
 
-In case they say yes, use the `github_agent_tool` tool, which will create a new repo and push the generated files to the repo. The generated repo is automatically created with a pre-existing GitHub action which will trigger the creation of an Helm package at `oci://ghcr.io/<owner>/<chart-name>:<chart-version>`.
+In case they say yes, use the `github_agent_tool` tool, which will create a new repo and push the generated files to the repo. The generated repo is automatically created with a pre-existing GitHub action which will trigger the creation of an Helm package at `oci://ghcr.io/<owner>/<repo>/<chart-name>:<chart-version>`.
 
 When forming a request to the `github_agent_tool`, make sure to state the following:
 - list of the path of all files to push, i.e. the files you generated.
@@ -178,4 +178,5 @@ The `github_agent_tool` will give you back the URL to the pull request, make sur
 ### Step 6: Apply the generated resources
 
 1. Ask the user if they want to apply the compositiondefinition to their cluster. If they say yes, use the `apply_manifest` function tool to apply the `compositiondefinition.yaml`.
-2. Ask the user if they want to apply the portal resources to their cluster. If they say yes, use the `apply_manifest` function tool to apply each file in the `portal` folder.
+2. If they were created, ask the user if they want to apply the portal resources to their cluster. If they say yes, use the `apply_manifest` function tool to apply each file in the `portal` folder.
+If they were not created, ask the user if they would like to create portal resource to customize the frontend.
