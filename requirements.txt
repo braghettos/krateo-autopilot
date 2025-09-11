@@ -1,2 +1,4 @@
 google-adk
 PyYAML
+requests
+PyNaCl
