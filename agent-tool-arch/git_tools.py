@@ -6,44 +6,6 @@ import time
 
 log = logging.getLogger(__name__)
 
-def get_github_user_name() -> str:
-    """
-    Fetches the authenticated user's name from a Github Personal Access Token.
-    """
-    token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        log.error("GITHUB_TOKEN environment variable not set.")
-        raise ValueError("Error: GITHUB_TOKEN environment variable not set.")
-    
-    log.info("GITHUB_TOKEN found in environment variables.")
-    
-    url = "https://api.github.com/user"
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json",
-    }
-
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        
-        user_data = response.json()
-        username = user_data.get("login")
-        
-        log.info("Successfully fetched GitHub username: %s", username)
-        return username
-
-    except requests.exceptions.HTTPError as e:
-        # API returned 4xx or 5xx
-        log.warning("GitHub API returned an error: %s", e)
-        return None
-    except requests.exceptions.RequestException as e:
-        log.error("Request to GitHub API failed: %s", e)
-        return None
-    except Exception as e:
-        log.critical("Unexpected error while fetching GitHub username: %s", e)
-        raise
-
 def create_repo_from_template(template_owner: str, template_repo: str, name: str, owner: str, private: bool = False):
     """
     Creates a new GitHub repository from a template.
