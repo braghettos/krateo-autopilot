@@ -1,4 +1,4 @@
-from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams, StdioConnectionParams
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
 from google.adk.agents import Agent, LlmAgent
 from google.adk.tools import agent_tool
@@ -8,13 +8,14 @@ import os
 GEMINI_2_5_PRO = "gemini-2.5-pro"
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
 
-PORTAL_AGENT_PROMPT = open("prompts/agent-tool/portal-agent.md").read() 
-COMPOSITION_AGENT_PROMPT = open("prompts/agent-tool/composition-agent-2.md").read()
+PORTAL_AGENT_PROMPT = open("prompts/agent-tool/portal-agent-2-5-1.md").read() 
+COMPOSITION_AGENT_PROMPT = open("prompts/agent-tool/composition-agent-3.md").read()
 GITHUB_AGENT_PROMPT = open("prompts/agent-tool/github-agent.md").read()
+ROOT_AGENT_PROMPT = open("prompts/agent-tool/root-agent.md").read()
 
 github_agent = None
 try:    
-    github_agent = LlmAgent(
+    github_agent = Agent(
         model=GEMINI_2_5_FLASH,
         name='github_agent',
         instruction=GITHUB_AGENT_PROMPT,
@@ -57,7 +58,7 @@ composition_agent = None
 try:
     composition_agent = Agent(
         model=GEMINI_2_5_PRO,
-        name="agent",
+        name="composition_agent",
         instruction=COMPOSITION_AGENT_PROMPT,
         description="Creates Krateo compositions.", # Crucial for delegation
         tools=[tools.create_file, tools.apply_manifest, portal_agent_tool, github_agent_tool]
@@ -65,5 +66,18 @@ try:
     print(f"✅ Agent '{composition_agent.name}' created using model '{composition_agent.model}'.")
 except Exception as e:
     print(f"❌ Could not create Github agent. Check API Key ({composition_agent.model}). Error: {e}")    
+
+orchestrator_agent = None
+try:
+    orchestrator_agent = Agent(
+        model=GEMINI_2_5_FLASH,
+        name="orchestrator_agent",
+        instruction=ROOT_AGENT_PROMPT,
+        description="The main coordinator agent",
+        sub_agents=[composition_agent, portal_agent]
+    )
+    print(f"✅ Agent '{orchestrator_agent.name}' created using model '{orchestrator_agent.model}'.")
+except Exception as e:
+    print(f"❌ Could not create Orchestrator agent. Check API Key ({orchestrator_agent.model}). Error: {e}")
     
-root_agent = composition_agent
+root_agent = orchestrator_agent
