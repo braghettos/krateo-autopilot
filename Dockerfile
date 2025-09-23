@@ -12,17 +12,22 @@ COPY . .
 RUN chmod +x /app/scripts/install_krateo.sh
 
 # Install dependencies for Helm and kubectl
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN set -euo pipefail && \
+apt-get update && apt-get install -y --no-install-recommends \
 curl \
 bash \
 tar \
 gzip \
 ca-certificates \
 && rm -rf /var/lib/apt/lists/*
+
 # Install Helm
-RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+RUN set -euo pipefail && \
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 # Install kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+RUN set -euo pipefail && \
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
 && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
 && rm kubectl
 

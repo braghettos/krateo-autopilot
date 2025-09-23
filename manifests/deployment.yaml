@@ -38,12 +38,13 @@ spec:
           - name: GOOGLE_GENAI_USE_VERTEXAI
             value: "true"
           - name: GOOGLE_APPLICATION_CREDENTIALS
-            value: /var/secrets/google/application_default_credentials.json
+            value: /var/secrets/google/key.json
           - name: GITHUB_TOKEN
             valueFrom:
               secretKeyRef:
                 name: github-token
                 key: token
+                optional: true
         volumeMounts:
           - name: gcloud-credentials
             mountPath: /var/secrets/google
