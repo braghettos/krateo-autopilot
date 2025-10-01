@@ -4,13 +4,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN adduser --disabled-password --gecos "" myuser && \
-    chown -R myuser:myuser /app
-
-COPY . .
-
-RUN chmod +x /app/scripts/install_krateo.sh
-
 # Install dependencies for Helm and kubectl
 RUN set -euo pipefail && \
 apt-get update && apt-get install -y --no-install-recommends \
@@ -30,6 +23,16 @@ RUN set -euo pipefail && \
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
 && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
 && rm kubectl
+
+# Install krateoctl
+RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh | bash
+
+RUN adduser --disabled-password --gecos "" myuser && \
+    chown -R myuser:myuser /app
+
+COPY . .
+
+RUN chmod +x /app/scripts/install_krateo.sh
 
 USER myuser
 
