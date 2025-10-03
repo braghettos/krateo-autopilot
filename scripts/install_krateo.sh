@@ -33,7 +33,8 @@ helm upgrade installer installer \
   --repo https://charts.krateo.io \
   --namespace krateo-system \
   --create-namespace \
+  --set krateoplatformops.composablefinops.enabled=false \
   $SET_FLAGS \
   --install \
-  --version 2.5.0 \
+  --version 2.5.1 \
   --wait
