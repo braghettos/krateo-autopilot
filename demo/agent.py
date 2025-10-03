@@ -5,7 +5,7 @@ from google.adk.agents import Agent
 from . import tools, git_tools
 import os
 
-# --- Models ----
+# --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
 GEMINI_2_5_PRO = "gemini-2.5-pro"
 
@@ -98,9 +98,10 @@ try:
         model=GEMINI_2_5_FLASH,
         name="auth_agent",
         instruction=AUTHENTICATION_AGENT_PROMPT,
-        description="Handles authentication in Krateo." # Crucial for delegation
-                    "It creates accounts in Krateo and answers questions about authentication.",
-        tools=[tools.apply_manifest],
+        description="Handles Krateo login, authentication, or password management" # Crucial for delegation
+                    "It creates accounts in Krateo and answers questions about authentication."
+                    "Handles Questions about `authn`, user `Secrets`, or the `User` custom resource in Krateo.",
+        tools=[tools.apply_manifest, tools.get_admin_psw],
     )
     print(f"✅ Agent '{auth_agent.name}' created using model '{auth_agent.model}'.")
 except Exception as e:

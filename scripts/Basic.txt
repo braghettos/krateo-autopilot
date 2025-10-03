@@ -9,6 +9,4 @@ At the end of this process:
 
 kubectl get secret admin-password  -n krateo-system -o jsonpath="{.data.password}" | base64 -d
 
-INFO
-
-The installer by default deploys a composable-portal-basic with examples to immediately start to play with Krateo PlatformOps. The chart is available here: https://github.com/krateoplatformops/composable-portal-basic.
+Alternatively, ask me to create an account for you.
