@@ -296,6 +296,32 @@ def gen_values_schema_json(values: str) -> str:
         if os.path.exists(values_schema_json):
             os.remove(values_schema_json)
     
+def get_admin_psw() -> str:
+    """
+    Gets the password of the predefined `admin` account in Krateo
+    
+    Returns: 
+        str: The admin's password.
+    """
+    
+    command = 'kubectl get secret admin-password -n krateo-system -o jsonpath="{.data.password}" | base64 -d'
+    try:
+        log.debug("Running kubectl to fetch admin password.")
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=True,
+            shell=True
+        )   
+
+        password = result.stdout
+        log.info("Successfully retrieved admin password (decoded).")
+        return password    
+    
+    except Exception as e:
+        log.error(f"An unexpected error occurred: {e}")
+        return f"An unexpected error occurred: {e}"
 
 if __name__ == "__main__":
     # Example usage
