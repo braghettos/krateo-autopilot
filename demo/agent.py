@@ -10,13 +10,13 @@ GEMINI_2_5_FLASH = "gemini-2.5-flash"
 GEMINI_2_5_PRO = "gemini-2.5-pro"
 
 # --- Prompts ---
-DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent.md").read()
-ROOT_AGENT_PROMPT = open("prompts/krateo_autopilot_2.md").read()
-AUTHENTICATION_AGENT_PROMPT = open("prompts/authentication_agent.md").read()
-COMPOSITION_AGENT_PROMPT = open("prompts/agent-tool/composition-agent-6.md").read()
-PORTAL_AGENT_PROMPT = open("prompts/portal-agent-granular/portal-agent-4.md").read() 
-RESTACTION_AGENT_PROMPT = open("prompts/restaction-agent.md").read() 
-GITHUB_AGENT_PROMPT = open("prompts/agent-tool/github-agent.md").read()
+DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent/0.0.1.md").read()
+ROOT_AGENT_PROMPT = open("prompts/root_agent/0.0.1.md").read()
+AUTHENTICATION_AGENT_PROMPT = open("prompts/authn_agent/0.0.1.md").read()
+COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent/0.0.1.md").read()
+PORTAL_AGENT_PROMPT = open("prompts/portal_agent/0.0.1.md").read() 
+RESTACTION_AGENT_PROMPT = open("prompts/restaction_agent/0.0.1.md").read() 
+GITHUB_AGENT_PROMPT = open("prompts/github_agent/0.0.1.md").read()
 
 # -- Github Agent ---
 github_agent = None
