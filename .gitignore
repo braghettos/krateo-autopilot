@@ -208,5 +208,5 @@ __marimo__/
 
 test/
 z-vcluster-scripts/
-scripts/uninstall_krateo.sh
+tools/scripts/uninstall_krateo.sh
 notes.txt
