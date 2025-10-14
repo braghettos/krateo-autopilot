@@ -83,75 +83,78 @@ A classic form that collects user input through fields like text boxes and check
 
 Example:
 ```yaml
-kind: Form
 apiVersion: widgets.templates.krateo.io/v1beta1
+kind: Form
 metadata:
-  name: form-example
-  namespace: test-namespace
+  name: nginx-creation-form
+  namespace: krateo-system
 spec:
   widgetData:
-    submitActionId: firework-submit-action
+    submitActionId: nginx-creation-submit-action
     stringSchema: |
       {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "title": "Application Name",
-            "description": "The name of your fireworks app"
+            "title": "Name"
           },
-          "image": {
+          "namespace": {
             "type": "string",
-            "title": "Container Image",
-            "description": "Full image path (e.g., ghcr.io/org/image:tag)"
+            "title": "Namespace"
           },
-          "replicas": {
-            "type": "integer",
-            "title": "Number of Replicas",
-            "default": 1
+          "serviceType": {
+            "type": "string",
+            "title": "Service Type"
           },
-          "enableMetrics": {
-            "type": "boolean",
-            "title": "Enable Metrics",
-            "default": false
+          "imageRepository": {
+            "type": "string",
+            "title": "Image Repository"
+          },
+          "imageTag": {
+            "type": "string",
+            "title": "Image Tag"
           }
         },
-        "required": ["name", "image"]
+        "required": ["name", "namespace", "serviceType", "imageRepository", "imageTag"]
       }
-    autocomplete:
-      - path: name
-        fetch:
-          url: https://loremipsum.io/api/1
-          method: GET
     actions:
       rest:
-        - id: firework-submit-action
-          headers:  
-            - 'Content-Type: application/json'
-          resourceRefId: resource-ref-1
+        - id: nginx-creation-submit-action
+          resourceRefId: nginx-composition-resource
           type: rest
-          onSuccessNavigateTo: /dashboard
+          headers:
+            - 'Content-Type: application/json'
+          payload:
+            apiVersion: "composition.krateo.io/v0-1-0"
+            kind: "NginxWebServer"
           payloadToOverride:
             - name: metadata.name
-              value: ${ git.toRepo.name } # git.toRepo.name is NOT a state variable or artifact. DO NOT try to access it
+              value: ${ .json.name }
+            - name: metadata.namespace
+              value: ${ .json.namespace }
+            - name: spec.service.type
+              value: ${ .json.serviceType }
+            - name: spec.image.repository
+              value: ${ .json.imageRepository }
+            - name: spec.image.tag
+              value: ${ .json.imageTag }
   resourcesRefs:
     items:
-      - id: resource-ref-1
-        apiVersion: composition.krateo.io/v1-0-0
-        name: new-app
-        namespace: test-namespace
-        resource: fireworksapps
+      - id: nginx-composition-resource
+        apiVersion: composition.krateo.io/v0-1-0
+        resource: nginxservers
         verb: POST
 ```
 
 > NOTE: ALWAYS include actions.rest[].headers as shown in the example above. i.e., ALWAYS add 
 ```
-            headers:  
-            - 'Content-Type: application/json'
+headers:  
+- 'Content-Type: application/json'
 ```
-> NOTE: in the `value` of the `payloadToOverride` ALWAYS access variables using `x.y.z`, NOT with a leading dot as in `.x.y.z`  
+> NOTE: in the `value` of the `payloadToOverride` ALWAYS access variables using `${ .json.x.y.z }`.
   Example: 
-  - if the variable is named `name`, use `name`, not `.name`
-  - if the variable is named `metadata.namespace`, use `metadata.namespace`, not `.metadata.namespace`! 
+  - if the variable is named `name`, use `${ .json.name }`.
+  - if the variable is named `metadata.namespace`, use `${ .json.metadata.namespace }`. 
 
 > NOTE: The Form creates the resource, NEVER use a restaction with a Form!
