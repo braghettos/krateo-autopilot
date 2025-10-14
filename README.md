@@ -4,10 +4,9 @@ Krateo Autopilot implementation using Google ADK.
 
 # Installation
 
-## 1. Create a secret containing your Github token.
+## 1. Create a secret containing your GitHub token.
 
 ```bash
-# Replace <your_token> with your GitHub Personal Access Token
 kubectl create secret generic github-token \
   --from-literal=token=<your_token>
 ```
@@ -29,7 +28,6 @@ kubectl create secret generic github-token \
 Now, create a Kubernetes secret from the JSON key file you downloaded in the previous step. This authenticates Autopilot with Google Cloud.
 
 ```bash
-# Path to your downloaded service account key JSON file
 kubectl create secret generic gcloud-credentials \
   --from-file=key.json=<path_to_your_downloaded_key.json>
 ```
