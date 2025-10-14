@@ -102,7 +102,7 @@ def install_krateo(installation_method: int) -> str:
     
     try:
         result = subprocess.run(
-            ["./scripts/install_krateo.sh", str(installation_method)],
+            ["./tools/scripts/install_krateo.sh", str(installation_method)],
             capture_output=True,
             text=True,
             check=True
