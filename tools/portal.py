@@ -18,7 +18,7 @@ def get_widget(widget: str) -> str:
     """
     
     widget = os.path.basename(widget) # Extract the base name to prevent directory traversal
-    widget_path = f"portal-agent-granular/widgets/{widget}.md"
+    widget_path = f"tools/widgets/{widget}.md"
     
     try:
         log.debug(f"Trying to access widget file at path: {widget_path}")

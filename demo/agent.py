@@ -2,7 +2,7 @@ from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnecti
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
 from google.adk.tools import agent_tool
 from google.adk.agents import Agent
-from . import tools, git_tools, tools_portal_agent
+import tools.common, tools.github, tools.portal
 import os
 
 # --- Models ---
@@ -14,7 +14,7 @@ DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent.md").read()
 ROOT_AGENT_PROMPT = open("prompts/krateo_autopilot_2.md").read()
 AUTHENTICATION_AGENT_PROMPT = open("prompts/authentication_agent.md").read()
 COMPOSITION_AGENT_PROMPT = open("prompts/agent-tool/composition-agent-6.md").read()
-PORTAL_AGENT_PROMPT = open("portal-agent/portal-agent.md").read() 
+PORTAL_AGENT_PROMPT = open("prompts/portal-agent-granular/portal-agent-4.md").read() 
 RESTACTION_AGENT_PROMPT = open("prompts/restaction-agent.md").read() 
 GITHUB_AGENT_PROMPT = open("prompts/agent-tool/github-agent.md").read()
 
@@ -38,9 +38,9 @@ try:
                 ),
                 tool_filter=['create_or_update_file', 'create_pull_request', 'create_branch']
             ), 
-            git_tools.create_repo_from_template, # TODO: remove when the MCP server above supports it
-            git_tools.get_file_contents, # TODO: remove when the MCP server above supports it
-            tools.read_file 
+            tools.github.create_repo_from_template, # TODO: remove when the MCP server above supports it
+            tools.github.get_file_contents, # TODO: remove when the MCP server above supports it
+            tools.common.read_file 
         ],
     )
     print(f"✅ Agent '{github_agent.name}' created using model '{github_agent.model}'.")
@@ -48,18 +48,18 @@ except Exception as e:
     print(f"❌ Could not create Github agent. Check API Key ({github_agent.model}). Error: {e}")
     
 # --- Restaction Agent ---
-# restaction_agent = None
-# try: 
-#     restaction_agent = Agent(
-#         name="restaction_agent",
-#         model=GEMINI_2_5_PRO,
-#         description="RESTACTION Agent for Krateo Autopilot.", # crucial for delegation
-#         instruction=RESTACTION_AGENT_PROMPT,
-#     )
-#     print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
-# except Exception as e:
-#     print(f"❌ Could not create '{restaction_agent.name}' agent. Check API Key ({restaction_agent.model}). Error: {e}")
-# restaction_agent_tool = agent_tool.AgentTool(agent=restaction_agent) # Wrap the agent
+restaction_agent = None
+try: 
+    restaction_agent = Agent(
+        name="restaction_agent",
+        model=GEMINI_2_5_PRO,
+        description="RESTACTION Agent for Krateo Autopilot.", # crucial for delegation
+        instruction=RESTACTION_AGENT_PROMPT,
+    )
+    print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
+except Exception as e:
+    print(f"❌ Could not create '{restaction_agent.name}' agent. Check API Key ({restaction_agent.model}). Error: {e}")
+restaction_agent_tool = agent_tool.AgentTool(agent=restaction_agent) # Wrap the agent
 
 # --- Portal Agent ---
 portal_agent = None
@@ -69,7 +69,7 @@ try:
         model=GEMINI_2_5_PRO,
         description="Creates and manages portal sections (Krateo's frontend) and widgets.", # Crucial for delegation
         instruction=PORTAL_AGENT_PROMPT,
-        tools=[tools_portal_agent.get_widgets, tools_portal_agent.create_file, tools_portal_agent.apply_manifest],
+        tools=[tools.portal.get_widgets, tools.portal.create_file, tools.portal.apply_manifest],
     )
     print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")
 except Exception as e:
@@ -84,7 +84,7 @@ try:
         instruction=COMPOSITION_AGENT_PROMPT,
         description="Creates Krateo compositions."# Crucial for delegation
                     "Can apply manifests (e.g. composition, compositiondefinition) to the cluster.",
-        tools=[tools.create_file, tools.apply_manifest, tools.gen_values_schema_json]
+        tools=[tools.common.create_file, tools.common.apply_manifest, tools.common.gen_values_schema_json]
     )
     print(f"✅ Agent '{composition_agent.name}' created using model '{composition_agent.model}'.")
 except Exception as e:
@@ -100,7 +100,7 @@ try:
         description="Handles Krateo login and authentication" # Crucial for delegation
                     "It creates accounts in Krateo and answers questions about authentication."
                     "Handles Questions about `authn`, user `Secrets`, or the `User` custom resource in Krateo.",
-        tools=[tools.apply_manifest, tools.get_admin_psw],
+        tools=[tools.common.apply_manifest, tools.common.get_admin_psw],
     )
     print(f"✅ Agent '{auth_agent.name}' created using model '{auth_agent.model}'.")
 except Exception as e:
@@ -126,6 +126,6 @@ root_agent = Agent(
     description="The main coordinator agent. Handles general questions about Krateo and delegates specific tasks to sub-agents."
                 "It uses the `install_krateo` tool to install Krateo PlatformOps on the current Kubernetes cluster.",
     instruction=ROOT_AGENT_PROMPT,
-    tools=[tools.install_krateo],
+    tools=[tools.common.install_krateo],
     sub_agents=[composition_agent, portal_agent, documentation_agent, auth_agent, github_agent]
 )
