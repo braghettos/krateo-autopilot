@@ -8,7 +8,7 @@ from typing import Dict, Any
 
 log = logging.getLogger(__name__)
 
-def _read_github_token() -> str:
+def _get_github_token() -> str:
     """
     Reads the GitHub token from the path specified by the environment variable
     GITHUB_TOKEN_PATH.
@@ -16,11 +16,11 @@ def _read_github_token() -> str:
     Returns:
         str: The GitHub token if the secret file exists, otherwise an empty string.
     """
-    token_path = os.environ.get("GITHUB_TOKEN_PATH")
-    if token_path and os.path.exists(token_path):
-        with open(token_path, "r") as f:
-            return f.read().strip()
-    raise ValueError("Github token not found. Please provide a classic GitHub token.")
+    token = os.getenv("GITHUB_TOKEN")
+    if not token:
+        log.error("GITHUB_TOKEN environment variable not set.")
+        raise ValueError("GITHUB_TOKEN environment variable not set. Please provide a classic GitHub token.")
+    return token
 
 def create_repo_from_template(template_owner: str, template_repo: str, name: str, owner: str, private: bool = False):
     """
@@ -35,8 +35,7 @@ def create_repo_from_template(template_owner: str, template_repo: str, name: str
     """
     log.info(f"Creating repository '{name}' from template '{template_owner}/{template_repo}'.")
     
-    token = _read_github_token()
-
+    token = _get_github_token()
     url = f"https://api.github.com/repos/{template_owner}/{template_repo}/generate"
     headers = {
         "Accept": "application/vnd.github.v3+json",
@@ -92,8 +91,7 @@ def get_file_contents(
     """
     log.info(f"Fetching contents from '{owner}/{repo}/{path}' (ref='{ref}', sha='{sha}').")
     
-    token = _read_github_token()
-
+    token = _get_github_token()
     api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
     headers = {
         "Accept": "application/vnd.github.v3+json",
