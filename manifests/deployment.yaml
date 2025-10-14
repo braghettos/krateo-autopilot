@@ -16,7 +16,7 @@ spec:
       containers:
       - name: google-adk
         imagePullPolicy: Always
-        image: redi21/google-adk:dev
+        image: redi21/google-adk:0.0.1
         resources:
           limits:
             memory: "2Gi"
@@ -32,7 +32,7 @@ spec:
           - name: PORT
             value: "8080"
           - name: GOOGLE_CLOUD_PROJECT
-            value: krateo-autopilot
+            value: krateo-autopilot-473908
           - name: GOOGLE_CLOUD_LOCATION
             value: europe-west8
           - name: GOOGLE_GENAI_USE_VERTEXAI
