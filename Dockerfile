@@ -32,7 +32,7 @@ RUN adduser --disabled-password --gecos "" myuser && \
 
 COPY . .
 
-RUN chmod +x /app/scripts/install_krateo.sh
+RUN chmod +x /app/tools/scripts/install_krateo.sh
 
 USER myuser
 

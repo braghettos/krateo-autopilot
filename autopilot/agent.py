@@ -14,7 +14,7 @@ DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent/0.0.1.md").read()
 ROOT_AGENT_PROMPT = open("prompts/root_agent/0.0.1.md").read()
 AUTHENTICATION_AGENT_PROMPT = open("prompts/authn_agent/0.0.1.md").read()
 COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent/0.0.1.md").read()
-PORTAL_AGENT_PROMPT = open("prompts/portal_agent/0.0.1.md").read() 
+PORTAL_AGENT_PROMPT = open("prompts/portal_agent/0.0.2.md").read() 
 RESTACTION_AGENT_PROMPT = open("prompts/restaction_agent/0.0.1.md").read() 
 GITHUB_AGENT_PROMPT = open("prompts/github_agent/0.0.1.md").read()
 
@@ -53,13 +53,14 @@ try:
     restaction_agent = Agent(
         name="restaction_agent",
         model=GEMINI_2_5_PRO,
-        description="RESTACTION Agent for Krateo Autopilot.", # crucial for delegation
+        description="RESTAction Agent for Krateo Autopilot.", # crucial for delegation
         instruction=RESTACTION_AGENT_PROMPT,
+        tools=[tools.common.create_file]
     )
     print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
 except Exception as e:
     print(f"❌ Could not create '{restaction_agent.name}' agent. Check API Key ({restaction_agent.model}). Error: {e}")
-restaction_agent_tool = agent_tool.AgentTool(agent=restaction_agent) # Wrap the agent
+# restaction_agent_tool = agent_tool.AgentTool(agent=restaction_agent) # Wrap the agent
 
 # --- Portal Agent ---
 portal_agent = None
@@ -67,9 +68,10 @@ try:
     portal_agent = Agent(
         name="portal_agent",
         model=GEMINI_2_5_PRO,
-        description="Creates and manages portal sections (Krateo's frontend) and widgets.", # Crucial for delegation
+        description="Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)", # Crucial for delegation
         instruction=PORTAL_AGENT_PROMPT,
         tools=[tools.portal.get_widgets, tools.portal.create_file, tools.portal.apply_manifest],
+        sub_agents=[restaction_agent]
     )
     print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")
 except Exception as e:
