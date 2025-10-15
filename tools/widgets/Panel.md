@@ -77,8 +77,8 @@ metadata:
   namespace: test-namespace
 spec:
   widgetData:
-    actions: {}
-    title: My Panel
+    actions: {} # ALWAYS include spec.widgetData; it is required.
+    title: My PanelS 
     items:
       - resourceRefId: my-pie-chart
       - resourceRefId: my-table
