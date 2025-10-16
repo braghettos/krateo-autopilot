@@ -10,7 +10,7 @@ GEMINI_2_5_FLASH = "gemini-2.5-flash"
 GEMINI_2_5_PRO = "gemini-2.5-pro"
 
 # --- Prompts ---
-DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent/0.0.1.md").read()
+DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent/0.0.2.md").read()
 ROOT_AGENT_PROMPT = open("prompts/root_agent/0.0.1.md").read()
 AUTHENTICATION_AGENT_PROMPT = open("prompts/authn_agent/0.0.1.md").read()
 COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent/0.0.1.md").read()
@@ -73,7 +73,7 @@ try:
         tools=[tools.portal.get_widgets, tools.portal.create_file, tools.portal.apply_manifest],
         sub_agents=[restaction_agent]
     )
-    print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")
+    print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")    
 except Exception as e:
     print(f"❌ Could not create '{portal_agent.name}' agent. Check API Key ({portal_agent.model}). Error: {e}")    
 
