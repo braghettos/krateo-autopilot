@@ -12,7 +12,7 @@ GEMINI_2_5_PRO = "gemini-2.5-pro"
 # --- Prompts ---
 DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent.md").read()
 ROOT_AGENT_PROMPT = open("prompts/root_agent.md").read()
-AUTHENTICATION_AGENT_PROMPT = open("prompts/authn_agent.md").read()
+AUTHENTICATION_AGENT_PROMPT = open("prompts/auth_agent.md").read()
 COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent.md").read()
 PORTAL_AGENT_PROMPT = open("prompts/portal_agent.md").read() 
 RESTACTION_AGENT_PROMPT = open("prompts/restaction_agent.md").read() 

@@ -25,7 +25,11 @@ In Krateo Composable Portal everything is based on the concept of widgets and th
 
 - **Column** is a layout component that arranges its children in a vertical stack, aligning them one above the other with spacing between them.
 
+- **DataGrid**: Layout that allows you to arrange a list of elements within a page as a grid, where you can specify the number of elements per row.
+
 - **EventList** renders data coming from a Kubernetes cluster or Server Sent Events associated to a specific endpoint and topic.
+
+- **Filter**: can filter ANY property of any Widget in a Page
 
 - **FlowChart** represents a Kubernetes composition as a directed graph. Each node represents a resource, and edges indicate parent-child relationships.
 
@@ -34,6 +38,8 @@ In Krateo Composable Portal everything is based on the concept of widgets and th
 - **LineChart** displays a customizable line chart based on time series or numerical data. It supports multiple lines with colored coordinates and axis labels, typically used to visualize metrics from Kubernetes resources.
 
 - **Markdown** receives markdown in string format and renders it gracefully
+
+- **NavMenu** is a container for NavMenuItem widgets, which are used to setup navigation inside the application.
 
 - **NavMenuItem** represents a single item in the navigation menu on the left and links to a specific resource and route in the application. A navmenuitem usually points to a `Page` widget, which indicates the page to be provided when clicking the corresponding item in the navigation menu. When asked to create a portal section, ALWAYS use this widget, otherwise there will be no button to access the portal section from! 
 
@@ -44,6 +50,10 @@ In Krateo Composable Portal everything is based on the concept of widgets and th
 - **Paragraph** is a simple component used to display a block of text.
 
 - **PieChart** is a visual component used to display categorical data as segments of a pie chart.
+
+- **Route** is a configuration to map a path to show in the frontend URL to a resource, it doesn't render anything by itself.
+
+- **RoutesLoader**: loads the Route widgets. It doesn't render anything by itself.
 
 - **Row** A wrapper widget that arrages elemets one on top of the other.
 

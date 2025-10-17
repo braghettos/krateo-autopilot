@@ -10,9 +10,9 @@ def get_widget(widget: str) -> str:
     Get the widget detailed specification from the given widget string.
 
     Args:
-        widget (str): The widget string. Available widgets are: "BarChart", "Button", "Column", "EventList",
-        "FlowChart", "Form", "LineChart", "Markdown", "NavMenuItem", "Page", "Panel", "Paragraph",
-        "PieChart", "Row", "Table", "TabList", "YamlViewer".
+        widget (str): The widget string. Available widgets are: "BarChart", "Button", "Column", "DataGrid", "EventList",
+        "Filter", "FlowChart", "Form", "LineChart", "Markdown", "NavMenu", "NavMenuItem", "Page", "Panel", "Paragraph",
+        "PieChart", "Route", "RoutesLoader", "Row", "Table", "TabList", "YamlViewer".
     Returns:
         str: The detailed specification of the widget.
     """
@@ -33,9 +33,9 @@ def get_widgets(widgets: list[str]) -> dict[str, str]:
     Get the detailed specifications for a list of widgets.
 
     Args:
-        widgets (list[str]): A list of widget strings. Available widgets are: "BarChart", "Button", "Column", "EventList",
-        "FlowChart", "Form", "LineChart", "Markdown", "NavMenuItem", "Page", "Panel", "Paragraph",
-        "PieChart", "Row", "Table", "TabList", "YamlViewer".
+        widgets (list[str]): A list of widget strings. Available widgets are: "BarChart", "Button", "Column", "DataGrid", "EventList",
+        "Filter", "FlowChart", "Form", "LineChart", "Markdown", "NavMenu", "NavMenuItem", "Page", "Panel", "Paragraph",
+        "PieChart", "Route", "RoutesLoader", "Row", "Table", "TabList", "YamlViewer".
     Returns:
         dict[str, str]: A dictionary mapping each widget string to its detailed specification.
     """
