@@ -1,4 +1,4 @@
-name: release-autopilot-pullrequest
+name: release-chart-pullrequest
 
 on:
   pull_request:
