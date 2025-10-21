@@ -122,7 +122,7 @@ jobs:
 
       - name: Get pods
         if: always()
-        run: kubectl get pods -n krateo-system
+        run: kubectl get pods -n krateo-system -o json
 
       - name: Get pod logs
         if: always()
