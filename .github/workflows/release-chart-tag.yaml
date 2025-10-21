@@ -87,6 +87,10 @@ jobs:
         run: |
           echo "${{ secrets.GCLOUD_CREDENTIALS }}" > key.json
 
+      - name: Create krateo-system namespace
+        run: |
+          kubectl create namespace krateo-system
+
       - name: Create Kubernetes secret
         run: |
           kubectl create secret generic gcloud-credentials \
