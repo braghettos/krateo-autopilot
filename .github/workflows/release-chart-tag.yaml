@@ -114,6 +114,14 @@ jobs:
         if: always()
         run: kubectl get events -A --sort-by='.lastTimestamp'
 
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - install-kind
+    permissions:
+      contents: read
+      packages: write
+    steps:
       # Stage only the chart you want to publish
       - name: Prepare charts_dir
         run: |
