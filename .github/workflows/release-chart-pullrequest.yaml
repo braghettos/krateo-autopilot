@@ -114,7 +114,7 @@ jobs:
 
       - name: Get deployments
         if: always()
-        run: kubectl get deployments -n krateo-system
+        run: kubectl get deployment autopilot -n krateo-system -o yaml
 
       - name: Get pods
         if: always()
