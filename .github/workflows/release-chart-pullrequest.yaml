@@ -109,24 +109,8 @@ jobs:
       - name: Install chart with standard configuration
         run: helm install autopilot ./chart --create-namespace -n krateo-system --wait
 
-      - name: Wait for deployment to become ready
-        run: kubectl wait deployment autopilot --for condition=Ready=True --timeout=120s --namespace krateo-system
-
-      - name: Get autopilot deployment rollout status
-        if: always()
-        run: kubectl rollout status deploy/autopilot -n krateo-system
-
-      - name: Get autopilot deployment status
-        if: always()
-        run: kubectl get deployment autopilot -n krateo-system -o yaml
-
-      - name: Get pods
-        if: always()
-        run: kubectl get pods -n krateo-system -o json
-
-      - name: Get pod logs
-        if: always()
-        run: kubectl logs -n krateo-system -l app.kubernetes.io/name=autopilot
+      - name: Wait for deployment to become Available
+        run: kubectl wait deployment autopilot --for condition=Available=True --timeout=120s --namespace krateo-system
 
       - name: Get events
         if: always()
