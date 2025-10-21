@@ -126,7 +126,7 @@ jobs:
 
       - name: Get pod logs
         if: always()
-        run: kubectl logs -n krateo-system -l app=autopilot
+        run: kubectl logs -n krateo-system -l app.kubernetes.io/name=autopilot
 
       - name: Get events
         if: always()
