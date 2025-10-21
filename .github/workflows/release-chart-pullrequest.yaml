@@ -112,6 +112,10 @@ jobs:
       - name: Wait for deployment to become ready
         run: kubectl wait deployment autopilot --for condition=Ready=True --timeout=120s --namespace krateo-system
 
+      - name: Get deployments
+        if: always()
+        run: kubectl get deployments -n krateo-system
+
       - name: Get pods
         if: always()
         run: kubectl get pods -n krateo-system
