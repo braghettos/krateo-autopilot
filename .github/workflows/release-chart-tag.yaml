@@ -83,10 +83,20 @@ jobs:
         with:
           node_image: kindest/node:${{ matrix.k8s_version }}
 
+      - name: Create key.json from GitHub secret
+        run: |
+          echo "${{ secrets.GCLOUD_CREDENTIALS }}" > key.json
+
+      - name: Create Kubernetes secret
+        run: |
+          kubectl create secret generic gcloud-credentials \
+            --from-file=key.json=key.json \
+            --namespace krateo-system
+
       - name: Install chart with standard configuration
         run: helm install autopilot ./chart --create-namespace -n krateo-system --wait
 
-      - name: Wait for deployentto become ready
+      - name: Wait for deployent to become ready
         run: kubectl wait deployment autopilot --for condition=Ready=True --timeout=900s --namespace krateo-system
 
       - name: Get events
