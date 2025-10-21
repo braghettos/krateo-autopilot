@@ -105,12 +105,12 @@ jobs:
             --docker-password=${{ secrets.GITHUB_TOKEN }} \
             --docker-email=krateoctl@krateo.io \
           || kubectl -n krateo-system get secret ghcr-pull-secret -o name
-          
+
       - name: Install chart with standard configuration
         run: helm install autopilot ./chart --create-namespace -n krateo-system --wait
 
       - name: Wait for deployent to become ready
-        run: kubectl wait deployment autopilot --for condition=Ready=True --timeout=900s --namespace krateo-system
+        run: kubectl wait deployment autopilot --for condition=Ready=True --timeout=60s --namespace krateo-system
 
       - name: Get events
         if: always()
