@@ -24,7 +24,7 @@ jobs:
       - name: Install ORAS
         uses: oras-project/setup-oras@v1
         with:
-          version: v1.3.0          # ✅ pin to a real release (or omit "with:" entirely)
+          version: 1.3.0          # ✅ pin to a real release (or omit "with:" entirely)
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -96,7 +96,7 @@ jobs:
       - name: Install ORAS
         uses: oras-project/setup-oras@v1
         with:
-          version: v1.3.0           # ✅ pin or omit entirely
+          version: 1.3.0           # ✅ pin or omit entirely
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
