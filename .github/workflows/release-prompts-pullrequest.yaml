@@ -32,43 +32,46 @@ jobs:
         id: mk
         shell: bash
         run: |
+          set -euo pipefail
           shopt -s nullglob globstar
           files=(prompts/**/*.md)
 
-          # Build JSON matrix
-          {
-            printf '{"include":['
-            sep=""
-            for f in "${files[@]}"; do
-              printf '%s{"file":%q}' "$sep" "$f"
-              sep=","
-            done
-            printf ']}\n'
-          } > matrix.json
+          # Build JSON array of file paths with jq (proper JSON quoting)
+          # If there are no files, produce an empty array [].
+          if (( ${#files[@]} == 0 )); then
+            files_json='[]'
+          else
+            # Convert bash array -> JSON array of strings
+            # printf + jq -R . reads lines as raw strings, then -s creates a JSON array
+            files_json=$(printf '%s\n' "${files[@]}" | jq -R -s 'split("\n")[:-1]')
+          fi
 
-          # Expose outputs
+          # Build matrix: {"include":[{"file":"..."}]}
+          echo '{}' | jq --argjson files "$files_json" \
+            '.include = ($files | map({file: .}))' > matrix.json
+
+          # Outputs
           echo "matrix=$(cat matrix.json)" >> "$GITHUB_OUTPUT"
-
           if (( ${#files[@]} == 0 )); then
             echo "has_files=false" >> "$GITHUB_OUTPUT"
           else
             echo "has_files=true" >> "$GITHUB_OUTPUT"
           fi
 
-          # ✅ Always print for debugging
+          # Logs
           echo "Detected files: ${#files[@]}"
           echo "Matrix content:"
           cat matrix.json
 
-          # ✅ Add to GitHub summary as well
+          # Summary (well-formed quoting)
           {
             echo "### Markdown file matrix"
-            echo ""
+            echo
             echo "\`${#files[@]}\` markdown files found."
-            echo ""
-            echo "```json"
+            echo
+            echo '```json'
             cat matrix.json
-            echo "```"
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
   prepare_each:
