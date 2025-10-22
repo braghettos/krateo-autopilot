@@ -36,34 +36,33 @@ jobs:
           shopt -s nullglob globstar
           files=(prompts/**/*.md)
 
-          # Build JSON array of file paths with jq (proper JSON quoting)
-          # If there are no files, produce an empty array [].
+          # Build JSON array of file paths (properly quoted)
           if (( ${#files[@]} == 0 )); then
             files_json='[]'
+            has_files=false
           else
-            # Convert bash array -> JSON array of strings
-            # printf + jq -R . reads lines as raw strings, then -s creates a JSON array
             files_json=$(printf '%s\n' "${files[@]}" | jq -R -s 'split("\n")[:-1]')
+            has_files=true
           fi
 
           # Build matrix: {"include":[{"file":"..."}]}
           echo '{}' | jq --argjson files "$files_json" \
             '.include = ($files | map({file: .}))' > matrix.json
 
-          # Outputs
-          echo "matrix=$(cat matrix.json)" >> "$GITHUB_OUTPUT"
-          if (( ${#files[@]} == 0 )); then
-            echo "has_files=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_files=true" >> "$GITHUB_OUTPUT"
-          fi
+          # ✅ Outputs (use multiline format for JSON)
+          echo "has_files=${has_files}" >> "$GITHUB_OUTPUT"
+          {
+            echo "matrix<<__MATRIX__"
+            cat matrix.json
+            echo "__MATRIX__"
+          } >> "$GITHUB_OUTPUT"
 
           # Logs
           echo "Detected files: ${#files[@]}"
           echo "Matrix content:"
           cat matrix.json
 
-          # Summary (well-formed quoting)
+          # Summary
           {
             echo "### Markdown file matrix"
             echo
@@ -73,6 +72,7 @@ jobs:
             cat matrix.json
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
 
   prepare_each:
     needs: plan
