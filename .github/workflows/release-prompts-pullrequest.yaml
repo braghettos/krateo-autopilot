@@ -2,10 +2,10 @@ name: release-prompts-pullrequest
 
 on:
   pull_request:
+    branches: [ "main" ]
+    # uncomment if you want to limit to prompt changes
     # paths:
     #   - "prompts/**/*.md"
-    branches:
-      - main
 
 jobs:
   plan:
@@ -13,6 +13,9 @@ jobs:
     permissions:
       contents: read
       packages: read   # needed to list tags from GHCR (no writes)
+    outputs:                      # ✅ expose step outputs to downstream jobs
+      matrix: ${{ steps.mk.outputs.matrix }}
+      has_files: ${{ steps.mk.outputs.has_files }}
 
     steps:
       - name: Checkout
@@ -20,6 +23,8 @@ jobs:
 
       - name: Install ORAS
         uses: oras-project/setup-oras@v1
+        with:
+          version: v1.2.4          # ✅ pin to a real release (or omit "with:" entirely)
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -73,10 +78,9 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-
   prepare_each:
     needs: plan
-    if: ${{ needs.plan.outputs.has_files == 'true' }}
+    if: ${{ needs.plan.outputs.has_files == 'true' }}   # ✅ now evaluates correctly
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -92,7 +96,7 @@ jobs:
       - name: Install ORAS
         uses: oras-project/setup-oras@v1
         with:
-          version: latest
+          version: v1.2.4           # ✅ pin or omit entirely
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -122,16 +126,10 @@ jobs:
           mkdir -p "prepared/${SAFE_NAME}"
 
           # --- Determine VERSION from existing tags (fallback 0.0.1) ---
-          # Fetch tags; allow failure if repo doesn't exist yet.
           TAGS_RAW="$(oras repo tags "${IMAGE_REPO}" 2>/dev/null || true)"
-
-          # Extract semver tags (supports '1.2.3' and 'v1.2.3')
-          # Normalize by stripping a leading 'v' for comparison.
-          mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" \
-            | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
+          mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
 
           if (( ${#SEMVER_TAGS[@]} > 0 )); then
-            # Produce "normalized version|original" lines, sort by normalized, pick highest.
             BEST_LINE="$(
               for t in "${SEMVER_TAGS[@]}"; do
                 norm="${t#v}"
@@ -157,14 +155,14 @@ jobs:
             --output "prepared/${SAFE_NAME}/manifest.json" \
             "$FILE:text/markdown"
 
-          # Nothing is uploaded; just summarize the plan.
+          # Summary only (no uploads/push)
           {
             echo "### Plan for \`${FILE}\`"
-            echo ""
+            echo
             echo "- Image: \`${IMAGE_REPO}\`"
             echo "- Planned tags: \`${GIT_SHA}\`, \`content-${CONTENT_SHA}\`, \`latest\`, \`${VERSION}\`"
             echo "- Version source: $( [[ ${VERSION} == 0.0.1 ]] && echo 'no prior version found → default 0.0.1' || echo 'detected from existing tags' )"
             echo "- Manifest (first 80 chars):"
-            head -c 80 "prepared/${SAFE_NAME}/manifest.json" | sed 's/$/.../'; echo
-            echo ""
+            head -c 80 "prepared/${SAFE_NAME}/manifest.json" | sed 's/$/.../'
+            echo
           } >> "$GITHUB_STEP_SUMMARY"
