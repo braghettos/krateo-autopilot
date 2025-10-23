@@ -4,23 +4,23 @@ on:
   pull_request:
     paths:
       - "prompts/**/*.md"
-    branches:
+    branches: 
       - main
-  workflow_dispatch: {}
+
 
 jobs:
   plan:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read   # needed to list tags from GHCR (no writes)
+      packages: read   # needed to list tags from GHCR (read-only)
+    outputs:
+      matrix: ${{ steps.mk.outputs.matrix }}
+      has_files: ${{ steps.mk.outputs.has_files }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install ORAS
-        uses: oras-project/setup-oras@v1
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -33,27 +33,44 @@ jobs:
         id: mk
         shell: bash
         run: |
+          set -euo pipefail
           shopt -s nullglob globstar
           files=(prompts/**/*.md)
 
+          # Build JSON array of file paths (properly quoted)
           if (( ${#files[@]} == 0 )); then
-            echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
-            echo "has_files=false" >> "$GITHUB_OUTPUT"
-            exit 0
+            files_json='[]'
+            has_files=false
+          else
+            files_json=$(printf '%s\n' "${files[@]}" | jq -R -s 'split("\n")[:-1]')
+            has_files=true
           fi
 
-          {
-            printf '{"include":['
-            sep=""
-            for f in "${files[@]}"; do
-              printf '%s{"file":%q}' "$sep" "$f"
-              sep=","
-            done
-            printf ']}\n'
-          } > matrix.json
+          # Build matrix: {"include":[{"file":"..."}]}
+          echo '{}' | jq --argjson files "$files_json" \
+            '.include = ($files | map({file: .}))' > matrix.json
 
-          echo "matrix=$(cat matrix.json)" >> "$GITHUB_OUTPUT"
-          echo "has_files=true" >> "$GITHUB_OUTPUT"
+          # Outputs (use multiline for JSON)
+          echo "has_files=${has_files}" >> "$GITHUB_OUTPUT"
+          {
+            echo "matrix<<__MATRIX__"
+            cat matrix.json
+            echo "__MATRIX__"
+          } >> "$GITHUB_OUTPUT"
+
+          # Logs + Summary
+          echo "Detected files: ${#files[@]}"
+          echo "Matrix content:"
+          cat matrix.json
+          {
+            echo "### Markdown file matrix"
+            echo
+            echo "\`${#files[@]}\` markdown files found."
+            echo
+            echo '```json'
+            cat matrix.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
   prepare_each:
     needs: plan
@@ -61,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read   # needed for oras repo tags
+      packages: read   # to query GHCR tags
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
@@ -70,10 +87,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install ORAS
+      - name: Install ORAS (v1.3.0)
         uses: oras-project/setup-oras@v1
         with:
-          version: latest
+          version: 1.3.0
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -82,7 +99,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create local OCI manifest & determine version (no push)
+      - name: Create local OCI layout & determine version (no push, uses ORAS --oci-layout)
         id: prep
         shell: bash
         env:
@@ -92,60 +109,91 @@ jobs:
         run: |
           set -euo pipefail
 
+          oras version
+
           NAME="$(basename "$FILE")"
           STEM="${NAME%.*}"
           SAFE_NAME="$(echo "$STEM" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+|-+$//g')"
 
           IMAGE_REPO="ghcr.io/${REPO}/${SAFE_NAME}"
           GIT_SHA="$(git rev-parse --short=12 HEAD)"
-          CONTENT_SHA="$(sha256sum "$FILE" | cut -c1-12)"
+          FULL_CONTENT_SHA="$(sha256sum "$FILE" | awk '{print $1}')"
+          SHORT_CONTENT_SHA="$(echo "$FULL_CONTENT_SHA" | cut -c1-12)"
 
-          mkdir -p "prepared/${SAFE_NAME}"
+          # Directory that will hold a LOCAL OCI image layout
+          LAYOUT_DIR="prepared/${SAFE_NAME}"
+          mkdir -p "${LAYOUT_DIR}"
 
-          # --- Determine VERSION from existing tags (fallback 0.0.1) ---
-          # Fetch tags; allow failure if repo doesn't exist yet.
+          # --- Use ORAS to query existing tags on GHCR (read-only) to pick a version ---
           TAGS_RAW="$(oras repo tags "${IMAGE_REPO}" 2>/dev/null || true)"
-
-          # Extract semver tags (supports '1.2.3' and 'v1.2.3')
-          # Normalize by stripping a leading 'v' for comparison.
-          mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" \
-            | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
-
+          mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
           if (( ${#SEMVER_TAGS[@]} > 0 )); then
-            # Produce "normalized version|original" lines, sort by normalized, pick highest.
             BEST_LINE="$(
               for t in "${SEMVER_TAGS[@]}"; do
                 norm="${t#v}"
                 printf '%s|%s\n' "$norm" "$t"
               done | sort -t'|' -k1,1V | tail -n1
             )"
-            NORMALIZED="${BEST_LINE%%|*}"
-            VERSION="$NORMALIZED"
+            VERSION="${BEST_LINE%%|*}"   # normalized X.Y.Z
           else
             VERSION="0.0.1"
           fi
 
-          # --- Create a local manifest representing what we'd push ---
-          oras manifest create \
+          # --- Build a VALID OCI layout locally with ORAS (no network) ---
+          # This writes: ${LAYOUT_DIR}/oci-layout, index.json, blobs/...
+          oras push --oci-layout "${LAYOUT_DIR}:${GIT_SHA}" \
             --artifact-type text/markdown \
-            --config /dev/null:application/vnd.unknown.config.v1+json \
+            "$FILE:text/markdown" \
             --annotation "org.opencontainers.image.title=${NAME}" \
             --annotation "org.opencontainers.image.description=Markdown prompt artifact for ${STEM}" \
             --annotation "org.opencontainers.image.source=${SERVER_URL}/${REPO}" \
             --annotation "org.opencontainers.image.revision=${{ github.sha }}" \
             --annotation "org.opencontainers.image.version=${VERSION}" \
-            --annotation "org.opencontainers.image.licenses=Apache-2.0" \
-            --output "prepared/${SAFE_NAME}/manifest.json" \
-            "$FILE:text/markdown"
+            --annotation "org.opencontainers.image.licenses=Apache-2.0"
 
-          # Nothing is uploaded; just summarize the plan.
+          # Add additional LOCAL tags inside the same layout (still no network)
+          oras tag --oci-layout "${LAYOUT_DIR}:${GIT_SHA}" "latest"
+          oras tag --oci-layout "${LAYOUT_DIR}:${GIT_SHA}" "content-${SHORT_CONTENT_SHA}"
+          oras tag --oci-layout "${LAYOUT_DIR}:${GIT_SHA}" "${VERSION}"
+
+          # (Optional) List local tags stored in the layout
+          echo "Local tags in ${LAYOUT_DIR}:"
+          oras repo tags --oci-layout "${LAYOUT_DIR}" || true
+
+          # Extract the manifest digest for the commit tag from local index.json
+          MANIFEST_DIGEST="$(
+            jq -r --arg ref "${GIT_SHA}" '
+              .manifests[]
+              | select(.annotations["org.opencontainers.image.ref.name"] == $ref)
+              | .digest
+            ' "${LAYOUT_DIR}/index.json"
+          )"
+
+          # Copy manifest blob for preview (optional)
+          if [[ -n "${MANIFEST_DIGEST}" && "${MANIFEST_DIGEST}" == sha256:* ]]; then
+            MANIFEST_BLOB="${LAYOUT_DIR}/blobs/$(echo "${MANIFEST_DIGEST}" | sed 's/:/\//')"
+            cp -f "${MANIFEST_BLOB}" "${LAYOUT_DIR}/manifest.${GIT_SHA}.json" || true
+          fi
+
+          # Summary only (no uploads/push)
           {
             echo "### Plan for \`${FILE}\`"
-            echo ""
-            echo "- Image: \`${IMAGE_REPO}\`"
-            echo "- Planned tags: \`${GIT_SHA}\`, \`content-${CONTENT_SHA}\`, \`latest\`, \`${VERSION}\`"
-            echo "- Version source: $( [[ ${VERSION} == 0.0.1 ]] && echo 'no prior version found → default 0.0.1' || echo 'detected from existing tags' )"
-            echo "- Manifest (first 80 chars):"
-            head -c 80 "prepared/${SAFE_NAME}/manifest.json" | sed 's/$/.../'; echo
-            echo ""
+            echo
+            echo "- Local OCI layout: \`${LAYOUT_DIR}\`"
+            echo "- Image (remote target if pushed later): \`${IMAGE_REPO}\`"
+            echo "- Planned local tags: \`${GIT_SHA}\`, \`content-${SHORT_CONTENT_SHA}\`, \`latest\`, \`${VERSION}\`"
+            echo "- Version source: $( [[ ${VERSION} == 0.0.1 ]] && echo 'no prior version found → default 0.0.1' || echo 'detected from existing tags on GHCR' )"
+            echo "- Manifest digest (for \`${GIT_SHA}\`): \`${MANIFEST_DIGEST}\`"
+            if [[ -f "${LAYOUT_DIR}/manifest.${GIT_SHA}.json" ]]; then
+              echo
+              echo "<details><summary>Manifest (first 160 chars)</summary>"
+              echo
+              echo '```json'
+              head -c 160 "${LAYOUT_DIR}/manifest.${GIT_SHA}.json" | sed 's/$/.../'
+              echo
+              echo '```'
+              echo
+              echo '</details>'
+            fi
+            echo
           } >> "$GITHUB_STEP_SUMMARY"

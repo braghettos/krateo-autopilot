@@ -1,0 +1,154 @@
+name: release-single-prompt-tag
+
+on:
+  push:
+    tags:
+      - "prompt-**/*.*.*"   # e.g., prompt-auth_agent/1.2.3
+
+env:
+  GHCR_REPO: ghcr.io/${{ github.repository }}
+
+jobs:
+  push_prompt:
+    name: Push single prompt as OCI artifact
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout (full history for ancestry check)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install ORAS (v1.3.0)
+        uses: oras-project/setup-oras@v1
+        with:
+          version: 1.3.0
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Parse tag → prompt name & version
+        id: parse
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${GITHUB_REF_NAME:?missing ref name}"
+
+          TAG="${GITHUB_REF_NAME}"                 # e.g. prompt-auth_agent/1.2.3
+          PROMPT_PART="${TAG%/*}"                  # prompt-auth_agent
+          VERSION="${TAG##*/}"                     # 1.2.3
+          [[ "${PROMPT_PART}" == prompt-* ]] || { echo "Tag must start with 'prompt-'"; exit 1; }
+          PROMPT_ID="${PROMPT_PART#prompt-}"       # auth_agent
+
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "prompt_id=${PROMPT_ID}" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure tag commit is on main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          if git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Tag commit is on main ✅"
+          else
+            echo "❌ The tagged commit is not on main. Aborting."
+            exit 1
+          fi
+
+      - name: Resolve prompt file path
+        id: file
+        shell: bash
+        env:
+          PROMPT_ID: ${{ steps.parse.outputs.prompt_id }}
+        run: |
+          set -euo pipefail
+          candidates=(
+            "prompts/${PROMPT_ID}.md"
+            "prompts/$(echo "${PROMPT_ID}" | tr '-' '_').md"
+            "prompts/$(echo "${PROMPT_ID}" | tr '_' '-').md"
+          )
+          FILE=""
+          for f in "${candidates[@]}"; do
+            if [[ -f "$f" ]]; then FILE="$f"; break; fi
+          done
+          [[ -n "$FILE" ]] || { echo "❌ Prompt file not found for '${PROMPT_ID}' in prompts/*.md"; exit 1; }
+          echo "file=${FILE}" >> "$GITHUB_OUTPUT"
+          echo "Using file: $FILE"
+
+      - name: Compute names and digests
+        id: meta
+        shell: bash
+        env:
+          FILE: ${{ steps.file.outputs.file }}
+          VERSION: ${{ steps.parse.outputs.version }}
+        run: |
+          set -euo pipefail
+          NAME="$(basename "$FILE")"              # e.g., auth_agent.md
+          STEM="${NAME%.*}"                       # auth_agent
+          SAFE_NAME="$(echo "$STEM" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+|-+$//g')"
+          GIT_SHA="$(git rev-parse --short=12 HEAD)"
+          CONTENT_SHA="$(sha256sum "$FILE" | awk '{print $1}')"
+          CONTENT_SHA_SHORT="$(echo "$CONTENT_SHA" | cut -c1-12)"
+          echo "name=${NAME}" >> "$GITHUB_OUTPUT"
+          echo "stem=${STEM}" >> "$GITHUB_OUTPUT"
+          echo "safe_name=${SAFE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "git_sha=${GIT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "content_sha=${CONTENT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "content_sha_short=${CONTENT_SHA_SHORT}" >> "$GITHUB_OUTPUT"
+
+      - name: Push OCI artifact to GHCR
+        shell: bash
+        env:
+          FILE: ${{ steps.file.outputs.file }}
+          SAFE_NAME: ${{ steps.meta.outputs.safe_name }}
+          NAME: ${{ steps.meta.outputs.name }}
+          STEM: ${{ steps.meta.outputs.stem }}
+          VERSION: ${{ steps.parse.outputs.version }}
+          GIT_SHA: ${{ steps.meta.outputs.git_sha }}
+          CONTENT_SHA: ${{ steps.meta.outputs.content_sha }}
+          CONTENT_SHA_SHORT: ${{ steps.meta.outputs.content_sha_short }}
+          GHCR_REPO: ${{ env.GHCR_REPO }}
+          SERVER_URL: ${{ github.server_url }}
+          REPO: ${{ github.repository }}
+          REV: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          IMAGE="${GHCR_REPO}/${SAFE_NAME}"
+
+          echo "Pushing ${FILE} -> ${IMAGE}:${VERSION}"
+          oras version
+
+          # Publish with canonical version tag
+          oras push "${IMAGE}:${VERSION}" \
+            --artifact-type text/markdown \
+            "$FILE:text/markdown" \
+            --annotation "org.opencontainers.image.title=${NAME}" \
+            --annotation "org.opencontainers.image.description=Markdown prompt artifact for ${STEM}" \
+            --annotation "org.opencontainers.image.source=${SERVER_URL}/${REPO}" \
+            --annotation "org.opencontainers.image.revision=${REV}" \
+            --annotation "org.opencontainers.image.version=${VERSION}" \
+            --annotation "org.opencontainers.image.licenses=Apache-2.0"
+
+          # Convenience tags
+          oras tag "${IMAGE}:${VERSION}" "${GIT_SHA}"
+          oras tag "${IMAGE}:${VERSION}" "content-${CONTENT_SHA_SHORT}"
+          oras tag "${IMAGE}:${VERSION}" "latest"
+
+          {
+            echo "### Pushed prompt \`${STEM}\`"
+            echo
+            echo "- Image: \`${IMAGE}\`"
+            echo "- Tags:"
+            echo "  - \`${VERSION}\` (primary)"
+            echo "  - \`${GIT_SHA}\`"
+            echo "  - \`content-${CONTENT_SHA_SHORT}\`"
+            echo "  - \`latest\`"
+          } >> "$GITHUB_STEP_SUMMARY"
