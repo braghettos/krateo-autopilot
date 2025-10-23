@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read   # needed to list tags from GHCR (no writes)
-    outputs:                      # ✅ expose step outputs to downstream jobs
+      packages: read       # needed to list tags from GHCR (no writes)
+    outputs:               # expose step outputs to downstream jobs
       matrix: ${{ steps.mk.outputs.matrix }}
       has_files: ${{ steps.mk.outputs.has_files }}
 
@@ -24,7 +24,7 @@ jobs:
       - name: Install ORAS
         uses: oras-project/setup-oras@v1
         with:
-          version: 1.3.0          # ✅ pin to a real release (or omit "with:" entirely)
+          version: v1.3.0   # you said you're on 1.3.0
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -54,7 +54,7 @@ jobs:
           echo '{}' | jq --argjson files "$files_json" \
             '.include = ($files | map({file: .}))' > matrix.json
 
-          # ✅ Outputs (use multiline format for JSON)
+          # Outputs (multiline for JSON)
           echo "has_files=${has_files}" >> "$GITHUB_OUTPUT"
           {
             echo "matrix<<__MATRIX__"
@@ -62,12 +62,10 @@ jobs:
             echo "__MATRIX__"
           } >> "$GITHUB_OUTPUT"
 
-          # Logs
+          # Logs + Summary
           echo "Detected files: ${#files[@]}"
           echo "Matrix content:"
           cat matrix.json
-
-          # Summary
           {
             echo "### Markdown file matrix"
             echo
@@ -80,11 +78,11 @@ jobs:
 
   prepare_each:
     needs: plan
-    if: ${{ needs.plan.outputs.has_files == 'true' }}   # ✅ now evaluates correctly
+    if: ${{ needs.plan.outputs.has_files == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read   # needed for oras repo tags
+      packages: read        # needed for oras repo tags
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
@@ -96,7 +94,7 @@ jobs:
       - name: Install ORAS
         uses: oras-project/setup-oras@v1
         with:
-          version: 1.3.0           # ✅ pin or omit entirely
+          version: v1.3.0
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -115,6 +113,9 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Show ORAS CLI version for visibility
+          oras version
+
           NAME="$(basename "$FILE")"
           STEM="${NAME%.*}"
           SAFE_NAME="$(echo "$STEM" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g;s/^-+|-+$//g')"
@@ -125,10 +126,11 @@ jobs:
 
           mkdir -p "prepared/${SAFE_NAME}"
 
-          # --- Determine VERSION from existing tags (fallback 0.0.1) ---
+          # --- Use ORAS to query existing tags (read-only) ---
           TAGS_RAW="$(oras repo tags "${IMAGE_REPO}" 2>/dev/null || true)"
-          mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
 
+          # Extract semver tags (supports '1.2.3' and 'v1.2.3'), pick highest
+          mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
           if (( ${#SEMVER_TAGS[@]} > 0 )); then
             BEST_LINE="$(
               for t in "${SEMVER_TAGS[@]}"; do
@@ -136,15 +138,14 @@ jobs:
                 printf '%s|%s\n' "$norm" "$t"
               done | sort -t'|' -k1,1V | tail -n1
             )"
-            NORMALIZED="${BEST_LINE%%|*}"
-            VERSION="$NORMALIZED"
+            VERSION="${BEST_LINE%%|*}"   # normalized X.Y.Z
           else
             VERSION="0.0.1"
           fi
 
-          # --- Create a local manifest representing what we'd push ---
+          # --- Use ORAS to create a local manifest (no push) ---
+          # oras v1.3.0 does NOT support --artifact-type on 'manifest create'.
           oras manifest create \
-            --artifact-type text/markdown \
             --config /dev/null:application/vnd.unknown.config.v1+json \
             --annotation "org.opencontainers.image.title=${NAME}" \
             --annotation "org.opencontainers.image.description=Markdown prompt artifact for ${STEM}" \
