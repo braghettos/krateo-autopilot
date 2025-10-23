@@ -75,7 +75,7 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
             {{- range $i, $p := .Values.prompts }}
-            - name: oci-{{ printf "%02d" $i }}-{{ $p.name | lower | replace " " "-" | regexReplaceAll "[^a-z0-9-]" "-" | trimAll "-" }}
+            - name: oci-{{ $p.name | lower | replace "_" "-" }}
               # Mount a single file directly under /prompts/<filename>
               mountPath: "/prompts/{{ default (printf "%s.md" $p.name) $p.filename }}"
               subPath: "{{ default (printf "%s.md" $p.name) $p.filename }}"
@@ -86,7 +86,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
         {{- range $i, $p := .Values.prompts }}
-        - name: oci-{{ printf "%02d" $i }}-{{ $p.name | lower | replace " " "-" | regexReplaceAll "[^a-z0-9-]" "-" | trimAll "-" }}
+        - name: oci-{{ $p.name | lower | replace "_" "-" }}
           image:
             reference: "{{ $p.repository }}:{{ $p.version }}"
             pullPolicy: IfNotPresent

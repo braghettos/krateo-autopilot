@@ -108,11 +108,8 @@ jobs:
       - name: Create kind cluster (ImageVolume enabled)
         uses: helm/kind-action@v1
         with:
-          cluster_name: autopilot-test
-          node_image: kindest/node:v1.34.0
-          wait: 120s
+          node_image: kindest/node:${{ matrix.k8s_version }}
           config: kind-config.yaml
-
 
       - name: Create key.json from GitHub secret
         run: |
