@@ -71,7 +71,9 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumeMounts:
+            {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
+            {{- end }}
             {{- range $i, $p := .Values.prompts }}
             - name: oci-{{ printf "%02d" $i }}-{{ $p.name | lower | replace " " "-" | regexReplaceAll "[^a-z0-9-]" "-" | trimAll "-" }}
               # Mount a single file directly under /prompts/<filename>
@@ -80,7 +82,9 @@ spec:
               readOnly: true
             {{- end }}
       volumes:
+        {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- range $i, $p := .Values.prompts }}
         - name: oci-{{ printf "%02d" $i }}-{{ $p.name | lower | replace " " "-" | regexReplaceAll "[^a-z0-9-]" "-" | trimAll "-" }}
           image:
