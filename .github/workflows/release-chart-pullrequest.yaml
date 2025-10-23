@@ -140,6 +140,9 @@ jobs:
       - name: Wait for deployment to become Available
         run: kubectl wait deployment autopilot --for condition=Available=True --timeout=120s --namespace krateo-system
 
+      - name: Get deployment yaml
+        run: kubectl get deployment autopilot --namespace krateo-system -o yaml
+
       - name: Get events
         if: always()
         run: kubectl get events -A --sort-by='.lastTimestamp'
