@@ -4,7 +4,8 @@ init.sh
 Dockerfile
 .dockerignore
 **/__pycache__/
-manifests/
+chart/
+prompts/
 LICENSE
 README.md
 .gitignore

@@ -30,7 +30,10 @@ RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/
 RUN adduser --disabled-password --gecos "" myuser && \
     chown -R myuser:myuser /app
 
-COPY . .
+# Copy only what is needed
+COPY autopilot/ ./autopilot/
+COPY tools/ ./tools/
+COPY main.py ./main.py
 
 RUN chmod +x /app/tools/scripts/install_krateo.sh
 
