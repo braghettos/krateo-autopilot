@@ -2,10 +2,11 @@ name: release-prompts-pullrequest
 
 on:
   pull_request:
-    branches: [ "main" ]
-    # uncomment if you want to limit to prompt changes
-    # paths:
-    #   - "prompts/**/*.md"
+    paths:
+      - "prompts/**/*.md"
+    branches: 
+      - main
+
 
 jobs:
   plan:
