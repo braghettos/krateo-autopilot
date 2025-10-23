@@ -185,28 +185,23 @@ prompts:
     repository: ghcr.io/krateoplatformops/autopilot/auth-agent
     version: "0.0.1"
     filename: auth_agent.md      # file inside the artifact to mount
-
-  # - name: composition_agent
-  #   repository: ghcr.io/krateoplatformops/autopilot/composition-agent
-  #   version: "0.0.1"
-  #   filename: composition_agent.md
-
-  # - name: documentation_agent
-  #   repository: ghcr.io/krateoplatformops/autopilot/documentation-agent
-  #   version: "0.0.1"
-  #   filename: documentation_agent.md
-
-  # - name: portal_agent
-  #   repository: ghcr.io/krateoplatformops/autopilot/portal-agent
-  #   version: "0.0.1"
-  #   filename: portal_agent.md
-
-  # - name: restaction_agent
-  #   repository: ghcr.io/krateoplatformops/autopilot/restaction-agent
-  #   version: "0.0.1"
-  #   filename: restaction_agent.md
-
-  # - name: root_agent
-  #   repository: ghcr.io/krateoplatformops/autopilot/root-agent
-  #   version: "0.0.1"
-  #   filename: root_agent.md
+  - name: composition_agent
+    repository: ghcr.io/krateoplatformops/autopilot/composition-agent
+    version: "0.0.1"
+    filename: composition_agent.md
+  - name: documentation_agent
+    repository: ghcr.io/krateoplatformops/autopilot/documentation-agent
+    version: "0.0.1"
+    filename: documentation_agent.md
+  - name: portal_agent
+    repository: ghcr.io/krateoplatformops/autopilot/portal-agent
+    version: "0.0.1"
+    filename: portal_agent.md
+  - name: restaction_agent
+    repository: ghcr.io/krateoplatformops/autopilot/restaction-agent
+    version: "0.0.1"
+    filename: restaction_agent.md
+  - name: root_agent
+    repository: ghcr.io/krateoplatformops/autopilot/root-agent
+    version: "0.0.1"
+    filename: root_agent.md
