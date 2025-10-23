@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read       # needed to list tags from GHCR (no writes)
-    outputs:               # expose step outputs to downstream jobs
+      packages: read   # needed to list tags from GHCR (read-only)
+    outputs:
       matrix: ${{ steps.mk.outputs.matrix }}
       has_files: ${{ steps.mk.outputs.has_files }}
 
@@ -49,7 +49,7 @@ jobs:
           echo '{}' | jq --argjson files "$files_json" \
             '.include = ($files | map({file: .}))' > matrix.json
 
-          # Outputs (multiline for JSON)
+          # Outputs (use multiline for JSON)
           echo "has_files=${has_files}" >> "$GITHUB_OUTPUT"
           {
             echo "matrix<<__MATRIX__"
@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read        # needed for oras repo tags
+      packages: read   # to query tags via ORAS
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
@@ -86,10 +86,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install ORAS
+      - name: Install ORAS (v1.2.4)
         uses: oras-project/setup-oras@v1
         with:
-          version: 1.3.0
+          version: 1.2.4
 
       - name: Login to GHCR (read-only)
         uses: docker/login-action@v3
@@ -98,7 +98,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create local OCI manifest & determine version (no push)
+      - name: Create local OCI layout & determine version (no push, still uses ORAS)
         id: prep
         shell: bash
         env:
@@ -108,7 +108,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Show ORAS CLI version for visibility
           oras version
 
           NAME="$(basename "$FILE")"
@@ -117,14 +116,15 @@ jobs:
 
           IMAGE_REPO="ghcr.io/${REPO}/${SAFE_NAME}"
           GIT_SHA="$(git rev-parse --short=12 HEAD)"
-          CONTENT_SHA="$(sha256sum "$FILE" | cut -c1-12)"
+          FULL_CONTENT_SHA="$(sha256sum "$FILE" | awk '{print $1}')"
+          SHORT_CONTENT_SHA="$(echo "$FULL_CONTENT_SHA" | cut -c1-12)"
 
-          mkdir -p "prepared/${SAFE_NAME}"
+          # Directory to hold a local OCI layout for this artifact
+          LAYOUT_DIR="prepared/${SAFE_NAME}"
+          mkdir -p "${LAYOUT_DIR}"
 
-          # --- Use ORAS to query existing tags (read-only) ---
+          # --- Use ORAS to query existing tags on GHCR (read-only) to pick a version ---
           TAGS_RAW="$(oras repo tags "${IMAGE_REPO}" 2>/dev/null || true)"
-
-          # Extract semver tags (supports '1.2.3' and 'v1.2.3'), pick highest
           mapfile -t SEMVER_TAGS < <(printf '%s\n' "${TAGS_RAW}" | grep -E '^(v)?[0-9]+\.[0-9]+\.[0-9]+$' || true)
           if (( ${#SEMVER_TAGS[@]} > 0 )); then
             BEST_LINE="$(
@@ -138,27 +138,57 @@ jobs:
             VERSION="0.0.1"
           fi
 
-          # --- Use ORAS to create a local manifest (no push) ---
-          # oras v1.3.0 does NOT support --artifact-type on 'manifest create'.
-          oras manifest create \
-            --config /dev/null:application/vnd.unknown.config.v1+json \
+          # --- Use ORAS to build a VALID OCI manifest LOCALLY via an OCI layout ---
+          # This writes oci-layout/, index.json, blobs/ under ${LAYOUT_DIR}
+          oras push "oci:${LAYOUT_DIR}:${GIT_SHA}" \
+            --artifact-type text/markdown \
+            "$FILE:text/markdown" \
             --annotation "org.opencontainers.image.title=${NAME}" \
             --annotation "org.opencontainers.image.description=Markdown prompt artifact for ${STEM}" \
             --annotation "org.opencontainers.image.source=${SERVER_URL}/${REPO}" \
             --annotation "org.opencontainers.image.revision=${{ github.sha }}" \
             --annotation "org.opencontainers.image.version=${VERSION}" \
-            --annotation "org.opencontainers.image.licenses=Apache-2.0" \
-            --output "prepared/${SAFE_NAME}/manifest.json" \
-            "$FILE:text/markdown"
+            --annotation "org.opencontainers.image.licenses=Apache-2.0"
+
+          # Add local tags to the same OCI layout (no network)
+          oras tag "oci:${LAYOUT_DIR}:${GIT_SHA}" "latest"
+          oras tag "oci:${LAYOUT_DIR}:${GIT_SHA}" "content-${SHORT_CONTENT_SHA}"
+          oras tag "oci:${LAYOUT_DIR}:${GIT_SHA}" "${VERSION}"
+
+          # Extract the manifest digest for the commit tag from the local index.json
+          MANIFEST_DIGEST="$(
+            jq -r --arg ref "${GIT_SHA}" '
+              .manifests[]
+              | select(.annotations["org.opencontainers.image.ref.name"] == $ref)
+              | .digest
+            ' "${LAYOUT_DIR}/index.json"
+          )"
+
+          # Copy the manifest blob to a readable file for the summary (optional)
+          if [[ -n "${MANIFEST_DIGEST}" && "${MANIFEST_DIGEST}" == sha256:* ]]; then
+            MANIFEST_BLOB="${LAYOUT_DIR}/blobs/$(echo "${MANIFEST_DIGEST}" | sed 's/:/\//')"
+            cp -f "${MANIFEST_BLOB}" "${LAYOUT_DIR}/manifest.${GIT_SHA}.json" || true
+          fi
 
           # Summary only (no uploads/push)
           {
             echo "### Plan for \`${FILE}\`"
             echo
-            echo "- Image: \`${IMAGE_REPO}\`"
-            echo "- Planned tags: \`${GIT_SHA}\`, \`content-${CONTENT_SHA}\`, \`latest\`, \`${VERSION}\`"
-            echo "- Version source: $( [[ ${VERSION} == 0.0.1 ]] && echo 'no prior version found → default 0.0.1' || echo 'detected from existing tags' )"
-            echo "- Manifest (first 80 chars):"
-            head -c 80 "prepared/${SAFE_NAME}/manifest.json" | sed 's/$/.../'
+            echo "- Local OCI layout: \`${LAYOUT_DIR}\`"
+            echo "- Image (remote target if pushed later): \`${IMAGE_REPO}\`"
+            echo "- Planned tags (local): \`${GIT_SHA}\`, \`content-${SHORT_CONTENT_SHA}\`, \`latest\`, \`${VERSION}\`"
+            echo "- Version source: $( [[ ${VERSION} == 0.0.1 ]] && echo 'no prior version found → default 0.0.1' || echo 'detected from existing tags on GHCR' )"
+            echo "- Manifest digest (for \`${GIT_SHA}\`): \`${MANIFEST_DIGEST}\`"
+            if [[ -f "${LAYOUT_DIR}/manifest.${GIT_SHA}.json" ]]; then
+              echo
+              echo "<details><summary>Manifest (first 160 chars)</summary>"
+              echo
+              echo '```json'
+              head -c 160 "${LAYOUT_DIR}/manifest.${GIT_SHA}.json" | sed 's/$/.../'
+              echo
+              echo '```'
+              echo
+              echo '</details>'
+            fi
             echo
           } >> "$GITHUB_STEP_SUMMARY"
