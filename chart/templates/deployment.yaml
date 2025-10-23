@@ -70,7 +70,6 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
             {{- range $i, $p := .Values.prompts }}
@@ -80,8 +79,6 @@ spec:
               subPath: "{{ default (printf "%s.md" $p.name) $p.filename }}"
               readOnly: true
             {{- end }}
-          {{- end }}
-      {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
         {{- range $i, $p := .Values.prompts }}
@@ -90,7 +87,6 @@ spec:
             reference: "{{ $p.repository }}:{{ $p.version }}"
             pullPolicy: IfNotPresent
         {{- end }}
-      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

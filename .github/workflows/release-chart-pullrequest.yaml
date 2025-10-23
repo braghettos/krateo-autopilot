@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        k8s_version: [ "v1.33.4",  ]
+        k8s_version: [ "v1.33.4", "v1.34.0" ]
 
     steps:
       - name: Authenticate with GitHub App
