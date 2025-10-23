@@ -73,10 +73,23 @@ spec:
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
+            {{- range $i, $p := .Values.prompts }}
+            - name: oci-{{ printf "%02d" $i }}-{{ $p.name | lower | replace " " "-" | regexReplaceAll "[^a-z0-9-]" "-" | trimAll "-" }}
+              # Mount a single file directly under /prompts/<filename>
+              mountPath: "/prompts/{{ default (printf "%s.md" $p.name) $p.filename }}"
+              subPath: "{{ default (printf "%s.md" $p.name) $p.filename }}"
+              readOnly: true
+            {{- end }}
           {{- end }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
+        {{- range $i, $p := .Values.prompts }}
+        - name: oci-{{ printf "%02d" $i }}-{{ $p.name | lower | replace " " "-" | regexReplaceAll "[^a-z0-9-]" "-" | trimAll "-" }}
+          image:
+            reference: "{{ $p.repository }}:{{ $p.version }}"
+            pullPolicy: IfNotPresent
+        {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
