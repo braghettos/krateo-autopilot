@@ -169,9 +169,3 @@ env:
   GOOGLE_CLOUD_LOCATION: europe-west8
   GOOGLE_GENAI_USE_VERTEXAI: true
   GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/key.json
-
-envFromSecret:
-  - name: GITHUB_TOKEN
-    secretName: github-token
-    key: token
-    optional: true

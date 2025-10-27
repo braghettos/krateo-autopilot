@@ -37,17 +37,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "autopilot.fullname" . }}
-          env: 
-            {{- range $secret := .Values.envFromSecret }}
-            - name: {{ $secret.name }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secret.secretName }}
-                  key: {{ $secret.key }}
-                  {{- if hasKey $secret "optional" }}
-                  optional: {{ $secret.optional }}
-                  {{- end }}
-            {{- end }}
           {{- with .Values.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
