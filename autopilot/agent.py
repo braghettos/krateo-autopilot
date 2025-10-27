@@ -36,7 +36,7 @@ try:
         description="Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)", # Crucial for delegation
         instruction=PORTAL_AGENT_PROMPT,
         tools=[tools.portal.get_widgets, tools.portal.create_file, tools.portal.apply_manifest],
-        sub_agents=[restaction_agent]
+        # sub_agents=[restaction_agent]
     )
     print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")    
 except Exception as e:
@@ -94,5 +94,5 @@ root_agent = Agent(
                 "It uses the `install_krateo` tool to install Krateo PlatformOps on the current Kubernetes cluster.",
     instruction=ROOT_AGENT_PROMPT,
     tools=[tools.common.install_krateo],
-    sub_agents=[composition_agent, portal_agent, documentation_agent, auth_agent]
+    sub_agents=[composition_agent, portal_agent, documentation_agent, auth_agent, restaction_agent]
 )
