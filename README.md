@@ -4,14 +4,7 @@ Krateo Autopilot implementation using Google ADK.
 
 # Installation
 
-## 1. Create a secret containing your GitHub token.
-
-```bash
-kubectl create secret generic github-token \
-  --from-literal=token=<your_token>
-```
-
-## 2. Create Google Cloud Service Account & Key
+## 1. Create Google Cloud Service Account & Key
 
 1. Navigate to the IAM & Admin > Service Accounts page in the Google Cloud Console.
 3. Click CREATE SERVICE ACCOUNT.
@@ -23,7 +16,7 @@ kubectl create secret generic github-token \
 9. Click ADD KEY > Create new key.
 10. Select JSON as the key type and click CREATE. A JSON file containing the key will be downloaded.
 
-## 3. Create a secret for your Google Vertex AI credentials
+## 2. Create a secret for your Google Vertex AI credentials
 
 Now, create a Kubernetes secret from the JSON key file you downloaded in the previous step. This authenticates Autopilot with Google Cloud.
 
@@ -32,8 +25,13 @@ kubectl create secret generic gcloud-credentials \
   --from-file=key.json=<path_to_your_downloaded_key.json>
 ```
 
-## 4. Deploy Krateo Autopilot
+## 3. Install the Chart
 
 ```bash
-kubectl apply -f manifests/
+helm repo add krateo https://charts.krateo.io
+helm repo update krateo
+helm install autopilot krateo/autopilot \
+  --set env.GOOGLE_CLOUD_PROJECT=krateo-autopilot-123456 \
 ```
+
+> Note: `krateo-autopilot-123456` should be replaced with your Google Cloud project ID.
