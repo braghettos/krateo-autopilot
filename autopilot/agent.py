@@ -1,9 +1,5 @@
-from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
-from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
-from google.adk.tools import agent_tool
 from google.adk.agents import Agent
-import tools.common, tools.github, tools.portal
-import os
+import tools.common, tools.portal
 
 # --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
@@ -16,36 +12,6 @@ AUTHENTICATION_AGENT_PROMPT = open("prompts/auth_agent.md").read()
 COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent.md").read()
 PORTAL_AGENT_PROMPT = open("prompts/portal_agent.md").read() 
 RESTACTION_AGENT_PROMPT = open("prompts/restaction_agent.md").read() 
-GITHUB_AGENT_PROMPT = open("prompts/github_agent.md").read()
-
-# -- Github Agent ---
-github_agent = None
-try:    
-    github_agent = Agent(
-        model=GEMINI_2_5_FLASH,
-        name='github_agent',
-        instruction=GITHUB_AGENT_PROMPT,
-        description="This agent is specialized for performing Git and GitHub operations." # Crucial for delegation
-        "It directly interacts with the GitHub API and the user's local filesystem to manage repositories." 
-        "Delegate a user's request to this agent if the intent involves creating or modifying repositories, branches, files, or pull requests on GitHub.",
-        tools=[
-            MCPToolset(
-                connection_params=StreamableHTTPConnectionParams(
-                    url="https://api.githubcopilot.com/mcp/",
-                    headers={
-                        "Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}"
-                    }
-                ),
-                tool_filter=['create_or_update_file', 'create_pull_request', 'create_branch']
-            ), 
-            tools.github.create_repo_from_template, # TODO: remove when the MCP server above supports it
-            tools.github.get_file_contents, # TODO: remove when the MCP server above supports it
-            tools.common.read_file 
-        ],
-    )
-    print(f"✅ Agent '{github_agent.name}' created using model '{github_agent.model}'.")
-except Exception as e:    
-    print(f"❌ Could not create Github agent. Check API Key ({github_agent.model}). Error: {e}")
     
 # --- Restaction Agent ---
 restaction_agent = None
@@ -60,7 +26,6 @@ try:
     print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
 except Exception as e:
     print(f"❌ Could not create '{restaction_agent.name}' agent. Check API Key ({restaction_agent.model}). Error: {e}")
-# restaction_agent_tool = agent_tool.AgentTool(agent=restaction_agent) # Wrap the agent
 
 # --- Portal Agent ---
 portal_agent = None
@@ -129,5 +94,5 @@ root_agent = Agent(
                 "It uses the `install_krateo` tool to install Krateo PlatformOps on the current Kubernetes cluster.",
     instruction=ROOT_AGENT_PROMPT,
     tools=[tools.common.install_krateo],
-    sub_agents=[composition_agent, portal_agent, documentation_agent, auth_agent, github_agent]
+    sub_agents=[composition_agent, portal_agent, documentation_agent, auth_agent]
 )
