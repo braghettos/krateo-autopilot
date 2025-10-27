@@ -22,18 +22,95 @@ metadata:
   namespace: krateo-system
 spec:
   chart:
+    url: <url-to-your-repo>
+    version: "0.1.0"
+```
+
+### Chart specification
+
+In Krateo there are several options to specificy the chart for a compositiondefinition. These include, but are not limited to: the OCI registry, the GCP artifact registry, the helm repository, and GHCR (GitHub Cotainer Registry).
+
+#### GHCR
+
+`spec.chart.url` must be constructed from the user's <username>, <repo> and <chart-name>.
+
+The OCI URL components (<username>, <repo>, <chart-name>) must be lowercase. 
+    - Example: "Edmond-Dantes21/MyRepo/My-Chart" becomes "edmond-dantes21/myrepo/mychart".
+
+- spec:
+```yaml
+spec:
+  chart:
     url: oci://ghcr.io/<username>/<repo>/<chart-name>
     version: "0.1.0"
 ```
 
-### Instructions for generation
+If the repo is private you must add the credentials field pointing to a github Personal Access Token (PAT) as shown in the two examples below.
 
-- If the user did not provide their github <username>, ask them for it before generating the `CompositionDefinition`.
+#### OCI Registry
 
-- `spec.chart.url` must be constructed from the user's <username>, <repo> and <chart-name>.
+Create the Kubernetes secret:
 
-- The OCI URL components (<username>, <repo>, <chart-name>) must be lowercase. 
-    - Example: "Edmond-Dantes21/MyRepo/My-Chart" becomes "edmond-dantes21/myrepo/mychart".
+```
+kubectl create secret generic docker-hub --from-literal=token=your_token -n krateo-system
+```
+
+spec: 
+```yaml
+spec:
+  chart:
+    url: oci://registry-1.docker.io/yourusername/fireworks-app
+    version: "0.1.0"
+    credentials:
+      username: yourusername
+      passwordRef:
+        key: token
+        name: docker-hub
+        namespace: krateo-system
+```
+
+#### Helm Repository
+
+```yaml
+kubectl create secret generic helm-repo --from-literal=token=your_token -n krateo-system
+```
+
+spec:
+```yaml
+spec:
+  chart:
+    repo: fireworks-app
+    url: https://theurltoyourhelmrepo
+    version: 0.1.0
+    credentials:
+      username: yourusername
+      passwordRef:
+        key: token
+        name: helm-repo
+        namespace: krateo-system
+```
+
+#### GCP Artifact Registry
+
+Create a Google Cloud service account key. Then create a secret using the .json with the downloaded key:
+```
+kubectl create secret generic gcp-sa-secret -n demo \
+ --from-file=secret-access-credentials=/path/to/file/krateoregistry-3d546566ae4a.json
+```
+
+spec:
+```yaml
+spec:
+  chart:
+    url: oci://europe-west12-docker.pkg.dev/krateoregistry/krateotest/fireworks-app
+    version: "0.0.1"
+    credentials:
+      username: json_key
+      passwordRef: # reference to a secret
+        key: secret-access-credentials
+        name: gcp-sa-secret
+        namespace: demo
+```
 
 ## composition.yaml
 
@@ -113,12 +190,6 @@ Every resource you generate in chart/templates/ must be heavily parameterized. A
 
 When a user asks you to create a composition, you MUST follow this sequence of steps.
 
-### Step 0: Make sure you have the Github username
-
-Ask the user to provide either their username or github organization if they have not provided it yet. 
-Ask the user to provide a name for the repository to create.
-You can treat the organization name exactly as the username when generating files.
-
 ### Step 1: Understand and Clarify
 
 1. Carefully analyze all the requirements.
@@ -145,14 +216,8 @@ You can treat the organization name exactly as the username when generating file
 
 Present all the generated files to the user in a clear, structured format. ONLY the folder structure, not the content.
 
-### Step 4: Create a Github repository
-
-**Do not proceed without explicit user confirmation.**
-
-Ask the user if they want to create a new repository for the generated composition. Krateo needs this step to work because the composition definition points to a chart.
-
-Only after receiving a clear “yes” or equivalent confirmation from the user should you delegate the `github_agent`. The `github_agent` will create a new repo with a pre-existing GitHub action which will trigger the creation of an Helm package at `oci://ghcr.io/<owner>/<repo>/<chart-name>:<chart-version>`.
-
-### Step 5: Apply the generated resources (when you get back control)
+### Step 4: Apply the generated resources (when you get back control)
 
 1. Ask the user if they want to apply the compositiondefinition to their cluster. You MUST confirm their intent to proceed before taking any action. If they agree, use the `apply_manifest` function tool to apply the `compositiondefinition.yaml`.
+
+2. Remind the user that placeholders were used in the generated compositiondefinition and that they need to actually publish the chart with their method of choice before proceding.
