@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - Dockerfile
+      - main.py
+      - 'autopilot/**'
+      - 'tools/**'
     branches:
       - main
 
