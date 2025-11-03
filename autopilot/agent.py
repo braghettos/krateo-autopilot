@@ -1,5 +1,5 @@
 from google.adk.agents import Agent
-import tools.common, tools.portal
+import tools.common, tools.portal, tools.get_blueprint, tools.list_blueprints
 
 # --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
@@ -51,7 +51,13 @@ try:
         instruction=COMPOSITION_AGENT_PROMPT,
         description="Creates Krateo compositions."# Crucial for delegation
                     "Can apply manifests (e.g. composition, compositiondefinition) to the cluster.",
-        tools=[tools.common.create_file, tools.common.apply_manifest, tools.common.gen_values_schema_json]
+        tools=[
+            tools.common.apply_manifest, 
+            tools.common.gen_values_schema_json,
+            tools.list_blueprints.list_blueprints,
+            tools.get_blueprint.get_blueprint,
+            # tools.get_blueprint_form
+        ]
     )
     print(f"✅ Agent '{composition_agent.name}' created using model '{composition_agent.model}'.")
 except Exception as e:
