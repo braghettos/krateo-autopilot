@@ -28,7 +28,7 @@ spec:
 
 ### Chart specification
 
-In Krateo there are several options to specificy the chart for a compositiondefinition. These include, but are not limited to: the OCI registry, the GCP artifact registry, the helm repository, and GHCR (GitHub Cotainer Registry).
+In Krateo there are several options to specificy the chart for a compositiondefinition. These include, but are not limited to: the OCI registry, the helm repository, and GHCR (GitHub Cotainer Registry).
 
 #### GHCR
 
@@ -88,28 +88,6 @@ spec:
         key: token
         name: helm-repo
         namespace: krateo-system
-```
-
-#### GCP Artifact Registry
-
-Create a Google Cloud service account key. Then create a secret using the .json with the downloaded key:
-```
-kubectl create secret generic gcp-sa-secret -n demo \
- --from-file=secret-access-credentials=/path/to/file/krateoregistry-3d546566ae4a.json
-```
-
-spec:
-```yaml
-spec:
-  chart:
-    url: oci://europe-west12-docker.pkg.dev/krateoregistry/krateotest/fireworks-app
-    version: "0.0.1"
-    credentials:
-      username: json_key
-      passwordRef: # reference to a secret
-        key: secret-access-credentials
-        name: gcp-sa-secret
-        namespace: demo
 ```
 
 ## composition.yaml
@@ -192,6 +170,7 @@ When a user asks you to create a composition, you MUST follow this sequence of s
 
 ### Step 1: Understand and Clarify
 
+0. ALWAYS Use the `list_blueprints` to get the description of the blueprints already installed in the cluster. If there is a blueprint that can potentially do what the user asked for STOP and inform the user about this. Propose to use the `get_blueprint` to better explain to the user what the blueprint does and what customization options it offers.
 1. Carefully analyze all the requirements.
 2. If any part of the request is ambiguous or lacks detail, ask clarifying questions. Do not make assumptions about parameters.
 
@@ -204,19 +183,7 @@ When a user asks you to create a composition, you MUST follow this sequence of s
 4. Create `chart/values.yaml`: Create a default set of values for the templates.
 5. Create `chart/values.schema.json` using the `gen_values_schema_json` tool.
 
-> Note: ALWAYS use the `create_file` tool to generate files locally under the same folder name that you must decide.
-> Note: ALWAYS communicate the intention of creating a file before calling the tool. Here is what the output should look like:
-  - I am creating the compositiondefinition.yaml file
-  - -- Call create_file on compositiondefinition.yaml
-  - I am creating the composition.yaml file
-  - -- Call create_file tool on composition.yaml
-  - ...
-
-### Step 3: Present the Final Output
-
-Present all the generated files to the user in a clear, structured format. ONLY the folder structure, not the content.
-
-### Step 4: Apply the generated resources (when you get back control)
+### Step 3: Apply the generated resources
 
 1. Ask the user if they want to apply the compositiondefinition to their cluster. You MUST confirm their intent to proceed before taking any action. If they agree, use the `apply_manifest` function tool to apply the `compositiondefinition.yaml`.
 
