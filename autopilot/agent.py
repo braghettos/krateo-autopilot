@@ -35,8 +35,7 @@ try:
         model=GEMINI_2_5_PRO,
         description="Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)", # Crucial for delegation
         instruction=PORTAL_AGENT_PROMPT,
-        tools=[tools.portal.get_widgets, tools.portal.create_file, tools.portal.apply_manifest],
-        # sub_agents=[restaction_agent]
+        tools=[tools.portal.get_widgets, tools.portal.apply_manifest, tools.portal.validate_yaml]
     )
     print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")    
 except Exception as e:
@@ -56,7 +55,6 @@ try:
             tools.common.gen_values_schema_json,
             tools.list_blueprints.list_blueprints,
             tools.get_blueprint.get_blueprint,
-            # tools.get_blueprint_form
         ]
     )
     print(f"✅ Agent '{composition_agent.name}' created using model '{composition_agent.model}'.")
