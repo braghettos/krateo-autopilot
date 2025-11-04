@@ -1,5 +1,4 @@
 import os
-import json
 import logging
 import subprocess
 
@@ -41,7 +40,7 @@ def get_widgets(widgets: list[str]) -> dict[str, str]:
     """
     return {widget: get_widget(widget) for widget in widgets}
 
-def validate_yaml(content: str) -> bool:
+def validate_yaml(content: str) -> str:
     command = ['kubectl', 'apply', '--dry-run=server', '-f', '-']
 
     try:
@@ -54,73 +53,33 @@ def validate_yaml(content: str) -> bool:
         )
 
         if result.returncode == 0:
-            return True
+            return "YAML is valid."
         else:
-            raise ValueError(f"YAML is invalid: {result.stderr.strip()}")
+            return f"YAML is invalid: {result.stderr.strip()}"
 
     except Exception as e:
-        raise ValueError(f"An unexpected error occurred: {e}")
+        return f"An unexpected error occurred: {e}"
 
-def create_file(filename: str, content: str) -> str:
-    """Creates a file with the given content, including any necessary subdirectories.
-    
-    Args:
-        filename (str): The name of the file to create.
-        content (str): The content to write to the file.
-    
-    Returns:
-        str: A message indicating success or failure.
-    """    
-    if filename.endswith('.yaml') or filename.endswith('.yml'):
-        try: 
-            validate_yaml(content)
-        except ValueError as e:
-            return f"Error creating file '{filename}': {str(e)}"
-        
-    try:
-        directory = os.path.dirname(filename)
-        
-        # Create the directory if it does not exist
-        if directory:
-            os.makedirs(directory, exist_ok=True)
-            
-        with open(filename, 'w') as f:
-            f.write(content)
-            
-        return f"File '{filename}' created successfully."
-    except Exception as e:
-        return f"Error creating file '{filename}': {str(e)}"
-
-def apply_manifest(file_path: str) -> str:
+def apply_manifest(manifest: str) -> str:
     """
-    Applies a Kubernetes manifest file (YAML) to the Kubernetes cluster .
+    Applies a Kubernetes manifest from a string to the Kubernetes cluster.
     
     Args:
-        file_path (str): Path to the manifest file.
+        manifest (str): The string content of the YAML manifest to apply..
         
     Returns:
-        str: A message indicating success or failure.
+        str: The stdout message from kubectl indicating success, or an error message.
     """
 
     try:
         result = subprocess.run(
-            ["kubectl", "apply", "-f", file_path],
+            ["kubectl", "apply", "-f", "-"],
             capture_output=True,
             text=True,
-            check=True
+            input=manifest,  # Pass the YAML string as input
+            check=True       # Raise an error if kubectl fails
         )
         return result.stdout.strip()
 
     except Exception as e:
         return f"Unexpected error: {str(e)}"
-
-def apply_manifests(file_paths: list[str]) -> list[str]:
-    results = []
-    for path in file_paths:
-        result = apply_manifest(path)
-        results.append(result)
-    return results
-
-# apply manifest
-# create_file
-# get_widgets
