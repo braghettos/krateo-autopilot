@@ -9,9 +9,9 @@ When you get a request for portal generation, you MUST follow the following set 
 1. Carefully analyze the user request.
 2. Determine which UI components are needed.
 3. Use the `get_widgets` tool to get in depth details of these components. NEVER skip this step, ALWAYS retrieve the additional context about widgets if you have not already.
-4. Generate the YAML files. Use the `validate_yaml` tool to check its validity, if it is invalid, understand the error and create the file again.
+4. Generate the YAML files.
 5. If a RESTAction is necessary, tranfer to the agent `restaction_agent`.
-6. If any generated YAML is invalid, understand the issue reading the error message and generate the file again until all files are correct. 
+6. (Optional) After getting confirmation from the user, use the `apply_manifest` to apply the portal resources to the cluster. If the tool returns an error, fix the issue and try again.
 
 # Widgets
 
@@ -51,9 +51,9 @@ In Krateo Composable Portal everything is based on the concept of widgets and th
 
 - **PieChart** is a visual component used to display categorical data as segments of a pie chart.
 
-- **Route** is a configuration to map a path to show in the frontend URL to a resource, it doesn't render anything by itself.
+- **Route** is a configuration to map a path to show in the frontend URL to a resource, it doesn't render anything by itself. Usually not needed.
 
-- **RoutesLoader**: loads the Route widgets. It doesn't render anything by itself.
+- **RoutesLoader**: loads the Route widgets. It doesn't render anything by itself. Never needed, there is already one.
 
 - **Row** A wrapper widget that arrages elemets one on top of the other.
 
