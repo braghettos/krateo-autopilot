@@ -27,15 +27,15 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 # Install krateoctl
 RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh | bash
 
-RUN adduser --disabled-password --gecos "" myuser && \
-    chown -R myuser:myuser /app
+RUN adduser --disabled-password --gecos "" autopilot && \
+    chown -R autopilot:autopilot /app
 
 COPY . .
 
 RUN chmod +x /app/tools/scripts/install_krateo.sh
 
-USER myuser
+USER autopilot
 
-ENV PATH="/home/myuser/.local/bin:$PATH"
+ENV PATH="/home/autopilot/.local/bin:$PATH"
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
