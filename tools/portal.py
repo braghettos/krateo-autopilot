@@ -40,7 +40,7 @@ def get_widgets(widgets: list[str]) -> dict[str, str]:
     """
     return {widget: get_widget(widget) for widget in widgets}
 
-def validate_yaml(content: str) -> str:
+def validate_yaml(content: str) -> bool:
     command = ['kubectl', 'apply', '--dry-run=server', '-f', '-']
 
     try:
@@ -53,12 +53,12 @@ def validate_yaml(content: str) -> str:
         )
 
         if result.returncode == 0:
-            return "YAML is valid."
+            return True
         else:
-            return f"YAML is invalid: {result.stderr.strip()}"
+            raise ValueError(result.stderr.strip())
 
     except Exception as e:
-        return f"An unexpected error occurred: {e}"
+        raise ValueError(f"Unexpected error: {str(e)}")
 
 def apply_manifest(manifest: str) -> str:
     """
@@ -70,6 +70,11 @@ def apply_manifest(manifest: str) -> str:
     Returns:
         str: The stdout message from kubectl indicating success, or an error message.
     """
+    
+    try:
+        validate_yaml(manifest)
+    except ValueError as ve:
+        return f"Manifest validation failed: {str(ve)}"
 
     try:
         result = subprocess.run(
