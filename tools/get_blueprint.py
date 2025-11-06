@@ -80,7 +80,9 @@ def get_blueprint(name: str, namespace: str) -> list[str]:
     Use these files to organize the blueprint explanation as follows:
     - Blueprint overview: provide a brief summary of what the blueprint does.
     - Customization Options: list the options available in values.yaml
+    - Composition example: an example composition.yaml for this blueprint.
     - Blueprint form: provide the link to the form if available.
+    
     
     Args:
         name (str): The name of the blueprint.
