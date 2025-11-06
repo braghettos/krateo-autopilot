@@ -21,7 +21,6 @@ try:
         model=GEMINI_2_5_PRO,
         description="RESTAction Agent for Krateo Autopilot.", # crucial for delegation
         instruction=RESTACTION_AGENT_PROMPT,
-        tools=[tools.common.create_file]
     )
     print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
 except Exception as e:
@@ -35,7 +34,7 @@ try:
         model=GEMINI_2_5_PRO,
         description="Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)", # Crucial for delegation
         instruction=PORTAL_AGENT_PROMPT,
-        tools=[tools.portal.get_widgets, tools.portal.apply_manifest, tools.portal.validate_yaml]
+        tools=[tools.portal.get_widgets, tools.portal.apply_manifest]
     )
     print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")    
 except Exception as e:
