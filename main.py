@@ -16,13 +16,13 @@ logging.basicConfig(
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Session serivce using cloudnative-pg
-CLUSTER_NAME = os.getenv('CLUSTER_NAME') 
-DB_USER = os.getenv('DB_USER') 
+CLUSTER_NAME = os.getenv('CLUSTER_NAME').upper().replace("-", "_")
+DB_USERNAME = os.getenv('DB_USERNAME') 
 DB_PASSWORD = os.getenv('DB_PASSWORD') 
 DB_NAME = os.getenv('DB_NAME') 
-DB_HOST = os.getenv(f'{CLUSTER_NAME}_RW_HOST') 
-DB_PORT = os.getenv(f'{CLUSTER_NAME}_RW_PORT') 
-SESSION_SERVICE_URI = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DB_HOST = os.getenv(f'{CLUSTER_NAME}_RW_SERVICE_HOST') 
+DB_PORT = os.getenv(f'{CLUSTER_NAME}_RW_SERVICE_PORT') 
+SESSION_SERVICE_URI = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # Example allowed origins for CORS
 ALLOWED_ORIGINS = ["http://localhost", "http://localhost:8080", "*"]

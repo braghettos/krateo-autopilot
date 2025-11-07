@@ -175,3 +175,18 @@ envFromSecret:
     secretName: github-token
     key: token
     optional: true
+
+database:
+  enabled: true
+  instances: 1
+  annotations: {}
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.0-system-trixie
+  storage:
+    size: 2Gi
+
+waitForDatabase:
+  image: postgres:16
+  imagePullPolicy: IfNotPresent
+  hostSuffix: "-db-rw"
+  port: 5432
+  sleepSeconds: 2

@@ -32,12 +32,42 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.database.enabled }}
+      initContainers:
+        - name: wait-for-db
+          image: {{ .Values.waitForDatabase.image | default "postgres:16" }}
+          imagePullPolicy: {{ .Values.waitForDatabase.imagePullPolicy | default "IfNotPresent" }}
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for database {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}:{{ .Values.waitForDatabase.port | default 5432 }} ..."
+              until pg_isready -h {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }} -p {{ .Values.waitForDatabase.port | default 5432 }}; do
+                echo "Database not ready yet, sleeping {{ .Values.waitForDatabase.sleepSeconds | default 2 }}s..."
+                sleep {{ .Values.waitForDatabase.sleepSeconds | default 2 }}
+              done
+              echo "Database is ready!"
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           envFrom:
             - configMapRef:
                 name: {{ include "autopilot.fullname" . }}
-          env: 
+          env:
+            - name: DB_NAME
+              value: {{ include "autopilot.fullname" . }}-db
+            - name: CLUSTER_NAME
+              value: {{ include "autopilot.fullname" . }}-db
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "autopilot.dbSecretName" . }}
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "autopilot.dbSecretName" . }}
+                  key: password 
             {{- range $secret := .Values.envFromSecret }}
             - name: {{ $secret.name }}
               valueFrom:
