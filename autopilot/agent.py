@@ -1,9 +1,5 @@
-from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
-from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
-from google.adk.tools import agent_tool
 from google.adk.agents import Agent
-import tools.common, tools.github, tools.portal
-import os
+import tools.common, tools.portal, tools.get_blueprint, tools.list_blueprints
 
 # --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
@@ -13,39 +9,9 @@ GEMINI_2_5_PRO = "gemini-2.5-pro"
 DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent.md").read()
 ROOT_AGENT_PROMPT = open("prompts/root_agent.md").read()
 AUTHENTICATION_AGENT_PROMPT = open("prompts/auth_agent.md").read()
-COMPOSITION_AGENT_PROMPT = open("prompts/composition_agent.md").read()
+BLUEPRINT_AGENT_PROMPT = open("prompts/blueprint_agent.md").read()
 PORTAL_AGENT_PROMPT = open("prompts/portal_agent.md").read() 
 RESTACTION_AGENT_PROMPT = open("prompts/restaction_agent.md").read() 
-GITHUB_AGENT_PROMPT = open("prompts/github_agent.md").read()
-
-# -- Github Agent ---
-github_agent = None
-try:    
-    github_agent = Agent(
-        model=GEMINI_2_5_FLASH,
-        name='github_agent',
-        instruction=GITHUB_AGENT_PROMPT,
-        description="This agent is specialized for performing Git and GitHub operations." # Crucial for delegation
-        "It directly interacts with the GitHub API and the user's local filesystem to manage repositories." 
-        "Delegate a user's request to this agent if the intent involves creating or modifying repositories, branches, files, or pull requests on GitHub.",
-        tools=[
-            MCPToolset(
-                connection_params=StreamableHTTPConnectionParams(
-                    url="https://api.githubcopilot.com/mcp/",
-                    headers={
-                        "Authorization": f"Bearer {os.getenv('GITHUB_TOKEN')}"
-                    }
-                ),
-                tool_filter=['create_or_update_file', 'create_pull_request', 'create_branch']
-            ), 
-            tools.github.create_repo_from_template, # TODO: remove when the MCP server above supports it
-            tools.github.get_file_contents, # TODO: remove when the MCP server above supports it
-            tools.common.read_file 
-        ],
-    )
-    print(f"✅ Agent '{github_agent.name}' created using model '{github_agent.model}'.")
-except Exception as e:    
-    print(f"❌ Could not create Github agent. Check API Key ({github_agent.model}). Error: {e}")
     
 # --- Restaction Agent ---
 restaction_agent = None
@@ -55,12 +21,10 @@ try:
         model=GEMINI_2_5_PRO,
         description="RESTAction Agent for Krateo Autopilot.", # crucial for delegation
         instruction=RESTACTION_AGENT_PROMPT,
-        tools=[tools.common.create_file]
     )
     print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
 except Exception as e:
     print(f"❌ Could not create '{restaction_agent.name}' agent. Check API Key ({restaction_agent.model}). Error: {e}")
-# restaction_agent_tool = agent_tool.AgentTool(agent=restaction_agent) # Wrap the agent
 
 # --- Portal Agent ---
 portal_agent = None
@@ -70,27 +34,31 @@ try:
         model=GEMINI_2_5_PRO,
         description="Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)", # Crucial for delegation
         instruction=PORTAL_AGENT_PROMPT,
-        tools=[tools.portal.get_widgets, tools.portal.create_file, tools.portal.apply_manifest],
-        sub_agents=[restaction_agent]
+        tools=[tools.portal.get_widgets, tools.portal.apply_manifest]
     )
     print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")    
 except Exception as e:
     print(f"❌ Could not create '{portal_agent.name}' agent. Check API Key ({portal_agent.model}). Error: {e}")    
 
 # --- Composition Agent ---
-composition_agent = None
+blueprint_agent = None
 try:
-    composition_agent = Agent(
+    blueprint_agent = Agent(
         model=GEMINI_2_5_PRO,
-        name="composition_agent",
-        instruction=COMPOSITION_AGENT_PROMPT,
+        name="blueprint_agent",
+        instruction=BLUEPRINT_AGENT_PROMPT,
         description="Creates Krateo compositions."# Crucial for delegation
                     "Can apply manifests (e.g. composition, compositiondefinition) to the cluster.",
-        tools=[tools.common.create_file, tools.common.apply_manifest, tools.common.gen_values_schema_json]
+        tools=[
+            tools.common.apply_manifest, 
+            tools.common.gen_values_schema_json,
+            tools.list_blueprints.list_blueprints,
+            tools.get_blueprint.get_blueprint,
+        ]
     )
-    print(f"✅ Agent '{composition_agent.name}' created using model '{composition_agent.model}'.")
+    print(f"✅ Agent '{blueprint_agent.name}' created using model '{blueprint_agent.model}'.")
 except Exception as e:
-    print(f"❌ Could not create '{composition_agent.name}' agent. Check API Key ({composition_agent.model}). Error: {e}")    
+    print(f"❌ Could not create '{blueprint_agent.name}' agent. Check API Key ({blueprint_agent.model}). Error: {e}")    
 
 # --- Authentication Agent ---
 auth_agent = None
@@ -129,5 +97,5 @@ root_agent = Agent(
                 "It uses the `install_krateo` tool to install Krateo PlatformOps on the current Kubernetes cluster.",
     instruction=ROOT_AGENT_PROMPT,
     tools=[tools.common.install_krateo],
-    sub_agents=[composition_agent, portal_agent, documentation_agent, auth_agent, github_agent]
+    sub_agents=[blueprint_agent, portal_agent, documentation_agent, auth_agent, restaction_agent]
 )

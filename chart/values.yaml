@@ -170,11 +170,11 @@ env:
   GOOGLE_GENAI_USE_VERTEXAI: true
   GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/key.json
 
-envFromSecret:
-  - name: GITHUB_TOKEN
-    secretName: github-token
-    key: token
-    optional: true
+envFromSecret: []
+#  - name: GITHUB_TOKEN
+#    secretName: github-token
+#    key: token
+#    optional: true
 
 database:
   enabled: true
@@ -190,3 +190,4 @@ waitForDatabase:
   hostSuffix: "-db-rw"
   port: 5432
   sleepSeconds: 2
+ 
