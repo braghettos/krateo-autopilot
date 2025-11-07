@@ -54,9 +54,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the name of the service account to use
 */}}
 {{- define "autopilot.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
+{{- if .Values.serviceAccount.create }} 
 {{- default (include "autopilot.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
+{{- end }}
+
+{{/*
+Create the name of the database secret to use
+*/}}
+{{- define "autopilot.dbSecretName" -}}
+{{- default (printf "%s-db-secret" (include "autopilot.fullname" .)) .Values.dbSecretName -}}
 {{- end }}

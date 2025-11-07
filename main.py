@@ -12,14 +12,18 @@ logging.basicConfig(
     format="[%(levelname)s] - [%(asctime)s] - [%(name)s]: %(message)s"
 )
 
-# Make module1 verbose
-logging.getLogger("git_tools").setLevel(logging.DEBUG)
-logging.getLogger("tools").setLevel(logging.DEBUG)
-
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
-# Example session service URI (e.g., SQLite)
-SESSION_SERVICE_URI = "sqlite:///./sessions.db"
+
+# Session serivce using cloudnative-pg
+CLUSTER_NAME = os.getenv('CLUSTER_NAME').upper().replace("-", "_")
+DB_USERNAME = os.getenv('DB_USERNAME') 
+DB_PASSWORD = os.getenv('DB_PASSWORD') 
+DB_NAME = os.getenv('DB_NAME') 
+DB_HOST = os.getenv(f'{CLUSTER_NAME}_RW_SERVICE_HOST') 
+DB_PORT = os.getenv(f'{CLUSTER_NAME}_RW_SERVICE_PORT') 
+SESSION_SERVICE_URI = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
 # Example allowed origins for CORS
 ALLOWED_ORIGINS = ["http://localhost", "http://localhost:8080", "*"]
 # Set web=True if you intend to serve a web interface, False otherwise
