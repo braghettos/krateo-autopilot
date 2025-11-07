@@ -1,4 +1,4 @@
-name: release-autopilot-tag
+name: build-and-update-main-cache
 
 on:
   push:
@@ -7,17 +7,17 @@ on:
       - main.py
       - 'autopilot/**'
       - 'tools/**'
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+    branches:
+      - main
 
 env:
   GHCR_REPO: ghcr.io/${{ github.repository }}
 
 jobs:
   build:
-    name: Build and Push
+    name: Build and update main cache (NO Push)
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       packages: write
@@ -36,26 +36,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.GHCR_REPO }}
-          tags: |
-            type=semver,pattern={{version}}
-
-      - name: Build and push multi-arch image
+      - name: Build Dockerfile (multi-arch, no push)
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          provenance: false # Optional: disables SBOMs if not needed
+          push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Inspect image
-        run: |
-          FIRST_TAG=$(echo '${{ steps.meta.outputs.json }}' | jq -r '.tags[0]')
-          docker buildx imagetools inspect "$FIRST_TAG"
