@@ -1,0 +1,25 @@
+{{- if .Values.database.enabled -}}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "autopilot.fullname" . }}-db
+  labels:
+    {{- include "autopilot.labels" . | nindent 4 }}
+  {{- with .Values.database.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  instances: {{ .Values.database.instances }}
+  imageName: {{ .Values.database.imageName }}
+
+  storage:
+    size: {{ .Values.database.storage.size }}
+
+  bootstrap:
+    initdb:
+      database: {{ include "autopilot.fullname" . }}-db
+      owner: {{ include "autopilot.fullname" . }}
+      secret:
+        name: {{ include "autopilot.dbSecretName" . }}
+{{- end }}
