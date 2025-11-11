@@ -26,7 +26,16 @@ kubectl create secret generic gcloud-credentials \
   --from-file=key.json=<path_to_your_downloaded_key.json>
 ```
 
-## 3. Install the Chart
+## 3. Install CloudNativePG's Operator
+
+```bash
+kubectl apply --server-side -f \
+  https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.27/releases/cnpg-1.27.1.yaml
+```
+
+> Note: The DB is used for enabling persistent sessions; you can skip this step and disable them by adding the `--set database.enabled=false` flag in the chart installation.
+
+## 4. Install the Chart
 
 ```bash
 helm repo add krateo https://charts.krateo.io
