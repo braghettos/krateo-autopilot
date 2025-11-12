@@ -54,6 +54,7 @@ spec:
             - configMapRef:
                 name: {{ include "autopilot.fullname" . }}
           env:
+            {{- if .Values.database.enabled }}
             - name: DB_NAME
               value: {{ include "autopilot.fullname" . }}-db
             - name: CLUSTER_NAME
@@ -68,6 +69,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "autopilot.dbSecretName" . }}
                   key: password 
+            {{- end }}
             {{- range $secret := .Values.envFromSecret }}
             - name: {{ $secret.name }}
               valueFrom:
