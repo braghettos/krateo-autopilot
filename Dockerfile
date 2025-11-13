@@ -1,8 +1,4 @@
 FROM python:3.13-slim
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Install dependencies for Helm and kubectl
 RUN set -euo pipefail && \
@@ -27,15 +23,15 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 # Install krateoctl
 RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh | bash
 
-RUN adduser --disabled-password --gecos "" autopilot && \
-    chown -R autopilot:autopilot /app
-
-COPY . .
-
-RUN chmod +x /app/tools/scripts/install_krateo.sh
+RUN adduser --disabled-password --gecos "" autopilot
 
 USER autopilot
-
 ENV PATH="/home/autopilot/.local/bin:$PATH"
+WORKDIR /app
+
+COPY --chown=autopilot:autopilot requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+COPY --chown=autopilot:autopilot . .
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
