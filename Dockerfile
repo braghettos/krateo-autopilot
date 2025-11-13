@@ -32,6 +32,9 @@ WORKDIR /app
 COPY --chown=autopilot:autopilot requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-COPY --chown=autopilot:autopilot . .
+COPY --chown=autopilot:autopilot autopilot autopilot
+COPY --chown=autopilot:autopilot prompts prompts
+COPY --chown=autopilot:autopilot tools tools
+COPY --chown=autopilot:autopilot main.py .
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
