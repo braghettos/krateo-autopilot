@@ -8,7 +8,7 @@ from google.adk.cli.fast_api import get_fast_api_app
 import logging
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="[%(levelname)s] - [%(asctime)s] - [%(name)s]: %(message)s"
 )
 log = logging.getLogger(__name__)
@@ -16,17 +16,15 @@ log = logging.getLogger(__name__)
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Session serivce using cloudnative-pg
+# Session serivce set up
 CLUSTER_NAME = os.getenv('CLUSTER_NAME')
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
 
-CLUSTER_ENV = CLUSTER_NAME.upper().replace("-", "_") if CLUSTER_NAME else ""
-DB_HOST = os.getenv(f'{CLUSTER_ENV}_RW_SERVICE_HOST') if CLUSTER_ENV else None
-DB_PORT = os.getenv(f'{CLUSTER_ENV}_RW_SERVICE_PORT') if CLUSTER_ENV else None
-
-if all([CLUSTER_NAME, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT]):
+if all([CLUSTER_NAME, DB_USERNAME, DB_PASSWORD, DB_NAME]):
+    DB_HOST = f"{CLUSTER_NAME}-rw"
+    DB_PORT = 5432
     SESSION_SERVICE_URI = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     log.info(f"Using PostgreSQL session service at {DB_HOST}:{DB_PORT}/{DB_NAME}")
 else:
