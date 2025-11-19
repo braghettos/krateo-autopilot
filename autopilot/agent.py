@@ -4,14 +4,17 @@ import tools.common, tools.portal, tools.get_blueprint, tools.list_blueprints
 # --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
 GEMINI_2_5_PRO = "gemini-2.5-pro"
+GEMINI_3_PRO = "gemini-3-pro-preview"
 
 # --- Prompts ---
-DOCUMENTATION_AGENT_PROMPT = open("prompts/documentation_agent.md").read()
-ROOT_AGENT_PROMPT = open("prompts/root_agent.md").read()
-AUTHENTICATION_AGENT_PROMPT = open("prompts/auth_agent.md").read()
-BLUEPRINT_AGENT_PROMPT = open("prompts/blueprint_agent.md").read()
-PORTAL_AGENT_PROMPT = open("prompts/portal_agent.md").read() 
-RESTACTION_AGENT_PROMPT = open("prompts/restaction_agent.md").read() 
+PROMPT_LANGUAGE = 'ita' # Set to 'ita' or 'eng'
+
+DOCUMENTATION_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/documentation_agent.md").read()
+ROOT_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/root_agent.md").read()
+AUTHENTICATION_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/auth_agent.md").read()
+BLUEPRINT_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/blueprint_agent.md").read()
+PORTAL_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/portal_agent.md").read() 
+RESTACTION_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/restaction_agent.md").read() 
     
 # --- Restaction Agent ---
 restaction_agent = None
