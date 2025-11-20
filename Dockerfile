@@ -21,8 +21,7 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 && rm kubectl
 
 # Install krateoctl
-RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh | bash
-
+RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh 0.8.9 | bash
 RUN adduser --disabled-password --gecos "" autopilot
 
 USER autopilot
