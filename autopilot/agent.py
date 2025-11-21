@@ -1,5 +1,9 @@
 from google.adk.agents import Agent
 import tools.common, tools.portal, tools.get_blueprint, tools.list_blueprints
+from google.adk.apps import App
+from google.adk.apps.app import EventsCompactionConfig
+from google.adk.apps.llm_event_summarizer import LlmEventSummarizer
+from google.adk.models import Gemini
 
 # --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
@@ -101,4 +105,19 @@ root_agent = Agent(
     instruction=ROOT_AGENT_PROMPT,
     tools=[tools.common.install_krateo],
     sub_agents=[blueprint_agent, portal_agent, documentation_agent, auth_agent, restaction_agent]
+)
+
+# Event Compaction
+summarization_llm = Gemini(model=GEMINI_2_5_FLASH)
+my_summarizer = LlmEventSummarizer(llm=summarization_llm)
+compaction_config = EventsCompactionConfig(
+    summarizer=my_summarizer,
+    compaction_interval=3,
+    overlap_size=1
+)
+
+app = App(
+    name="autopilot", # https://github.com/google/adk-python/issues/3522
+    root_agent=root_agent,
+    events_compaction_config=compaction_config
 )
