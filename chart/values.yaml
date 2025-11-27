@@ -14,8 +14,8 @@ image:
   tag: ""
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets:
-  - name: ghcr-pull-secret
+imagePullSecrets: []
+  # - name: ghcr-pull-secret
 
 # This is to override the chart name.
 nameOverride: ""
@@ -169,6 +169,7 @@ env:
   GOOGLE_CLOUD_LOCATION: europe-west8
   GOOGLE_GENAI_USE_VERTEXAI: true
   GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/key.json
+  ENABLE_A2A: "false"
 
 envFromSecret: []
 #  - name: GITHUB_TOKEN
@@ -190,4 +191,3 @@ waitForDatabase:
   hostSuffix: "-db-rw"
   port: 5432
   sleepSeconds: 2
- 
