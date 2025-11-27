@@ -1,104 +1,64 @@
+import os
 from google.adk.agents import Agent
-import tools.common, tools.portal, tools.get_blueprint, tools.list_blueprints
+from remote_agents.config import *
 
-# --- Models ---
-GEMINI_2_5_FLASH = "gemini-2.5-flash"
-GEMINI_2_5_PRO = "gemini-2.5-pro"
-GEMINI_3_PRO = "gemini-3-pro-preview"
+a2a_enabled = os.getenv("ENABLE_A2A", "false").lower() == "true"
 
-# --- Prompts ---
-PROMPT_LANGUAGE = 'ita' # Set to 'ita' or 'eng'
+if a2a_enabled:
+    from google.adk.agents.remote_a2a_agent import AGENT_CARD_WELL_KNOWN_PATH
+    from google.adk.agents.remote_a2a_agent import RemoteA2aAgent
+    from a2a.client.client import ClientConfig as A2AClientConfig
+    from a2a.client.client_factory import ClientFactory as A2AClientFactory
+    from a2a.types import TransportProtocol as A2ATransport
 
-DOCUMENTATION_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/documentation_agent.md").read()
-ROOT_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/root_agent.md").read()
-AUTHENTICATION_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/auth_agent.md").read()
-BLUEPRINT_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/blueprint_agent.md").read()
-PORTAL_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/portal_agent.md").read() 
-RESTACTION_AGENT_PROMPT = open(f"prompts/{PROMPT_LANGUAGE}/restaction_agent.md").read() 
+    # Configure the client factory to support streaming
+    client_config = A2AClientConfig(
+        streaming=True,
+        polling=False,
+        supported_transports=[A2ATransport.jsonrpc],
+    )
+    a2a_client_factory = A2AClientFactory(config=client_config)
+
+    sub_agents = [
+        RemoteA2aAgent(
+            name=agent_name,
+            description=DESCRIPTION[agent_name],
+            # NOTE: k8s does not allow underscores in service names and ADK does not allow dashes in agent names
+            agent_card=f"http://{agent_name.replace("_","-")}:{PORT[agent_name]}{AGENT_CARD_WELL_KNOWN_PATH}",
+            # a2a_client_factory=a2a_client_factory # TODO: Uncomment when `https://github.com/google/adk-python/issues/3207` is resolved
+        )
+        for agent_name in AGENTS
+        if agent_name != "root_agent"   
+    ]
+
+    root_agent = Agent(
+        model=GEMINI_2_5_FLASH,
+        name="root_agent",
+        instruction=PROMPT["root_agent"],
+        description=DESCRIPTION["root_agent"],
+        global_instruction=PROMPT["global"],
+        sub_agents=sub_agents
+    )
+else:
+    from remote_agents.auth_agent.agent import root_agent as auth_agent
+    from remote_agents.blueprint_agent.agent import root_agent as blueprint_agent
+    from remote_agents.documentation_agent.agent import root_agent as documentation_agent
+    from remote_agents.portal_agent.agent import root_agent as portal_agent
+    from remote_agents.restaction_agent.agent import root_agent as restaction_agent
     
-# --- Restaction Agent ---
-restaction_agent = None
-try: 
-    restaction_agent = Agent(
-        name="restaction_agent",
-        model=GEMINI_2_5_PRO,
-        description="RESTAction Agent for Krateo Autopilot.", # crucial for delegation
-        instruction=RESTACTION_AGENT_PROMPT,
-    )
-    print(f"✅ Agent '{restaction_agent.name}' created using model '{restaction_agent.model}'.")
-except Exception as e:
-    print(f"❌ Could not create '{restaction_agent.name}' agent. Check API Key ({restaction_agent.model}). Error: {e}")
-
-# --- Portal Agent ---
-portal_agent = None
-try: 
-    portal_agent = Agent(
-        name="portal_agent",
-        model=GEMINI_2_5_PRO,
-        description="Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)", # Crucial for delegation
-        instruction=PORTAL_AGENT_PROMPT,
-        tools=[tools.portal.get_widgets, tools.portal.apply_manifest]
-    )
-    print(f"✅ Agent '{portal_agent.name}' created using model '{portal_agent.model}'.")    
-except Exception as e:
-    print(f"❌ Could not create '{portal_agent.name}' agent. Check API Key ({portal_agent.model}). Error: {e}")    
-
-# --- Composition Agent ---
-blueprint_agent = None
-try:
-    blueprint_agent = Agent(
-        model=GEMINI_2_5_PRO,
-        name="blueprint_agent",
-        instruction=BLUEPRINT_AGENT_PROMPT,
-        description="Creates Krateo compositions."# Crucial for delegation
-                    "Can apply manifests (e.g. composition, compositiondefinition) to the cluster.",
-        tools=[
-            tools.common.apply_manifest, 
-            tools.common.gen_values_schema_json,
-            tools.list_blueprints.list_blueprints,
-            tools.get_blueprint.get_blueprint,
-        ]
-    )
-    print(f"✅ Agent '{blueprint_agent.name}' created using model '{blueprint_agent.model}'.")
-except Exception as e:
-    print(f"❌ Could not create '{blueprint_agent.name}' agent. Check API Key ({blueprint_agent.model}). Error: {e}")    
-
-# --- Authentication Agent ---
-auth_agent = None
-try:
-    auth_agent = Agent(
-        model=GEMINI_2_5_FLASH,
-        name="auth_agent",
-        instruction=AUTHENTICATION_AGENT_PROMPT,
-        description="Handles Krateo login and authentication" # Crucial for delegation
-                    "It creates accounts in Krateo and answers questions about authentication."
-                    "Handles Questions about `authn`, user `Secrets`, or the `User` custom resource in Krateo.",
-        tools=[tools.common.apply_manifest, tools.common.get_admin_psw],
-    )
-    print(f"✅ Agent '{auth_agent.name}' created using model '{auth_agent.model}'.")
-except Exception as e:
-    print(f"❌ Could not create '{auth_agent.name}' agent. Check API Key ({auth_agent.model}). Error: {e}")      
-
-# --- Documentation Agent ---
-documentation_agent = None
-try:
-    documentation_agent = Agent(
-        model=GEMINI_2_5_FLASH,
-        name="documentation_agent",
-        instruction=DOCUMENTATION_AGENT_PROMPT,
-        description="Handles any questions about Krateo PlatformOps and its components.", # Crucial for delegation
-    )
-    print(f"✅ Agent '{documentation_agent.name}' created using model '{documentation_agent.model}'.")
-except Exception as e:
-    print(f"❌ Could not create Documentation agent. Check API Key ({documentation_agent.model}). Error: {e}")  
-
-# --- Root Agent ---    
+    sub_agents = [
+        auth_agent,
+        blueprint_agent,
+        documentation_agent,
+        portal_agent,
+        restaction_agent
+    ]
+    
 root_agent = Agent(
-    name="krateo_autopilot",
-    model=GEMINI_2_5_FLASH,
-    description="The main coordinator agent. Handles general questions about Krateo and delegates specific tasks to sub-agents."
-                "It uses the `install_krateo` tool to install Krateo PlatformOps on the current Kubernetes cluster.",
-    instruction=ROOT_AGENT_PROMPT,
-    tools=[tools.common.install_krateo],
-    sub_agents=[blueprint_agent, portal_agent, documentation_agent, auth_agent, restaction_agent]
+        model=GEMINI_2_5_FLASH,
+        name="root_agent",
+        instruction=PROMPT["root_agent"],
+        description=DESCRIPTION["root_agent"],
+        global_instruction=PROMPT["global"],
+        sub_agents=sub_agents
 )
