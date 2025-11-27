@@ -158,3 +158,7 @@ headers:
   - if the variable is named `metadata.namespace`, use `${ .json.metadata.namespace }`. 
 
 > NOTE: The Form creates the resource, NEVER use a restaction with a Form!
+
+> NOTE: The form DOES NOT have a `widgetData.title` field, DO NOT include it.
+
+> NOTE: when creating forms for compositions, it is important to get the apiversion right. Example composition.krateo.io/v0-1-0
