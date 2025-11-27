@@ -1,4 +1,4 @@
-# Default values for autopilot.
+# Default values for documentation-agent.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,11 +7,12 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: ghcr.io/krateoplatformops/autopilot
+  # repository: ghcr.io/krateoplatformops/documentation-agent
+  repository: redi21/documentation-agent
   # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: 0.0.1
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -56,9 +57,9 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 8084
+  port: 8003
   # Just in case of NodePort service
-  # nodePort: 8084
+  # nodePort: 8003
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -169,25 +170,10 @@ env:
   GOOGLE_CLOUD_LOCATION: europe-west8
   GOOGLE_GENAI_USE_VERTEXAI: true
   GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/key.json
-  ENABLE_A2A: "false"
 
 envFromSecret: []
 #  - name: GITHUB_TOKEN
 #    secretName: github-token
 #    key: token
 #    optional: true
-
-database:
-  enabled: true
-  instances: 1
-  annotations: {}
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.0-system-trixie
-  storage:
-    size: 2Gi
-
-waitForDatabase:
-  image: postgres:16
-  imagePullPolicy: IfNotPresent
-  hostSuffix: "-db-rw"
-  port: 5432
-  sleepSeconds: 2
+    

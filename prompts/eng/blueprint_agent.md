@@ -71,7 +71,7 @@ spec:
 
 #### Helm Repository
 
-```yaml
+```
 kubectl create secret generic helm-repo --from-literal=token=your_token -n krateo-system
 ```
 

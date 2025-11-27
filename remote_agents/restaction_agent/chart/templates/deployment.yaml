@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "autopilot.fullname" . }}
+  name: {{ include "restaction-agent.fullname" . }}
   labels:
-    {{- include "autopilot.labels" . | nindent 4 }}
+    {{- include "restaction-agent.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "autopilot.selectorLabels" . | nindent 6 }}
+      {{- include "restaction-agent.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "autopilot.labels" . | nindent 8 }}
+        {{- include "restaction-agent.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,49 +27,17 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "autopilot.serviceAccountName" . }}
+      serviceAccountName: {{ include "restaction-agent.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if .Values.database.enabled }}
-      initContainers:
-        - name: wait-for-db
-          image: {{ .Values.waitForDatabase.image | default "postgres:16" }}
-          imagePullPolicy: {{ .Values.waitForDatabase.imagePullPolicy | default "IfNotPresent" }}
-          command:
-            - sh
-            - -c
-            - |
-              echo "Waiting for database {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}:{{ .Values.waitForDatabase.port | default 5432 }} ..."
-              until pg_isready -h {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}.{{ .Release.Namespace }}.svc.cluster.local -p {{ .Values.waitForDatabase.port | default 5432 }}; do
-                echo "Database not ready yet, sleeping {{ .Values.waitForDatabase.sleepSeconds | default 2 }}s..."
-                sleep {{ .Values.waitForDatabase.sleepSeconds | default 2 }}
-              done
-              echo "Database is ready!"
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           envFrom:
             - configMapRef:
-                name: {{ include "autopilot.fullname" . }}
+                name: {{ include "restaction-agent.fullname" . }}
           env:
-            {{- if .Values.database.enabled }}
-            - name: DB_NAME
-              value: {{ include "autopilot.fullname" . }}-db
-            - name: CLUSTER_NAME
-              value: {{ include "autopilot.fullname" . }}-db
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "autopilot.dbSecretName" . }}
-                  key: username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "autopilot.dbSecretName" . }}
-                  key: password 
-            {{- end }}
             {{- range $secret := .Values.envFromSecret }}
             - name: {{ $secret.name }}
               valueFrom:

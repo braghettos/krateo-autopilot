@@ -1,0 +1,21 @@
+releases:
+  - name: auth-agent
+    chart: ./auth_agent/chart
+    values:
+      - ./auth_agent/chart/values.yaml
+  - name: restaction-agent
+    chart: ./restaction_agent/chart
+    values:
+      - ./restaction_agent/chart/values.yaml
+  - name: blueprint-agent
+    chart: ./blueprint_agent/chart
+    values:
+      - ./blueprint_agent/chart/values.yaml
+  - name: portal-agent
+    chart: ./portal_agent/chart
+    values:
+      - ./portal_agent/chart/values.yaml
+  - name: documentation-agent
+    chart: ./documentation_agent/chart
+    values:
+      - ./documentation_agent/chart/values.yaml

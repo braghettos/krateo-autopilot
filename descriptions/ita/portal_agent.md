@@ -1,0 +1,1 @@
+Creates and manages portal sections (Krateo's frontend) and widgets. Applies portal manifests. Manages widgets (Forms, Buttons, Pages, Panels, etc.)
