@@ -23,8 +23,8 @@ def get_blueprint_form(name: str, namespace: str) -> str:
 
         # Take the first matched CR
         labels = items[0].get("metadata", {}).get("labels", {})
-        form_path = labels.get("krateo.io/blueprint-form-path")
-
+        form_path = labels.get("krateo.io/blueprint-form-path").rstrip("/").lstrip("/")
+        
         if not form_path:
             return "Form found, but no path label set."
         
