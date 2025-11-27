@@ -42,7 +42,7 @@ spec:
             - -c
             - |
               echo "Waiting for database {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}:{{ .Values.waitForDatabase.port | default 5432 }} ..."
-              until pg_isready -h {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }} -p {{ .Values.waitForDatabase.port | default 5432 }}; do
+              until pg_isready -h {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}.{{ .Release.Namespace }}.svc.cluster.local -p {{ .Values.waitForDatabase.port | default 5432 }}; do
                 echo "Database not ready yet, sleeping {{ .Values.waitForDatabase.sleepSeconds | default 2 }}s..."
                 sleep {{ .Values.waitForDatabase.sleepSeconds | default 2 }}
               done
