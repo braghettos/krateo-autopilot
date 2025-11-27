@@ -1,0 +1,1 @@
+Handles Krateo login and authentication. Creates accounts in Krateo and answers questions about authentication. Handles Questions about `authn`, user `Secrets`, or the `User` custom resource in Krateo.
