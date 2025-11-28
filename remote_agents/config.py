@@ -19,17 +19,15 @@ AGENTS = [
 PROMPT_LANGUAGE = "eng" # Set to 'ita' or 'eng'
 PROMPT = {}
 DESCRIPTION = {}
-PORT = {}
 for i, agent in enumerate(AGENTS):
     with open(f"prompts/{PROMPT_LANGUAGE}/{agent}.md", "r", encoding="utf-8") as f:
         PROMPT[agent] = f.read()
         
     with open(f"descriptions/{PROMPT_LANGUAGE}/{agent}.md", "r", encoding="utf-8") as f:
         DESCRIPTION[agent] = f.read()
-    
-    PORT[agent] = 8001 + i
 
 PROMPT["global"] = "You are Krateo Autopilot."
+PORT = 8001
 
 # MORE SECURE ALTERNATIVE
 # def load_prompt(agent_name: str) -> str:
