@@ -18,4 +18,4 @@ try:
 except Exception as e:
     print(f"Could not create '{agent}' agent. Error: {e}")
 
-a2a_app = to_a2a(root_agent, port=PORT[agent], host=agent.replace("_","-"))
+a2a_app = to_a2a(root_agent, port=PORT, host=agent.replace("_","-"))
