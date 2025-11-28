@@ -28,7 +28,7 @@ if a2a_enabled:
             name=agent_name,
             description=DESCRIPTION[agent_name],
             # NOTE: k8s does not allow underscores in service names and ADK does not allow dashes in agent names
-            agent_card=f"http://{agent_name.replace("_","-")}:{PORT[agent_name]}{AGENT_CARD_WELL_KNOWN_PATH}",
+            agent_card=f"http://{agent_name.replace("_","-")}:{PORT}{AGENT_CARD_WELL_KNOWN_PATH}",
             # a2a_client_factory=a2a_client_factory # TODO: Uncomment when `https://github.com/google/adk-python/issues/3207` is resolved
         )
         for agent_name in AGENTS
