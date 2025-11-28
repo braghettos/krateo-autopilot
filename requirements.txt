@@ -1,2 +1,2 @@
-google-adk==1.17.0
+google-adk[a2a]==1.19.0
 psycopg2-binary==2.9.11

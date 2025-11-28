@@ -1,10 +1,14 @@
 import os
 from google.adk.agents import Agent
+import logging
+log = logging.getLogger(__name__)
+
 from remote_agents.config import *
 
 a2a_enabled = os.getenv("ENABLE_A2A", "false").lower() == "true"
 
 if a2a_enabled:
+    log.info("A2A is enabled. Configuring sub-agents as RemoteA2aAgents.")
     from google.adk.agents.remote_a2a_agent import AGENT_CARD_WELL_KNOWN_PATH
     from google.adk.agents.remote_a2a_agent import RemoteA2aAgent
     from a2a.client.client import ClientConfig as A2AClientConfig
@@ -30,16 +34,8 @@ if a2a_enabled:
         for agent_name in AGENTS
         if agent_name != "root_agent"   
     ]
-
-    root_agent = Agent(
-        model=GEMINI_2_5_FLASH,
-        name="root_agent",
-        instruction=PROMPT["root_agent"],
-        description=DESCRIPTION["root_agent"],
-        global_instruction=PROMPT["global"],
-        sub_agents=sub_agents
-    )
 else:
+    log.info("A2A is disabled. Configuring sub-agents as local Agents.")
     from remote_agents.auth_agent.agent import root_agent as auth_agent
     from remote_agents.blueprint_agent.agent import root_agent as blueprint_agent
     from remote_agents.documentation_agent.agent import root_agent as documentation_agent
@@ -53,12 +49,16 @@ else:
         portal_agent,
         restaction_agent
     ]
-    
-root_agent = Agent(
-        model=GEMINI_2_5_FLASH,
-        name="root_agent",
-        instruction=PROMPT["root_agent"],
-        description=DESCRIPTION["root_agent"],
-        global_instruction=PROMPT["global"],
-        sub_agents=sub_agents
-)
+
+root_agent = None
+try:
+    root_agent = Agent(
+            model=GEMINI_2_5_FLASH,
+            name="root_agent",
+            instruction=PROMPT["root_agent"],
+            description=DESCRIPTION["root_agent"],
+            global_instruction=PROMPT["global"],
+            sub_agents=sub_agents
+    )
+except Exception as e:
+    log.error(f"Could not create root_agent. Error: {e}")
