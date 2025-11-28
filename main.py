@@ -25,7 +25,7 @@ DB_NAME = os.getenv('DB_NAME')
 if all([CLUSTER_NAME, DB_USERNAME, DB_PASSWORD, DB_NAME]):
     DB_HOST = f"{CLUSTER_NAME}-rw"
     DB_PORT = 5432
-    SESSION_SERVICE_URI = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    SESSION_SERVICE_URI = f"postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     log.info(f"Using PostgreSQL session service at {DB_HOST}:{DB_PORT}/{DB_NAME}")
 else:
     SESSION_SERVICE_URI = "sqlite:///./sessions.db"
