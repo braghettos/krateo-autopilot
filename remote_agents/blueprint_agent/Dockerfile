@@ -34,15 +34,19 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 COPY --chown=autopilot:autopilot remote_agents/blueprint_agent/__init__.py __init__.py
 COPY --chown=autopilot:autopilot remote_agents/blueprint_agent/agent.py agent.py
 COPY --chown=autopilot:autopilot remote_agents/config.py config.py
-COPY --chown=autopilot:autopilot prompts/ prompts/
-COPY --chown=autopilot:autopilot descriptions/ descriptions/
+
+ARG AGENT_NAME="blueprint_agent"
+COPY --chown=autopilot:autopilot descriptions/eng/${AGENT_NAME}.md descriptions/eng/${AGENT_NAME}.md
+COPY --chown=autopilot:autopilot descriptions/ita/${AGENT_NAME}.md descriptions/ita/${AGENT_NAME}.md
+COPY --chown=autopilot:autopilot prompts/eng/${AGENT_NAME}.md prompts/eng/${AGENT_NAME}.md
+COPY --chown=autopilot:autopilot prompts/ita/${AGENT_NAME}.md prompts/ita/${AGENT_NAME}.md
+
 COPY --chown=autopilot:autopilot tools/common.py tools/common.py
 COPY --chown=autopilot:autopilot tools/list_blueprints.py tools/list_blueprints.py
 COPY --chown=autopilot:autopilot tools/get_blueprint.py tools/get_blueprint.py
 COPY --chown=autopilot:autopilot tools/get_blueprint_form.py tools/get_blueprint_form.py
 
 # Temporary monkey patch to enable a2a streaming
-COPY --chown=autopilot:autopilot remote_agents/to_a2a.py /tmp/custom_agent_to_a2a.py
-RUN cp /tmp/custom_agent_to_a2a.py /home/autopilot/.local/lib/python3.13/site-packages/google/adk/a2a/utils/agent_to_a2a.py 
+# COPY --chown=autopilot:autopilot remote_agents/to_a2a.py /home/autopilot/lib/python3.13/site-packages/google/adk/a2a/utils/agent_to_a2a.py
 
 CMD ["sh", "-c", "uvicorn agent:a2a_app --host 0.0.0.0 --port ${PORT}"]
