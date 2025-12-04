@@ -21,25 +21,20 @@ PROMPT_LANGUAGE = os.getenv("PROMPT_LANGUAGE", "eng") # "ita" or "eng"
 PROMPT = {}
 DESCRIPTION = {}
 for i, agent in enumerate(AGENTS):
-    with open(f"prompts/{PROMPT_LANGUAGE}/{agent}.md", "r", encoding="utf-8") as f:
-        PROMPT[agent] = f.read()
+    try:
+        with open(f"prompts/{PROMPT_LANGUAGE}/{agent}.md", "r", encoding="utf-8") as f:
+            PROMPT[agent] = f.read()
+    except FileNotFoundError:
+        pass
         
-    with open(f"descriptions/{PROMPT_LANGUAGE}/{agent}.md", "r", encoding="utf-8") as f:
-        DESCRIPTION[agent] = f.read()
+    try:
+        with open(f"descriptions/{PROMPT_LANGUAGE}/{agent}.md", "r", encoding="utf-8") as f:
+            DESCRIPTION[agent] = f.read()
+    except FileNotFoundError:
+        pass
 
-PROMPT["global"] = "You are Krateo Autopilot."
+PROMPT["global"] = "You are Krateo Autopilot, an advanced AI agent designed to assist platform engineers with the Krateo Platform."
 PORT = 8001
-
-# MORE SECURE ALTERNATIVE
-# def load_prompt(agent_name: str) -> str:
-#     with open(f"prompts/{PROMPT_LANGUAGE}/{agent_name}.md", "r", encoding="utf-8") as f:
-#         return f.read()
-
-# def load_description(agent_name: str) -> str:
-#     with open(f"descriptions/{PROMPT_LANGUAGE}/{agent_name}.md", "r", encoding="utf-8") as f:
-#         return f.read()
-
-# PORT = {agent: 8001 + i for i, agent in enumerate(AGENTS)}
 
 GENERATE_CONTENT_CONFIG=types.GenerateContentConfig(
     safety_settings=[
