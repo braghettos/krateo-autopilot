@@ -1,4 +1,5 @@
 from google.genai import types
+import os
 
 # --- Models ---
 GEMINI_2_5_FLASH = "gemini-2.5-flash"
@@ -16,7 +17,7 @@ AGENTS = [
 ]
 
 # --- Agents Prompts, Descriptions and Ports ---
-PROMPT_LANGUAGE = "eng" # Set to 'ita' or 'eng'
+PROMPT_LANGUAGE = os.getenv("PROMPT_LANGUAGE", "eng") # "ita" or "eng"
 PROMPT = {}
 DESCRIPTION = {}
 for i, agent in enumerate(AGENTS):
