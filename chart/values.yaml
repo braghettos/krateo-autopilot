@@ -170,6 +170,7 @@ env:
   GOOGLE_GENAI_USE_VERTEXAI: true
   GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/key.json
   ENABLE_A2A: "false"
+  PROMPT_LANGUAGE: "eng"
 
 envFromSecret: []
 #  - name: GITHUB_TOKEN
