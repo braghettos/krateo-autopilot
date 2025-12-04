@@ -41,8 +41,10 @@ SERVE_WEB_INTERFACE = True
 app: FastAPI = get_fast_api_app(
     agents_dir=AGENT_DIR,
     session_service_uri=SESSION_SERVICE_URI,
-    allow_origins=ALLOWED_ORIGINS,
+    allow_origins=ALLOWED_ORIGINS,  
     web=SERVE_WEB_INTERFACE,
+    logo_text="Krateo Autopilot",
+    logo_image_url="https://raw.githubusercontent.com/krateoplatformops/krateo-v2-docs/main/static/img/black-only-square.png"
 )
 
 # You can add more FastAPI routes or configurations below if needed
