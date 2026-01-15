@@ -28,12 +28,12 @@ USER autopilot
 ENV PATH="/home/autopilot/.local/bin:$PATH"
 WORKDIR /app
 
-COPY --chown=autopilot:autopilot remote_agents/documentation_agent/requirements.txt requirements.txt
+COPY --chown=autopilot:autopilot agents/documentation_agent/requirements.txt requirements.txt
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-COPY --chown=autopilot:autopilot remote_agents/documentation_agent/__init__.py __init__.py
-COPY --chown=autopilot:autopilot remote_agents/documentation_agent/agent.py agent.py
-COPY --chown=autopilot:autopilot remote_agents/config.py config.py
+COPY --chown=autopilot:autopilot agents/documentation_agent/__init__.py __init__.py
+COPY --chown=autopilot:autopilot agents/documentation_agent/agent.py agent.py
+COPY --chown=autopilot:autopilot agents/config.py config.py
 
 ARG AGENT_NAME="documentation_agent"
 COPY --chown=autopilot:autopilot descriptions/eng/${AGENT_NAME}.md descriptions/eng/${AGENT_NAME}.md
@@ -42,6 +42,6 @@ COPY --chown=autopilot:autopilot prompts/eng/${AGENT_NAME}.md prompts/eng/${AGEN
 COPY --chown=autopilot:autopilot prompts/ita/${AGENT_NAME}.md prompts/ita/${AGENT_NAME}.md
 
 # Temporary monkey patch to enable a2a streaming
-# COPY --chown=autopilot:autopilot remote_agents/to_a2a.py /home/autopilot/lib/python3.13/site-packages/google/adk/a2a/utils/agent_to_a2a.py
+# COPY --chown=autopilot:autopilot agents/to_a2a.py /home/autopilot/lib/python3.13/site-packages/google/adk/a2a/utils/agent_to_a2a.py
 
 CMD ["sh", "-c", "uvicorn agent:a2a_app --host 0.0.0.0 --port ${PORT}"]
