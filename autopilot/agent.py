@@ -2,10 +2,11 @@ import os
 from google.adk.agents import Agent
 import logging
 
-from remote_agents.config import (
+from agents.config import (
     AGENTS,
     DESCRIPTION,
     GEMINI_2_5_FLASH,
+    GEMINI_3_FLASH,
     PORT,
     PROMPT,
 )
@@ -44,11 +45,11 @@ def create_sub_agents() -> list[Agent]:
         ]
     else:
         log.info("A2A is disabled. Configuring sub-agents as local Agents.")
-        from remote_agents.auth_agent.agent import root_agent as auth_agent
-        from remote_agents.blueprint_agent.agent import root_agent as blueprint_agent
-        from remote_agents.documentation_agent.agent import root_agent as documentation_agent
-        from remote_agents.portal_agent.agent import root_agent as portal_agent
-        from remote_agents.restaction_agent.agent import root_agent as restaction_agent
+        from agents.auth_agent.agent import root_agent as auth_agent
+        from agents.blueprint_agent.agent import root_agent as blueprint_agent
+        from agents.documentation_agent.agent import root_agent as documentation_agent
+        from agents.portal_agent.agent import root_agent as portal_agent
+        from agents.restaction_agent.agent import root_agent as restaction_agent
         
         sub_agents = [
             auth_agent,
@@ -63,7 +64,7 @@ def create_sub_agents() -> list[Agent]:
 root_agent = None
 try:
     root_agent = Agent(
-        model=GEMINI_2_5_FLASH,
+        model=GEMINI_3_FLASH,
         name="root_agent",
         instruction=PROMPT["root_agent"],
         description=DESCRIPTION["root_agent"],

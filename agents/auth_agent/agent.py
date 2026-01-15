@@ -10,7 +10,7 @@ root_agent = None
 try:
     root_agent = Agent(
         name=agent,
-        model=GEMINI_2_5_FLASH,
+        model=GEMINI_3_FLASH,
         description=DESCRIPTION[agent],    
         instruction=PROMPT[agent],
         global_instruction=PROMPT["global"], 
