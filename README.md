@@ -41,7 +41,5 @@ kubectl apply --server-side -f \
 helm repo add krateo https://charts.krateo.io
 helm repo update krateo
 helm install autopilot krateo/autopilot \
-  --set env.GOOGLE_CLOUD_PROJECT=krateo-autopilot-123456 \
+  --set env.GOOGLE_CLOUD_PROJECT=<google-cloud-project-ID> \
 ```
-
-> Note: `krateo-autopilot-123456` should be replaced with your Google Cloud project ID.
