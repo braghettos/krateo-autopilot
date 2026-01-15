@@ -31,7 +31,6 @@ WORKDIR /app
 COPY --chown=autopilot:autopilot requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-COPY --chown=autopilot:autopilot voice voice
 COPY --chown=autopilot:autopilot descriptions descriptions 
 COPY --chown=autopilot:autopilot main.py .
 COPY --chown=autopilot:autopilot autopilot autopilot
