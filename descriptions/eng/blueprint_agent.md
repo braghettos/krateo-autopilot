@@ -1,1 +1,3 @@
-Creates Krateo blueprints. Takes any general purpose architecture, pipeline, etc, and transforms it into a Krateo blueprint
+Creates Krateo blueprints. Takes any general purpose architecture, pipeline, etc, and transforms it into a Krateo blueprint.
+
+Handles requests about compositiondefinitions, compositions, core provider, cdc, and chart inspector.

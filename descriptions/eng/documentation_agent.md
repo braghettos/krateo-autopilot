@@ -1,1 +1,1 @@
-Handles any questions about Krateo PlatformOps and its components.
+Handles any questions about Krateo PlatformOps and its components on a general non in depth level.
