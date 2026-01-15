@@ -21,7 +21,7 @@ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stabl
 && rm kubectl
 
 # Install krateoctl
-RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh 0.8.9 | bash
+RUN curl -sL https://raw.githubusercontent.com/krateoplatformops/krateoctl/main/install.sh | bash -s -- 0.8.9
 
 RUN adduser --disabled-password --gecos "" autopilot
 USER autopilot
@@ -31,12 +31,12 @@ WORKDIR /app
 COPY --chown=autopilot:autopilot requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-COPY --chown=autopilot:autopilot prompts prompts
 COPY --chown=autopilot:autopilot descriptions descriptions 
 COPY --chown=autopilot:autopilot main.py .
 COPY --chown=autopilot:autopilot autopilot autopilot
-COPY --chown=autopilot:autopilot remote_agents remote_agents
-COPY --chown=autopilot:autopilot remote_agents/config.py config.py
 COPY --chown=autopilot:autopilot tools tools
+COPY --chown=autopilot:autopilot agents agents
+COPY --chown=autopilot:autopilot agents/config.py config.py
+COPY --chown=autopilot:autopilot prompts prompts
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]

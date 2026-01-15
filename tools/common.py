@@ -1,5 +1,4 @@
 import os
-import json
 import logging
 import subprocess
 import yaml
@@ -7,30 +6,6 @@ import tempfile
 import uuid
 
 log = logging.getLogger(__name__)
-
-def create_file(filename: str, content: str) -> str:
-    """Creates a file with the given content, including any necessary subdirectories.
-    
-    Args:
-        filename (str): The name of the file to create.
-        content (str): The content to write to the file.
-    
-    Returns:
-        str: A message indicating success or failure.
-    """
-    try:
-        directory = os.path.dirname(filename)
-        
-        # Create the directory if it does not exist
-        if directory:
-            os.makedirs(directory, exist_ok=True)
-            
-        with open(filename, 'w') as f:
-            f.write(content)
-            
-        return f"File '{filename}' created successfully."
-    except Exception as e:
-        return f"Error creating file '{filename}': {str(e)}"
 
 def apply_manifest(manifest: str) -> str:
     """
@@ -121,23 +96,6 @@ def install_krateo(installation_method: int) -> str:
         return f"Installation failed with error:\n{e.stderr}"
     except FileNotFoundError:
         return "Script install_krateo.sh not found or not executable."
-    
-def read_file(file_path: str) -> str:
-    """Reads the content of a file.
-
-    Args:
-        file_path (str): The path to the file.
-
-    Returns:
-        str: The content of the file or an error message if the file cannot be read.
-    """
-    try:
-        log.debug(f"Reading file at path: {file_path}")
-        with open(file_path, 'r') as file:
-            return file.read()
-    except Exception as e:
-        log.error(f"Error reading file '{file_path}': {e}")
-        return f"Error reading file '{file_path}': {str(e)}"
 
 def gen_values_schema_json(values: str) -> str:
     """
@@ -213,3 +171,38 @@ def get_admin_psw() -> str:
     except Exception as e:
         log.error(f"An unexpected error occurred: {e}")
         return f"An unexpected error occurred: {e}"
+
+def validate_yaml(yaml_content: str) -> str:
+    """
+    Validates if the provided string is a valid Kubernetes YAML using kubectl dry-run.
+    If you have multiple yaml files to verify, append them with the '---' separator.
+
+    Args:
+        yaml_content (str): The YAML content as a string.
+
+    Returns:
+        str: A message indicating whether the YAML is valid or not.
+    """
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as temp_file:
+        temp_file.write(yaml_content)
+        temp_file_path = temp_file.name
+    
+    try:
+        result = subprocess.run(
+            ['kubectl', 'apply', '--dry-run=server', '-f', temp_file_path],
+            capture_output=True,
+            text=True,
+        )
+        
+        if result.returncode == 0:
+            return f"YAML is valid."
+        else:
+            return f"YAML is invalid. Error:\n{result.stderr}"
+        
+    except Exception as e:
+        return f"An error occurred during validation: {str(e)}"
+    
+    finally:
+        # Clean up the temporary file
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
