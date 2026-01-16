@@ -2,11 +2,6 @@ name: release-autopilot-tag
 
 on:
   push:
-    paths:
-      - Dockerfile
-      - main.py
-      - 'autopilot/**'
-      - 'tools/**'
     tags:
       - 'autopilot/[0-9]+.[0-9]+.[0-9]+'
 
@@ -42,7 +37,7 @@ jobs:
         with:
           images: ${{ env.GHCR_REPO }}
           tags: |
-            type=semver,pattern={{version}},prefix=autopilot/
+            type=semver,pattern={{version}}
 
       - name: Build and push multi-arch image
         uses: docker/build-push-action@v5
