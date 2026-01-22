@@ -25,8 +25,9 @@ spec:
       headers: []                  # Optional: e.g. 'Accept: application/vnd.github+json'
       payload: |                   # Optional: Request body (for POST, PUT, etc.).
         '{ <payload> }'
-      dependsOn:                   # Optional: sequential calls
+      dependsOn:                   # Optional: sequential calls or iteration
         name: <previous-call>      # Make this call only once the previous one is complete
+        iterator: <jq-expression>  # Optional: execute this call for each item in the array (must be an array of objects)
       continueOnError: true/false  # Optional: for RBAC scenarios
       errorKey: <error-var>        # Optional: store errors
       exportJwt: true/false        # Optional: forward user JWT for calls to other restactions
@@ -86,7 +87,24 @@ spec:
 ```
 **Constraint:** Each call depends on max 1 previous call.
 
-## 4. Call Another RESTAction
+## 4. Iterative Calls
+```yaml
+spec:
+  api:
+  - name: getNamespaces
+    path: /api/v1/namespaces
+    filter: "[.items[].metadata.name]"
+
+  - name: getPods
+    dependsOn:
+      name: getNamespaces
+      iterator: ".getNamespaces"
+    path: "${ \"/api/v1/namespaces/\" + . + \"/pods\" }"
+    verb: GET
+```
+**Note**: The iterator field executes the call once for each element in the `iterator` array returned by the jq expression. Within the iterated call, `.` refers to the current iteration item.
+
+## 5. Call Another RESTAction
 ```yaml
 spec:
   api:
@@ -101,7 +119,7 @@ spec:
     errorKey: err
 ```
 
-## 5. Table Widget Data Format
+## 6. Table Widget Data Format
 Use this filter to format data for `Table` widgets:
 ```yaml
 filter: >
@@ -113,7 +131,7 @@ filter: >
   }
 ```
 
-## 6. Composition Status Integration
+## 7. Composition Status Integration
 Compositions have `status.managed` with resource refs indicating the resources instantiated by that composition:
 ```yaml
 status:
@@ -128,4 +146,4 @@ status:
 # Key Rules
 - **Filters:** Use jq syntax. Access call results via `.<variable-name>`
 - **Global filter:** Applied to all calls in the restaction
-- **Dependencies:** Linear chains only (A->B->C, not A+B→C)
+- **Dependencies:** Linear chains only (A->B->C, not A+B->C)
