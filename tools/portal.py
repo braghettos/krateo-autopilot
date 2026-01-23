@@ -40,26 +40,6 @@ def get_widgets(widgets: list[str]) -> dict[str, str]:
     """
     return {widget: get_widget(widget) for widget in widgets}
 
-def validate_yaml(content: str) -> bool:
-    command = ['kubectl', 'apply', '--dry-run=server', '-f', '-']
-
-    try:
-        result = subprocess.run(
-            command,
-            input=content,
-            capture_output=True,
-            text=True,
-            check=False 
-        )
-
-        if result.returncode == 0:
-            return True
-        else:
-            raise ValueError(result.stderr.strip())
-
-    except Exception as e:
-        raise ValueError(f"Unexpected error: {str(e)}")
-
 def apply_manifest(manifest: str) -> str:
     """
     Applies a Kubernetes manifest from a string to the Kubernetes cluster.
