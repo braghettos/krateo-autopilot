@@ -2,8 +2,8 @@ from google.adk.agents import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 
 from config import *
-from tools.portal import get_widgets, apply_manifest
-from tools.common import validate_yaml
+from tools.portal import get_widgets
+from tools.common import validate_yaml, apply_manifest
 
 agent = "portal_agent"
 root_agent = None

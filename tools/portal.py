@@ -27,7 +27,7 @@ def get_widget(widget: str) -> str:
         log.error(f"Error reading file '{widget_path}': {e}")
         return f"Error reading file '{widget_path}': {str(e)}"
 
-def get_widgets(widgets: list[str]) -> dict[str, str]:
+def get_widgets(widgets: list[str]) -> list[str, str]:
     """
     Get the detailed specifications for a list of widgets.
 
@@ -36,35 +36,6 @@ def get_widgets(widgets: list[str]) -> dict[str, str]:
         "Filter", "FlowChart", "Form", "LineChart", "Markdown", "NavMenu", "NavMenuItem", "Page", "Panel", "Paragraph",
         "PieChart", "Route", "RoutesLoader", "Row", "Table", "TabList", "YamlViewer".
     Returns:
-        dict[str, str]: A dictionary mapping each widget string to its detailed specification.
+        list[str, str]: A list of tuples mapping each widget string to its detailed specification.
     """
-    return {widget: get_widget(widget) for widget in widgets}
-
-def apply_manifest(manifest: str) -> str:
-    """
-    Applies a Kubernetes manifest from a string to the Kubernetes cluster.
-    
-    Args:
-        manifest (str): The string content of the YAML manifest to apply..
-        
-    Returns:
-        str: The stdout message from kubectl indicating success, or an error message.
-    """
-    
-    try:
-        validate_yaml(manifest)
-    except ValueError as ve:
-        return f"Manifest validation failed: {str(ve)}"
-
-    try:
-        result = subprocess.run(
-            ["kubectl", "apply", "-f", "-"],
-            capture_output=True,
-            text=True,
-            input=manifest,  # Pass the YAML string as input
-            check=True       # Raise an error if kubectl fails
-        )
-        return result.stdout.strip()
-
-    except Exception as e:
-        return f"Unexpected error: {str(e)}"
+    return [get_widget(widget) for widget in widgets]
