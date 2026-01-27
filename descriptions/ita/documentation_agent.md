@@ -1,5 +1,1 @@
-Handles any questions about Krateo PlatformOps and its components.
-
-This includes, but is not limited to:
-- AzureDevops
-- KOG
+Gestisce qualsiasi domanda su Krateo PlatformOps e sui suoi componenti non già gestiti dall’agente blueprint.

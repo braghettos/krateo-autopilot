@@ -1,1 +1,1 @@
-Handles Krateo login and authentication. Creates accounts in Krateo and answers questions about authentication. Handles Questions about `authn`, user `Secrets`, or the `User` custom resource in Krateo.
+Gestisce il login e l’autenticazione di Krateo. Crea account in Krateo e risponde a domande sull’autenticazione. Gestisce domande relative a authn, ai Secrets degli utenti o alla risorsa personalizzata User in Krateo.
