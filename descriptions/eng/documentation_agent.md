@@ -1,1 +1,1 @@
-Handles any questions about Krateo PlatformOps and its components on a general non in depth level.
+Handles any questions about Krateo PlatformOps and its components not already handled by the blueprint agent.
