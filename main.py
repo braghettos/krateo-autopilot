@@ -1,58 +1,83 @@
 # Taken from https://google.github.io/adk-docs/deploy/gke/#code-files
 
+import logging
 import os
 
 import uvicorn
 from fastapi import FastAPI
 from google.adk.cli.fast_api import get_fast_api_app
-import logging
 
+# Configure logging
+log_level = os.getenv('LOG_LEVEL', 'INFO').upper()
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=getattr(logging, log_level, logging.INFO),
     format="[%(levelname)s] - [%(asctime)s] - [%(name)s]: %(message)s"
 )
 log = logging.getLogger(__name__)
+print(f"Logging level set to: {log_level}")
 
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Session serivce set up
-CLUSTER_NAME = os.getenv('CLUSTER_NAME')
-DB_USERNAME = os.getenv('DB_USERNAME')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-DB_NAME = os.getenv('DB_NAME')
-
-if all([CLUSTER_NAME, DB_USERNAME, DB_PASSWORD, DB_NAME]):
-    DB_HOST = f"{CLUSTER_NAME}-rw"
-    DB_PORT = 5432
-    SESSION_SERVICE_URI = f"postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-    log.info(f"Using PostgreSQL session service at {DB_HOST}:{DB_PORT}/{DB_NAME}")
-else:
-    SESSION_SERVICE_URI = "sqlite:///./sessions.db"
-    log.info("Using local SQLite session service")
+DEFAULT_PORT = 8080
+DEFAULT_DB_PORT = 5432
+SQLITE_SESSION_URI = "sqlite:///./sessions.db"
 
 # Example allowed origins for CORS
-ALLOWED_ORIGINS = ["http://localhost", "http://localhost:8080", "*"]
-# Set web=True if you intend to serve a web interface, False otherwise
-SERVE_WEB_INTERFACE = True
+ALLOWED_ORIGINS = [
+    "http://localhost",
+    "http://localhost:8080",
+    "*"
+]
 
-# Call the function to get the FastAPI app instance
-# Ensure the agent directory name ('capital_agent') matches your agent folder
-app: FastAPI = get_fast_api_app(
-    agents_dir=AGENT_DIR,
-    session_service_uri=SESSION_SERVICE_URI,
-    allow_origins=ALLOWED_ORIGINS,  
-    web=SERVE_WEB_INTERFACE,
-    logo_text="Krateo Autopilot",
-    logo_image_url="https://raw.githubusercontent.com/krateoplatformops/krateo-v2-docs/main/static/img/black-only-square.png"
-)
+LOGO_CONFIG = {
+    "text": "Krateo Autopilot",
+    "image_url": "https://raw.githubusercontent.com/krateoplatformops/krateo-v2-docs/main/static/img/black-only-square.png"
+}
 
-# You can add more FastAPI routes or configurations below if needed
+def get_session_service_uri() -> str:
+    """Construct the session service URI."""
+    cluster_name = os.getenv('CLUSTER_NAME')
+    db_username = os.getenv('DB_USERNAME')
+    db_password = os.getenv('DB_PASSWORD')
+    db_name = os.getenv('DB_NAME')
+    
+    if all([cluster_name, db_username, db_password, db_name]):
+        db_host = f"{cluster_name}-rw"
+        uri = (
+            f"postgresql+asyncpg://{db_username}:{db_password}"
+            f"@{db_host}:{DEFAULT_DB_PORT}/{db_name}"
+        )
+        log.info(f"Using PostgreSQL session service at {db_host}:{DEFAULT_DB_PORT}/{db_name}")
+        return uri
+    
+    log.info("Using local SQLite session service")
+    return SQLITE_SESSION_URI
+
+
+def create_app() -> FastAPI:
+    """Create the FastAPI application."""
+    session_uri = get_session_service_uri()
+    
+    return get_fast_api_app(
+        agents_dir=AGENT_DIR,
+        session_service_uri=session_uri,
+        allow_origins=ALLOWED_ORIGINS,
+        web=True,
+        logo_text=LOGO_CONFIG["text"],
+        logo_image_url=LOGO_CONFIG["image_url"]
+    )
+
+# Initialize the FastAPI app
+app = create_app()
+
+# Additional routes can be added here
 # Example:
-# @app.get("/hello")
-# async def read_root():
-#     return {"Hello": "World"}
+# @app.get("/health")
+# async def health_check():
+#     return {"status": "healthy"}
 
 if __name__ == "__main__":
-    # Use the PORT environment variable provided by Cloud Run, defaulting to 8080
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    """Run the application server."""
+    port = int(os.environ.get("PORT", DEFAULT_PORT))
+    uvicorn.run(app, host="0.0.0.0", port=port)
