@@ -1,0 +1,6 @@
+README.md
+CHANGELOG.md
+docker-compose.yml
+Dockerfile
+tools/azure.github.io/
+tools/populate_crd_db.py

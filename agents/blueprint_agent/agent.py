@@ -5,6 +5,7 @@ from config import *
 from tools.common import apply_manifest, gen_values_schema_json
 from tools.list_blueprints import list_blueprints
 from tools.get_blueprint import get_blueprint
+from tools.get_marketplace_blueprint import get_marketplace_blueprint, list_marketplace_blueprints
 
 agent = "blueprint_agent"
 root_agent = None
@@ -21,7 +22,9 @@ try:
             apply_manifest,
             gen_values_schema_json,
             list_blueprints,
-            get_blueprint 
+            get_blueprint,
+            get_marketplace_blueprint,
+            list_marketplace_blueprints
         ]
     )
 except Exception as e:
