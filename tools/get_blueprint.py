@@ -1,34 +1,29 @@
 import subprocess
 import json
-import requests
 import tarfile
-from urllib.parse import urljoin
-import io
+from pathlib import Path
 import logging
 import tempfile
-from pathlib import Path
-import os
-from tools.get_blueprint_form import get_blueprint_form
+
 log = logging.getLogger(__name__)
 
-def is_relevant_file(member, repo) -> bool:
+def _is_relevant_file(member: str) -> bool:
     """Return True if this file should be included in files_content."""
     if member.endswith("_helpers.tpl"):
         return False
     return (
         "templates/" in member or
-        member in {f"{repo}/Chart.yaml", f"{repo}/values.yaml"}
+        member.endswith("/Chart.yaml") or
+        member.endswith("/values.yaml")
     )
-    
-def get_blueprint_files_from_helm_repo(chart_url: str, repo: str) -> list[str]:
-    response = requests.get(chart_url)
-    response.raise_for_status()
-    chart_bytes = io.BytesIO(response.content)
-    
+
+def _extract_chart_files(chart_path: Path) -> list[str]:
+    """Extract and read relevant files from a Helm chart tarball."""
     files_content = []
-    with tarfile.open(fileobj=chart_bytes, mode="r:gz") as tar:
+    
+    with tarfile.open(chart_path, mode="r:gz") as tar:
         for member in tar.getmembers():
-            if member.isfile() and is_relevant_file(member.name, repo):
+            if member.isfile() and _is_relevant_file(member.name):
                 f = tar.extractfile(member)
                 if f:
                     content = f.read().decode("utf-8")
@@ -36,43 +31,114 @@ def get_blueprint_files_from_helm_repo(chart_url: str, repo: str) -> list[str]:
     
     return files_content
 
-def get_blueprint_files_from_oci_registry(chart_url: str) -> list[str]:
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmpdir_path = Path(tmpdir)
-        subprocess.run(
-            ["helm", "pull", chart_url, "--untar", "--untardir", str(tmpdir_path)],
-            check=True
-        )
-
-        file_contents = []
-        for root, _, files in os.walk(tmpdir_path):
-            for file in files:
-                file_path = Path(root) / file
-                
-                if is_relevant_file(str(file_path), str(root)):
-                    content = file_path.read_text(encoding="utf-8")
-                    file_contents.append(f"# File: {file_path.relative_to(tmpdir_path)}\n{content}")
+def _get_blueprint_files(chart: dict) -> list[str]:
+    """
+    Download a Helm or OCI chart using `helm pull` and return the contents 
+    of each relevant file inside the chart as a list of strings.
     
-        return file_contents
- 
-def get_blueprint_files(chart) -> list[str]:
+    Args:
+        chart: Dictionary containing chart information with keys:
+               - url (str): The chart URL or repo URL
+               - version (str, optional): The chart version
+               - repo (str, optional): The chart name (for Helm repos) or additional path component (for OCI)
+    
+    Returns:
+        list[str]: A list of strings, each representing a file's content
+    
+    Raises:
+        ValueError: If chart is missing required fields
+        RuntimeError: If helm pull fails
     """
-    Download a Helm or OCI chart and return the contents of each file
-    inside the chart as a list of strings.
-    """
-    log.info(f"Downloading chart: {chart}")
+    log.debug(f"Downloading chart: {chart}")
+    
+    # Validate chart structure
+    if not isinstance(chart, dict):
+        log.error(f"Invalid chart type: expected dict, got {type(chart).__name__}")
+        raise ValueError(f"Chart must be a dictionary, got {type(chart).__name__}")
+    
     url = chart.get("url")
+    if not url:
+        log.error("Chart is missing required 'url' field")
+        raise ValueError("Chart must contain a 'url' field")
+    
     version = chart.get("version")
     repo = chart.get("repo")
     
-    if repo: # Helm registry
-        chart_filename = f"{repo}-{version}.tgz"
-        chart_url = urljoin(url + "/", chart_filename)
-        return get_blueprint_files_from_helm_repo(chart_url, repo)
-    else: # OCI registry
-        chart_url = f"{url}:{version}" if version else url
-        return get_blueprint_files_from_oci_registry(chart_url)
-    
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmpdir_path = Path(tmpdir)
+        
+        try:
+            is_oci = url.startswith("oci://")
+            
+            if is_oci:  # OCI registry
+                if repo:
+                    chart_url = f"{url}/{repo}"
+                else:
+                    chart_url = url
+                
+                # Add version if provided
+                if version:
+                    chart_url = f"{chart_url}:{version}"
+                
+                log.debug(f"Processing OCI chart from URL '{chart_url}'")
+                
+                # Pull the OCI chart
+                pull_cmd = ["helm", "pull", chart_url, "--destination", str(tmpdir_path)]
+                log.debug(f"Pulling OCI chart: {chart_url}")
+                subprocess.run(pull_cmd, check=True, capture_output=True)
+            
+            else:  # Traditional Helm registry
+                if not repo:
+                    log.error("Helm chart is missing required 'repo' field")
+                    raise ValueError("Helm chart (non-OCI) must contain a 'repo' field")
+                
+                if not version:
+                    log.error("Helm chart is missing required 'version' field")
+                    raise ValueError("Helm chart (with 'repo') must contain a 'version' field")
+                
+                log.debug(f"Processing Helm chart '{repo}' from registry '{url}' version '{version}'")
+                
+                # Add and update the Helm repo (using a fixed alias name)
+                repo_alias = "temp-repo"
+                subprocess.run(
+                    ["helm", "repo", "add", repo_alias, url],
+                    check=True,
+                    capture_output=True
+                )
+                subprocess.run(
+                    ["helm", "repo", "update", repo_alias],
+                    check=True,
+                    capture_output=True
+                )
+                
+                # Pull the chart (repo is the chart name)
+                chart_ref = f"{repo_alias}/{repo}"
+                log.debug(f"Pulling Helm chart: {chart_ref} version {version}")
+                subprocess.run(
+                    ["helm", "pull", chart_ref, "--version", version, "--destination", str(tmpdir_path)],
+                    check=True,
+                    capture_output=True
+                )
+            
+            # Find the downloaded .tgz file
+            tgz_files = list(tmpdir_path.glob("*.tgz"))
+            if not tgz_files:
+                raise RuntimeError("No .tgz file found after helm pull")
+            
+            chart_path = tgz_files[0]
+            log.debug(f"Extracting chart from: {chart_path}")
+            
+            return _extract_chart_files(chart_path)
+        
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.decode() if e.stderr else str(e)
+            log.exception(f"Helm command failed: {error_msg}")
+            raise RuntimeError(f"Failed to pull chart: {error_msg}") from e
+        
+        except Exception as e:
+            log.exception(f"Failed to download chart from {url}")
+            raise RuntimeError(f"Failed to download chart: {type(e).__name__}: {str(e)}") from e
+
 def get_blueprint(name: str, namespace: str) -> list[str]:
     """
     Get the files of a specific blueprint by name and namespace.
@@ -82,7 +148,6 @@ def get_blueprint(name: str, namespace: str) -> list[str]:
     - Customization Options: list the options available in values.yaml
     - Composition example: an example composition.yaml for this blueprint. in the api version, make sure to use the version that Chart.yaml version
     - Blueprint form: provide the link to the form if available.
-    
     
     Args:
         name (str): The name of the blueprint.
@@ -101,13 +166,45 @@ def get_blueprint(name: str, namespace: str) -> list[str]:
             "-o", "json"
         ]
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-        data = json.loads(result.stdout).get("items", [])[0]
-        chart = data.get("spec").get("chart")
+        log.debug(f"kubectl output: {result.stdout}")
         
-        blueprint_form = get_blueprint_form(name, namespace)
-        blueprint_files = get_blueprint_files(chart)
-        return blueprint_files + [blueprint_form]
-       
+        data = json.loads(result.stdout)
+        items = data.get("items", [])
+        
+        # Handle case where no resources are found
+        if not items:
+            log.warning(f"CompositionDefinition '{name}' not found in namespace '{namespace}'")
+            return [f"Error: CompositionDefinition '{name}' not found in namespace '{namespace}'. "
+                    f"Please verify the blueprint name and namespace are correct."]
+        
+        # Get the first item (should be the only one with field-selector)
+        resource = items[0]
+        
+        # Check if spec and chart exist
+        spec = resource.get("spec")
+        if not spec:
+            log.error(f"CompositionDefinition '{name}' has no spec field")
+            return [f"Error: CompositionDefinition '{name}' is malformed (missing 'spec' field)"]
+        
+        chart = spec.get("chart")
+        if not chart:
+            log.error(f"CompositionDefinition '{name}' has no chart in spec")
+            return [f"Error: CompositionDefinition '{name}' is malformed (missing 'spec.chart' field)"]
+        
+        return _get_blueprint_files(chart)
+    
+    except subprocess.CalledProcessError as e:
+        log.error(f"kubectl command failed: {e.stderr}")
+        return [f"Error: Failed to query Kubernetes. Details: {e.stderr.strip() if e.stderr else str(e)}"]
+    
+    except json.JSONDecodeError as e:
+        log.error(f"Failed to parse kubectl output as JSON: {e}")
+        return [f"Error: Invalid response from Kubernetes API (JSON parsing failed)"]
+    
+    except IndexError:
+        log.warning(f"CompositionDefinition '{name}' not found in namespace '{namespace}'")
+        return [f"Error: CompositionDefinition '{name}' not found in namespace '{namespace}'"]
+    
     except Exception as e:
-        return [f"Unexpected error: {str(e)}"]
-
+        log.exception(f"Unexpected error while getting blueprint '{name}' in namespace '{namespace}'")
+        return [f"Unexpected error: {type(e).__name__}: {str(e)}"]
