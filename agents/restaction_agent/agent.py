@@ -1,7 +1,7 @@
 from google.adk.agents import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 
-from config import *
+from ..config import *
 
 agent = "restaction_agent"
 root_agent = None

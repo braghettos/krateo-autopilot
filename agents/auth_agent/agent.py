@@ -1,7 +1,7 @@
 from google.adk.agents import Agent
 from google.adk.a2a.utils.agent_to_a2a import to_a2a
 
-from config import *
+from ..config import *
 from tools.common import apply_manifest, get_admin_psw
 
 agent = "auth_agent"
@@ -10,7 +10,7 @@ root_agent = None
 try:
     root_agent = Agent(
         name=agent,
-        model=GEMINI_3_FLASH,
+        model=GEMINI_2_5_FLASH,
         description=DESCRIPTION[agent],    
         instruction=PROMPT[agent],
         global_instruction=PROMPT["global"], 
