@@ -26,3 +26,4 @@ Manages all widgets:
     - yamlviewer
     
 ALWAYS delegate the portal_agent when tasked with creating widgets.
+All question pertaining the portal must be forwarded to the portal agent.

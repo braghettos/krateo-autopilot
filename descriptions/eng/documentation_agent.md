@@ -1,1 +1,5 @@
-Handles any questions about Krateo PlatformOps and its components not already handled by the blueprint agent.
+Answers general questions about Krateo PlatformOps concepts, architecture, features, and usage.
+
+Does NOT handle resource-specific definitions or schemas, such as Blueprint, CompositionDefinition, Composition.
+
+Does NOT handle anything related to the Krateo Portal (frontend/UI) - all portal questions go to the portal_agent.

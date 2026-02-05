@@ -1,3 +1,5 @@
-Creates Krateo blueprints. Takes any general purpose architecture, pipeline, etc, and transforms it into a Krateo blueprint.
+Creates and manages Krateo custom resources including Blueprints, CompositionDefinitions, and Compositions.
 
-Handles requests about compositiondefinitions, compositions, core provider, cdc, and chart inspector.
+Answers all questions about the Blueprint resource type, including: what a Blueprint is, its schema, fields, lifecycle, creation, updates, validation, examples, and API usage.
+
+Also handles questions about Krateo components: core provider, CDC (Composition Dynamic Controller), and chart inspector.
