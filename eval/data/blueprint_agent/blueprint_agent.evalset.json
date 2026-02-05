@@ -1,0 +1,844 @@
+{
+  "eval_set_id": "blueprint_agent",
+  "name": "blueprint_agent",
+  "eval_cases": [
+    {
+      "eval_id": "what_is_a_blueprint",
+      "conversation": [
+        {
+          "invocation_id": "e-d0e076db-375a-4cd1-98ee-06496f40d36a",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is a blueprint"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "In Krateo, a **Blueprint** refers to a Helm chart that is used within a `CompositionDefinition`.\n\nThink of it as the template or the \"source code\" for a Composition. When you create a `CompositionDefinition`, you point it to a specific Blueprint (Helm chart). Krateo then uses this Blueprint to generate a new Custom Resource Definition (CRD), allowing you to deploy instances of that application or infrastructure pattern.\n\nIn summary:\n*   **Blueprint**: The Helm chart containing the logic and templates.\n*   **CompositionDefinition**: The Krateo resource that registers the Blueprint.\n*   **Composition**: An actual deployed instance of the Blueprint.",
+                "thought_signature": "Co4FAY89a19YlIfh8MQIxPTo7BNCshS1d4M2UnuaK8WKhrvDCW61QTt7SiBs7rS-kmEwpbkkpqY2d5OHoPrYP3bL3NsRtmrvmZUPGH4VNIPaqKT9OJSs-WNZyW5j97sytGuT4JFTVdvFPXUoUK_QQOswIuT9BFrp928sFftzDQr-M3YgWbCxu-urFgSwGSf6Ckk52IRnw5dLXekMlxG_LDEvEtjHrSfVoPqN6yqDzWJz-9qCoFPiB2ggQpRFOi0VoNAcg2aYFJDF0njbD3MRXPP47wk0r9LptPpdNDZ28GDqOFYrlwByF5YVES3PcXlpcCKqZBrFMCWC2An0iaylNVvHFuimw5CYOluYeEN5GIFAPb4WbrYNxp9qVF_-2rG4DTI6fxjdiGs8osOhkuwMAySBaD13Qj9xThxiiyrlMRnmeZyYsTTP8TA1srPFGJopcE0uEGhxMxgoBTocTORJkJusF4Txu73i0HsGDngEcWTzGcB84FBE8r7wyD0SQa_K1C51DiK-vximHSzqU_O2ZVVnhNwCIMGhk_XXlGG2O1Q3ZnXXBTCo1TkGV3ByUk3kRjLLnzsKQVcrW3eX5I22gBTQaOMYamiNPoJpWLNTrCn03Zm9uLWiROwJ4PbL9wWmSxPn0YP_cRmN4XnKYB1FtKLJd5q3eYC-Nmk57RY4vEhjXuoEiOEEvxrQ37gB2-tDEHHWVEzAqPuIg-zi4_CUqHPLJvTuPaigRXPKoqI-RFvPcXLTD_XJm-C5kW-IUmS7sDutLOuXkbhy93mIz9HTWBPCKvvEcWn3cD0_6gb19oV0Dpxd-wiR9rkevjzJAjFrY-fAWzq7VLgZhYk77je_k800CmhtOWTCrhAaQnOaIdSr"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-c68c7766-19ca-490b-a7b2-8a140295f6df",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CrEDAY89a1__dNPtHKSZkE8M_GXCj2h2S7N-p3lNksVLYA3zqLmUz_xnkJRQ_FTk4f4ylIYn5G0SddU3x6P5JsW3o3Q7MsfQbx9ii0I4b53DszKZ9hcR3v9Vc2XBpxrfExVpNcLzepZmS883_fse6vjNsHMbZSqazFnsWiiuTRvIWeG7GN-VvDxwM5YAhHI54cc7cMWg0kJldE3ofnMqaqhJr2bGPfvl95PHx3wOIoaXb4WVwoWk8pePGwuXTUIlbgJwLuNNI3vt64LuBQsBB-uxJI4OhYV_OA3l1pTEYVK5mDvfBMYThCqtshEsY74aiY0jQEjiU9v0KeCiBYU5Tzy8Vd2LPAtIlJRxZeHqb0zVJ240ztqffAnp016hYaKVZM0jB9U6yMoPppsDcUJAN4HhZxdvoBmd0SxM1eZs6ACur2xzSDM0AcbiIWYXxMyz-aRPVI97IIj2aGOWVG71VaFuYNmy2ZKnWVN03Mp-cmqpADrrYDbEZGTvTcfq-g-of_xivOkKLeYP9roIiQJDzUe2Uk6grhq-J6_MIjBncNp6RlG4sOdA6F5jf2SA4OUnvG4Ucw=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-c68c7766-19ca-490b-a7b2-8a140295f6df",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219058.434775
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219100.7599027
+    },
+    {
+      "eval_id": "what_is_a_compositiondefinition",
+      "conversation": [
+        {
+          "invocation_id": "e-4e2fc02f-daf1-473c-a825-1b71144479f1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is a compositiondefinition?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "A **CompositionDefinition** is a core Krateo Kubernetes resource (`kind: CompositionDefinition`) that acts as a blueprint for your infrastructure.\n\nHere is what it does:\n\n1.  **Points to a Helm Chart**: It specifies the location of a Helm chart (e.g., in a Git repository, OCI registry, or Helm repo).\n2.  **Generates a CRD**: It tells Krateo to dynamically generate a new Kubernetes Custom Resource Definition (CRD) based on that chart.\n\n### Why is this useful?\nOnce a `CompositionDefinition` is applied, you can create instances of that application (called **Compositions**) using the newly generated Kubernetes Kind, rather than managing raw Helm releases manually.\n\n### Example\nIf you create a `CompositionDefinition` named `fireworks-app`:\n\n```yaml\napiVersion: core.krateo.io/v1alpha1\nkind: CompositionDefinition\nmetadata:\n  name: fireworks-app\nspec:\n  chart:\n    url: oci://ghcr.io/myuser/myrepo/fireworks-chart\n    version: \"0.1.0\"\n```\n\nKrateo will generate a new CRD (e.g., `FireworksApp`). You can then deploy the application by simply creating a resource of `kind: FireworksApp`."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-76dfa1c5-a903-4e52-9e28-de1ba2e1f8e7",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX3h4OCUNYza6XaC8G2XKJDj4mSdgKBtaK_3oiIESHmzQ3gRlkCFGrAp6AY89a19v12GGt2cSGU9ftw1HHXLdiqYV2DbasxjRWPX4D5weavgZ6Uh6StAydeqMbd3dSHs98KI51ac5tJ3THlGbZBqmVjcTAZLuSmBKL5ZFkwFvurVKhNGL5xFbUcMHpbFQbBntZy9b98rXBG3vvX6YeuU6CD-JrVUKbQGPPWtfYZ97VFdAaQpOcS6hyJO0H8ellEk06x8XMD445eIck_RLE_kjNgRFVDkwflZ-dEm2bHkCONspcPbfI9vhQb_YUlnsS_HrMPAqr0vPYv5TzprKUqeJhCt_ccYBM-YoWElSqEa9EQ2BkA0K0AEBjz1rX6UZ0FzwbwD_dNBKuyOd7xGSONLPrcBuCZeE-RF1jx4hmdkigdbmt00YB7gP3uKmy0vXxHoccESaHsg7JXlvDiFyNPlsR_WRT8N9bHCPoJ_8R3VNvnWWGo-SFsoNb4n6DZoHqho5zb0dzej-um-MnGblqDeCVoW-JjhJA0eIFM7qXgEr5wYiBMT4AopI3dHGpL1TM91iKDHtubGE2_SLvHZLoiT2RYJCIR7ym7q7mCvuIgU6WWUlwO3XAPv7OLI4YSrmWibZCpyH4rvvCtcBAY89a1_IwSjSkl8PuXhF4JsMJxXSObWo-wvYu1WubPTb6UqaXa1sgwa1a4hIO5nIBN5TfYskLPDNQe_9suaO7eFUJB7OWR3MoGif3zegNKu2kAqFVMx-g28b_PhbpCgf3XrCYXcEFceTtBnqYN3jTa7GhrpI-eu8tlYCYyx2sg30mQYjr7MnnTODcIvowobg9c_ThWWZrQyhUduPpFVRGjgVDpNTLvPQleqCR5UfKxiKkzeXysaHvUkYWtYYztL7qNFgd3e6FSrBEoQOzOYrb99soveNjRUKsQIBjz1rX8yP65tTGu1ShewaTb7bP9HdtUNaBKh1lJDIq0rrIicfiduMIq9eHSQY07ZNVtFTh2I_-oe9yc9u3QZadjYS1VGE14grpZT15IA6UO_8diVe77oYOBTx3fC-uLCQrJJBEWX500FliMBLRRQN4GItnwV4uqQ6IAdj2oXTypxoJXlxlsR37Zq8LdRqV6wBspoMVNovfbPiAgbbuBUOeBeB2ZpKXpSEpWK3gKksiHqmeKeGz1Qft9oL3icXuG6Mx-y-_i8CYoEkvYWKDJn2qBJvepaCoBliaMklhTGb3UbB2ckl1NP5H9Xd-TLXipuUqNhgJAweFPantM-MoODDY4be7LO3l_eAt7C8kTc67ogkON8JvxGPOrrFuKS_UOAgxy9sCvyG1N5xgz_pknFJ0Qq3AgGPPWtflAEjNnolfz8bpS23ccBthgXkLjWik_atGpvWBP0Wp8k3XGj0EJtEjiFp25QWbPlozc43hlwLU4CNnlGTr23ue6qFk7jta8Z56FPTxoFrgwaid4gjwF9RFcnaeipn8rUURcUPLHEV0KnjrjOQqNAq_3UbGtAX4w4myw90R0jgxPEcFn_7033iuj1bve5YIZ9e77M81NiwMVLf6zHxZJYKyxngtah-a3DX_V5O0WUI5C0rgwtiqJGLTk5P18CRoV3wNIwlJKMaHt0Qq2FRKLsCqM-lGuiEkEOiFlLXGMbr3lnFLhF_Y-s05sPiFMv5cVMAvYHbTA4lCSIYqenRysxpNReMqJVAwZDNBpqWNheZkJFECnLMMgfCS5FOzkAYuycyE0k_MVyLVAHaoUPnk1aikMkSCtABAY89a1-yyKiMhHp1JQOnp4U0cVChDBv4QqLxHWzYFRkrecKOIPMGkqbthZAm74oW__jqodFwaP01Impu9j7RRUoHr0Sa_TtPGDJrQ5QHRQSwIOQkN9h4s2_3Dd0f_qH2gIttVxKs6qn9MWPouw2SQ-2DssxNfegGN6svkcrFtyeArf79Ndps1MnZunz9yP4dxL6WyBipHO_Sg_-P3IxRXzROMlQmSd65qpAb0j90doscOz8xuprdGq9pTJR2XCbKzOM4YPupfON56HgBVu35AA=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-76dfa1c5-a903-4e52-9e28-de1ba2e1f8e7",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219108.297582
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219138.5984025
+    },
+    {
+      "eval_id": "what_is_a_composition",
+      "conversation": [
+        {
+          "invocation_id": "e-e931bf75-3f0a-4cbc-a1bf-6cd636b65f60",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is a composition?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "A **Composition** in Krateo is an instance of an application or infrastructure resource defined by a `CompositionDefinition`.\n\nHere is a breakdown of how it works:\n\n1.  **Relationship to CompositionDefinition**: While a `CompositionDefinition` acts as a blueprint pointing to a specific Helm chart, a **Composition** is the actual deployment of that blueprint.\n2.  **Dynamic Kind**: When you create a `CompositionDefinition`, Krateo dynamically generates a new Kubernetes Custom Resource Definition (CRD). For example, if your definition is named `fireworks-app`, Krateo creates a new resource kind called `FireworksApp`.\n3.  **Deployment**: Creating a resource of this new kind (e.g., `kind: FireworksApp`) triggers the deployment of the Helm chart specified in the blueprint.\n4.  **Customization**: In the `spec` of a Composition, you can override values found in the chart's `values.yaml`, allowing you to configure that specific instance.\n\nIn short, if the `CompositionDefinition` is the \"class\" or \"template,\" the **Composition** is the \"object\" or \"instance\" created from it."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-b2fc9ba9-e295-4308-a272-29ef82ae6d13",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX51ur4XYzDXTiF3vqIqtZvcdOZHwQvUsq_5BL_zhBrjGlzUV_8jqiwqAAQGPPWtftBQO8qplfhDAhaH1Cqp8sdU3rRg3mWf8eyIaEYspudVbR8sHMS8_KccVnSt7xGDlHOQu9hS3uYzpv-3Ts8Ifu_Ed-x7gBxWi6p1szclSgdQFb8jJ1MWBKfJI7rsYW42qtH4lGOXVd6HuPfsb3W25J97TzOt1ZDLGPqNiCpwBAY89a182xx3EzgF6I02jDR_vNyFavOo07kUzVBv9jgSfJSWW6FRuv0IpU1FP7vpAO0FC1hOrZy0U-jC8u1TeC6mtY7LePq-enL0DGC6cAZ7lb_lwxFoGB6jcso33cC_L4V0QtWiP2LjSxyad3U1aRmAYINEC_G8h_Xh5l2AP_E1LBopN4ArjHUY1eDiLuRtrCV6t1dxVwa_5OtZdCtMBAY89a18H1s2M-AdflJZ_mZhG0N6L1v-kSibeIKIfk9Ssznf_hz2PxONQ41ne7f4xhJnAgRjjW0r2E1A3e6pZti_MDeaQEQChJ4kFiO8t7oke5wqyP-lPMThjK3vmQGu903Ra59AxsDrYqxGUnPgT7jI2nwap4iU85VKluXZ2eqmyF8MCTqsJ51BFZhTN2b0iagc8Ultr8mPqChN3XTKDK6BPSWRhlPB4mcZCu6lNrtzVDvhT-eARrwyswaN11oYmtR-EbwYZMdzM2sXNwKlnPDFSvgrHAQGPPWtf1bzpexduBz4WBCrp-Bv5ofrTz_A8Z5mVCnW0sUz2ZScbi9C88rnEhUiCp6nGEw5jyRoH15sC_lNk0TNDt5WmWYflIlS9bB7HA0bU6UhlOJfiZtJITxBwoE4VbYjCE3n7bRaVqtm9zkRCCN7x-EsCrGW_-ACuZr_zPjYDiVkJyI2pRssDhNyI2FsNHBjaekME9GbU5QufB2CAM8hZFnK5HmEWMwtz7GRk6hezqgnWfLRJmnro8vgZVbg2jAqvq485M8QKeQGPPWtfT1sY1CRNW2Z-1f48j7cWsiVuH-xu6JQPxsSd569L4bxS5QJUIZeG5GbrU9UufIpXIIHexRjCVo2KL2-lA96QK-PAADx6pfDTJ-wsvgSKhv84XAijxRPGwZfimKL8DjwvBOcCuhzRC8CzEz7ULMyIzXjoOiY="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-b2fc9ba9-e295-4308-a272-29ef82ae6d13",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219294.782814
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219313.120783
+    },
+    {
+      "eval_id": "what_is_the_chart_inspector",
+      "conversation": [
+        {
+          "invocation_id": "e-585e56e4-50c1-4dfe-bda5-b80f0b542a60",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the chart inspector in Krateo="
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **Chart Inspector** is a core component of the Krateo Platform that acts as a bridge between Helm charts and Kubernetes Custom Resource Definitions (CRDs).\n\nHere is what it does:\n\n1.  **Analyzes Helm Charts**: When you create a `CompositionDefinition` pointing to a Helm chart (in a repo or OCI registry), the Chart Inspector downloads and inspects that chart.\n2.  **Generates Schemas**: It reads the `values.yaml` and `values.schema.json` from the chart. If a schema is missing, it can infer one from the values file.\n3.  **Dynamic CRD Creation**: Based on the schema it retrieves, Krateo dynamically generates a new Kubernetes CRD. This allows you to instantiate that Helm chart as if it were a native Kubernetes resource (a **Composition**).\n\nIn short, the Chart Inspector enables Krateo to \"understand\" any Helm chart and turn it into a strongly-typed Krateo Composition."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-5027bc09-49fe-40a7-a1d3-002154642d0f",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX-DqEOiZ3bbjW833psBmdV3oqN2_kUTckHmPcH215UxhsuO57SsVuQptAY89a19ylXfnJvHrG3rFGWxUQIb3YQIg5wUh4ZtqPxL8iaPH5EZud8epOkognD0SqWg_dXh5Lgqh9s-1JnFsCHZ5BJwMygCC0pdNKhH3n_nBYBY8jK5CasEoIFRhqQ3aCEtaO1cV-VAqu8DTggpuAY89a1-WUMyUPDs1KLPrgBsP8UQGYLMRt6U6Y7KN_bSQ9DW-uYus9nOfJZZOy-h1u9qf9VSkZbu9TjoGhe7Ui89Ae-HqadD3QtwPMGst4hjmgQbErJlXXpwLyE6oN-oo0SDFCLaET-FbTIkpDxcKvgEBjz1rX1NOxlqMEM3MkgaIdySgRGnKHgrQHXc_-1v0ZwvGmLdYDnpKIR7XJvJNJ915uGSXVG4hkYLStu3W5LGUVwUtOlJ8rH0U1ScpnjhLmbq4O4Fbnn_MqRoX8mBDF_yb8rzdndyxHsUG4074ZPAy9TXeFs5Xy6bPMnDV54DrkQfjlIU_TKbECDNkppBNlJH6qVp-SzZuXh-ut9UwCO_jRCplddwYvKXW_X6X_yJ7lBCw_yDTE-8_2Sj0uYxsCsUBAY89a19QV2-1Zu5ah6FhrSBbW04eeLmmx598Mqz5YHh3nOywqr7zIdWMkk6C_9HwRJw5PeC8mUBMCP6_ELcQUucQmHKfq7-M5rhZGc36-UkfS6vL3LlryJjzUl8sTxQAAhWJpN4xn1GVWFcFfFT-m_anjfm7LZwOCh01BGSO7iTnLQqYEMGXI_kGfRPYBEsl2JLOzogjPiRu5CmOM9CNoPFU-EC0yot9hIZ5Thrz7JZnzYFNvpdoKq5UYmnyTyvaYbpenXIKmQIBjz1rX4SG3uiwWac1_leT6ei6CO5e9XwypcPYzMslu1BRNcCxsmBi3ZTMDreXqDKwt162zPknV7Kf53NeI5oyy4_mqfMH476jhTYAlKOf6pIyzvI7-gqDnHDfZPGiD69goC0w5uOFd87el1T3QG3bH-HDHOA5bIdLBg1qAel_LTIYf_7l4d4BGI4bQjj0Ult9CRDg8CtMjuna3s5Rsebwc3Sny1TfMxuJsVaTdLHRotf0KtknZkTHBdMdR7tquZDJ-ego_HzW7UKjQIYBH_ivSqUoBHLJhuBv6Qmr7OYOu9W9Ly_-8LlSj2LzdIOX8DCPzCsSz51hlj2U4mBy1EM7umHvnhlm1ntuUwW6TRP8D2lCnv4KHy1STgqEAgGPPWtf0-h3oiPvazIzVW_qMSWaIRLOkvSNZ0s82ww4BWzfOvh6YmyzJMspZtvg-4s3phcH6VrrkY1oCEKHiuuQ8US6CUIynyUcqkg9K7_MZ7Rz38r-um8lsXaDZp28Ih4zXoqQi4Qd-Yz-X3vT1d9Madh6Uuy_usHjygVdOrW4CngRsidNZFVmhECAwQNWUWa3ctRuyhHAngxRGTkojy4ilQjNsnkhhPmDrHIFt62NpMC_rtGVMNNoNgVef_QZxvJ-dk_b2vGr5gVpijhhBe5w8OGPw0sW81wnOJ8O2OFklPqNBGvklLvg2b9BoLlaJloncBTpaqOmKRRgVKvMYhOdIur6"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-5027bc09-49fe-40a7-a1d3-002154642d0f",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219323.88792
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219347.2056262
+    },
+    {
+      "eval_id": "what_is_the_cdc",
+      "conversation": [
+        {
+          "invocation_id": "e-26b7331e-afe8-4a3e-9ebc-17431cff1a3d",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the CDC in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "In Krateo, **CDC** stands for **Composition Definition Controller**.\n\nIt is a core component of the Krateo architecture responsible for the dynamic generation of APIs.\n\n### What the CDC Does\n\n1.  **Watches CompositionDefinitions**: The CDC monitors the cluster for `CompositionDefinition` resources.\n2.  **Fetches Helm Charts**: When you create a `CompositionDefinition`, the CDC downloads the Helm chart specified in the definition (from an OCI registry, Helm repo, or Git).\n3.  **Generates CRDs**: It analyzes the `values.schema.json` (or `values.yaml`) of the Helm chart and dynamically creates a new Kubernetes Custom Resource Definition (CRD).\n    *   For example, if you define a `CompositionDefinition` named `fireworks-app`, the CDC creates a `FireworksApp` CRD.\n4.  **Enables Compositions**: This generated CRD allows you to create instances (Compositions) of that application using native Kubernetes YAML.\n\nIn short, the CDC is the engine that turns your Helm charts into Krateo Compositions, extending the Kubernetes API automatically based on your definitions."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-5431805b-4762-453b-9376-077191f27449",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX7GvhvpRjMZaqif4elp-lIJi93jxveEWMDqdYtYpDQA09mSUNVhXZgpfAY89a1-6tfBwJQcIkUFephGPLiKl9hQgBlR03qzCCvSAk_sd2NeE2BDB1u3ao89VSDv5acIqncGx3jNuX7c7rbN3I6YKXvTqEY_BmJ7MsyFNOqvCt1DGlNtAcxrJsfoKbgGPPWtfEoeW6jVARVAqTFlOOvKdHZ_klCPI0kQvvgDOSdG8BL6EchEaAMCFJ8LB4Fd1BCAbUFkaB228dqoGIJsT2WoOmG8IFsV24G_6NJFKx_vaJyNXBvgW8t379JAsWCGqrumnfuPwk1OUvvhYCrgBAY89a19CRHovyJUqI06gzQQLAosyDQpjRmF7c-PQ9ii_rINzJNn30Jbbb8rLfSc4BO6gf4AwuLpYz2MJVn1_g1FChQfHpNlLIwLqD5E1BowlBm2NMh-rOtvjKBye2mP_Jix-UK1qguPYMakAzVjESBs8tIIclYyRQMxhAa1VnOxTibhCp3E4rx8owWa8R6cIrhu7rbl4Vid8kMzAF4RlfR-vu-RGGhhxLmeIPSRexjzp6HcuJaIoIwqbAQGPPWtfDjy-iiEeUqETG38RFYcCNUHEFr3L53viUeeU8_LFjroWMad8MjpBfOIPO-fequsfnv8TzjId0sMRMciyTWD_ObRi_QNbI_AAIjNLkLrMiK7zoNf3JjCNwqIlDxK2rkbhNr0MN_0FdxcD34r9lydKSBnJngT6FdDSx3W1FI-NUSiFzxm9Npd32EXNkW_PC1i3oRs62YVHCsUBAY89a1_asRZPIVt0YE26PswrVX8zcGDic4eaE0g-myqmDV5qBINwK2yQ8EieNzsZhv3r5zxLJglsonM594AlmS6wjM67qohUO3BS5SnSKtrGUdE0D6xULVQsKYC7QKFnuZNsRrt1FvljI1-pSSuiqKv9rVpb3LJ4EAkLsqVkGE7Wh3ri-vYzikQZpioLBx5kNKI33glNYNYZBEj1R4nduGQAG1akldGbsLToJ9bBoa9qBc7KZVwFNZWixdxBrLCckD-Riec="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-5431805b-4762-453b-9376-077191f27449",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219372.142133
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219395.7045286
+    },
+    {
+      "eval_id": "what_is_the_core_provider",
+      "conversation": [
+        {
+          "invocation_id": "e-1de07bf7-d462-4e6d-821f-dfc5166d085e",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the core provider in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **Krateo Core Provider** is a fundamental component of the Krateo Platform that acts as a Kubernetes operator (specifically a Crossplane provider).\n\nIts primary responsibilities are:\n\n1.  **Managing CompositionDefinitions**: It watches for `CompositionDefinition` resources. When you create a CompositionDefinition, the Core Provider is the engine that processes it.\n2.  **Dynamic CRD Generation**: Based on the Helm chart specified in a CompositionDefinition, the Core Provider dynamically generates a new Custom Resource Definition (CRD) in the cluster. This allows you to create instances (Compositions) of that application using a high-level, simplified API.\n3.  **Reconciliation**: It ensures that the state of your Compositions matches the definitions provided, effectively bridging the gap between your custom APIs and the underlying Helm charts.\n\nIn short, the Core Provider is the \"brain\" that enables Krateo's composition engine to function, allowing you to turn Helm charts into reusable, manageable Kubernetes resources.",
+                "thought_signature": "CqMMAY89a1-vdlws1FUFCHlKNacvMx0A0JacJe7iOsnudozv7c6A-uYSd_wGm2CGiKWiPvCwk7lQ_SxtCA8IeD_V25chOI0yu80oo4VPURG1IdxP0tFIc_jlKNl584UFjtDbe7zGdG5vVbS5K3F7_7xYp9_QuXpX7OM9hBQPlZRoR4DqHKNRx-WAG82j_hPzV2sGkYrexYGX18NmVjk5bSCHG9VXp8LTnJhcLPZosXLVyKnbHQFBfU5QszKwXSjdtcz8jmGOfwttKZJ5oISrQlvQfBrW3_BNyFdDnZTjJWRz-89huGlrq88_2kDr2zo89APti0DXduPv6zPNtz8ByBUa6VhGjvRg7xDfUhhj_XomSXEgP1Yc22HWpBsfYUkf0Z0J6P8c88E5naG_bfgQjUOEZpNkZdtLIyDH296iFIsG-BhaHniUufbyPBcrESpQaWZUNQ_2hwrx6VvR_NLRRPgZhLkjL61W5jkKrX6YCDd8kYfvxpp_lh4jDAzCUfWel-hEto1-QSAfwooDEUUTGbvsiPEgKOJ1FcnbjYkJW2el3G56wjdEEzfZn9Hj4wAjZHpCv0mcemBLdIqY_6316uxz006KLQLbHfxmcFFJj5cqy9KeDnXrkwTvl6bi7MVR6kux_Ubymru8qVcVQlbjyG04ZtZ1_9UVirxYdhXbzxKzAm9x8v0eJLjPKoooAwuD-qvM-OH7RfzwyqE3hunx6qB-bCVsDsByUmr9Z6NrhEhRNhNXE9ldGGx-5qWfT_LMfVOlP-ufuFB9u1gjVgubTIi_dzkURie_hzqNMNX-sWh9DwO6EcUTzWSwk4RT1stWgvJ0UNFhKShE0mj9-wIyTc1BlxkXWuBABEyp4ENa9Y8b_cLRHSh2bFFj4-dnPQN8o3ObY3DKJ8LDe7R7lUzofXqyMH2NQ7LiKnik2r4ztV8yK5vt1pBdW2PnK13r-yf00UXWXiCgjfgzm5FEZH3qSu7voyiTI0HaM9ou3Pga4uIs7xP8VthtpYngPcXwOdYztge_aCLQHPrLbMnH3BKkJiGbfzN-msOYy4zRjsH0ihpySrW4ceUrrHJZQgqDd8O-2DQWAzgKezYEftWOJoqRYX6aLYJCW9JonVkewph_KmEGKVtNM0UCug3F77CEFtN-0_M7FENBYpQI9IuX6yDroEnHC5X1y74U3nut-5AXBqBITo_hSqT1QFudzOAhn3Z4afnbuutoNVgy-FC7WPqIf6iiybMXxgV7ubel2GPu_7NbZQaUisZbQHL7QvEaozHzx0EiTCW61P0XPlfIZVd4neNYiLFFCcY6Jsf4lD3Fpc2ChXTKchk3lknbWVpvJDChfbYtOuE9y-96dMOTrndkIwxdme0lg7DX4zK0X7zm3M8EblmxTDbtuujfpCj1xdpf2aWt53L8thyjFGiqqW_nREoiQrAOeVDcsBhuNdqhx3e7lDOeL4YDHRIXhGj-fh5U3tRcZcPXEyaG3rXISjg2mn8gW9ACcXfpXIfOqU_z2ywmDZudmBpQU6fFsJKVhtQ4y8roYxdk_8CjmaRuPj93tLp8-eWMjupeW0Q5D4p0cwyNuAoNfgcmM7uDSI2N6PGZA4LhqZ2HfBS2S7RjCT-IxslzftM8btuurRRDsTZOkcggN83evpL_jHdbmCozz815TtuBBXZP4LOcmZHf-6cJEoaHEbJYOq0NC8Y7PiCfblIpSyqIPHlN515Cy3rqhBKgythmySEatU7TWXQ8L8KOm8HFY9xWjdxa8bnDl2a_7HX3-yMVoAM-gaUZT_BgXCdQAN6YqtwUX7y7gCKXla8jG_WmXPIj6poT25AkRca8nFNT1hFjac6ZofteDuTgFH2E_S5TqiF7j4veKy31-wk2g5YMQr_gl3vQ8p5AvlgiKwZUT4IY4Lo8GC4uDZPW74_K_Hq3hFRdTcTsEavghzkmuhe8lHUi0F5V3-cxPM2SqLEJPMPvPG1Bn8oTVzeOaLqcmP5VuWNQlBhE2zDIVAPo9_JpOIumSbeTG3imu7lZKDWt3cPqdBDNOcrYt-Jxerkm_FEjOFM51637ov-_P8LmuAVoJx_9WZJIUy8o-CwFuG4f5jUCwZg="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-4ef8c7ee-24c7-40c1-ad73-3eac8b080e42",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CsgDAY89a18Wqel2csEDLTbVO6w5WotDzcl1HPwFm19ffNZldSpNL7iwtGDv8J9jdsyzUmnA19DmkncunBn1fU9slod0QK9oIF8vsjjmeJi0PwoiGovN2tec2RdE8BAXhmM8M1ZVavX0g4mNIr_Sha-clh9IKBLiUkztK1xr_-IQSGkK9jlPvJa6coEQGK8h-QhpN9f3ghlsXgBt5_zlqkTXxJq2K1aT_QjkpG8GGZWOC_w5TMNI8o_WfxPR7jtbhvnSdx8DjyWjEXTelxB-xhbFa-6a1Nh2GfOyphY7o9CSSnce-P8GFnqOcP8GwoZL5rByp7sK6Js48SohCTPEhq1yj5XB9JszAH7AanpyWWY2A-rT2awX6MhkwIxn1APGoBPSNVsjr-lSXVUyhKN71Toebf20PFK1NbXNRF19bn_AXSVwcgsOSv1789OHpoAgByxQcQf7eRGY8Lj-ZKUQCyMbT5g8Fm7_6Wac-znPG6jLNLXHokvfPEA-E4NsqYbqz-MGET-3lkh8xNIx069qKosF01_TC8ISt7jW_dcxL2qQL9BJbVGsbZVUi_gAMy90UwDTOeObj6b_3BGhvLZTTXvZGzNvC5aUYrTH"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-4ef8c7ee-24c7-40c1-ad73-3eac8b080e42",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219442.014683
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219479.2137191
+    },
+    {
+      "eval_id": "create_an_nginx_blueprint",
+      "conversation": [
+        {
+          "invocation_id": "e-864793e3-2a3e-4655-aac2-dfae581ea824",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Create a Krateo blueprint that allows me to deploy nginx web servers. A simple blueprint with a configurable deployment and service is enough. "
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "I've created a Krateo blueprint for deploying an Nginx web server. Here are the files you need. I've organized them as if they were in a folder named `nginx-blueprint`.\n\n### 1. compositiondefinition.yaml\nThis file registers your blueprint with Krateo.\n**Note:** You must replace `oci://ghcr.io/yourusername/yourrepo/nginx-web-server` with the actual URL where you will publish your Helm chart.\n\n```yaml\napiVersion: core.krateo.io/v1alpha1\nkind: CompositionDefinition\nmetadata:\n  name: nginx-web-server\n  namespace: krateo-system\nspec:\n  chart:\n    # REPLACE THIS with your actual OCI registry URL\n    url: oci://ghcr.io/yourusername/yourrepo/nginx-web-server\n    version: \"0.1.0\"\n```\n\n### 2. composition.yaml\nThis is an example of how to create an instance of your web server (a Composition).\n\n```yaml\napiVersion: composition.krateo.io/v0-1-0\nkind: NginxWebServer\nmetadata:\n  name: my-nginx-instance\n  namespace: krateo-system\nspec:\n  # Overriding default values\n  replicaCount: 2\n  service:\n    type: NodePort\n  image:\n    tag: \"stable\"\n```\n\n### 3. chart/Chart.yaml\nThe metadata for your Helm chart.\n\n```yaml\napiVersion: v2\nname: nginx-web-server\ndescription: A Helm chart for deploying Nginx web servers\ntype: application\nversion: 0.1.0\nappVersion: \"1.0.0\"\n```\n\n### 4. chart/values.yaml\nThe default configuration values.\n\n```yaml\nreplicaCount: 1\n\nimage:\n  repository: nginx\n  pullPolicy: IfNotPresent\n  tag: \"latest\"\n\nservice:\n  type: ClusterIP\n  port: 80\n\nresources:\n  limits:\n    cpu: 100m\n    memory: 128Mi\n  requests:\n    cpu: 100m\n    memory: 128Mi\n\nnameOverride: \"\"\nfullnameOverride: \"\"\n```\n\n### 5. chart/values.schema.json\nThe JSON schema generated from `values.yaml` to validate inputs.\n\n```json\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"additionalProperties\": true,\n  \"properties\": {\n    \"fullnameOverride\": {\n      \"default\": \"\",\n      \"title\": \"fullnameOverride\",\n      \"type\": \"string\"\n    },\n    \"image\": {\n      \"additionalProperties\": true,\n      \"properties\": {\n        \"pullPolicy\": {\n          \"default\": \"IfNotPresent\",\n          \"title\": \"pullPolicy\",\n          \"type\": \"string\"\n        },\n        \"repository\": {\n          \"default\": \"nginx\",\n          \"title\": \"repository\",\n          \"type\": \"string\"\n        },\n        \"tag\": {\n          \"default\": \"latest\",\n          \"title\": \"tag\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"repository\",\n        \"pullPolicy\",\n        \"tag\"\n      ],\n      \"title\": \"image\",\n      \"type\": \"object\"\n    },\n    \"nameOverride\": {\n      \"default\": \"\",\n      \"title\": \"nameOverride\",\n      \"type\": \"string\"\n    },\n    \"replicaCount\": {\n      \"default\": 1,\n      \"title\": \"replicaCount\",\n      \"type\": \"integer\"\n    },\n    \"resources\": {\n      \"additionalProperties\": true,\n      \"properties\": {\n        \"limits\": {\n          \"additionalProperties\": true,\n          \"properties\": {\n            \"cpu\": {\n              \"default\": \"100m\",\n              \"title\": \"cpu\",\n              \"type\": \"string\"\n            },\n            \"memory\": {\n              \"default\": \"128Mi\",\n              \"title\": \"memory\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"cpu\",\n            \"memory\"\n          ],\n          \"title\": \"limits\",\n          \"type\": \"object\"\n        },\n        \"requests\": {\n          \"additionalProperties\": true,\n          \"properties\": {\n            \"cpu\": {\n              \"default\": \"100m\",\n              \"title\": \"cpu\",\n              \"type\": \"string\"\n            },\n            \"memory\": {\n              \"default\": \"128Mi\",\n              \"title\": \"memory\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"cpu\",\n            \"memory\"\n          ],\n          \"title\": \"requests\",\n          \"type\": \"object\"\n        }\n      },\n      \"required\": [\n        \"limits\",\n        \"requests\"\n      ],\n      \"title\": \"resources\",\n      \"type\": \"object\"\n    },\n    \"service\": {\n      \"additionalProperties\": true,\n      \"properties\": {\n        \"port\": {\n          \"default\": 80,\n          \"title\": \"port\",\n          \"type\": \"integer\"\n        },\n        \"type\": {\n          \"default\": \"ClusterIP\",\n          \"title\": \"type\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"type\",\n        \"port\"\n      ],\n      \"title\": \"service\",\n      \"type\": \"object\"\n    }\n  },\n  \"required\": [\n    \"replicaCount\",\n    \"image\",\n    \"service\",\n    \"resources\",\n    \"nameOverride\",\n    \"fullnameOverride\"\n  ],\n  \"type\": \"object\"\n}\n```\n\n### 6. chart/templates/deployment.yaml\nThe Kubernetes Deployment manifest.\n\n```yaml\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: {{ include \"nginx-web-server.fullname\" . }}\n  labels:\n    {{- include \"nginx-web-server.labels\" . | nindent 4 }}\nspec:\n  replicas: {{ .Values.replicaCount }}\n  selector:\n    matchLabels:\n      {{- include \"nginx-web-server.selectorLabels\" . | nindent 6 }}\n  template:\n    metadata:\n      labels:\n        {{- include \"nginx-web-server.selectorLabels\" . | nindent 8 }}\n    spec:\n      containers:\n        - name: {{ .Chart.Name }}\n          image: \"{{ .Values.image.repository }}:{{ .Values.image.tag }}\"\n          imagePullPolicy: {{ .Values.image.pullPolicy }}\n          ports:\n            - name: http\n              containerPort: 80\n              protocol: TCP\n          resources:\n            {{- toYaml .Values.resources | nindent 12 }}\n```\n\n### 7. chart/templates/service.yaml\nThe Kubernetes Service manifest.\n\n```yaml\napiVersion: v1\nkind: Service\nmetadata:\n  name: {{ include \"nginx-web-server.fullname\" . }}\n  labels:\n    {{- include \"nginx-web-server.labels\" . | nindent 4 }}\nspec:\n  type: {{ .Values.service.type }}\n  ports:\n    - port: {{ .Values.service.port }}\n      targetPort: http\n      protocol: TCP\n      name: http\n  selector:\n    {{- include \"nginx-web-server.selectorLabels\" . | nindent 4 }}\n```\n\n### 8. chart/templates/_helpers.tpl\n(Standard Helm helpers, usually needed for the templates above to render correctly)\n\n```yaml\n{{/*\nExpand the name of the chart.\n*/}}\n{{- define \"nginx-web-server.name\" -}}\n{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix \"-\" }}\n{{- end }}\n\n{{/*\nCreate a default fully qualified app name.\nWe truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).\nIf release name contains chart name it will be used as a full name.\n*/}}\n{{- define \"nginx-web-server.fullname\" -}}\n{{- if .Values.fullnameOverride }}\n{{- .Values.fullnameOverride | trunc 63 | trimSuffix \"-\" }}\n{{- else }}\n{{- $name := default .Chart.Name .Values.nameOverride }}\n{{- if contains $name .Release.Name }}\n{{- .Release.Name | trunc 63 | trimSuffix \"-\" }}\n{{- else }}\n{{- printf \"%s-%s\" .Release.Name $name | trunc 63 | trimSuffix \"-\" }}\n{{- end }}\n{{- end }}\n{{- end }}\n\n{{/*\nCreate chart name and version as used by the chart label.\n*/}}\n{{- define \"nginx-web-server.chart\" -}}\n{{- printf \"%s-%s\" .Chart.Name .Chart.Version | replace \"+\" \"_\" | trunc 63 | trimSuffix \"-\" }}\n{{- end }}\n\n{{/*\nCommon labels\n*/}}\n{{- define \"nginx-web-server.labels\" -}}\nhelm.sh/chart: {{ include \"nginx-web-server.chart\" . }}\n{{ include \"nginx-web-server.selectorLabels\" . }}\n{{- if .Chart.AppVersion }}\napp.kubernetes.io/version: {{ .Chart.AppVersion | quote }}\n{{- end }}\napp.kubernetes.io/managed-by: {{ .Release.Service }}\n{{- end }}\n\n{{/*\nSelector labels\n*/}}\n{{- define \"nginx-web-server.selectorLabels\" -}}\napp.kubernetes.io/name: {{ include \"nginx-web-server.name\" . }}\napp.kubernetes.io/instance: {{ .Release.Name }}\n{{- end }}\n```\n\nDo you want me to apply the `compositiondefinition.yaml` to your cluster? \n**Important:** It contains a placeholder URL (`oci://ghcr.io/yourusername/yourrepo/nginx-web-server`). If you apply it as-is, the Krateo operator will try to fetch the chart from that URL and fail until you actually push the chart there.",
+                "thought_signature": "Cq0OAY89a1-pJhd_-HS0gildhxzaKvohsfBeJDpWlw65psfv1kO5XgXEsRiYkjM3736WOkCf1upVmjsLD2nw4J1XXzZCSbnWYeSIShg1rVMpgdBmf3alTRetd6BKDgJ52z-13BIHt-U8ITMxtECBfxSykm-TTk1caXQjDpSbj3s26c_3JV0wWFxBGsDVL2ZUjTwfXVhqfuemcmV-4b1qko92nSHStTNZagOXd0_3Lo-II2f8DelIfiFj-g1Qg5yOia1EMFuHf-fkTbx_SWQwy2Tpvszx2eYNzTSsuTVd7j_W8rbsvKIyfpANHeWUGO2dq3XLCHwZT5wTQ6el-OlOP3dYG1M2Moh7wz2SXFgEMCiG6LYQmaOVlz0osRH0wBFz7b3qENFTLBU5osUOfXdlEsarL0h1PNFJmqrvgVqVlnUukVVhHNx8zEZ_h-heitPAnldB3siQkxZMLmQUg79hVnGugyPCgdK5cIKt2kM17ZyoL6lS8x0zmka74LUI3ST8UPlFIN9tp6VMS8Dc1hC1XqAMphBjt24UNaOs5Yy5D6ehpS7OV1gdJt22vGQy6xVPfWN9houzNLXDDEnH3QrotcIqu622SkYXdVILYf4M3Fukny-6ypgKNmqDs1H8865gvSmLjMc2RWj5ffs0FwGP9DGf6toq_fUe9gYVRMlfWITdRzpD22Km5KkJfgiPCdUPyO46zlPbjcY2CaFaIpTPJyGDBHa9CiL-ZfOsYniOO8MAXnmd-lGvNhPolc9JdGgQsBQxnJIONNXxMg3ZfHjxtM8qG8AhlHV0Fs_pCKp1UGsy-twRhKyRPvWWBtjO9ELo80f1_YiOTi0iZTkH5j2m_NhEkglVmpwL71mH-QhasUoADWkj1xzWaI72RfpSxQp-yfr3bERQMCAkC7mCf2G00okd8BiYN696YpTQevZ_m4JuaiyNgqgH6NqGoMgKgnaHzY752aCHE-jcVYGB5ZP5mZ2aWZIypMK_lOpuO1j7qxDaXIppjbqqVIZsF3ojqgrpScZjmZ9k9teq-8JLxhEgAN2FshzWDnw_x8VEJXR1a_y9FP8K4YfHiCabqMKzOfEMMkGLsmjyW5lPaBlSBtA2vwjfL7_y5Ek5OH6hnKfqSren23zdxPV_j2KXyOTaOxJomhfJ9L1r-40qUoIxSuvbvsixFzJ11Xitpw6pnP2nLa3v9Bymq0QuwBxKVNQ4ptQe0_zrHHYm5hJsHPSLaT6SlinmHQ07F2qNE7-Jenkfjs_jzkCk3G73lWWEbrilIijOkILs1AkiH97LVaOMk9TAXOjDkS5XdkKkdAUU4BpZJp3_i6hUSMOv0Op1Af2nzt-IkaqJQ4Q0_b1ER7awdMqlW4cFtsypc5oecq1hm7ZJHWhOm35Ww5mEchB03Oto1h2sHboru_pZzEDc2HrwrGYIC5SE473VIaF50rl3yRk2xuhtwAd9eCwBij0tqMT2sbdlF_cstlfutUD02a9wSTp7GNAl8Fb6yXFUnl0Grn1JagzfOCQMmPRLXQxuxx66nxZudRAwj3JsFaZxbQWaj7U5cpiGPPl7Cmaiz1_1rH7ZCUhnX7pwE_DiRBLMYqVbf0SYb4629-xx8l0JBN4BSEN3BafBd0BUQzgkKk6wgyHWWqlZhzVi3JdkLRlU3M0eVn6PofuuLtmuUf3Ej-O-V8TtCVOYw1p7pOLARMw4mucep21-3rNzedtJvhIpREar13l3HVZslF1llahdy7BF0lQekE7dIi8G8nL5xVjGVWiFnH2PFMfu7JkOwU04doXSMH6u6mh-bte7D0ewTOgPnEwC7fF5aKVPsyo7ERYSildN6JA1QnKbsUiRjOz1NEbnrew-EbPe298ZeUaLZ--yGFBTfe1eW02V-Ww39H5pEF4L0yhRmdb0SGJdAHn48e0jWTepQlItTtqZsrfGMGkfx-U9UowHuN6lfCi1yhPpsYA-y9-KRfQUtyRpWfLUbHLk6CnlsB4fqPTkB5ajbjfkKup_KY18iv8tRQT4ztMxM2VkmrWzpoFyEqM-rW4_JIdp1N74I1jNDDwHn-aLHVBziLQ6gUW51Jx5q0OaWwufBp6jFq11zasoJKlNU0mH7vLWCpFjPrBn8W8hkOk8Wv80EPILS37Tm6Afn4rS2bD9kr03siFjdDcgXvtoUbEt0ol-B-DFzkTC4NJoMZra79hUDLevAXfBTzftWJpycl2DfJrZOc-ka6ZKncUGGogsbWqIy5hwVIYktSYLDgWGekp1pVl00gHmjin9nrBKKBTEzWUsJalozvin43LZpXp34N6GeTW1xBf8Ax7KWzoEv6M-ShVrdoUtovPBGNbk1bhX0AGi21WClhbktbQVvpJvF0T8HVwu7xDuLYTWZsc4D3-oMX1WMDkH8gukumthNSeERx4ZmQvd91Z_BUV2G9QNnG54M8IMiEHVFrhOrxfWLIdX6KbikQ=="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-f7cba6cc-8a09-40da-9c21-fe4305a4bc92",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CtYFAY89a1_2kCmvAgQflj5SAZYNhzL03PGy5tGgSk8lIiPX6ZAW8dmFjyPM0xYzNfGszPXEb6YPmMmAyo6PodtoraoIiWrlmsOZQjyU2QdUb83npGWJh4K1DVtvo58ijcPsG1sCIPQxRdV16VaJOkCwlbgS4rAvkROL9KRBmAndihlAi_tZHIaySJt_g3PYs5Tu1qEXbuJ0Wg_1yP4gaA6_q89T1FaS20RUJg0OgSarqcXWYnIWwqOq_1sOVGcELlzgeobj7YPD2Un6exDRcYXlbEv7U76zVhPKAhQ3cZf6tvzQywnIXfiGXBofApnkv-E8s8NEGyqs9tJSToZpYxL1k9ZMdW3bqNOafS64XjJNi2vf2m3O0Oj-QAH1kGVcg94mwsSk8zxvp4uductFgVNIYIfepCQ-oWYxV0MP0RUnsBE3jT_OzkCtt4SZHIK059d5G7KahDkOLgYQj2dtOxSG_oYQrM6oIUnrkV94Mafr9d44qrJHsNYPbyxl52_J--x5gt1KfbrSxjdYzLQfD7j_XGICm0SGN-xZ3cGjWJAlzwhDeHGLzDkV-yjmD4prdtiYCnKm_ctxQFfk31-8pYv8gmdbPCF053JKgAE5IJQQ-hLGHPUp2wb8uIRz-wZrk_FBv6Qg9GoAyPYdH6UJhyZYT7sTBpJt_8tF-UhpBxPpxekFEec-ymt7dffif4mzXLzBbfSJpmHjX_kZ5QjUx5lJpZ_InTe3TVTaFcWkXWUq_IFXcaP7kcR6r3tE1I_pST9i8v8K1JlF5YO770dlnXACg3RROP9PHmL4iBRYDpu6fkljzC5cg5MGHcMob_F54B0o_BdRpdVY48CLScX8YVxk3DiQJ9HIieYcGDzzJ8sugEu5qsRlF_OKJUaASbZjqLrxDniCzd6hKywIrJb2KXbACYlhJcOVPr4iMgaGVfBYi7rj3ZHTZWZsWGYnzdeF27i5yiJ6PM-c"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-f7cba6cc-8a09-40da-9c21-fe4305a4bc92",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "blueprint_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-6e94ab47-04ec-4bc0-9242-d6fdef08436f",
+                        "args": {},
+                        "name": "list_blueprints"
+                      },
+                      "thought_signature": "CpcFAY89a18Zm-gG5ZJ_C3Q3Y-FZVFqVa6ya6WC6s4vOYXNPxsf6ZfQaOquMebabUbRy-BCkYF1f5hStW-4cTpw_HBNQU6qF6dhCEiFS_98hk5yOkks-EykYl4y68lkKo0WWNRlNl9fI_eYNl227wde4bOcBPW1YR5twdJeLcDYGbClsqY-oIeDHq3tE_UZGbLwz__VEJPKUZcpdLG6Ze-NIqK0q1rlGcGbAQajuTQDypO46nCSEoqJzwHQK9kUDx0tgHjyIaBUSfnngv3Ch7O18i7l_Ll9THkVfs1FZhdV4nXtaqV3HsZkKQfQ5d2w_GqEjJfeCdF7nYR6F7HicYddlVoKWWO2HPxcZit2fnBnQ5XV4WLB0FSnFouxeiDj7QpJFSihgdZmTb_RpFoXefuyurgnvRpFezXu4PPv0kiFVYjbYW_4d42uAC7fjFSXLg4wYfYRlqbJtZ6SxJaiDctp-T2NQiGLZ8gAXvkpMhc4QwZQfccPf_7JjgWV8T-JSd28m4tMlkGkIz4vZ9cMK0O1TF3DbG7OADxunU7PmSRyWNlzHPLySjHLP01zQ2umVxObk6YzJhRf_jiPHUn1aSf8Wi_Xymgl7Siugk-SZKp0KLC8WBti2_8V2OAww3_mzB-doGYxlBVvHt_A3ItX4maZh9keKOMo8z9xPfsy5m62ZKFqS6wRImJU3RVpsyRuRrryI-qVkROry2CeoaFJlEH5qR478fecaDp1PQfj55i_5h0VhgFn-Axc0NTpLA15VMH-5qSUwQ4Z9ALBqA3TcO_g224nDzT68l2EFas-2v8W7ebOiBdmxv3Rhxb1NCC378-oVQKrj6q6SffKy5ii-zk5x-S_WIH97r8Cn766PVb3BSf_S7DBur6ei"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "blueprint_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-6e94ab47-04ec-4bc0-9242-d6fdef08436f",
+                        "name": "list_blueprints",
+                        "response": {
+                          "result": [
+                            "name: application-group, namespace: krateo-system, description: A Helm chart for deploying an Azure Virtual Machine",
+                            "name: portal-blueprint-page, namespace: krateo-system, description: A Blueprint for Krateo Composable Portal Blueprint page"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "blueprint_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-df861314-3239-4d99-bfe8-274989f335cf",
+                        "args": {
+                          "values": "replicaCount: 1\n\nimage:\n  repository: nginx\n  pullPolicy: IfNotPresent\n  tag: \"latest\"\n\nservice:\n  type: ClusterIP\n  port: 80\n\nresources:\n  limits:\n    cpu: 100m\n    memory: 128Mi\n  requests:\n    cpu: 100m\n    memory: 128Mi\n\nnameOverride: \"\"\nfullnameOverride: \"\""
+                        },
+                        "name": "gen_values_schema_json"
+                      },
+                      "thought_signature": "CvwRAY89a18IhaIy7BLpy1_KUnhkWEruOE7HZFdgbuyZfU5-d4meVQS7tca5nbhavxy0tjlbRkXkVAr_gATw9rXTkd7eiUlW59scAVUNulyfVNzUsoSEqSCB4YBENopAfSB8A2KqIvpvLoPPYl7MJCUlBkixCCGcU98yIORFstW7yZpz3zGvVoobqPN9SVYoqDU5S-ggsGMQoMUU40fADInR0SZQyuLglgtNjJF6Uqsi9DVw3lQn5oBleb-ld3Z6zxaHanc7S0rFzYim0C7zVbeXDNxWIMxz5oSJ_Y-Tp7kg9_cWzOfpgO9dgdDC3sx8VXamXdKRHUlxCl_DGEZ_VEw6LLMcNxKe-WhhKO0Q-KAcFUwr_xuuQHfRURpeKu2CVCMrA6DLY0wfeUE0d0AIydcSp6HYOcoaKr0aFtslUCBpRGHTeoO509kUIv8GqS_HJDAwWSgqEY-kvz8JJXe-EjFOQSYTlhgIj0WUe6LXM_4_yvgrIjeLKCyrLF-79v1XN_DLgQUS_RRuzghZzv5S1P8jqzc_rBmxlOEODjdQoofpbdoD2mfEo5-kthtWAzVlvwl040XfD7a7H9gy6k4c3jUDZfmTjaNGXDArE90Je0hxxyqZs-OV4B4b_vgTMT35ac83TTeAo6LOXk0eHo_W1gMT_Cga-rbBEUXhYaVSLvFNESpaLncwJUFVUB43W8tb-jzmLH-gUN_9Pukm88qr6gya0mDj7RK4Qj0Nb7qSoLvvt1EX4-nhO9ylAdKwZhqs01CGWbbX9atptoplgj0C7CRipMrlXYGvVRJNtMW4DViWFpojK1RbYIGkCIlb49gG9WpVBMsiNx0xjr1cCCO3eZKup4NaIMwsLX6050277AlFrkkmsFK0lbAIeiPkTt50IGAQ2yzixljEceJNTII2PkuJv4wr-16hzF3YCNP8RwH02sqwVADmvG9csO5Y4_lAXsLZGr5xDXKTgpSzzJMsI2JdvwCfZIEqKzVZLP8x8yXwavBD3nqXZ7SgoryegZM7eTtJZjR95MAQPbN_RQiSjCHDE4YAdGzGeasPibwYDS9RXgNjJZZo3iqb10M4sC9smy59No3KkeH1kixI4OKzrmlMr6Gv4LXKbRylYd0urDmeY8hvxBy7ds192AGBn8clgjs1-hKXhF8duMEQo-XT1GNy1hvcV7v1wRmoQN1-d6rCeYa6hYzO2iri64YH6PtsUnYXilym2O_SiolKodKUluCg5PIcCC9uvtAGwXpQIU4UbIz2fAWAcBi8HUcX8W7k54LDPDXCkx1LIPZujh6k2h32IAQG-kG8PbAA0SnF6tHX5d59v3spRDOfpgxA_zQvLXxlGd7cOPXBwfQ4487G9EFlsoynhTmiCXO1Y-nuQvfG7ME3nR3w0DO3SLZrzMWTnFroAOrE5FCs-MiYPFuposYUs2ivTdZaua4wmqoouEhBEdxi1pczhCYoNLUQtxILjmO-DOGHVJVgdXap9wyEvkLom45POSRk6mWM9QBH65oG80Iu6Kiq7ZKdiRfF0O-tFCu7JR5RmiIEbnsG3OzchunVeoY8OqpvSsyx23l3HqNE5tpnT9aRIu27CAZU4rfSN8P-LZD_7Ab2RHsUSCbiGGrFmGN9z0DdsSM8SC8UnWJTtj0rpKKa37VTJteZdOjL4XuEI_Nu6WRQHGVTl69hLok5HlDBEASm41ZJFfjJSzGTA9m6n4UUIPew3sam1VBElYZflBnPy3wvL5FWejgDVLBALIi5MGayJjUIF5ci1gSmIMEh1MEFYQjNNpTaIXIEcQrb3Zl5HzQwRtAk8UN4b6ywLSSuUMdyo-sojA3TFsrUXXnH67HO9neZA9uIO_E7DkkA9njl95YKfcPKHl9yoPDk_cwCZwsNjws7DHYLm8fOyiNJkHqTLxK3svAf6VsaK3LAFmVkXlTBKblxshIvE6bSFV61SYxZoVwt3JTDOZzAB-d0vFrLn_8RrC3aIKMpboNDvR6-yGljPzq3EV1mzCZbEK1qjUa2r3WHx3COH1qi1TJr9YbDkC9TjqzuMYkBW7QMcg_MXJRuUMpe2sWVgeF9B1sVnHTZZC1oMBcF69Cx12ietr6WTkd_2m401RuiZ-LAluu5WVrUSa7otm-aYnBejsDcgA-vYU9rh8X0Y_t-BvEi5ICUxpRrw2AZv873Zo6woB9c5XiNiH-8YO2HCD1anEImtjpUiRoKMFaS6cNVPYn96AUcqOlr1sv40LzOeuripgmQfFBRvbZJxkQbcoYFcblMSudtzaDUvjzH5KxEsbz_JXhlPNiAK8TaVDgKWIJ4IVYG784Mu1o8x5CCWYzeStArzP3DJ76OcPlO31rCwpj6oINEpxwegrI-4pP6JIa6Lu4O3pOQm4KIv250VX1J8PYIjGiMs-LbYTWoYkw7KpuYuksBycjinwBvlZDJ1LJh8e-b4o2ZQB8JuHi-PpkkSI6x1QwZiNPrA6ubl-yvrVqnsLHikSIb9KOfryVOoVY0ZXGFj2OcDHm7KqF3_rLJA63_fbR0v-uIbkJNJogWEmpxT3nJNcKHUnH9VEVdIt12gPuk12fPgvY5-86n6yU43ArIDf0S3eJBwtlBn417skbohlSI0qzEWDfnzaIeBPnEQzspACfcLXo43wuCKjeF8L5J-_nBcYt-mwOIcdK9Y1cjcuB8clENpeYlBsRwJrbp5bj-CQnfKLDOWkhXvvpDullMKHrdEF0QxO35Zao-RQbU0637YOtZyEmVcep0FJ02bClOrFiyZiokdNsPmGsGMNbI4OD8Nu0_EBh6_TAzs5t0ePDkRoXdMTa1Jm9xmD3vFPbsErXKXJAn7Y_umZDBUIbQ2NbhvMz_dZ7yQVEozLkZAMrzJ-KbiTSRCq3PDLpFESuJsZN0A3X6LIJKG1WOmkdVelmRVNjTQemtWvVcQQe9JGDvBy5IZJ4Dhwj7xVPPNK3hsQZRaECdrszb82VQJM8a9iTn0vOJs833i3Z1Ylxhfk9Yaljl47TPzsydVK80JMR0B_q7cLiTmtUJacR4zKvY3ElhQrZ4KEPk5GtebFPzDv68oTE8XTwhTQ0="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "blueprint_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-df861314-3239-4d99-bfe8-274989f335cf",
+                        "name": "gen_values_schema_json",
+                        "response": {
+                          "result": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"additionalProperties\": true,\n  \"properties\": {\n    \"fullnameOverride\": {\n      \"default\": \"\",\n      \"title\": \"fullnameOverride\",\n      \"type\": \"string\"\n    },\n    \"image\": {\n      \"additionalProperties\": true,\n      \"properties\": {\n        \"pullPolicy\": {\n          \"default\": \"IfNotPresent\",\n          \"title\": \"pullPolicy\",\n          \"type\": \"string\"\n        },\n        \"repository\": {\n          \"default\": \"nginx\",\n          \"title\": \"repository\",\n          \"type\": \"string\"\n        },\n        \"tag\": {\n          \"default\": \"latest\",\n          \"title\": \"tag\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"repository\",\n        \"pullPolicy\",\n        \"tag\"\n      ],\n      \"title\": \"image\",\n      \"type\": \"object\"\n    },\n    \"nameOverride\": {\n      \"default\": \"\",\n      \"title\": \"nameOverride\",\n      \"type\": \"string\"\n    },\n    \"replicaCount\": {\n      \"default\": 1,\n      \"title\": \"replicaCount\",\n      \"type\": \"integer\"\n    },\n    \"resources\": {\n      \"additionalProperties\": true,\n      \"properties\": {\n        \"limits\": {\n          \"additionalProperties\": true,\n          \"properties\": {\n            \"cpu\": {\n              \"default\": \"100m\",\n              \"title\": \"cpu\",\n              \"type\": \"string\"\n            },\n            \"memory\": {\n              \"default\": \"128Mi\",\n              \"title\": \"memory\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"cpu\",\n            \"memory\"\n          ],\n          \"title\": \"limits\",\n          \"type\": \"object\"\n        },\n        \"requests\": {\n          \"additionalProperties\": true,\n          \"properties\": {\n            \"cpu\": {\n              \"default\": \"100m\",\n              \"title\": \"cpu\",\n              \"type\": \"string\"\n            },\n            \"memory\": {\n              \"default\": \"128Mi\",\n              \"title\": \"memory\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"cpu\",\n            \"memory\"\n          ],\n          \"title\": \"requests\",\n          \"type\": \"object\"\n        }\n      },\n      \"required\": [\n        \"limits\",\n        \"requests\"\n      ],\n      \"title\": \"resources\",\n      \"type\": \"object\"\n    },\n    \"service\": {\n      \"additionalProperties\": true,\n      \"properties\": {\n        \"port\": {\n          \"default\": 80,\n          \"title\": \"port\",\n          \"type\": \"integer\"\n        },\n        \"type\": {\n          \"default\": \"ClusterIP\",\n          \"title\": \"type\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"type\",\n        \"port\"\n      ],\n      \"title\": \"service\",\n      \"type\": \"object\"\n    }\n  },\n  \"required\": [\n    \"replicaCount\",\n    \"image\",\n    \"service\",\n    \"resources\",\n    \"nameOverride\",\n    \"fullnameOverride\"\n  ],\n  \"type\": \"object\"\n}"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770219519.116205
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770219628.357517
+    },
+    {
+      "eval_id": "cd_with_oci_registry",
+      "conversation": [
+        {
+          "invocation_id": "e-3a6138dc-6b85-4ec2-be72-bfda64da44de",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Show me an example of a compositiondefinition that uses an oci registry"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is an example of a `CompositionDefinition` configured to pull a Helm chart from an OCI registry (like Docker Hub).\n\n### 1. Create the Credentials Secret\n\nFirst, you need a Kubernetes Secret to store your registry credentials.\n\n```bash\nkubectl create secret generic docker-hub-creds \\\n  --from-literal=token=YOUR_ACCESS_TOKEN \\\n  -n krateo-system\n```\n\n### 2. CompositionDefinition Example\n\nHere is the YAML file. Note the `url` starting with `oci://` and the `credentials` section referencing the secret created above.\n\n```yaml\napiVersion: core.krateo.io/v1alpha1\nkind: CompositionDefinition\nmetadata:\n  name: fireworks-app-oci\n  namespace: krateo-system\nspec:\n  chart:\n    # URL format: oci://<registry>/<username>/<chart-name>\n    url: oci://registry-1.docker.io/yourusername/fireworks-app\n    version: \"0.1.0\"\n    credentials:\n      username: yourusername\n      passwordRef:\n        key: token\n        name: docker-hub-creds\n        namespace: krateo-system\n```\n\n### Key Details\n*   **`url`**: Must start with `oci://`. For Docker Hub, the registry is usually `registry-1.docker.io`.\n*   **`credentials`**:\n    *   `username`: Your registry username.\n    *   `passwordRef`: Points to the Kubernetes Secret containing your password or access token.",
+                "thought_signature": "CvULAY89a1-DGRz__lzlKPn6QXy3jUfuq35uS-BGCJP_v_jOKOyNX0qoR2e8jhGLaVlgE8hzLvqFcC6qgECyuIU6C7xfczb6I_b7Ib8Q39ll0F3jqXNVI5UYQS_FrU9w_eyAE_MtR14gX710wbK1NRaxdsbMrzKGi0MohBeytGskgVd1ezk5km-9iT0yHGeC4IerGG8d8ptW01j_XYq1lABLdc5v53aJvp7TTi_rhED7hI1Pjelp6fp2HIhzw1IUfiCgSgvcBPkIaFH4k4wrhF7VnG881GaeIEC6iW_1WZP3ljhAasVQCfmm2V6-qASZAT4Vs4woTSkBLlFY7effewTbBOraM6PwBpofHvTM96FbS5xl2PzfqZTbypcQB_j_PkzvjIKeIlcP47keaPEgsje3tSEZEJYX4h11Mu_Qka58-y3C5hq89u7lqXrq1g3U5Ot87mDGRTql6MfY_BbVlQYonPKAgKPxwdrBel_DfRNXKHKWZYN3nC_ZXD-amEmTLJICI9hBqFLKzcBi-DC_W1-JwEu_5CibrEEeDSuHLDzd58jLUBZfRBYETqdXQ3aph2lvmPOEPgTj_uTstSV75l0RIB2ePe7d1FQAPb17y_4IkHWMYSz0COEXC4AvLjaYvl7SW549EbSLMCym_6SlySQET-Joom-SnnDMIfgx4AoUdW3zUBuHfOkFK_ioxYAdO4MWveOgvYNj2GaL39sfOPiS4-LbAEADSirCpxts36gIxKnO6vG3sO0cfGwbMWSOpN87uRL6OrG__W_qn7Yl8cTurTMYAV141q-_dogzMM5xyn8FKLKuKbq7IcxKLoAqB1Vh4zQs-L-APbT0yKiRCrD9yNY93QHgxzsZLh_pVaUz4WAB7CqMqRMAaN63eTQdjAfaf8eq4ouUavVR8HzHBwoSv3gL4s2ZFL8vfnhNKRXZ3RAAcVisbbTx12hZKKeifH-u5eXAil8Qt39vSNGjhZOMDqOnP7QeVqTb3KHCFh48Y2lzM_kwHS6w9-2Nnf_FJqCnL_xkAqNe90WASnAABxUwYLp_5sjqqe05KHdBhEGKs_VYEfH2P5gOmAxCxWWUhkygT_SkARQbIX4EI6EVWygre0l7mDtKuWLE1hx2CI2PnTlYF5i21TdfZDiQl6cEcxfB37ejoP3G8sCmrXpqOJ59f71k8uUMBMiLVsnXkr5Jql6gUnUgC0FMLd5hJ-bNchkO2I8EdtNzJUlqMbOQhsc8atpOHtxIh_abBq_omfp8i4bHj0_3c9KIRGiVnDHZxDoF0ijpXUHnGz5guC0SjARi_EkvrvvAgMMxYghi50MePwawkCKFX3Mr0wkMb_XR7U-vWuhweYvuXsVZs_wcxOKeDsGIvNxM47JcnbAVT-PpIGigCdENSjBGDn4oD7mmhSXfye6pwPCNsXKXk1Wd5WqtuJby-a_iSMIAmRF179h2B4ruqMG_sdntS4TgRyBR3JXzjbNQQf-9oSUfjENciwBf8-_6L3ftD_DMAqtoTXvelUL-M-o-mwEaC_16j3RzA4CjSgusTcjY6g3-s1_Ugn9ygiFbMSPLB5VVCuCPX-dooFxumUeuSRm1Tjhx_prjJ80d8Jrl17KLYszsskgf_uovWGqCl2wmzINeTos6H-Rh7PQezmK7WXVf_SNK5EQYkpXlHscUrBcL3o1KniwmNPDKjVbsYtCy--FUEAt0c6iqjpb-990T-OV9AOaJFQI7Nur6XoloSaETz4mvdNQEOgxky5QVdINkhf47S5Dl4TnoRtExIwhKMWSVbVUPvW9f5RiO7LJPFqtPNJ0EjdSl2LErJmytGrTM8XFIYCawEqlq58-jbi9P1pKNmoNWBNwV5Gea3mzt_exXvQSwEsw9KQYc0kY8cWPP8aZ05XHUdECFXn-9ZtOvM2EWo9xUI5hbZDysptutR0eFbC8FkJ1LTci35zi3g0zymloiM9BDMlKUT7kUCm7VObMAyvoAenI8yQAskXXe9yzRG0Omdq8OeT2iAA3t2ejgTaSXosqHHSuDwjyYEFDr6w=="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-b4746cbb-05ff-4530-b878-9cf28954e5ed",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Cv0EAY89a1-B3_XBxfI3W1vl1tkCdvhkCQlA0Mg_gG_Mx2RQOQA5R6mo98n_weRtNmcQ_6GdKVUPj-XRVZGKEx5O4pi3LY_XpuEyeLib-8yCTGI9omcpSNlx_cZfioWdE6C4OeWk35APDA_5M5dGFxyg1LhjLcEegjX_wOMZ4wamJ-FaK_keL70vMgyiewQ1Qazw6HxMsDwD6qO2WFptHWv8Ox_rrd5WZ9l5FEHljurr7tWNBDrlZjAa1c_-aDMRAdmb5vgafLlbdy3jVviYlHH1jedmm93Hy88yPEHnI7BCo3Scu60T_IKbkIp6O3q-Of84jE5Slgv372-E2zlgIyyrjpWptPLTJ7sl9XRPWwVZQ3SaCJ5i1e6v48hM0Kpi-UOLeFltyqg-0iXOHi-HdU5MGn4JRLmDqW8O-fUSxPhq8UlNZSgSMz9dzNFWRRM8MU6hvswHLvRfgo105P1Ra7Lf0vBLAGf47EGrHC-mYrxDnEsjs87yVOr6zTaGbgkFQQOOA3m_YOjdLjjwReclDiQD3bKgDd15Quzu8MmOdZFdyFCKjvzHag_qxVOYpJAXOM0Otl2fmAvKUC3kt-kvZufI4Hub1gFBsne1sObA_ClQPQR_WvK50AFGO9uBEJYswlnYRZu_iTXMjmqDf-peB63GMr2sgVczVsE2XdLIq4oNjYCzMTpJHpQwiGJgKq4mkOkbkck5E2sa1_OaLIsUyEFJyfMtFYX9bGGVMJMaKUu-MVZNJl2eos1Chk45yEWuzwsffhI_IJEAG96ROcaJ7__kjRKUMo0hLL61-BmOPw9akxczRWuy9QvB1FyN0gJVV1rwwD2yaSCmCDt7o3jdgA=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-b4746cbb-05ff-4530-b878-9cf28954e5ed",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770221003.566617
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770221041.0623612
+    },
+    {
+      "eval_id": "cd_with_helm_registry",
+      "conversation": [
+        {
+          "invocation_id": "e-2057ed6a-e50f-4533-bebb-edfaa2c9b65d",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Show me an example of a compositiondefinition that pulls the helm chart from a helm registry"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is an example of a `CompositionDefinition` configured to pull a chart from a Helm repository.\n\nIf your Helm repository is private, you first need to create a Kubernetes secret containing your access token:\n\n```bash\nkubectl create secret generic helm-repo-creds --from-literal=token=your_token -n krateo-system\n```\n\n### compositiondefinition.yaml\n\n```yaml\napiVersion: core.krateo.io/v1alpha1\nkind: CompositionDefinition\nmetadata:\n  name: my-helm-composition\n  namespace: krateo-system\nspec:\n  chart:\n    # The name of the chart in the repository\n    repo: fireworks-app\n    # The URL to your Helm repository\n    url: https://charts.example.com/repository\n    version: \"0.1.0\"\n    # Credentials are optional if the repo is public\n    credentials:\n      username: yourusername\n      passwordRef:\n        key: token\n        name: helm-repo-creds\n        namespace: krateo-system\n```\n\n### Key Fields:\n*   **`spec.chart.url`**: The base URL of your Helm repository.\n*   **`spec.chart.repo`**: The name of the chart within that repository.\n*   **`spec.chart.credentials`**: References the Kubernetes secret created above. This is required only if authentication is needed to access the repository.",
+                "thought_signature": "CsoPAY89a1-ox7FD7NBOS89pYyjSHsoHeuQZ8TXr6wbJvcWnukQAkaNhBIjBlOeW757C5PqdabGSvG-c1GJYFNHUuKuKzmDgLgtZ-YhuLkhZPepb0PhM9tHayb33tjAWiCb4xEt6j_FDNk4eppGXr45jGvOkb0NhxUCRdDtBstH7n4iCO8VV9suz-2yYwsZDotB48DvuhqX3JNviNihKMbryXyShFejnLtKoM9hUMJcEvNjJYUeu0IxjG5aiOX_u2V1PrEhqET_N_6kHSyLM0FNCbdBbThLHmP0q5nCkx_qDfbpAt828-ateO7inA-r77SnLO96NUjgBP7Dg3G9kybfaXzzWu29TM4sItmvjvuek7IMg9bWyELuHB2OZgkIoKpXRnVx-PSlKKlR2X4uQrNgYjqrsi1_p9PcavYP6XQ_2waF_ZwEsLieTzd6Y5yxb35dHHMGOQnHeRJOsDAPvKEHBhOH9ZOTIbhZeVdQgLhwvaMd_nV6DcFMe46GOcuqxnTm1muX_wtmluZnhvVSzdzw4qT8DPSh6yEwrbNw-eBoRWgbQKdIJFxv8gcCiJzLUTnmMJdq9TyuNvjOOYeGDBEj6fzNBaEZuQN0PnJsvT15ZddxIWVFvWQRUDE1BjgZhRFrsAM81BFu1wqQafWVMfyRxktr8ovTT8ybjBJYteFNZPJMrmBCh5md2XphgPijC8RL_kiuERm7iDLazb3eYQEkwH8fJhdPjuiMndj8YcOjSw_F1elhCBw_U2uJWQaFygoGQf6TXuQieMsucSwNts3ZlzeSTaY12rBm9oPqbkWlXHY1oniKl4vlEyowzfz59-1QXv75moX0C8AzL4--7OK-fVMlumU-eo_d-F9mNGw0eRVuF49FGiaAKrA5LTRPTKJIyMFXp-JzsRtV9V8tIxktZtMAE13zcKlGbY8ILMkdu0IFML-bRwUhKsI58k6_V56gBEo20sayqspoDnDWzozjPQy9XWxlnURXWB5kiQIm6qIMj1P3eVykxNDPMMYN635K8-dOXmCm42AIlTOcifC97mzxsqlPlQdZ9whGoMcrAQdqHCnvTrgl_IwhY39r8nL5znJvSbrVqW4N9pnmOOB2e52KtHnoCrEYuJHOMVd4W3RtmqJ9hRCrBKgHbQOrO6BgRd_wcdbfSOzWnHZYAWQvys1Gql67KwofWxFlOxhtYCPG05EgD0Va1oOuth6XmFj9dFgTKDtltZL9jPnZN_0Gn_CXqzrpMriId8g3c0WzoJpowwAk2pl3bShx3qfbXR0mep53STTPoaafI8G1ESRzFPtUs9rA6QvBH4xQA7jOEyhEBTzlvC3gY-aMsXRCcoPEQ4GWle53WTaFmwEaDmsJ8TMBSawsGp3OJ0OQKL_ZmOvt4EQ0FtzzWZh3arjQB9b79T4MXKMLL0zu7cniVq3cRqDjerVe4Vp8xRnk3yBkVIBZL1mdOvDdPSCSSTNX_uei82KBz-CtjlH2oBmSq-CiGIIHmybK-0yLLa1TWplLAsR14VnTq__nvf4_V2Sga-lrzvf6R6oxeeFajR1QxTUr5B9gzaDU2-41gh5-Abi5OWudUDGHEUF95Z-DXQIHcjh2sn9pc-ssjjDEBk96xVyL-xE9Jr1ydv1UbI-xc8CFhdJKUXADu8hVH_NhRp44bjEhUt8lWwzjr9tFSNuWVcwwUKp4pWuDZVl7FS7gYAa3ckIBNRPg3nn1_x00BPYSO-x6b4UciaBCcBKupHZm6u9EeNnDuBOKQ8zdkBW7FKP1lcvF2mpfeOPb9gQajAnoZvzaebLu1fo73J_uKm2EJ3tova5xyH0MscWS0II2WTxDoUpbrl1pfUIyR7PW3OoZzQDTPogcTHOLZ8ZxFnW9--Eob5sPQYSiBrs_sJOM6OG3D_fuEo7neh2iTMN_237wBj06P49cvM7phgPMr-eF9ASt2FzpA8noSJ3xaM59Oi4fVEza0_qPfZs8nc32w8t701Z68nvzczlORa2qfoKgyvjXQQDr7IIUTxXIn_x-YGTEhRfhwtuSEocQeqsjSBOl0DSmaIiZxhpcIM1QuqCdaXxl4WkpWpXye8RLrto1lw727yZeC8Z__W45Oa6JpSZfakfPCcc2ilHtF7564F5Y2rGFBx50itAVUgD8c5Cz7BMEwixOx1QcJaIPhDY4hTOvrgCMw6JJ7nea3eiYZNGU5VWQZsvO5DN3h3POFguFvlHDppVkbodNl96Q66BFwLqgJz_Wp5ZsB2ivyHTtYimx2GZnfji4smf02iYPVw4GxUN-kwgqRDocViO1PBeQd8TI2UHOaRrUfRN0-DwHvV9UTivq_aErI8DDCur4i7Ne9JgNzP844x5apD0zTVXrfbkerVFAy3xVa-ksgpyVA7v4_CsD3w2IUaECDQEwngrnGBYmiajLqtvNQzUzYQU3xoQ5XWBgeBuMdL_LrLd3N6-5NyDAhsMgMfG5sP4XkyRitwcDZlOwOjjXKZoFv6zlxyVNtaBhv9Y1cmOSFT-mdTR-3R7mqBpLs7KvUuJjiH5olpK0i7Egnk8BkzNFydQPnKYYqi9b-aBqb9UYY_1KhABpsPCU-uDCBU9XP-2A7V-401AjwDGG9loKmCtNUPEJAuObqJG8ERoToiIFw6whjBQarlh4KgNhyAtLhp7vRv0M="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-420e779c-1ff1-4b6d-85b7-cb0255450317",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CtQFAY89a19S1tzFLYivIMyVEZJMXoZIWp-sGRdCjFNUwCFeWr7yhe_9cCQnqRS8y55l229B8p-v_JzzVqYHedQFYmtimxPUvNqUK5aNmHWLDZoK7fB3CuT9HN7bQNYxnJgb6svIXTsns-fKNwkJyqrmz8lgCCm12TvwiMkaLEntOzpvvq8zkWVJrH8EBq1GXKEhZbGIBSAVCAn4gAhC1Kduy_0k493nrYnd8sC8CzkSvglM_nQQkNCSG23_6AxQdAQQIriHsQxxit7VgEWH_XXwgRrePSB3cMQN0E2hgDE5qZl2N1l6b6m0xExgU1TEGCDdnKjwj8EAOu_0z6cXJABEqti0e4K6vVrBiIvkADvu4cmOXAGQp4dZ3I5CSWosiczucEdlf21wAA1CC29U4DYs4sAFAi5xNtOX55ISHlhXT8aXkeruut0RSZ4fHI_evdAcc6mPpH_eh9iASvuTyZA7HGOHLRoruSujwG89tZ2Z8GX7rCIPV1CmjIWIT2IBTKOPjLgVfhhmDV4QDBR1bKhT8fwZ2jeWIG3HMpQNbwEKhErr1uLKKtOWTHMdtMYQF7Tnzf5VX0phMp-EBZ7ML8Y1U_ybk4QnkO7Y0ih6YNCHIhmDWLad1uyDJpnIWrvlLUHmuTIPo4S2JgFWjESrf_-CPjeNvLg5nQU52UJP-GXWtYZD1jGmC48OoOUdzIjCjL4L0gfG59KuGAQw7fl8-m3Hm97tyMxjS8KD8coXGpWLXN8muxOlKfWGuKQSQE05aaiGavzB9-rELdvAWcofEFHN0f80yu3YYEULwcHfMZqGcZ22QvZo2RSnMsV48SXEVZKbq82-bUP9QKjQGTX0eo1i28RP08HvXf2CShl6U8DcMnnvf1CJpTFuFCghqQsWC2l8QS_ojLLpr5FLtauLPdByEIK_tUzn18ttpb66AVkQUliLXI0OwYwn0_kYSs3sGxIt9pDNrQ=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-420e779c-1ff1-4b6d-85b7-cb0255450317",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770221062.427655
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770221113.470212
+    },
+    {
+      "eval_id": "cd_with_gcp_registry",
+      "conversation": [
+        {
+          "invocation_id": "e-ac9b7e69-e53d-400c-8f7c-077cbeddb2c0",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Show me an example of a compositiondefinition that pulls the helm chart from the GCP Artifact Registry"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is an example of a `CompositionDefinition` configured to pull a Helm chart from the Google Cloud Platform (GCP) Artifact Registry using the OCI protocol.\n\n### 1. Create the Authentication Secret\n\nFirst, you need a Kubernetes Secret containing the credentials to access your GCP Artifact Registry. Typically, this uses a Service Account key.\n\n```bash\n# Assuming you have your service account key in a file named key.json\nkubectl create secret generic gcp-ar-creds \\\n  --from-file=key.json=path/to/your/key.json \\\n  -n krateo-system\n```\n\n### 2. CompositionDefinition Example\n\nHere is the `CompositionDefinition` referencing that secret and the OCI URL for your chart in GCP.\n\n```yaml\napiVersion: core.krateo.io/v1alpha1\nkind: CompositionDefinition\nmetadata:\n  name: gcp-app-composition\n  namespace: krateo-system\nspec:\n  chart:\n    # URL format: oci://LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/CHART\n    url: oci://us-central1-docker.pkg.dev/my-gcp-project/my-helm-repo/my-app-chart\n    version: \"0.1.0\"\n    credentials:\n      # For GCP Service Account keys, the username is often '_json_key'\n      username: _json_key\n      passwordRef:\n        key: key.json\n        name: gcp-ar-creds\n        namespace: krateo-system\n```\n\n**Key Points:**\n*   **Protocol**: GCP Artifact Registry for Helm charts works as an OCI registry, so use `oci://` prefix.\n*   **Username**: When using a service account JSON key, the username is usually `_json_key`.\n*   **PasswordRef**: Points to the specific key in the secret where the JSON key content is stored.",
+                "thought_signature": "CugPAY89a1_O1bqKsS97m4zvCw7LBEQFPJ4P_DIVp70iO9UmLQ6X1KDYC2WhI52PIdj5msChQjtVUvOlr5NYuvXJgRUmV-h7NscXYHmgmVk36icK4CREg9yUF9kf8iVKlR74hBqXDFf1aZnuEmpsRbZFLCgNs1b_oVwEQHVTGZtoFeArpcUm_oHl5jdLabu4bd-hGytHjtTn8jxFpYg6w3-jTetPUzduOF96t0L8Cta2__56VQcSN-Br0VJCS-yH2QSISnw8PFOrZQrZpK-eGSfyqI3e3I77c7UK9iRJTxy-ubB-2sOIkw_RQ7dYAxao0yXQlhZ6AIuOez73oUTWJnITwiamRLIBQh7etmf2PfPu4PtqnEmP_fqH-mZM9ZmHWrXajioWZeL40MsTyA8MBs5JQ2QfE9XuE_HxVbdKTcAv0iQ5Fp5AFRhwbE9-4y2OFma8hlFU4g0RmFtYZqi_egvKAnhX0B54cy5EEzI4SdhMYBRcx6JHITbUB9Klk4cDtdajwCDtB_nUnqhAmmAwMBtpxUjQhNeUA34u9Kku991zdLu3Dk4adO7mUPf1VOUcXp1JyOX3YfX_OCflxDiPQnJ1bdhn7gIHjnYUBDQkDVroBjXC9_PXzHO_DgEY4bDkGhB0hRVgz6KBArZopbSyvc1Gv_-dZKK-30gpDv-xuuL0VBf3Ye9m1pZRbzGuc8-Ulk9qv4OgTqeOtsPwwx6LoQXO7UjXHz27ZcaACMuL16-MdB3edZuQ4AQTpxfdNzQa5gtgcCGkc0jCE5yDb3EH1wjmsS4IkbbncFS2zPQjgEgioXD_ipY4bCsXFGgMzsz6Csm30sO6HZIHYLVyZxDNa-7tAw5PMvt0f16FQr78c0cBH_PvXPUDmTSVGWPPGwXbGVF9sFz1iuEzcPFtvlIMlsVgYP-wcge1eRkTwvqMNrAEWCWcV__1oWFSfMRvbOOaEgMJQTE_rfPXLZMVB6aw_E1KFT5Y55n0Subeho-SXINekEesZetqsPcLoBbgiIF1adeaxfC5ckUE0DzS8lN-WPxaiYl19NqBfUck4eR6OuCRpn3TQC3-QDflkaVNdLkFihpvh8hSeByTkGUABSOHzUw8MiqAimBGvGm66ttdsoNCBJ7qTm3BEp89r816pUVWS-s3X-T1pdgIOES0sdbTX6lb1HT-FcpaipR4K_V0gXcOVEomjvEwXiqvR_5XWqOs5i0KydYl0sRgf6sB9CMqBWTlgLWorsSnxZPXPfL_v-bKY3NG55jTxnMsisBudjZzSc5Qxnwlp97jGzHZm6d5GmevLLPqqzRLNqun-PrSaJr6cEqLWjWTF0nGw6QqupLU4J-hJ9ESK6-v0B7FdmWmXDNomhOsuieStlcTG9MIoKnGmmxwGfP1MFdI2xnW5YixF_Eue-oub57Nm4Eayd4VXpTuo6x92AyXCgYVqMtkuRvD_tiLNWGsd7HZ3LzyiwbovAo445s9viwoPsq0m6J9MaDrdGhJjT7nloYPsw0-m8a-UO05UQ8vGAwnJRsSGjCgQHxLx3-NPPSbJvkYB3b7WIJ91sAqfIIoq6Gst5PBsStV8DX1Hnne7GUXl32cRZ8yZa5_sLFWF590GF_EBg4Ej1CGBSoDfEI3ibTuhb6WsUjh6Oeh8owtR7Xsi5ToUxz7vDiSbLYrGGx7MM6NTVEFR1MUnjdrCmdYasyRW1p96LhpTg35gFkt4NAD9yIHZ5IIU68uZtV96zhs3nLo-i4iFm6y53jRaRY1b5yiBLkGLc2mZiueKf_4bIR6LgxG4ocSNJZrsn1mZ-BT0UexjLhxt6xWnB_Toq8gf2UwDbDWZI0B1ySFtvtulnepVph3yQWRe-neWOUGwP155pjC_0m1vHRyRp4rw5ActKIso256gk7W7lziUpKy1YN5_5X0WFZOvSAk8DzU0D7sRP1LGBqSOZsnvrOp8J2k1Js5vUlngNr9oLfP0rj0ZTyAxiL489BCczoV_Jn18P3RHkSQN4wCO28beaWmj6rd06CDkglZOZEPb2NFlYobPpvI6Je0DysIgsaOuSzjVXOgNAFHECCX4Y6Bhp8w-bnifDYO2Brl4Juyy7WrUQ6IALu_A3DZUH00hCw-RCgqHD7iEyqrjoCjQRr8z63Z5TwLU-QW_yGt7toGjHI3RbGOYdhnAzlPUqw7trj_7P6YqkYaM7AmmxMZdf0wyv_qczOSlpbsiLzQ3z1ggWRDXnNhQLkBTnWr20J25lK11BVee9psojOz9TwX341_1yr53saDkwuJU2BX_SA3XAILU0Od94MUsFCu8EU2X7wZOVJRURQH-qwublkDemoX3p0vgxeypz09JR_VeO_QRC3uiUIE_kkVINRsoilfOFVMcQqgWG1q3BfpqUyJrubEc71dQUzlTfir-NiVFIj47Dyvc1LYDGvNigkTpeNOtlytqXWxqwLw5V-YEVl9dxqlbx0kGIhcYfLA8qBbbtcryYFfEJ-Vx9nEONVpSwMdUiWe2gNWWw4PzXarLaLEHOYjTXjUFRJ1HoTwT1KOxwF8YjYfzW6Z5kBG8WaoVplbJTD-lUoEaj7zcMKnnljtW_qan7scm8ltvTBOca-Po4LwjxAqm80wwphQNmrEkq5UbVMThbfvFVWTirnlyUcxEdeuld3xSWW8ndtsjtN6Q-ZKo7qrE184AcKkoE1FgpV7r0mrJL8zzayym_A="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-c30906f4-aa21-4cb5-8b2b-84212ad56769",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CtwDAY89a19YU5wNSB78vQuxm2Ejm7nSgmKKWd2qQkPg6C2i63ape3W7lK29ZywdUQrvv8OASwbRdeFJWSC6KgVNairaSYSfReuPvejuUehDLoPemldFa6LotvYR2x5MaPYSVP-X1YNx9OBtvtkRMV1h6tvwPbFbDtfZXRviIBT_arWnkhQU46U7EuB4bDa5cy6b6-rmQOFSxCn11SOVoUv6kutzYiWoRerfnOOZeCTqghNwn6A5tSo2m6CKcxRwltEYGy-BgE9Y5w77Dy27NDRf4Edwom-em07E9dFfWqwQ9wJOrT50XaOKAeFj-8hXiRa0GQoLhys6-GZCdzApzg0nWI9tzHdzZrbs1m00aefOMbZ09akgMaVLfjYCyydA2_EgUBZph6eXDGRMmsgXxAfZPnMDyUduWikE--L4veQSPK70wX0o6PY_y34_ADWDmlVH66g852FwDvTXc6rrbrVN2g2SYxI8UlEBHhsweferlnZaQ1liZOZR_8SEXe5e8o1GVWEqrsjpBI5tmbEB3xbZJNIhxqYfn2JFCul2XysBlkuN6mxdiwZdnLMxEDIrBPprxpDRghagEaqMEx4k7N9FpFwMU31UnreSyU4RyXEldO2A0pGVho953MEQl7c="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-c30906f4-aa21-4cb5-8b2b-84212ad56769",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770221174.955017
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770221218.0217419
+    },
+    {
+      "eval_id": "what_is_gracefully_paused",
+      "conversation": [
+        {
+          "invocation_id": "e-8ecdc825-bdbe-465f-880e-dce126ef7c1c",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the gracefully paused value in the core provider?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "To gracefully pause the reconciliation of a resource managed by the Krateo Core Provider, you need to add the following annotation to the resource's metadata:\n\n```yaml\nmetadata:\n  annotations:\n    krateo.io/paused: \"true\"\n```\n\nSetting this value to `\"true\"` instructs the Core Provider to stop reconciling the resource, effectively \"pausing\" its state management until the annotation is removed or set to `\"false\"`.",
+                "thought_signature": "Cqk-AY89a1-W6cbTMbY_Cvoin-Dplb51tWSR5O7c33uJ1LG0RsSxSH0q314GmzwJwgQzqu3LNI0Kcar3zcxv5u9aknGJl0S8UCPH5QSH6Xu7BwBebDzj3xeQwNqot8Yqd7w5IfKXjZlYgJ7LQqt9s7OI1HlircHJ3EBuTOcbemNQRQktL6Ajag6j20KGNy3RKRqcTDVp14qD31qxaP9pUcnfGLREu2_5AL5Bt5fNDC_NcK1NUkROWOU2HZ69qc6k_OIWL7j5LyMfWCB420FmdTRyMvhpxj9TdelV29GJWfMvq3e0RF97BhD5AStOjZBHiHKhquaPEnf17imGqoyvc85HDEsbfhSO95jF5z5Xn_1a5W6u0OOv9t2V1s7NYXVgODACzWwoIn3UZY_VxuR3Ya8bJlglQvzR4KnibMQGjQ9JAUW8uy4dEVlaHNu_M5twrKIeam_2vPque4qKDRw-9JzwRDfdtXUlWaxmTe5QxoefawaobXv-aVlWaxceOZ9bULwQOdAvt3uVcC5M95b5lW-xPdDISX7r3uj5XzWxfWfkCKasUWsgqkuIqeyrxfmIFoDZHcfSgnu25o3K8SJT8mwR5mTm63iLru5SNEEmxAhErr7SJgE-lkaIvDe9mQoWDjflKCibAj89syVVhiD4mjZ2ArT1hKKx03OW1c_xJTEll1R71ASTvHwQCYN435WjxubD2Cd6kxCJCoOgikKkvyK2UAAbAm4MvSmGJ9U9Tj7UgRZj9kcQehoLV_ipulw0o1HDgeYfUa2r3EOQDGIELRmmrMedwVcmYbr8_JtNbbERJ-wHMS5iZM8zfrBn3INqArMlDr6-J3Xg2nXroqPxZPofWzlWTwVs5I00i4DoziuSc4mkzLL5ZkgGNWAtes-hpNo7lAmhkhNQgQPgcTvfwCZKAFydM58IDOH-6MkWMx8g5Ld3RFbjHEQspotzB2Rwe03YN81dwkoTfd_20KATCx8_fkV_kUTRaz__R4y00nmg8BfmrnXL-YOfSRMAkF_8kbKywIVqCn5DcbhU08UlHiBjTvKdnFpk3kxjA546vDmgQyp3fXIkbaM1XLlp85nv5xn4wy_w79otOUdkbc64xi4bw1WWt-VY0oweuQOtQEODzhhDYWBYVKu1tNni_9mYCyEGIdFEN3PUDXnLXnoNehpO9Ga74WYqAkRmzfArj5OfJN_uKoSYIMMLVIXV4vK-KNF9PhHrXlKcjKwFfgWaCUVQejdDfWZOBCp-mnNkL7w5HSM07OJkNwRmDjY50vC91g0X5Ml429HysKyvijvJRh65AsiCUHgIIwlAOmXM_Jwh8w6Zoig4d2Wfka3nHPLi0tWoAOjpSsuHK_x6RNbN-bQ3eQCEXV_cgKqhLHrcERewq6gfg_HmO4Sdwm-IfBB2750sxsbd0vm-wJTUz5LxyLhesHQIArKDCuV1qtQxD3ahylrzhK-vNaMoSwWJ0PS8I6EO1q0OYTNgwvKBjUzfUBUjx6YKcoPsFhnLgAwybssoENkriiUF2t1CnBKzKAh43O1JarqRCskqzRa-xn_trrWN2rS0jpjD_vqZQbhRo5c4XKM-5cvmgOZRc57zbs7NbVajDarZaK5_vhsZ0HQHfxyhBMjBMHyy52NXMyE5KzkoiyShpqnzJPKw0m4N4ALhhscxrZpJiAD_anU0zLxwrbuBtvU2UayhfnBAr80GwX21FU9Vbuk64gkwGoHU75C5hy8UdqkzQxe5HUNWdfg_DmUXwk3wbHZaG1ox7pOad9tx-uzE5dLm2AtFHPLkB2suJnvXUQE_LCedvCaCuCyW39I9OkkfPtmuYVGfPwtMOTQU3sLAfcM9zNcTrlWadodlbQJ9AkYv_io7zWjitFl5VOH2kjliujdjzQg7U06P_oXK5BmlgjM7q0EQ5Nm5-P168uqrzJENpzc5DM_pLY4QRtwIysr2j3RtnK5C04C7LsVj_k9byN9-P_1f7ePnfCngvfMdXYCRMOZb9dHLXo0Sy-j_cGGVxdQ-IpQya75gvffmowJr_e16HbOLlUhAf0dZ3WUy_22FA-3-ao3TJ52TW7AWRrhp0xClkpDNOWN72pYWElwIE26CSdZhvC9erctwtxGip4jdrOD5IxrPA72dwZgBr0Avv3HRuCeXjDOfoX1jV_R3nBNoDLHl3T57EHCnfQdfA-ZC9MfnaPJ8IZowx4eNxjZAu8PelFRFtKrv9bgEyPcOEDKJSEjsPBkW9Si74WURUQ5kI9i-6zYkXmWnhHGXlQjbQVh4hQKLDOU71YFCtf5rE7qd_ZkQd7oVtG1p03INoFTpqmMJa-GyLwzgEoZil1e2OIYdFBU1Jvcq0KBPeQ_DCeZ_Jv7fnKQSJMD0hEhJM_s_ASO-_JOd8lbc9Q99OP6ZdC8v4INXLVLVk2LsKiIBkqbhbt5YNC3LVlUvoiM35Fm7rvKPCH7GSkDs5WJrd8mRyrTfKycK0RtFLLeRz6h1rgkG2edr-K6zxfEP1xQRrsDhiCKEBY9miexvwhOtZXqV4iBAasVDRKR4Q9z69oJpUz83YVpMVP7aiDmIf5MJx3XZ3Yzlx9KrpPszpbLPSawhzl5_jSBaXnNWBwxYOcID5f9rRN7Aot5FK1Jo5Tcbg_xNgiqzyiww-eT5ZiPBed4hCVVEZrdhloAkFj2DLg5PkYWTjZ0BZ7f_Q4ecf2xejbWJkpZmgH2oEn_e-NnH9c0eVJgMdPGGu_zm3dq67bhIzkjhWF6EYMFQqo8zz7AYjCNArO4_1x-wv4vmrU1dNCRqbWcxP5qUNQewbPru9p00_t6oxs83vBEqW9nxlO1JwVMRBjzgSLD53fIhQiV4MLF0E_-LOHUwxiYnS9n8j_PUyYpveNiWQh55ESLCCh5Cx8oUi5XUmAxtZRTZk8u7JIfILE7BvBc-niwq0xLu-WXqJ1qx9kQNloS4EA7qKhgDZtDzQdxQTq4pvMq--kbfvFTql44_DYKtdykZ3dPlwVbkfHDyYPFQ4TxN-56vGypNpoF4N18AeD5bfVER8jMcstplX6Mt1MMeIwqEgSODWZgT3V8wrc9u3ZqBrYE2uJIYKo6jWVRE3yc6xn5BW2WxPydRX-jV92cR5JxsXWppHGzAJYDZXCzdRG1g72uKuQRknw2m_NcgiElTxQkezKsxyyDE8cT38VUYfKS_MVW4XdPOAuIH7qD8eyDibgYvYAN2iLqpj6ZS9xWkAuP9S6MbvAJutcbNOEuf8uH4AqedWYOraDlHcUojPOnmD77WkysGLvQ9AlwxwwtmruSgSj_NWbbTPmFqOTBtGvhYuDuAw1iIhf9bJ8hVjl6pSTnX4JhLlq8fgKsSouFj5AbvMKlpYRXUh15ncUueKGxcDimbOcvYn3IXvP5_pSImx682fQWVKchHSmexUZM5UrpnEfcsQ-oBeVS7g-uS4zLCRSf0oj0BunmgSEYBbruZHTQXYBTINLGRSjETnLePDBEsNEWemgfD-55Slhcu82Db_DGI46H6YFaaZIfKhnuzT7YdXi8NaDfKig8Tp8veS2hQjzGm_Q5je_eT0ryX8Kf3DqIi3NjajG3E2UrznR17P0aQL9Bd-vyJvKc4hLyPftD6iEV2CyylJhs4O8Po-C8yiybIndR3gwruihuVxhpfZBA4g3wr8jLWmQC7JzvFVydCpIfWUE7-2EAJ1brryxGXbzlxsLt8idU93d3RWppSd9bTdekWloAN70_XwTyi4vEhqljJp-ynEcYNoai9L2AhuevcFKXaTsnjAiMrLQPnmG8zAU5k_OfhWm3cNYa6bmZG6KrNhfwIZ1DQ3ng74EJLeI_d-AtKMxMp2qxCOW_YzqGTd7lFUjKxXhZG1EjChabeBUqnCmTA9uKa-au6XHr3rjMtw8EX_9iw5NjKdWZgEYptCr_DyjVGS5TYLSGuTFFSzAcK5L7hQUuf9S7R1HK_IwlPTJcREYq3u8qLZjpvOBe2YrjkfG8dUJaw8T4rOiUUspfToCjNb-zPaOMFbaMQWaMhRFxj4zrnjgsU9NO1yUlPXSiST-3mOx1J0fCDddKnVQxG9GVHtRdjOms_f0k0MhLfqQDB47rG8-mg1dWre9LwZ3fTh0Aii9-2lKWnTqaMVNwnK7Fs2yAo9Od-WZ-x4b83vZH58I046FxV4WHcauo3cAo-pacW_jNaRnEmP-NR9aOo_c0F0agaHyiHJ7QeDETsDqzyy7-rJyUrZiH49XnI0ah9pJJI1s8l4o-V5ZXtsygnd-p8DQmylO9YcIOdP_liMf6htbPc27yj8pyNhASXNw0L5ESUUP0qvMTQuh6La1kO8YGwOrS1a47dsZv_Pu8A7VdC15vXk_U4P-EVF3RYvv39z7OBmgUcRgkQ2u1gbMAm-Omt-o9xcOjRDfCnME-oBMo5ifHv5KyNmPO4R67aY475dCVZhAIlYwqvr-5_4shCYhPZfwTHbtJ--gLYxXPN0JkUuKGtF3-e1cXMKnd2--3XxcE4FZpO4NatKehfDI_zH_2Ni-qGpMV0lqNRl28e74-uvc9eDaZm5-PdlFGp9E5crw_wwJOyDhtiudEZa_UHOhVEbWizjwgd2IcNi4F5m0S3__MXBgsmRYZNJUwzpW61nwkcWNBLPmP2zbZrgbHZIMJF8PEzpOXAaGl1ZzNHFgtKstYtDKw9kLdjQj9r7VbUzczA6n8ljRQEkpiY8X6o3BHfRhIOsJZrPpfWshIsJrFI7LbVixEJNem9vAUbTpknVK3ehQbx-0Vj0tCn5NsndF96PX-vjQCVAXc3O1Zuy8H9Yro1TU3_NbDd2wpNesbgsNU8XW3zyRAaznQBE_H3adA8K0XMJTYKFC0zTvQHs93FpPVMoTecgxWwKx-shlomtx1PN7sdVMHN4wE84qy6VqU8k80CYy3kI9lB6PiD_kq8wafaM_6gP63q2QAA_FzTxOvt-tUE3dhXYRSL1cssuntAAZ3KVvDrFzfhmW3hBIKzoxp05IbfD5TOxpr1tHib2uC4oX0hY769VW_fWkTLQB2mHHO1QKhlEiXuBHs6yUdlRLCfW1R5LW7rsExdYQiWdlJ9gp4HMh4HkpJVqTWUAbt9g1hIp7LsQA529tJDHw3aBziudFfkxvelzNmwlnRk_TYD4giomYa82A-xzWwSPDtM1mkpSymkKA_sTiCesVGRw688OQyJVe13jSNbVcTJIhWagOB3v9AznLS8gNV9FH6hJDujagUrMquFmHNWLk1uchuTdc6s88UU9qJv-bxb9F2mUgXLeG4BsPpTHxcilvHIEfHMA9p9gUUTyXRrhOexiB5FaApUPih2m3x6VJaejrsAy6KuDgyM2k95U_7ydn1KFVh3nvk9gqBPXHL2fXM41FjC82E3ESnDI8EnOf4bS7Q-eAmIrH0zgRGwAQyRXfpguzpQELU3a1hETxDbx-uimGqnHND1t8PZLu3encVDp7FfzNbx_8j0VdMl_ZOtBK5YnqE7jBf8PnK0wldkmPMx-SFTpfoiWXBTx_rHis2HxT4HUYJqHFcRAXtyxype6jHkDCieimEj04T0ygW5odQ1WsCDzmYV2F1cb6tRV_im65WZSopqE-fT-sAi7mF-BOmQARKIiD6UoEYvw0iiSoTIWsFHU_z8XiQs4P6SSpoUTPGEXTPDRdgSCWVv6luVwnKuyqXpDQ55EKHPGdtgTuyBJ0TKijTZOS3kwBfhfV6u7zOLQAlnAFkWcTYTRM1ps15tu3p8klkDU7Dx9UnSsJp-sw8lJY3sKmzAp5Ap_Vt9G4AEB0O8rUVBjeTruoVQE-bB3fgmBJVThsb_dm4RhbXe9moJVEuyfWSYXUo932326Sas2vu2mU2TPIkr8hoP5BcztO6ja2rXxJhsD7yKKuys8TkLPy3lIGOVTplJ3FdFhVoldSIOd7qpdOeWfLSfTpn3txVu4RQiKKAQFG-Gd5GUrU9rGNlKSk45HU2EIqm3TxLbukXXVNDQFuAu3kdP2pCDMWtseVCilLRythFcDdFfdQ4fX8lfwTPklHYtES7VIJ_YWC4II6b-RonPhGiJNjNoP08f2tCVFhn9AnQ8qgVjMssyYnh7SEm1ownsK8X-F_PYIKMeHXTy2UzSkeWu2UxbgjB4_MbcqZ08tdbO3XTeT7CpbTk0jI_fbgxme6VvUQR1CuMBetqn-R0RcbiZntA-yQZB0bECXfxQpebiYbRhDFMURoAHLl0bbIAB057J05VmSE8AgSkicm_1-oQcYh3z7qhmEQNWorcVlkOUE5hkwcL-hF54vxe0JAclbkFlAIEDiPjvUVX5nDFTbnHrfZiEOgGbeFZmLYIt6JxuRdvKJRZEwUbI0qwjtHCKuJo_1YiR_goOaUosARsJSegZBJ0jY-Xqv8qoF6-ROcjmd1EYu4UthuRC44ZC9nD5QSmRQkfhHmqey8Qbf4rWlKlPL6A0WSYuG8AC4UQwO4lSZBk7HgDO54NyOKNsap-DDq_bv31zFXmyva5lebDSOUU1TPz6ZeGeQDbE9_lOslco6EZq9XVdRYV5oykuGgDXPRkl7FfTLdQsPqDU8ruL0Wuj2YzLVccKuOEPHzotxU1m0-ysxmXAKZG9g1UIoBP4y2bG-edlVn85N6tGDxOWa06piLw85mF-OEKLyV2hvYqCp9t7JAIT9IxA3DdaLLflDU_Vsvj_JDwiWzkmUu2FacMaK7STdF0JzIJD377cBmUricZ-6QmCEsh-jBjcfQac3j4kJSqchsnkv4eCmw8LYgBWEAG3LaJwck2O_Orz64mORkjfkGhyrFftQAtsKqVS6mo7pqmPT8CHkXkjD7rhFvjimpTLiAex9T_AFmyDVMPUcV800-Y0GsJjBgrgLCjXfo1-i102tb-6gzgzrMr_uZAlARYNAwEmcO0p7AAujV5AnzT90TxXYQy9u0vQX0zvr0eXPVaVbyH5GvREhRqxhd9s4TcMH9JXbop1MMYDXGMQmw5GNU9sAdw6AfLGrHwyrPO8GBCnVOQS6erEOj3fELp4U0OtiN0_97XN4tD9Q55ht02mWFstxhptiA0TPmM7ka25inqv02tFYYl-Z5ljFG-EPsOJ07nOVt1_RnVHGHjPAWhK3w1-evlKIyiSo7pRMbEUOEfkETtpejgVXte93ATP23A-ZOGXAIwAJxWUZnj0laAa_dBdgU6NoOjYXUZxEOGzv7w5LhRi4jpSRQzPKnwePiQ1QmUpHxIS7yWrO4xqKWAlMR0X4_7sSDYoDQo1-RDcw_HuQR2c4OB9ZzDKQFBnVMk8e5Pw4K-SsscF1fmv-JlMSjNUdwJls8aospdqw6cMKdyNYH8bX8mbyIm7OX7VJaOiL7IFwBSGafiXPk1R9ocY_T0oWLJ8aGFGZmzEIsaUjNxWiUjR5iPt3EuWUdxHJ8NIWQACP--d8qzHmgO-HzUfwR3VRhc8VeLLsfeDL4vB5FPUBAv0BzmrCj3uhKm7-N3-jL-LH03F5I_lZM-PxvhyU-ysKR0vqxn1z0hrnScWXz4BJqC7I1oK6qqmu-YtTSQfMrlF2HU6JUeuh65rdShXrtZ31diRUY8J8fFQWWo3SO6kczyd3xThLnjMchQAW7cjT9snwS15_2J9kF2qI1x71e2NPfG27FLEDhM36HY5mSpdYdfJJDAuxzOzhUtWSTATZZbJlNiagwkr-lEo6If4iW_LRsFE2e90LVZtEWDgeLQ2XNaWtoHnMcipL9LBKWALCMDYkK2yZ1O1xrIoP9EORqVJiKXg43aKKWBCmqDv9chkiR0raIPDR93nLafSgc2_uQzFhoteMvGwiBTBgolq3l-1SyAPPqPKgPaaZd3Af-ricxK7jnfeog3Zge64dnaiH21lVoUbVFnn3RlKAAh2qHqRmGRknOtK5Pjs0G9dnT8rTyjcrSQ1agKpDku2ndWBVk3scWOd9EwIbXmYAH9yPGcrukP2dBf2NeAZovE4lxuywkrG1B6ubd7P9XoVbYVsp2CsnDbMvn7Pz6rqz5-szugGAMrFBLpLqOs1BZ2KOPjKqPTQe39loyC2oF7c7BpEbG9iUcypGnkv4a5KcQDjjfK38pdWNQcDSYPnJW4LYZgECvhdCibDNkWopWCLOsjPh7pivdx1N12kjZKXwIpEPOiIji26IfT0lvZgzKpSmEnURlo4HeuuitrnHBEPkWcV_VlxIKCsCGweKDrgVztsWorfaghQljduqHE-FNeoBzjGKUqno9YEjILG-Rz35WrZCyUiRkK2ELxBISmmr0KFi04Y13B1J6G7xMkVR8Jo3Xz1cEbGipKDNymiE4nSjlHOgJ3vUsnOr44aL49uQEOxjdz5vU6yotPT2rJqRtaKfF3yaa2n9KYd9IU8ehDApd8iq6gLQK_jnzJrcTN6Iwk2GrroeMnPoExylYlNEK4J6t7iW_bcR_Gr4Gda2aOK3QAsYip-CvLYEXjOBBc6g_Q5vy-aOMBeBO6g0WClCAgW-EK5QQq8JXGOCu8xTZXT6Bo6TUhXVixoHu5_XdVNRK3g5a5-0AfNMEOCPdijXl2BpGF_G_QyDEQWK3zCV8ZIjJLiMcDCJXzOQuEMHL1URO6yJJI2mf6MQCigT0ZiYE9vGTmhZeZOAdsiGxLl4cf38nGGeKiNAPjLTWYuwV3a9YwqV5X306ao5ay9JAoiwWKYI9FvgiiRNtaVBCTgH7y9N-Qs6P51aEM7UWgoZtIamJr_kclerC-1xNddxYvrlNFGdpccgSIaL7FtXLGCjcBiewWt-sw6vj0Y8IwK5RpCVbESf1oCfeMuOnZYh7EWzu_qUj5ZopseSxE14GtvAWmTsa8Wvx5uj7rYmz7mcXcZpsUTib_uHivUYEbuWd-chL-WLF1ilGsMa5YN_SXLVsGC32uPSA2quSdH-pgJMma_Ti4FzYiqsjLn8IrICSCvJuAWWFccnDV5cGDR6tcXvdyXoYfP2s44joM7vD90Gc14yIdVHTqdid07O-_G1NzEbUuJlslEdXkDtYdjdhPaHDuGjzArHAb3OjzHFDugcQ3EDG-BiZcXQtnZvFmBudvCkhzM032c6XA7c6zyRKphNgMLK7lu_oplZnev0AKFzF1lqMif201KJM6_SypFUX7w_omm6mEBuqnIHdwR2IRVIgX-NZWjYeGaPKWR4ZR9xRX4IAe3US0sdjsR-VXH7kn0FVXz5er3aJZrzaS8CaXcJuz8GJK7EcJ0YAqMDxEtwrrEM3LASnJ5gze0P5zM2o7XoyHlqxRi_MFvBr7lpm8h5q0qte0S3v8ZuK61Z-kvvoKegqF-WDKK2-MjOri5VtCzeS2ZKEutJAdr18KtjVedNxGT6TWyPatMnY1k7NbN27hjZ-RMGWV0m8rZ5OmlFzLiv0QvLAU-mLixtERFBW1Z5i2ZyqEPT7eB6k-73Mj5aqIHS-FtfTTKpg4aLjzE8K9JqJY3ayGetYMYHQ-vOMFSa_5Id4ZDKH5KGD40f1FvosdD-eQ7SUJeqyN5Z0MMMrYXjbflU__c5HIB1izlBeDx9FubWHDwhnShzpg5ByAWjIHI850UsC1ywOtvHD5HQFEM9Jsjcd7gLZ7d7scuAkEocu1bchYaRBm6i_CK-uSMJH74f43g-2N9mkifhSOX64lnlDvPcGpb31mDZWkDSiqamnc9PT-8TI1vyE-bsRIx9ADexcIyT1JNfdrsYQjtq7rCy5gKP4AWZx_9AXlaAi0xz-p5202wsDEbUUvFY7d_RsIKOGkBCk00tbXTWm1N-Tcjz_QrZyFsuOfrtwI8SbpvmAd2iC2FbhuCWBJ4mLVeXqPpSDndLtFtI_oXkZA8_wtSfT2xfz-7-H6f0jFYEmdUiyTKb-VPuHyPWG9zVD6VmxlfBAIdeXOjvENzMQ0uhWfqJYgg7iNn1BWe4DXB5HwCjOemfg76h6foQuXCkPEXKDRfYlQahOb5WI9Xt0-N_v7vWcca5TO14R7PP3NoGm2rizQK6ZMokzR16M0gmrtTFAio3U8v_rHxVKMDpRw0IH87gwEkQoFD1jWuHIcTwnEnmfrw96D69Z-DJQ3iXjodPqam3k1ec9RzSD0x7vLCrINQzjPx45uSH817DMZ1ADTebiwhwb3j1NKNzqxPGTtijywIYeVmwPkHAqJ57SooLJYdJia8j2JOKK7HQiQQBMabaNRszhEPyUNOvXA9gpL-5refyiaVLSqg5UL8zYFHTXx_7SH9b8uAPJw1zDnkOGHuGo45kmWrD4CytXUuqq7vusRmg1qS9SaaIGqvIi1RkTNe6TMyVSix0-Ji4uY5fbdcuNU7-G5RdYt5f6SNRPfiFpLCcwzRRYRuWWK_YUMvl4gLKdxNNMbTqps_D-HB5v16ePu94jszcykxQVu3ztRYT0Uy1LIdP7dPFR9FAfUB1p5Vl3_o_Dy5y8r8BbVNnBIYVcLsjISAx7RSrvta9Apn80DLQ8fY1PQJ7IAdFNL82vuKKUpRxn6IJWpz7HXEfvJwslpIkl0EpSROUx5iIjCZH3UxmO_YQQxM_JAamBhe85AwmOz-KE851nGCJT1Zp1sbKqU6RIzKplew6ivpf7TIK8PCKWyopfLZ7rF2HCxoPW0fUJbBd8xNGaDSiPn8sY6IEFoSOS0Yjm3X6B8et4nCovKS0b2ld52A2VDRP-atM2_1z-RmuU1daiMyePya"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-8d79cbc8-43e2-41ce-9fd5-93dae4b5892d",
+                        "args": {
+                          "agent_name": "blueprint_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CrgDAY89a19XuC18U4Szoam6HIhhxhGOQh7AK8G4uSDa0rNAeGtroEcEbmWlerd9JlxGlDCr4vOip-6dqBFhR7CMXYvO9zMWo3fVgA_BVaM3pT8Y1f958RSHXrH7DByY989yJFS8Cd-i6MwXcGf18UqQSN4nLH9StKy-BPANUyMSOd0XoMkWrLEnLElH8xDlk2s5E6kC7vk0guqTf53pcur41_yzJpojZIA0oqw9wuiAggCDmOmiWnSUO22Tu7KK1aGW3QNr3cIXZT_p8Y1bLngH2MbH2tSUjE0IR75HLPW6xlVVPdgFe8KJoC0ovunRdNx-glw5qCEP2OOyCXwUdwnqGpMdnv9iv1OOo1cBXxAvSXHVQJLuuqAQqL9tEqHhwhqUmampqnc0g8aJY0yFOMkw7AuTqmHir-nC20j5FcI44uIOn_0lJiTpiBxZ2vW4r17Kt3oRmngkidZxutHcru6aKdURg7fwg_B3LpJslrosfQtKWQyQvXecsfbnvXdpiveGauVxPmm7n3HzPz6lpVUr6lReSXBIkV4D9uMOnpIeYAQnX-Hig-i1M89XweuwXGc20-UeF5QYZW4="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-8d79cbc8-43e2-41ce-9fd5-93dae4b5892d",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770221390.840161
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770221436.1611865
+    }
+  ],
+  "creation_timestamp": 1770219087.7445157
+}

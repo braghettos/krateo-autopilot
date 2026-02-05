@@ -1,0 +1,566 @@
+{
+  "eval_set_id": "restaction_agent",
+  "name": "restaction_agent",
+  "eval_cases": [
+    {
+      "eval_id": "what_is_a_restaction",
+      "conversation": [
+        {
+          "invocation_id": "e-74172d6b-1759-4531-9b2f-47e7951054e8",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is a restaction in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "In Krateo, a **RESTAction** is a custom resource (`kind: RESTAction`) designed to perform declarative REST API calls. It acts as a bridge between the Krateo Platform and other services (both internal to the cluster and external), allowing you to fetch data or trigger actions purely through Kubernetes manifests.\n\nHere are the key characteristics of a RESTAction:\n\n### 1. Declarative API Calls\nInstead of writing scripts to call APIs, you define the call structure in YAML. Krateo's internal service, **Snowplow**, executes these calls.\n\n### 2. Capabilities\n*   **Internal & External:** It can query the Kubernetes API (e.g., getting a list of namespaces) or external APIs (e.g., GitHub, Cloud Providers) using authentication secrets.\n*   **All HTTP Verbs:** Supports `GET`, `POST`, `PUT`, `DELETE`, etc.\n*   **Data Transformation:** Built-in support for `jq` filters allows you to reshape the JSON response directly within the resource.\n*   **Chaining & Iteration:** You can define a sequence of calls where subsequent calls depend on the results of previous ones (`dependsOn`), or iterate over a list of items to perform a call for each.\n\n### 3. Usage\nRESTActions are most commonly used to:\n*   **Populate Widgets:** Fetch data to display in Krateo Portal widgets (like Tables, Lists, or Charts).\n*   **Integration:** Trigger external webhooks or CI/CD pipelines as part of a workflow.\n\n### Example Structure\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: example-restaction\n  namespace: krateo-system\nspec:\n  api:\n    - name: my-data\n      path: \"/api/v1/namespaces\" \n      verb: GET\n      filter: \"[.items[].metadata.name]\" # Extract namespace names\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-51d72fe6-f315-4732-b117-2c5651b0cdc9",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX6Wjdyzun9MkPk-S-0wTgQTPkGZLuKLOGdcrS5Q08G0VzBP0rjro4ApxAY89a188CPao2cFjijk8VHggwCTxrCIIbst-xgIFEn9YhRL6Pn09uEw0llNixeeYV7Gv6s4rY6dOmXoXZzeujueOIiV5A22eQTXQh5vPc0BmL7nEx_327xnpKIaJa0IvTSMu2yltvOx9wDac7bFsVKUKdwGPPWtfzPfbvp7loVLp-ekiXF0Wz_Jl8SzR6i92hQ3SySSkC5kUg4vFM84tSEd-MdEHEtP0vtfqVIuReCepdnDLx3MK0kNsYICs0vpHGnamzisVFvBWqyoOOrhmPgpodwE3WUIBNGJuw21bzK3mN-xghIou4EKXCtMBAY89a19JoPxf9SRJmWelW7qtG90wOwo8iLuwQ1l0pPeckXEQICzhyA4ubS0fQ78gwHtbfzcwqZVLh7hPwZhsXPwCjzYMs0IJyeFYFpvLommmGpW_S9xNa9RYJ52P1eYzNmW9h0zAePNt6trSX3k88rKxLbKdTdgvdAesWqX_muVNQ_CfkLj2Kq59V4LRGzcNRupU-XtVGizWQ_LlOnwLVNZX2RnWSDoh5rKMjI95ArBk5E_wqIDGpc4dU6KQJ8FHgmQzi9Z2inU7rmu2Vppbx6Cr0gpuAY89a19VZntWFjcrsq6h0R0VeUL2QXhbd0zwAlyM2_fGwGXsbx-ymX0UXgHhezjOc3t5y2i8kquODvpSWu5N12ORcMb1ZD-j-FC7LfA93qjIfHY8j8FUC0EKgqi4FoepEScKavzdSu23T8_Vd0s="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-51d72fe6-f315-4732-b117-2c5651b0cdc9",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770223024.54267
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770223062.635811
+    },
+    {
+      "eval_id": "list_pods",
+      "conversation": [
+        {
+          "invocation_id": "e-5a982dc1-e52b-40b1-834f-ec9c5f2d23d1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Create a restaction that lists the pods in the cluster"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `RESTAction` that retrieves all pods in the cluster. It targets the internal Kubernetes API (`/api/v1/pods`) and uses a filter to return a simplified list containing the pod name, namespace, and status.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: list-pods\n  namespace: krateo-system\nspec:\n  api:\n    - name: pods\n      path: /api/v1/pods\n      verb: GET\n      # Filter to extract only relevant fields (name, namespace, status)\n      filter: >-\n        [ .pods.items[] | {\n          name: .metadata.name, \n          namespace: .metadata.namespace, \n          status: .status.phase \n        } ]\n```\n\n### Explanation:\n*   **`path: /api/v1/pods`**: This endpoint lists all pods across all namespaces in the cluster where Krateo is running.\n*   **`filter`**: The `jq` expression iterates through `.items[]` and constructs a cleaner JSON object for each pod, discarding the heavy metadata.",
+                "thought_signature": "Co0PAY89a1-mZynwUtEcp8hiC5h5yhZh78zZypJ3vbW2lo0CxO8H9akP_HF_gI6RPI_UPSDa10-wDnLt32OgyVXzY0G23Kv3BMfMEOdVGuOWZn-S7vZDhMutrJSmAiOeHJ6OQObNXnVQY_JKQvyGlPFLrEsfJ4Q0hio7xTJUOiZwnzq86CLJDL3ax33CbxIk8n5j1QkrEaNUXuWg9E-ZVYFIggROdBigky6xE3dEL2gp5o6ztfJwjQHPxIl3xbUmUCJ62ubSAn9rprNwSZPaLSb4B4MteL6huf1CQdD2mXPFTZjQ-vaV7Nh1H4VASQmPZfy7RBiO06iP1FCu6PDzbWTHgzm1V0YB-eExLJrnRcepZJnC8sKgBCkFj79dAKOF7C2IauUkb-7D8ocB-2nj_6Fak3X0sdSlKZ-fM5ul2GL6xycLj4LTIPt-iYIQ0ZSv6Rn6CppnODDhARZjrKlu33fB7JURIYdgjYvwZ9TFci8s6kGjbQuWiADfORjeN_ZW8FMLwEjEqr7LiMUMb05ZN02A0CE5MClzpNZvzMu-Ljy7AIQoHpFpKsOS0Xzwqn_5lDFFbZe_WFmrrSJ7fqXeFrq--vTkmz7rREMukU1YqUf6SIxRjMtPcAkrSAEjGWnNNAqj7FC5EGu5lKGIjLvN8qu1-hW7cDXoGOaWUuOBd8iTcfdC93FvfMJ2kZSGH7DP-r2D-gkXUjRtMPBvgaAPKKh8Ll1Imc3qHI9Dqv8MhuhbvbpQ0A7NOuAY2fwnjvzqj3cGlFmC0tl70pQ1znApTYmHxDoa7xyWfbW9hB3EPJmKHRARb08myG0RaMWxVSQnRz97CejF_YP7PCfgRzOFKXHlwK_78w_FD9CCRmxO1cfp3hfJCquaKq-dg_WaDVr3MVspV7hF_R_ZzHqnh-quwdpeLW0Xg87zYgbAOlXADjLCaFSbM9iHhLe1sdrMDI-0M0lM2RAGYJ3fC1f5AX4ByIhims6toLiP2Iy61v9DHVtx8gSX6I2WAjVefEKZ-Dxer-JIh6lRfVUyCuvrNZ9VZ87oE6cFEwIl9dFhbnn-p8ue3rv1phE69ahqQx0jKnfzHKShEKowa7seHdEl_kR3c5ZABulJ1AYGwFuxKePwGhzEO6hh9mck51bftwbtfSGZHV_4zLHHnAjuvJRTv7nPbol5IC3jElkR6z7bay7CNKL8s_qEwuxqUyu3xnlUUu-QbwqcGaJI06LfttB2KdfYq_RhVHWMDQxC19MwsMA7H2g2bgCCD7MdLqhbjPayhbXSTJOl5Oj5RSCXtOzwl4WXqz7cqa0adqRkhNEaMnSZelVxhOJCDsWqzwx5rFirI7_EvSd1IcVruhjvRqIU-iwJGgFzpy54SvkjQz85g_E_NZxpjFnOHO32DGLYQgziLdrLfs82x57OcquGrFcYcop55E9hfK19XwnQrR6Avni5ZJTEDyPMXZvTBSUgPLqPEA1-wm7YYMbVsNVmX1x2f0Wn9uY6fQgDfq0PimDmx2XAxois0GMPq1Ft_1wwObyon9G2jeBK05VXPYi8aO9CnCwuJ2o0fbh6ljgvOVLyplJfD0gUNhSa_fAosEr4Sk8K8x1IrTOrVLD_3yYfBtLf55h8FJMg5jTa_VPR6WJAaObLBwhVMiZZE7MHoYoDfApFBKFkmjlot_f8pxgHfMbSzZk94xIK123edvuJ0HnVsnNqUijpnm-nV3OcLoy_vs50kiUZ47WqFRDmnYjJiWBxqa48oEzzle1CsDz-DFD566_zVM2P5EXY2fFR1x-tyOMUME9caWSzUdefE_zYm-KCYan3WP_Vh-HU5Ii-fRIU4YHEWMaGIpUCVgcMlwGU9qYKXj-d6yzNczqMV0rMP7mKcsaH-rRah8QZpXSS0yulbazBgKziT642aTBhjDF1vE3Z_l7-fIngaeHOHYrbe8_KW9L4VmZSb3vyopaRa6JbAEb595xB1DuSW0yjXLHNKgFMnDBKQt4YZXYenRwX2SKiJ_qSm60mQN5qBcsCmEt7UsB5-PQdhcDSnFrSumDtcAAMzjz14RzPR3pfCbX-cJP_u2W2tcLQxCzlbNges7TyNn_352rvxi3-8k3F4P3u1EJgu-5Dcz7kYIfgdjtGfycpdoviTa8jweKBOnEZJZJgVmA_3n_XbNe2z7VSM4YJFSyg-6n_MlKZl8Q_Fu99czUCWfmg2xAPMGAKrzGxaqu_xdJTR5fFyh4NkPiLLgc7mWmQO2DmadAexmv1538gV_nFcZvv0Lbt_PZ57ucD9a9zZ_xiovHYTARtavjoepU--HCWl4nC7S7cV8E0HjpzOAuH-yCJG7zox_Tkm-kFHPX0qQbCuQpAPiQWLv8UlFCreo9q9VgbbuYIyDIZu5e4Kw-UASWoprHZ8VP5DLVxHDBwdza8Y-mCPMqFAhHTJ-eSa2OkLVFuqvwkNZUISoEFVFoKTWBKz73XtB2IbQKckDf6VYV8VWAkEXaZpv-Ys-dV35hOsx_hRgSGEg_WW-DE2fmg8QQjjGTWemNeISWTpvjbPZrpFYgOvs_Lu2ayLpUOdNKjU9nlXYA2df3FRRPlIwjAKYni6A=="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-774b804c-74de-4ea6-8346-f2e95b43cba7",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CukCAY89a19WL8zwuUft-chiFxbo77JUiNv6N6YjnD3VMPY9DezR1W0bUMGCFT1tpOEV73al8S7QNddQ2d-BHQvACiReHfpI8v5iF3nT24sC4DPaFxVouZmTPtg2QoQ8kc7vlqtfa2WZ0S6B_kl_wmV_4G8VSBVl2-AgM_IndcRlSXkHgxYUL_GKFhNxFr_TUfq038XVEgZZeCdZzW_yNA_25aKBr7rqmjoLNUmAoOSCZloNb6Xvre6dMuEgFsYO2Oy4M-fqZ-bQ5mverG_BLhsHAM_51hHW9UQvRAIjLzCK8dvSIWRBstnOCkesINNi1kcFdqrscMFPgNIJphkXl-PgA9gL0BEOg9MfDUBvo-g0WRjk5rBOWsC1g59JUlUYOGiO_XlSxMdJ4-uDklJ8m8IAqJGD3FyXtf7Z32C9UTnlt6A93rm5f_qyF5O7fLaT1u2N4CWDhWoOyQGKEgbWFu7m6OhK9N2dh4Ys8A=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-774b804c-74de-4ea6-8346-f2e95b43cba7",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770223082.584024
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770223145.963938
+    },
+    {
+      "eval_id": "list_namespaces",
+      "conversation": [
+        {
+          "invocation_id": "e-a037e319-d70d-493a-b356-479ad8320b2f",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a restaction that lists the namespaces in the cluster"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `RESTAction` that lists the names of all namespaces in the cluster.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: list-namespaces\n  namespace: krateo-system\nspec:\n  api:\n    - name: namespaces\n      path: \"/api/v1/namespaces\"\n      verb: GET\n      # Snowplow wraps the result in the variable name ('namespaces').\n      # This filter extracts just the list of namespace names.\n      filter: \"[.namespaces.items[] | .metadata.name]\"\n```",
+                "thought_signature": "CrQIAY89a1_64_z900tg8syyx1g3b8EtqYLN-k62kDVIQ72CItefhf1nToxVbh7JRsNH-EeaXDHghPCbQcr4lFCyA1-OKb_xLTsD2SXM4K9Exq2M9_MwHyIK0KmW4SbEEUNBKdOoA6qPXrE2Am74RgibohJYr1L2P-x4uI0GxqlnhCuJfKx_J_pHtsFA8KNGE3pA2ahpPQPHTcRhQ-gMYRNN3T-Tx7oSjFgiQMqknXogyxNg36Cvfa07IDsK-VQpeAepkSJSWrCL1Vk29nNSz7wLCKPt4A3TiqYdhAatFTcPZW8ttxKHQd6rDyapQfWgo-U-orzOcLwS7hYsLJFBirEftzBAlVBB-lKcusaUkVVVz09srTcJKlsD4B5-OVXfAX0SOMjRO047uGjFF6jcj5McjZVw8cSVLcJVET7O5lRN2Sy9fAvmSuhsmls7lafRAE8M_uMnIDraI6KvcaaepcQxGXz2Aif8s2L6ZasVtU7awNPzUuQPU_D9qDzWTxCQW4ORC2sMa7AiiVSeY6n9-MF_82pvmadN8WI-9CBlPfXQNA5pQ290Wh69A57X8YAWi-AjkQiEWA8HmUwjUL_0RHobnwx0jAhKj2W8Y7gX4BYVvN2x2D2oqkoF0LcuLkqRiz4XcLSotZHeHNNnyqRHRwqza6r_NlVb4MISLqJv-ctzinFwxldQEj6UQTT0vMDRIPTPB4Cailk1wxTaOlIyVmGAuAWQiU7oJsp_CT_Tjllf2GC7NueiwSiMh77QE4VZivU2rF35gE90EJxoSsWmvEqKVeweBb8EuIf5LKap7slM4NHJQG9GM31CzH-4tlrfunxj0qkR01FNZuCvfW4WYYWxctDFkXoQW2yQVeDLIshU-A58f1kfJQjLuALvvJpNA1j5OhSnnwMba_YTfhOWQUhJjc7ARZRdg160IvSJMhvSAVGbk9fc0f-Kkzetb32c1o7swheiV9TvxRSIvJm22HALBbrfG0UKh2grWuPHZjgILN6qdX97QtOqeykcIZ6d2EXjqj78Me4_sNO6UKEjxHebtvpZthN_B7S8KSy-SzNa4cGj2-MtpccpPFADXZo3q0wp3zE0vFxKl7Ku71_bj9eTZs3O-_TMGUJcW5gs_uxPreM_98oxu7fg2pBG19PdzhMBvnbgit3LiTYP6u33uZt0L_y9zg2kCeeeftMGAMjA-KpWbW_pJWYglJpU9p36bV-Wyjpoq9m9oiyj6xfulMS0ef9TQbAaEvZJnn9tWgnPmWbCseADaG5T6BMeXTb5wqHyo6J5XSO-pWfe2pebPtziN_bGB9R6IzE8jU7kOSO2UWjbGifBQXTj4RBt-AKe9riRrimZ-Kb8DyevCk0Pg9gq3mBM5nDr6DkOs3mN_fpJBO7DchXFOhY-mnY0N8i8XiFSxxJpD1leOqwOhGySJcOrd5ZBKg4="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-b136b05a-eafb-479a-af0b-745c0c4c6be7",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CoUCAY89a1-UWupizZXf8PlYP2g2ETLnYr8SRPigxuN3AaHVdiZQyp5Y8kpUcFOuZ_UGpM3Q7KMeD9usbPrwNRcV9VEnyAiraJ9lM9ZbZ4McFSOpwmjZlDDmoBC-nwRHKf8EPsXH2KxtaFnbTYAR-WsZXnb9x2z73NBuN1Ak41emPcxAgrp-7Ert3Bv2xneI1mt4mJ0dVAmtN1jJdyrdytYWKfy8hzYnpyfP0i5IQwlhY2kC_hts7vGNVtjJYv7HS2gJyOYJAFxKxBBEMWaQEHusRl21L6NDgw-BjbDLm74EfIKHDpKGqqzAHN-Kevq70olBTypjmsq14mOnN05UzoJYmpXY-6JA"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-b136b05a-eafb-479a-af0b-745c0c4c6be7",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770223157.491529
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770223244.075964
+    },
+    {
+      "eval_id": "create_restaction_with_external_call",
+      "conversation": [
+        {
+          "invocation_id": "e-8e24dd5f-8d72-4f72-b982-3eab7e622b0d",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a restaction that calls an external website\n"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `RESTAction` that calls an external website (in this example, `https://httpbin.org`).\n\nTo interact with external APIs, Krateo requires a `Secret` containing the base URL (and optionally an authentication token).\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: call-external-api\n  namespace: demo-system\nspec:\n  api:\n    - name: result\n      path: \"/get\"\n      verb: GET\n      endpointRef:\n        name: external-endpoint\n        namespace: demo-system\n      headers:\n        - \"Accept: application/json\"\n---\napiVersion: v1\nkind: Secret\nmetadata:\n  name: external-endpoint\n  namespace: demo-system\nstringData:\n  server-url: \"https://httpbin.org\"\n  # token: \"my-token\" # Uncomment and add token if the API requires auth\n```\n\n### Explanation\n1.  **Secret (`external-endpoint`)**: Stores the `server-url`. Krateo's backend (Snowplow) uses this to construct the full URL (e.g., `https://httpbin.org/get`).\n2.  **RESTAction (`call-external-api`)**:\n    *   `endpointRef`: Points to the secret created above.\n    *   `path`: Appended to the `server-url`.\n    *   `name`: The result of the call will be stored in the JSON variable `.result`.",
+                "thought_signature": "CvsKAY89a1-oNIsdraFddO0WhxpJWjJr2GAxXhUkn0SQxlc0h5eBx9YZlENZZnNOVN__3LoasWvq0Y9E_bOgDtwKLt-Bcsti1EuK0rxjIMFIRawd8T0Ra5dVUbw1RYhzsRdUWcn4haw8J_wSyTezaJkkwUo840TAI_rTWUhsqDSMuSGviqWXnlcLqqCNueUMbhS8hISi7GvpFcbLCG3zJLGsB9BrkdNCu5TFuD_fqWy44ts5CpmP0ytyuU_LJmi3Ggx6RpqAH1asUMSQoDgNScZi8a-MHLKopYIUWy5I-lQiMLgHcJVFm7l5Tit_5_7NMNCCHFOhXLyjw3iw3y1IrsAvm4uDfC7BiiJLnVAPRRLU8INbNNsdEK8pjV7g8lgEj5u2sJF16Fte_7sd5nlxsl_4B-hy-NfWPi705w0rZUc7lZqb8sd2QUz9u_ljHvDKUNvEovqJKIKk9zj9oOvT9IVfSEuL07eipeBy_DBlLNOt9F7nqoRvFC5VFF1rW-rNrAt7hb3-zqFPeOm4W8nj81kt7wHLuzw9VqHEvyd4Kae7_3gVAyXw_vgeKN9f27_saoFZE-ocm9pF94dls3rXzU4zEWWKo7h1Pin7aDHjvFYFXCtF_aGycFb95upshTqwuURP8m6u9zuOa6X3U0WBHtpKAXf5BmKsqMUnq4COlC3hpMCOUTXKVhLLIrSB2YcWZBor7-tOFXCtpQEpSnBr01J-QOsym1axPiS8v78CKPYfDpUBNoxD9AYQL0C2U5khcFNQ0Z5R6KtnE2iGQfZfR5Nts6A3Yz1MAIu1g3RdLs_aLHf4K7zGqJhlQYUy52RIEtrA35ms632ShkuTdVSpGitI1QV8sw50Ta36L6NJw-jORiHTZg-Qw_h407bdU4LzHAYj5WYLuOXVsQTR-0J8JuOzxiBmGZQeijDrTaFfhRdtuvTOITpCmQ5YxJ-H0UJ_Uh0NzBrE_D_XbCah-b19RU8xB2VaZnYehyPGKzD304On9bEXCnGpAE_82wI90vpqGIZj9Oet2VxDYVkno4TREvsigl_cbLy4COPGrqi2jUxYc6W9fqGsnOKJ3XIizFhYJ3UP__4TqGIWkSlunCZfdvzAMyP_ZHR4aMx0SanXXIDIuBQPXJmCKrXNqhs9O-mXbrnJClq4dnVnSAAmP2pC7bvipCKVDltEjoQBTae5YRJAAHAH8ykkhk9abntvVN9nAFGA6lbtcODrAja6BE0olJSD4h1J_MGuorscITh0HEmRb6TEcY81GMyAI-wvC5R-6hq9jQhK10Sbzl4Vg7qdYlxADe6vAQb0WQF6KX24ZY0jPQmx5hzqR_mMWsQUqbmnv0HKqCh5ATkVzyCC5ECJfAULxjJMN4wOG7frFe1ucbdTKPpWbz0Jv-L237PlRM-hqmU_kqaE6Uz9IKNE7BCW1iCI7Y23QS3fftIKL8vKW5wiz0PQ4qZ0Ubi_TMTMVv7G6_NApHR9xzHWLvIEIKWFMGLzHocbcbmz_XIoMGl0KIBF72zX9PHxZHvhZcp5O6LJr98Ri_7vrCEDimDyJZOxmeGhBAh03j6x7wLr8yl8YD9hBWML_HU57HHy9rPY3gwzZsh7WFcmMuX-IvL83Vup0z2TwwyI8Mk6c0auqtibRcQlso34f9AjocwgzIlrwtJEf-P2XjUQCcHyfxsaC7qRuBhDgZcE7H6wHLFyJ6L5QdCdCQLaW-q0pdvS7rllpFyPrPiNU5_qv9FdYS2-xVOqLpPsA9fq3pkwxi_u6Dvtgz5n_MpW59Su66GhnpQrwhtoiz7glFzEg4ZMLvtxcZgJ587W9bS4quqc_F0NjaVI8uGIvxrJBFAWJiu2XU828CDBGEkThORPyahvIv8LFmU="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-048bf743-d4f9-4fb7-a9b1-8c36046d5a1a",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CoUCAY89a1_34o8m8LlL32VX2FZEl3HJuQk3r-4D9TN1FpDg981QG7Wd7Z2JShaW4FSLNoRAXung5kE6P6cASysNivv6rIrELkTqDxmPJytXMP1SjqeLFy1-CcRrcGI0xx-eZZpiGjNX1NyRLu552t1y4g64n9JQrHdLO2Z4aaMeyEbMxsK6EsTiFMpaxzJ8PLYdsX3F2X5eDEGRfiTBB0DL14_KGLsKKdJ8arKxTWzPgBx3TSZRdD-O6wpD-eDQrNQgbmrKuIk6LNm7ZpQRpnMHz7bc-KhUIRvy-efTFuyU7-ZpL3rEwbnSGRkm1XQ_O-PNHIc_jPAkpu4qH8KhSciH_sGU6Eqp"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-048bf743-d4f9-4fb7-a9b1-8c36046d5a1a",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770224177.042817
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770224337.283846
+    },
+    {
+      "eval_id": "create_multi_call_restaction",
+      "conversation": [
+        {
+          "invocation_id": "e-48e71158-b1b7-4b4c-b662-992b79070566",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Create a restaction that first gets the list of all configmaps in the kubernetes cluster, and then makes a second call to the first configmap in the list ouputting its content in the final output of the restaction"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `RESTAction` that performs the requested operations:\n\n1.  **`listCMs`**: Calls the Kubernetes API to list all ConfigMaps (`/api/v1/configmaps`).\n2.  **`firstCM`**: Depends on the first call. It dynamically constructs the path for the first ConfigMap found in the list (index `0`) using its namespace and name.\n3.  **Global Filter**: Outputs the result of the second call.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: get-first-configmap\n  namespace: demo-system\nspec:\n  api:\n    - name: listCMs\n      path: /api/v1/configmaps\n      verb: GET\n\n    - name: firstCM\n      dependsOn:\n        name: listCMs\n      # Construct path dynamically using the namespace and name of the first item from the previous call\n      path: ${ \"/api/v1/namespaces/\" + .listCMs.items[0].metadata.namespace + \"/configmaps/\" + .listCMs.items[0].metadata.name }\n      verb: GET\n\n  # Output the content of the specific configmap retrieved in the second step\n  filter: .firstCM\n```",
+                "thought_signature": "CqwnAY89a18zgadkCl1kJ_FKWaDkqNuJRDMDSGCkO8Tj9N_9kvS_wq3zvfmWrwTtpCAHFkgCgNHellw5RzctMbzdFf7dQwUw1oqH9oHhir9V8FWCyuAYma61JCWYbZrWa7RystmJmu9gzBh_M7zvcspfhTj-w7pFzUJgadMaM3ZcvvFsUWvtRo8vHa195qScIKySC2Ev1BCL4Q3er0T6_12riIJP4p6MKGX4vNZTzghNAbXfssSHcIeLFF6XQ4YtNuO5uIQtc1Hezm2XtA0u3oXmE_31_55Gph3f459a22ve8yGfCvQ5vGj0U50qduPTmaLA3szjbxAMG9fXCFLc4v8obUgRiv2yE6PNiI0mc3GnowPPTqBrABCQwM3xuydEePw8RmDrGSEkog27HlFM6t7MLWJTBBCMcUMDMxubNqnZsuc3s28X5e3xJ7SJxWlTW1j3bRqRalF7AufPSr94kpob9M7QLJrw4Js7BuMxc4rTb0KgYwcuW-LveXaaaT5mH-qOns6KGHv4Hpw2yG5Q-JI5BU0ro2r1n2P8VSQLSP6Hxqv4sNeZGV4vwuCY-8KqYD5s4Ls5TdEb2EFcs88bOoRha1OBZMu8o99qoOUYxtrx93aeSSBkpmmUx_npqIBnJ7JUV4Ji2phFEFkEg-uf3XSPXe9tm5qdzf1mMIuEjHrr0jr73tVpUkrlU9HKZxVfWxhYeVVguEuJuYahvVi8FpuIRcuYofYApAa8UysmGk1fejKJdBdlO2MSML0daiqYGCIAM_YVc--omWLGggXLkbaQX5yaL9TOcYMu0e0Utc28-drYY60uTZ9G3_x1U52Agi5U8KF1RZOdimMzAGlBdHrjnoetwD7vhm9zEeNNjzZH67Lww9tr7ixjex_6pZPDljNoRwtWsK3hr3He7S-mrKjpwRg8CrAjA5DGG1msHQthPjyOg-aJ0-SLTzuU_ZpDj592zcgN4L6MNkm6fDepVu8J90Kc_QKM6SSDHvkyBxeRGGX5YtdDuqxGBIHI4E3kkOwEn1hnFdElI1EN1VZQWNCENGHA7uD9P5J26U2Oj-uEF5-Tm5jjLJbAzpFw8FBaXWLZmvrywnlP6iAMRvmtUTTrX5QAyODc56-ChqloO9gzqdU0hsoaPc8h_v0OkjfBfxWuSs7cPrA7jBinpvz2ZVq0ZQdsLYsPhgSHCgeHzISppHE6VFXZ0oUqEXEa5C-jgxwT8TW_7iIZqMbDejrsNSrfUGSH3MBAGpNMXgcc1NX4YZ55jQXjm83x_V-JdGktPHIQmL5dN7ZAaTnecLdAdBaKx-2w4MImeIdCofQFG8r3YruND9yZeYQLIe2_bdD6bU7YPcsmgp491dHg0KKaSWQKBobYcq1emFEm3TNNS6gN1BPJG2nFtmTGrSGGRlcHUwwl_FHkLJmMh5gi9zEhYrDlfjIN-CwR1Y5e0h91mK41iK54dhCNTayl5H82r5USCSjOVTRYnuWPJwhkA_cwtWH5nuRWZ98XxHyr6Ht4_zrwEskJuJqyWRbHScUG0T8TivG6e_YatmcWgaRyrjLVc7l81iKieK_hrUlKjjXB4tQSkUQAs6Q1p4EMG2b8wD9zXbdLkQbtBq9HIWuNgs9O2IeWfElLZZnIsDSBvbXxYmwy_UajbEpMBz8OZwxafLEYWBQq3IW9bt2PIazaTkTutR1gfarubD2h7rWuuY2SVWauANhwHuhw4vboBghrYFcYocd3XncbMH062Li3_-RQiE1Mi0UQJTT2aX7H_oiXH6_xWDaKeefo7LWvPNDjIpHG7nGuUObr0rOSmMUFMkHjUqs6LVYoUeo4wyJsUad2EgXAnrxi_cgo-aKvYgPcZXikxKeTpUAAXdcy9KcSYKHGo0UTLSZYU-EVaJppsp57Dtcxhstjzikj1P3zKjc18_u7lKGtRuJ_K2DA1JCkooMMCyEL1uXs2qmMNmfvyGBEnLPJSlBqeE4R7rXmy_W4rhbCWCy-BrXvXJGt5-_lCaZzSX2aJ61Y2FyCPa-dGrEmrwEeAQFm6nK9eo8DC2APkuPu4y3RovLpKdB9BxMAbSlRpEmCQHGOojQ25iumupXgzV5Ix5DiMxXT0EnGc4U-38ZZmiVeTB25TZKEf-L6jPh5JRh0H9RTllo7ZOXHK2v89pbzcLgE2dGnifwhrEdxQXqoNsJiyoddD_0OCdMT3Bht__D2crjyXmTo2OYDVh5qwLIyPPareVLoh5bOfqd_3swqLTFHzOxNleL2RdaBbI9CEZYtD_XeP-gxhkQryIpqeY6-ASd6rcIbeRkx0YK0yZXQ7wUZvDBKiW8agSR8a3kc-rY8ZYbrtagaO8lnBQqN5I76dOr7Ok--753Eye_BfB6Y1OfybR4JnQZRe1hl2g9bNMHNcVx_VYK7DtCzI1BZLHoiXT5drfTfDxUUO2Z4UDKrRjSKpmz8L5Mj4V6lNl67YaLOOkdzFTiohrFf0b3eKBbjtRIdxGpHhLoumTQOTebHk7AN7FrQeiJc8ZRAxP8Q4vnv5VArym0a3rzhxdQFjNL2eg7R3XJko2Ylckg7nq-a-Guze8fAhhcR2xQbmiXjZiMaXaS2yWgVBVIxI5wU3Yl8EWED77igO0YDK1A_DFKI6LAGkQh2rsHEukYy7RCKfurS1YgyDHomLOwJ8he4EHQ4gQFZSWT_ydAnAS6bor337jrV4IhiUuNfRHAHoxJoYTCjkTpjkvgSTRgpP-7xaOmRhiyas16GNlQ0oyD5LsWKWHc-UgVFV_Eri7aSmbJP42xn0U2DOL7g4K3jQLXXzQDlhVjCsACkE8leggVEUS0dn26tTlD9xujmkVCiDesx_D6PjymFQNfzKw5eBNNtJ1KFDLg7PcHFZxTQgL0d-9Ctjyjlv2WDz89TkDRr_-mb1oCfGb3Gb3-P1JKD3GWSnScrelOOE_9pYcqwA0g1pfve3QMLJOV87zCAgjLXKvXtA1gCHgOAwZ5lT6amvV4H-_thSzuBBn821XhUOGz6S1u1Yi4se0zLjCGSqdf8amEM99H86wGWipI1tv8CJMHv2vvr21VVuJ_7B7_HE1IOOAxehdzXzn0echdtT8o8wjUV-r3XJJBUJXeApoUlcGsqq2KUPskK00IVF20WUSodSqV1ouZPl1z6ldDv0MPSp8zCqdU_2FyNaWWeBAdD1kL2f9qAtZ7N8Qijy60GjZydQaK4sV9BVGFVN_rbABOcDU4Rdqe6261lUlKHR18Z9AeKpc738C3s1p-5raq_aoK4irPLTmZ6q0NBi2aWZZAty1_0THHMrSuxrZNngBAbSkaY49k0xGDgTINEvo1FQPnBBmdvfp8fWCLcmN5lFBZmWbsJo2W_FBg7pKqLDqY4hBsDtUZfcrnDNvqD0M_BSZbmxNiE3bUNx8R082HjTYKO67m3h-DUnTBr4FTCqdGs-QdMRSL-Ltd9ZqXm3WA5_GroYO-Cr2WwPUsbSvOr0WAvi0X5-glrdOdzN2gonwMjtX6Amtbu6KlNcixYICu9lYVw9AnqKvYZ1Hjm2ykgJKsHdEI6j6Lq23w8FQl3zoTpYteX0wXDueMNXmfJ8l2fN2LsCa6z0RpkkCWMmlAiVsEyc4U4qSLIKnMSk_dAMYHNh5oAK4x98geiPH0iOqy5nrvmIa546RXubJMrC_MtlujDqVZDa63_2ISUOmY5USmdfbBARSZmJa3z0BbK7runxcWT8d-IIqAtmkamd34FKmN2ZNVgRGEaWtKHp1CLLwDBiFlQa9SA9KnXI4hmA2u6tTQxVpyjIxLauhGn27QCFoIuJzFt_HzTZBAuNuUOk3F51N0HvXifaozZX6IRbrE1Ahco7QLd5S5MJgxlbTQeY58A9t-P8mwYapA9o-Qu1Iwkcm-Z_XHPsXjOJGIB4gUy_JST_fXfzk0-eQQs0sDtEmqGe37rygvJ8f47BmdDCeqVoETaHd4FmFPyLJ4-KeahmR94QUtm4kWqszHFwsya1ACnovHyhRDOv3Zlo2YPpPsxYs6CXcyjWTmj8E8qUvoH8yVgQpOxsID8itsaeyxol2kRfj6LyxAp1zEVin_3bC_a35hNjRCPFju9Nl67PA_rujmTQ66qJUeGpCHkTG8nkm5kIehbswHWTfJFTZOqRlquBLiopU1ik-WnUWk8_de4qmeRlUKzC4ODTeUF5l6uU8wfsLyZD-A_7xI5WPCaR4ZPO-3EWMLY7Q9u4Glx0o8NamDMWGuV1W6u9Rm5sP9Gxpp_zRs5O_pqDWH24k7bgxBnSMxgy_vbwKwlRES3-LwGwmZzBL6pzCUGuAJk-G69JRMu9fiAV9xfRPhuioZ1lT1jYO3jmdsU2FccH3T5GSd7QCvB1XLfPGuux74i4A0NJvpAZV8eWZ6GKQOZqIjJTp_zziai4SfUk3Et7AVjH3cmcX4ezu0P2HRMvDM9j4_1wpJ192FGWkTzFjBLhL8lncZtQZ79gpGOX3Ua7ODk5SjaRlSiAYZzO8PWh6-NDXMMSl8A4FFdq0x5j1TQ2xLtytvgT4kH3ZcuzpBqHXQmRHQ-hGUv4BeUHtrxOoKXBJh3VhnIoHD9r-9KLtjwkZeVvuffesRv1vERBCJXelkH5leTgNlQEls9V-DFLpeFmVP-QVjO8DJIEriLqFGgpXpTogpk7F2_WhK4Wdqe4c2mmjaGzbp7TZqAJWiZb09WU9H9XpcvbZGylbgPoPIRTCCKTv2X-claHTZNYB_d2c6Vn-XDQxrJoQB6gG4WdmvnmFs3yF21r6vOrP0F066Vv7wyXtJJC1deRI0GmKTcDdLrRJz0K-XMAUNR_o5qVAAn-AIE6HTSZNGyAv8FQCqJ_J8VBwbcvK7AFJy3qN2JK6cD1rJcgQe3M3JqMxmxnEUlCvaMq6Of53k3H6huwcSGZMow2y_mXObzX7aaz2PY_TdEi40w-GxH5zNXo5NcTyI_cLnQfg_pR0dkiaDWsu99rJ_O_vj74ljh_GQBr_clsDvMLOxX1d-MxolpNjJR975W_LvTIOE9N_HB9lroyVRaWt4y6kUklCEUKxd3bh588JRKPL-19Y8gqCeV1yI02npUUSe6bJSiJmnKDwz84PmKC-mTisH5S5HNPVC5grjG6fFg1d2n4S9Z7ZIeKkJSCBO61kFtqod82OgnLdTTbOOzkgSpiE_SxLD_EQhoqJiFpEkf8qd5W6BxsMVZIt3roUGcb17gPQFtZwv3eTTzbh8OwlbcoQmiE0XV4yEeeGb7jdrPqGoxv_1EKeSEYlI6Eu9JOE57XeZ3hQBBua2joR8OQ6dN4xeH8ty9gwW29B1Qg3dJal6WxSRRU2s74Zizs6jTS42MHicfoRz8gy7veHBQjS_wpKTiHfWjj31y_AwN98OwIiRQh-GY41AjejCur01wlgFaW5yt6BLlr5LpEL2v8Dvn0wJ-a5qnzlqpWxnxsDf7VmfDntmMlRP1bzVQ1SHj3DmQOiHwb9pugY1atkh_ojslwI6UBROwMq3DHYDc_QFJDAHGHKOyx4NA7qv6JFjnc5s-wlGEB_W1a3FTmN94zhCK14OaKIxJi05qeVBghRweYQ9vJwjoYJUI6CXZKXdJKl0SwL4hMPLoKS2NRn-xVGiKUOOcgd-AQQNODI1nukfxFfT4qun3OWbmreq9bOP7CaaFWXVCymRvXtjF53oaJt7BYsGuJxXRQ-Y6uDusLrzPfcr8L9wszZA8-Rom-fDFyG9tQzlQtpKkjCWktcyDhpeL7WsVB44HgRRZVMdTkb61FwHH_n5_sAC7j3Yj6CDNJ5IM1vgd4eLbH_VlAPCXSE4DRIg_USuhOOsK42GDEjDqtAbYE8gCl3GvEzrIopvBNU3xPtDeFOMNspywZ8BNVsOnyeZssNLMK1Xh1Z-8X7cjbe6-nZmm0-8eAAmx5zW9umC3_aOZjHYYZfdy2mhN0iiF8ICqL6prEPUzKRYDOLu44gn4L33OI_iu-9VRuDtdgSLQcT-HoOM2JW2ySykRfWo-7mH2ZvVJ1ZUNZKbjczVD3tc8KRdnu2kpxeFszZcg8zD3A0CHUmReiRHJELbRSdH2uK8zPQsoBuNoATriruUsXJIT57WE_bMhbLi6V-nxS7YHcDmQUo_-5PFbhsCILr0rjPhISbOlvL1AD3VkwrSBkXxbY595Nooqw2hOhBdfmIEaFFWWC5FxgORCRlUTSgMBepnCIcOKWGISQmE0PMdhC-Oge71ypYRibUYSfFy42GXG1k9rT9rjYmLSoawE-Q6WPHwIEDSNmxYxR7xqq_SsEiOLkenPbrjqvsbL8YSReyGAEQcQH8M2PJdAtC-CfVDVVZC_E2mZkC_dLTg1ONPAL5SR7UPLhCYQT0k2fqFP-6MaijLQ75oNA_iouvTcyKjzNaCnXnSpJVY984j0gvob7ZALL6pMccx6We-v_gYsr17X_BI2awoDWQRmxShaI_f6p9q3xZSZI4D475eYDj0tBl8BVpOUEe05CSV5SKwIdhBSDbm-vHQywxYflNdL6L17yn28PJCpMzIIMcKw3DGevGpT8Zy9Ph2cO2gi03kTizTh8otwYyBvl_ar7QoSRCfopTKdc4CEWhqisWGlo-JveoPdDXY-_LZ3cW16mSpx9J4wNrLuY9Z0aZB12WIH12H60u_OPypX6fPMxKC6PwKqxWMqHUFwAcM4FEtc8k-tBZXF5mDiqKXc_eqtgVn9jKiB4-cRXgWL-p6x0Cs8z_OMT_3gwGVT06s="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-862ca054-9276-4fd8-b2f6-7ad711387e11",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CvgBAY89a1-2tPwMubxEc_j0a9a9HfXDU_YF5gWh6C91ElrLWoSLLnCbul8Qc-D9FMUB9cT-FvKEYRlYu4uy32QdkFskN5dKK7I2fwhlYsdM6Z32JNGSLM6_8oZsDOZi0mFnEGY6v5esIR7PD9QYGUQKHtmWEGO5aew2IyjBhg6ZCuKyu2g_Bn9cHsjr9irWscBrgjDmDyv6TY8p0F9QrIYRwKaEj8pep6l0do5NFgHT8prFN0VzJS-dgaKewVS2_2Sm8sSnhpwKXvGYPbGWW5GWtKmasNYSOcqwHHaHp74E-1hGdlO2hNoNqmOHF5gZnS6GGQAWnva0oVA="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-862ca054-9276-4fd8-b2f6-7ad711387e11",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770300428.111137
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770300521.422592
+    },
+    {
+      "eval_id": "create_restaction_with_iterator",
+      "conversation": [
+        {
+          "invocation_id": "e-8df99e19-4d95-455a-b027-1de9a036d5b5",
+          "user_content": {
+            "parts": [
+              {
+                "text": "write a restaction that first fetches a list of namespaces and then iterates over that list to fetch the pods within each namespace."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `RESTAction` configuration that fetches a list of namespaces and then iterates through them to retrieve the pods for each namespace.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: fetch-pods-by-namespace\n  namespace: krateo-system\nspec:\n  api:\n    # Step 1: Fetch all namespaces\n    - name: getNamespaces\n      path: /api/v1/namespaces\n      verb: GET\n      # Filter to create a simple array of namespace names (e.g., [\"default\", \"kube-system\"])\n      filter: \"[.items[].metadata.name]\"\n\n    # Step 2: Iterate over the list from Step 1 and fetch pods\n    - name: getPods\n      dependsOn:\n        name: getNamespaces\n        # Iterate over the result of the previous call\n        iterator: \".getNamespaces\"\n      # Construct the path dynamically. \".\" represents the current namespace name in the iteration\n      path: \"${ \\\"/api/v1/namespaces/\\\" + . + \\\"/pods\\\" }\"\n      verb: GET\n```\n\n### How it works:\n1.  **`getNamespaces`**: Calls the Kubernetes API to list namespaces. The jq `filter` transforms the complex JSON response into a simple array of strings (the namespace names).\n2.  **`getPods`**: \n    *   **`dependsOn`**: Ensures this runs after `getNamespaces`.\n    *   **`iterator`**: Points to the array generated in step 1. The RESTAction will execute the `getPods` call once for every item in that array.\n    *   **`path`**: Uses string interpolation where `.` is the current item (namespace name) from the iterator to build the specific API path (e.g., `/api/v1/namespaces/default/pods`).",
+                "thought_signature": "CoEeAY89a1-TTJ0xKP_8Nd6szK5fbGKWCGR5pwTsluupa8ZhFKdFma3qNZEvt7svcPUi-SQ03vJMUXXunNb5JLg8r92J18XqcnjOwhAIfYNI_eJ8IvuzamPzjlKifnXvLGLKIdXAihngvQ-rUO1KCPScFspJpTkp-Hxyp6Yc5Yb717-krrZKOQm1Di48OlgkgMX5NsdIPAlwmbI86wcynwls02-bwP0C1tuqo-MIhyIsDf8OAhxiSwejpsqTngNpbLf2nzBA15DoCBJbXnorUm-09ZFJnZ7n5TpyBiGlBHjGVVLr9OtIykSy1f-w56q7UtL02OXnLC6QcwEXXBgGgp_li3ZXbPSdpA_yXTeffqN3x5P4yWeTEQp0OhxBrPIfWxhbJ7532lQDqv5tQes9yeM5Yus8sSbHd_AKGARM1lyCxXbimcZcOO0V50Jblp85ljayd9u5VC8Js7YImf6zXomjmZRUePmYNXvaCz8T7nAtoqTalS5BlHI4Brg_FjYt68f_NuG1TSooOffXp4Et4y-h3RGOTfhZ7tpAWdrOGoU6Aq-akRGF5Sq9uviWYaxFf2Gc2YojtWEu8Wm4eImYS2h06RgjRIYKVNU59_XXeM49moaE201aoX7__fpwxkE-59fIYj9SrFwoekLic7f6xmRi5LRf1Etec8NlySX6V-nsUW9nMVaEu53v5rbYim6u3INPkbept27qlDpGIQnDsJiIWUIOXGyy4EZB70vI_6uHxSx8av5jJd2kfECNQIFuBr7XnVyQ-hehNStJUM4Y90-JFWxNoW04MjXaFSg52ctcF3-1a6Hw8OFJlWo0q5utDK5zFeKQpdtpc7yiUWjtAnZH_jsj-nDTVVCp3nTJb8bA76_SEt0o-7DM-g4TdQCCYfIVpADeqqHluSF_IzrmrXiOc5lWWDgP_BaFd6ovr3bpskbeCZKzxD_HLyYarTvIpnTWJv40Z0A_4tj2F94oOB8LD-z_RlfWSxPzpmPC0MWyhI4gkQqfMa-28xTfdX1XQ6sHtf5-nCVnottEKPvTjD3HsOlo3V5Trx7wUg_8t3RywMNE86gvN6XiKre9icdwSIhUR7x--l5CWKYNXE3-cTOzqZJIuCIvG_pC_SmdDRBV8_h-AvvqhqlAhynJYBorB2yChbKeTP2ATeevwAuuTU03YBiBAw2yruRqCbjVZVvxP0S0jUzOt__EzmsaYtc4yWsyiCnUprCSDyIMXdNnv7qYYQd9WayfX9a4buu-WEaUb62PfhwGtRK4ULBisdh6A3bNoCVDDNgnT2wmrVbjQXX8kocqWEHNPOQWWRuj24mgcwopCl376Sj2u6FvrG2_LbHaej90s3tUV_ntSRqwAtMVr_j5qL2OjqHaLnd8LPHA2j2uWmpvvhdz9lGZesZP_Wq5Zh0_f4pr3xjsxguMI7VNZcMdxL4voGI4txMOadk11Ukm1KZNfatJC5mBLYY4hNtH4orUdXF19fdNv52yM-6-TgFI4MjHcLy0p4_WuNnGvwqEreBkTTPRzZMrZ_dne-m9T4Ph0Tqpa6Bh73hILJHWmu04xJn2r-tHk_jwnpdrfC3ZnU39Br65h5tuXOAduqOE4XE6lSy1Wjc5ELrVnAnahn2-JnkiSpfb29taqnyFJwBghUgBVO0dq1WfrGu0ACEPEKFY4-H_aH3joMvUKQclzurGIBHmBAy3NUczfngvJ6QpBlFZO3rR1xJzHpXf2AQVp-41zYdS32JZXjrfBVoWQBiJa-QKY3CM0JktvDdvieqK0X8iKAcVsfy37XlcbyiKEXtSEwLtMWfVXTC1Bo25AdmCsymOL0z6MHu3fpzH9NTISo-tssfYpSKb3wh8-hQViPLzniYMRgvACsMdzfqim0C_Gw9AUVFaA8_uGZoyHwghIEW4ff7LH0MkscLP7w-U9BcDv_6ykY4RMtRwg7Z4JyvtMe20MmMDlQ7_kFSTuCLvM6DkFqYtXyumGAheVp_bZJph5sacaBQZ3JnY4CYQw-ZpdNb83FiYSf1zV6cAk1VMXWgcJnbWuD8CwwS7Fz4tRmu3zv14BSRJmgE0VsuNJCeDDlh6nLi02Odih3T2AYul7Wly_lhSar-vYnWUJxYu_z8LezLFdJFUbCVHySasU5rclaqCifEUYD6E7-yoqeDiBBkkq3vHcqXDLikCK6UM1VDfbStSuvHV0Yg43MmmAptfdAyD_EmAIdiYISsfuUBLKuztdELv8y4Wijvx9qKAdnJhiSJheuHfog0BwhtuB4fmp_TUpQvXINFt-jr0AonGcq8xso8ZOfR_NqMdzPQIdRrDWOdSWgS6V5tvWqEsV0YJY9UdvMd7DLcEXGnK9q9_uWDhRST5UKIyE8DSBnXbLrFzQ0YFInortwN9p1mNNuOTlAlKlSSFewQi3JQd-khyOo2Fk3PkINQRjiQlwm79nlfgrz7jR_iEMhjXmQ9AOB1oype-Sm2ZuhOB-jnv54dy9IV2WuMF7rwSAH5czpnA6jQmgb8DY_SmX6MqYRSDG2nVXnBPCchqGi0FyryjfceF_qeM6kfiBxu-JYzGBzIa0LfMx58XFsROvJhBeS1V_VDT16zjRb034u3IFAdloWzNjW-l-yUEhmRo4bkrBO_8OLhZ8jn7RYEjz3dUOcoO4NHpIBMf6m9Yx6YFeGcvUpdMAN8vhsZTiy5PoSuZzMoSOqenk4zIVaHAWZdGfx3wNOkUftJ5NeUwhhMfRbP5TgyH4C-DFKsg8-qQk90JT-KRy5KqYe1GJ3TSMedwJ6I4kuQVb4P6OJMZ9CRJ34WmzL_hQFl8TtnDaOMWRwGjcnOCWX3KJzh_yB-xKsQaMBWWnD_2ER6o79WlPjVPF4IZc51giR06PfSqMOFTqwNTkQ8rlvNz2-Gmj9KiReR4LLdL-eAd_PvCk3Sca2xyGwz_USEI45nPY1y9cQ8NmP6WvtS16sUZD3LP7Y0bD4e6lu_JKQuUIf8PsOGUvOvqVqMj70HYFhxJwCBlFUTQBA2ia88XKmj02bUs-vsQQqo1yn-JTqWjUkEOyd84vhXsR4H6a8GVo_O16DQDiSQSB2fz5UYfda2QJAAaSVVw1NMSL8ebaRKZBpCmx55Jr-LBuU4nB59dnLLx_Gt7rAXDAwpca3CqUodBh6SB5yzTL5CtZk4ZNS8N1PJvi5-sL-j78QPwFFHeHmBKT_0FSGKmQ-Lr4vVWJ2u0UjkFvET4zgAtfLqTHI8oxohX74aKCMINVVPSu7BMULxC_q43_7Tv8z30nz4AuAgCCeBEFKxvR4pia8vdjPSMN5zwGFfXSzomWyChTgafiwmIqnilZp7KjYPhf4b4OoYe9m5yFG5iswy2-T1_dRmhAgO_96LtrR4-8ZZDTj4-F1-ZyfxBHW4qyb9jClua5mVY_GXui678cLf7_0q289UoGczUKIgJn5j7nTcvqAI8BlykzMg5Wosq0isoRZYyY9POQMtw-dQm0At6GnVp1HOOjeaUsJZdFVv0SRKpXLgYMvPiP_-6l8rxfT41Tb7RI-yWdJG46YzaE8egpv1OGes9X3wTGrioA5Lymqmt1jBHXaKyM5_4lglIWBcAbr6ZLci3sq7AlOPCeBBWSm3dTkUi_o9pesuP1p7Uku7YKdOtpnLPwkb5v3BnFPP6i3-EtcTY14JBd5Xc7evEicusyDVqmU4Q1JWCTVHy5PKyscIUFuZgZxCybzSAa12EhQNKlCskZgKhwuDO2rnL7Kf_6MUvuTo1a7TOyhPCyq1UvFnoJ_TLCFgD2TZ6dQQ3Te6AKTzL78InQ8dE62O2NO-lqg85T6Oo-bmNvXknO4CEsiu_GFkBwwd2MKeK05a7-8qgl8wzJSrkHX4hC4L08jRGmdono3Ag7k_guDwiNTBylORm-4GoF737Q6-c698ItHf_Owp8JonDIBbU3Ne4r1FXQlJ2oe6VGpnYZHeSdcHFnGa9k6hjs8pDHsvVJFIIJDQg6wSk_PhHA83UYTvBCldrQXimlZbf6VFj6378uzE-UzfDcMsXg45-bTLpFNlTuDA5AQ3sthQfdab9StubrAZUYdo2ERKYFO5l8l_yuODYOj8n3uvyvRS7BTntUbFitxdN_dwO9lEbhh-iWLnhS7waLDAivWPgKpk4zHEoOv9e75OBNBN4oT7ig0wqomUYQbdzaEIb5U1SH7r9G4vOoa0tXtLw1cb9u0TarNFEJNYiqFvIbc0ATC_mUyTUJkIaOTG6H9F38Sa9TkuGKiLBb9leyhOkdFHmJHy2q-DewjKCYgdUCVrxLayqxZNePmBDo3uSIzMdht4h3SL7ZUcc2x0fftr9ccEfJ5KUAb19mIc2CkAc0IWOoTGdmsxyM9SUcVOPBwmEPLRnSS0scqOZL4DHWnXzgGq0aeT1c9A1n5vHLJW1jFqzH_rIu7eFnVz-0WxfJYnEo0rWwqJIHtrmM8zhEo1NXjyq4kDA8dyk1ZEQLqiquHLPVIXm0rmL5MaWBt027Lc-e_EWrSuoThWkXyo6nwgcxHtT4_IgUtqRMORQ8JBdyJMvGmM0ZRmpBUhH1wP2sMR0YRbcDWkqjo-OHbjynuQh9iYicFA0CoF4pLtKHIeXF0GfEmP9bd2m7yHjP_p7n8OCptnW9-VtuhIr7YJa1DdI3Cmmf0EBmgxgmYKqu6VM3h0a33ouThuXUXvpdfx1dNjicNGkQNOY-ZpY5SCPMD6bCzJw4lYFVC65fSzlxzuXrBPq8rFCgUXKpdzUkT_YE2g4tiX6JjZGKaBYDWfYGBqcmqxs4_R3E9dBM3L7Nqm8iL2SKts3BApBpRHY3NscbigDkB0hkjfd-BuuDRvaSa68VFhodyBVJCJo5dRIePZjjKN6EvDRXz0pEdxsaCKWploVTLi2RqJl5yBNpPMgpTMu3DB0a-FtYZWzOuQJ3AV3OICtXIfnPuuy-xwrqeVsP5OJJLfLiZaIXUn-ZlpDdaW1TjksMmLFWGzReiBO11CVZLHx2F-71ByOaosatH6tFVx5fIn8Lxvr7ddaItWGiGyUD8lp2YeuwR8XTBSBF54D70rcywHfa5vxQHBoD-ReGMHuI-LiBOqF239XpS5UNjHPCjMYymO2P1aNlmw1sMHxpOuTsEOz_uOPf0ydqXczWg=="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-659ce8d6-a491-4159-9ca4-c4040208ad8c",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CvMBAY89a1-CzL7ndfGdTZEwb5n5vQjBaWhc0Jf7_DS6063Gzj93gIq4UC6BRB9RJg6I5h8TAYtFbvHNWNnU2oBWClU9qiCyHUU3wIzNtbn8AVdhK9YyeUeJsHahXK7rjlzaAo3cFxtAgBw8gZ1MksRW0RTUBWHKtc6Qf0hWkUVxkitNRm2Tr-ZA7dydtT0omU_XOFXLIrCU6JTRxSeQ6fSa2B99a4m53TEDHF0Hbw-hkR3yOGNLhM70Xkka_jEKpdXpkMhqWptgIZnOqgPmb1hLK6ugXCXxtT9EiOEAIZ-y8gOo0j9ktMvu-j03fdFeAeDss2kg"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-659ce8d6-a491-4159-9ca4-c4040208ad8c",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770304489.882124
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770304538.2219687
+    },
+    {
+      "eval_id": "call_another_restaction",
+      "conversation": [
+        {
+          "invocation_id": "e-7ae91d7c-6dff-4062-a1e6-4c5a80090c22",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Create a restaction that simply calls this restaction and returns its result \n\n```\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: my-restaction\n  namespace: krateo-system\nspec:\n  api:\n    # 1. Fetch all namespaces\n    - name: getNamespaces\n      path: /api/v1/namespaces\n      # Extract just the names into a flat array\n      filter: \"[.getNamespaces.items[].metadata.name]\"\n\n    # 2. Iterate over the array from the previous call\n    - name: getPods\n      dependsOn:\n        name: getNamespaces\n        # The iterator expression must evaluate to an array\n        iterator: \".getNamespaces\"\n      # In the path expression, '.' represents the current item (namespace name)\n      path: \"${ \\\"/api/v1/namespaces/\\\" + . + \\\"/pods\\\" }\"\n      verb: GET\n```"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `RESTAction` that calls the `my-restaction` resource you provided.\n\nIt uses the special `/call` endpoint pattern with the `snowplow-endpoint` secret (standard for internal Krateo calls) and enables `exportJwt` to propagate the user's authentication context.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: call-my-restaction\n  namespace: krateo-system\nspec:\n  api:\n    - name: result\n      # Calls the target RESTAction via the internal API proxy\n      path: \"/call?apiVersion=templates.krateo.io/v1&resource=restactions&name=my-restaction&namespace=krateo-system\"\n      verb: GET\n      endpointRef:\n        name: snowplow-endpoint\n        namespace: krateo-system\n      exportJwt: true         # Propagates the user's JWT token\n      continueOnError: true   # Prevents failure if the user lacks permissions\n      errorKey: error         # Stores any error message in the 'error' variable\n```",
+                "thought_signature": "CqkQAY89a18svQoqNoP6fcCdn-x11MDXZOywVmX9P9cP8ioVzYWLDyGudnPZe3VvzCg9M9FGQx361L8YU47Hx06zQ9jEi8bVVOzIiO4vS-DOIeO5C6VUULoh6gkvAb3SVSUAJ6JpD5QMY-bHA18cHVNIUgZHQoS161rfEKbd-Jti1TkGZwJNz_cWNY5r9IL64DwIsSutbfjp5KR4rg4NTSvYIElZ3BXLnh7CKOixbV7epysG-8GWEB5-w1gftRtoHb8AE5XGneKfGi1D3OSLJ-JQGU1_QM95WJSVfAPKs3ETVgPEbi8FL6EeLySTuM17WbA9iieL_sXCJ2UDcO6PaIX0x_Ssrl1eu0ds1s1MIMVm8HFu-tmahZXbsdCmS-QtAq8arSrpNuY5wVi-Mzy_nV5ojTTmhjCKBk-vgMh0ft9akcDQ9ZL-HZtIHdaroA84FPIFTqBd8oDdh5Hd1tWfeY4ldBKXH0OMZre4OaCG5KKPBIz8NKBcNlAeiuW-li9X_2hXh9RBSAZPElRTd2QRmP77x6nQjodYAwo6Po2pbLRCzItYIlV4_Y6Af_dv0WhxlKnKycp2T4k1t74arcYkYwEac9P9kWp2_mrDKE5HGk-axAupO9a9v8TFaClNiFbemVdztlo3veBjyyV8D_L5MpYjTAomPzmtyjRBWCsNJwSCIW68CLCOX0WU0wXLV38I76rZ26qggKz4FxIbod_6Pkw4HaVnwPlYrZEPluD5_SEIhPKSlo5-Jf3GKelYbV6WYSuxcnRbD9g5tFTJEqNvfEx5-TpyiwRUhC5w29zFusHSW8JjVWF0zCUmn7kA8Imi5c0WWBInIbyo_fBDVM8D7eH1vNefURSzKOjVpDode0kDAv_f1iSSSDfCtrUSG7z7gtgQ6HthA30zxzPqfM3a3MbOCdstwBZ6XbNjyPjqDXiVu08sPGhMLlulX2SOjOIzpV5P-29Ghn973vVzTiq1m73rqPcloMgiNxAd1cnrSUkThr2pFCsrEGKqHQLYxBZFlzaWzwmiyLa8ZKkMspyNiJtGST01hTN7_jG4IYy4nijCy8qPQmOxJC-8rRLIlfplUvnvUTI4vDJUS--6nDJ2zL2xrjlXdl-xh9Zm3q6eScME3u1jHoxi9BsEpcUIe16txddIjGke7w1FDKCwTi8VxoF9fqJhRZlOj5x7xG1NgDNzO3RslhO458_sScjkiwxBbMHId-yr6D5j34PdsTJhD6-7U4jEqQt83XFqpBDLAa1xLRMdGQrJsxq7F97OOk4PuJK8M5d5OPZi-aW1RczPcdpkeQn15-HZBQxvgoN2O6x9-FcEJ3T5OWDkcQ7wm9yN8ElRGnRdkVUbbdKlhsd0NKf0r23nku4LCF6hc3L4v1g87PeUUOahWBrassSPsHxYY7joS4JssSYsAiGvr_LhbwBPtn_yjYeMMV4shDcF0TVaJdiq5zhaxYEQkBJOKDrgW9GsK0RJoyuu7Hobu2gVHIcpWPR_yL05X1Piy4sveSRrvtaqjB7MoWTjXAMCcdz2Sx-HB7seXDGh1K1gpdc1iCSnUaNWPi8aZn7a0Qc8WvkHRywVVYXgTXaH8fIitNQoHeBXYE8CNi81jaMB0xSX6tWadX7foYpL0TCb43-rpsxvxZlrFN5Wjd7LzPAOf1q-_afST8QbvKO8s9TPtXGdaAcdDPX9a-vqGmy6cGn9PFoYxcnBKuxfet-1t3vo-nildp9hg_bT2sMbxOx-QD2zS_HupQTc4-pqDqpZ5JD9Upa1wFvGIDGpZ-rXpS0q80hSSq-sfd3Fq7G48fkEf2ntPlHgBoRbarHv16vnwr2Nhhlrn2QLVPM96lLjn0Gy1cPT9N7hvbe2Rk8sH7hCVyDDzWTG0z-lEMqE_9cMeY7xoktpACtcwryNnEU8inZbVYLpbO7I3TUtWoLuyZKFUBBZawM_aibqU3r-a7QVAf8gL4vmmtCvHvlfyxgBh-oYLz1VquaJ_6WJ2A9LjnHPqKCHNuWq2rhW-KjYNVOrAOprdZi5W0pwbGfB9znoMXARD4Xc-vzlsygWgtslj9FjB4Sagpm8G_oY7sjaVRYa2TvLdd-wyTrs-e3A4_SJiZH3Hqx6dmEOKmu_7AJyej4ZeZcdNWarZRKMtfQF4TbNE18rc_pMDRJU9eJZf9qSoXnYKhd6Cmlda4oXm8yTYJtlSeT8LleZrAWJOSIMZ2uAootjGFVqTQYQyI890Xn4Cy2BbgU-VpuJjswWGIioJzcZ1rJFKy-NzFbQYVr5X4DncZNAhyvmEW85S1ZYPfsuTn99aW-78-AfnVGJBYc8mT9ZXgE1NQsTicaSc1g6uSAbjqHJ0fz_w8fkn_u3e9U6tXMh9XTmrpz_Pr85RVu_1rbgmnsVh808LlzBiyE1dvcbVEAVp6D824OdzCppSpTirX5KrsT0ctTWQW-HlRDXFVUCw43GhJJe1SSPH287aTpDP1vGYcDHmNwikR6GMT9qic1eYzBVQuo8hij5_JlKR5JikpL9dvGuCdEcLKXwaoMa-ZRjV7wpLA7X39LkSj1ltMP87ymeR0KeCKMNOB-17bjrnXNTLAazJAzr239O3SVg1yahD9OrRSVJ2UUdtN5uxOqiqNcuzq34wchMBGwP521gUYY7RFGODZZQAYDWGa_IBoMbnrxs1RL0d-UCHJAhIU2vXIgXqD-y2gOCR5Y44-9FNsUOPmNeXYUoq1xfosBYA7wZWD-mP51EGIeHhOKcH8pUsnPsRz9a7FrX8cVwkVM82pYPaeWGXiYYKcR6sWCpeg=="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-a27327a8-676c-4ccc-9f70-c5756266a3a2",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CscCAY89a1_-LhVGh9pN2qPSjkDPs_5RMKz6meaSCUmzr8vqzGBqj8sEGg7CYCGcxm7z2Wjn2aO0H43hVyKtf3GUPhLMLOZfVuM3IQRTejxc-DgILYHOuMxcwmPVqSpvKI8Cjosu8z1Qal8eUk1wpZ7GOtR4xGAYGGuGI3an0_uTcr5YMc7UZegqI9AXz0JLppOqP_c1T91VJVmPKJ12-oLe3VuCNPkrCxf32CC2nxLlBknJsWrYSxCss2dD-gsMNR6mZKNc3UEz_ryOtQfGepJpi7uB5lqFmB_lF4rD2WXDbhsYKeExbsoFViY4BFvAX50fVLyDptu7HkqyvGoPD1GWJvqj4Q-oxUYA1E2tBnaxi480iAOuIOSrjIFa0-o1xwH4uoFwXab5IAAAzdRm7WwRWl90GrOAjDozOu0IupSNtlAO8Vv62Gsy"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-a27327a8-676c-4ccc-9f70-c5756266a3a2",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770304701.132943
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770304750.2113652
+    },
+    {
+      "eval_id": "restaction_for_table_widget",
+      "conversation": [
+        {
+          "invocation_id": "e-028b090d-a8ab-404a-b3d1-ae4de9f13adb",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a restaction that will be used by a table with two colums:\n\n    name\n    namespace\n\nthat gets the list of all deployments in the cluster and prepares the output of the restaction to make it usable by the table\n"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the `RESTAction` configuration to fetch deployments and format them for a Table widget with `name` and `namespace` columns.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: list-deployments\n  namespace: krateo-system\nspec:\n  api:\n    - name: deployments\n      path: /apis/apps/v1/deployments\n  filter: >\n    { \n      \"items\": .deployments.items | map([\n        {\"valueKey\": \"name\", \"kind\": \"jsonSchemaType\", \"type\": \"string\", \"stringValue\": .metadata.name},\n        {\"valueKey\": \"namespace\", \"kind\": \"jsonSchemaType\", \"type\": \"string\", \"stringValue\": .metadata.namespace}\n      ]) \n    }\n```\n\n### Explanation\n1.  **`path: /apis/apps/v1/deployments`**: Fetches the list of all deployments from the Kubernetes API.\n2.  **`filter`**: Uses `jq` to transform the raw Kubernetes response into the specific JSON structure required by Krateo Table widgets.\n    *   It maps over `.deployments.items`.\n    *   It creates a row (array) for each deployment containing two objects defining the `name` and `namespace` columns.",
+                "thought_signature": "CssNAY89a1-irKqiVrTbDbcrML7Q4veAKB7vosmI6bdtYZQgK2SGAtj8rNg8X4C1HCV-hawNccQPgZCWWn9ZWUUz2WX8knFHlI78whwbt_nwGY8OsAfs9HLgm1D5qH1cI2sDtU2EXYFgfOHiU4T4MMCWFyhNOmy16lmbYm7tx__DV4Fy_g5TjrchBKn6TVm11KWoBix4WGLfHLxwSgjgisaCG8J_dfZgshISniwA-_vUxJtCwwBjXy4LJc5B_JkX4MAzxKtpWSRc5uOpmOpODB-t-WGoszAS4uW-UhxY-QHNs1B7D6rfi7Y3-FdfSXAidza8ViBGLxY3BhjoFvfoSFdGiyeUbb-EL_ONIuHYpouqXiqG4Xu-Lh0Zu5YD8VqFQmJn7RHZ76iyGsm8XatZLQ8KXcUr9sgnun1fwmvuqzbxRVAgDysNeEatlzh39dl7UyUV72TsfvkrwKro6PEznmPcUdlAVgdyZxftBWxmUlxg2agT-L_k4EbvnpFx6dInhitruuP3iqLCjdQBEneWARxt0rQKPejqpLidsBI3_di4eJoKjT0_84GIC3iqgo4DhKOoMTqPpbZWdSuGOrlUGx9BHcZxTuxESTtCe_4QsBMncP0kumc6eg-2BKaFWZbCWNOip8ul0OpY66lcnLBYlMfdLVWRHM3OczRWrLE9hQh7o540hMcQhJc05JjylXUDnosv0-up1EPcNzJpds4nvgpUYXhK7PnsJ0jrKBi_ztCx4hVd6KtnZxqNRIo-IssXqYsYE2orAPZrXY92O7KtFQHP_vQorEUR7JkcU8S6krzuLxModVbyk2C267PZNFrey_H5ceN0sdheohOSOhxVQ-IJAW58eRm4xHDh1BOinQw7YsaAmoku-vOwpyTCibpmLL9rQd-AUVfrMky0A49b29qLl724KShY-MQzDFU0w2wAFiF4a281kvevXNBWpiBQqnS-7wO_t6jWHODte9M9y8PVi5PSvgQBFX3Aw1ozQpvJU4r0edBFSuPSMBtnbIJzxSMTYR_tdF33BgWOk4Qd_h5l5XQr3KUogbDNZG-QKrmdgWyyviD9SENLgQrP70L1b-nyv-1tjq00ccvxlrlU7QPA1Uy0fKcYtxayM025ETGAUikiId7RFXteD78jESPOb3MLr7hYh5Y5hcWJ-eywmPathuVEDB8Hwv3kzSkOVyD6iXqBc6EOI0gbx5swLJQuxnGCaT2ukOUfyHygQwOSbGkVEwAPidPm5KrNsel5eFMwQuxHhJFYPslVgWUhP6fIHWkpkoJRt-NsE9LgkzaPP13qZt1xmXhpZBpv75wmqmHPCDRh0Sq2PhLtLvhK03l1KtYrGd-ndDiiuV_MlZT5smSV8zecYS2GP4bK2bbaUNlWa_GWFJw7WsGeOWREdstp6XZo7QNZMDzTnqyJK1t9MmvOhzJnUheScBkkknl8MxhALrY1Hw0FojCr6zC_7FF8YOUWVB6ZtlSj9ZB4LeGARB8QvbJS4sDgzFGArSeFAIw-jXD1SbdMMPRm2CqTuCE13aFjPXT2zNTkEN68zngtzXbIr1uz0tPwrYPUYo-y0bhaEnYgJGoGXTkJoMCsyp3UxoXUynQJm40kyLJg6oFKeK_luX0lY5KpIUeNvy9Of6PZEkDQnPpIxv8XVyuoaSiZghRjedQiWC0MeKX5C7h_6iK6wEur2RS7o2pmnCGGzvPXVm_ampMDDS6Qzl7N95ZPK3nfUUVmX2W8I2sQfpMLJlzMMNB299gUH8GXhvyK8Yh0GJpCMuCHTtwlrLntr9jtICJpFbZtXaGgJmmuZkt7mgIwvSgUFU6E1qeMJrSpYWGpS5F9ec5Z7HKYaC-1tIMwW_Utyp72UY-MiHVn2k7ehEQKO-KtQgzvloA2XHQFRWYYyCisey-I3djXb36ieUuzxeRpbzVfvrSBiliC4M6JThlceBmkwD2WD84C7WE0iZkxnggSrBRG5h77a3v3KRLuhVhERLv3L5nj1UV8-_gfsyI2vPwKt4QmpUsGUdfgzV9-g2mQcK_6eOAf3GETBidbWFcgt07MW_wSHwsiTZjrKXqXCpbB80hNGcHgqE78JPcrxqNPpKD6jj8xJZ0o8CqUzwMFK-h3VjKRI5UjYqsOWlk1-bnCK3APj9pzFNGQiB5LKoMcmVLJ89Hfk4Zem8kJOk1RHFBUd0hjhMK-ElbAQz_eu4HxOzcc1KO2nCQ5lisuWatTpddqXi7H-L5A63y0hOcJk76tSwO-_YNa3dUk1Bsw1lSkXPU5Lb3Q_n101hNQkwHPhCpG8R5wPl7q7yV4Hoah-4hGLhZqDa_vZ1A="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-1caff50f-a494-4901-94ec-941ace7e3613",
+                        "args": {
+                          "agent_name": "restaction_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CuACAY89a19eCaTeG00jR1D6YB-vUYvwXFeytl6TyvPPtGqYD-T4vA0BmxFoNFcm-dc90OcgtCTOLFk0bINqtlyjok1JpgUjGU2Jj3aM4Zn9XopcvPgLLUAezsLA2-vj5aMhbO58VYgmFa5_00vXGdRIvt5KI9_fg-xi4d3GjqDrwdVS5DjhrauUoQgfzN1PMMVeydYLXwLxOKqtWKyukZnl_8tlxXQ2zSLEZ3P6b-uSZcIOQrW3ZwzqB3Z0Z5cH0HZdN2jNgO4kxhg3d0W_ZYJ9zO7WWIefWAUpvqwO4gBKzoTIG0qc0dPAedqHYiITQ0rSya8Ht62ImDIrv2S8zHHjI0QRMjLJJuocz8Z7Yw1_X3I4JKe1lePBMTZS9xImsCbJd4r6guHaoZsnnmfDioU9YNBjsFykJ6XYkSpflta3EX5QN3mC--dSgAFfehZT-fMNejay3ip0Rouydqgy-xUM3A=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-1caff50f-a494-4901-94ec-941ace7e3613",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770305028.463198
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770305096.3985574
+    }
+  ],
+  "creation_timestamp": 1770223011.978878
+}

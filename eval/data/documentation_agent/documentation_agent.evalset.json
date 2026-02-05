@@ -1,0 +1,560 @@
+{
+  "eval_set_id": "documentation_agent",
+  "name": "documentation_agent",
+  "eval_cases": [
+    {
+      "eval_id": "what_is_krateo",
+      "conversation": [
+        {
+          "invocation_id": "e-8b6387f9-c92e-4e17-a36b-e51e1476419b",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Krateo Platformops is an open-source platform designed to give platform engineers and developers the ability to create and manage any resource on virtually any infrastructure—whether it's a Kubernetes cluster, microservice, application, pipeline, database, or cloud resource.\n\nThe core philosophy of Krateo is that **any resource can be managed if it can be described via a YAML file representing its desired state.**\n\n### Key Capabilities\n\n*   **Infrastructure Agnostic:** While Krateo runs within a Kubernetes cluster, it can create and manage resources both inside and outside that cluster (e.g., cloud provider services, third-party APIs).\n*   **Service-Centric Management:** It abstracts away the complexities of cluster management, allowing users to focus entirely on the services they need to run.\n*   **Centralized Control Plane:** Krateo acts as a single point of monitoring and control. You can track everything from CI/CD pipelines to pod statuses and JIRA tickets from a single interface.\n*   **Declarative Operations:** Everything in Krateo is configured declaratively, following the GitOps model.\n\n### Core Architecture Principles\n\n1.  **Kubernetes Native:** The business logic is implemented via the Kubernetes API server. Anything you can do through the Krateo portal, you can also do using standard tools like `kubectl`.\n2.  **Delegated Security:** Authentication is handled by the Kubernetes API server, and authorization is managed through standard Kubernetes Role-Based Access Control (RBAC).\n3.  **Composable Operations:** Krateo uses specialized components like the **Core Provider** (to manage Helm charts as native resources) and the **Operator Generator (KOG)** (to turn any OpenAPI-compliant API into a Kubernetes controller).\n\nIn short, Krateo turns your infrastructure into a programmable platform where managing complex cloud-native stacks becomes as simple as managing standard Kubernetes resources.",
+                "thought_signature": "CpQIAY89a19Bz2GxC-TPansLJMYbIVd-D_ZL8WiaCARLPFkL0jgAnYUNUJru6ZbFLPXJDjkyiNEHehgji2pabfLgdqG0HorcP8JC78f-sJ3PYz2HyH8Vdm5E-cU3GDCMnS1sPoI9LgpPoQMchGS3Y7rMTCQDQKgJQmV8Naq9OEstjONBXaSQoWVX3CS2ZY65S27fuHBzhJber4RkC-hKdrKLeRSzORaTPsPxzIeDYUWSu9491dXk-iG0VW98NISgRAzKv2gTuw_o0-XmzbZvcJbeYWf6AOLKsFS7eVlO0om9za36CcUkVWb9t1oqxWv0wKlCHQ1udtDO2LJTdvSEz2i9B66gXgQvvmsxe7WoPuGyI7Z53tr6r-_zNoXsGyIv-8RuK8CA-cjcq5FcS0h7EFmBd2JYXR-dhUN57bwWELtJfmWVRFjXR8ZjKuFVXsKuSjaeteUcZZCmjsNBabPW2J69k6Nh0PV2c5SxsCbzQ4aFAGPpHN3-tlAG6X6jdTqYUirkmVLc3eLWUCcmVgf7N22THuKrVlXLU9VfG-1iUPjp9zaIoktYc362xH4KRz8pQBYc2Mir4JLlkzdQV8EH80PSVYJyI0NZzOyHLy8D0dPqf4wBYwNzePiOPUMPWSoB0YndtYHjM0e5ZLlWv8N2x1DAC59h2NGX98bkxgA1TwSzZ4NErzgNi8bCCdpm43doRfcOYfyMn3kGRuhnmcSqYRAK-P87DsEUFGN0z6DHVoW87xq1oyNcUS6CkPci3mweeOG9rd-U0k37222PQlAbrlxUR2AsjBRt4Z7Y76JcXm-lAewnwXNdljuZY7XLiRwRovoxNIEGjPvRLGU4mkHVdI7Pag5GwOu5-7GcmYwT8gTHaGnf4pSQIh9czojClpdixZz4U1iRE3KX1UxXdE9NftMKqS2ZVevA-AOCGCaIVvTFCsiEU6l_-BdaVTxo3vrTnUfVgpgm46gI-59PvwIgibaQ9DOitPqvroDEM161zpzTVDT9NS0fP-cWC-CAdbLxGOVSBAFPnnzhnQ1uxNqnMWD8ZEltwox9UHwYQ4k6dsV1aukVqoLm6nyKEYUmnsl7xbpsFCem_tUnxyRUgxhtr5VAI7v8r8Qsd1tO42On6kPBNcx6zK3pj6vSMCVZOvBy4uJ2HPxwrkcwrBKd1iOD3bpO84r1RD-aVK4F435xmTwd9ZxONFCqriPdbHRymzQ_-Czcl79mrJS-_eyh6se4l-hZaxTHpotO2Li4VcpbrzLc0l50e75TYMosOKK3Wf6bEBHr9sQDg1UvGfAC43fPcvA4RO-bBngYKijQX_A5FaJf8SfbBfo0P6KKiNV-gjixyX7boOKN6HUVQ2VjGOhdMllEZxul_4QnBu0-pd48ERbFPPTko2oA"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-74eb4bfb-ba89-42d1-af56-9914a43af11b",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CucCAY89a1-gdhHvGQMA6m8PedO41mLEpgrfDBHUYibbofxlWb601pBkVXEGjpLtdRHPZVXxi8P4JW1KOZ1P0voZO0XWBEml6aqwY1iOgQaIdU7h-6gh_s6NG5a1y6X4lIA-3wqjN2Om81H_wwJ1_iPaOJ0AaLgVRMdsAAsMr_Wi0rZg4LhI4I-H2qpuvq7UNpsw4V6nEqzMeLj5mH4Bostm-5oMfDzkmH4jXSm3Gs90pqS3RWfyBZyrkZRBHgnwjv0xuRn_a9G3xKZ8PTVmyXGLQgfNelCJfHPJUAJqJp2P9S-DAzgljHtciifXyzdxwtIRt_CFdp01_1jpK6gXTSCuQyao55wsp2e0AtcGo7V9T1Ir5PjX0geuMp05cSdqf8pvYjubFDxR-wJAEyP5UNGA6wgT7NQyoyDxoPJMZ26jqt_tUR5_3AGb2KQzZ4W8yQauEhW8W7_RHXH2yH0E-6yMAtZY1NvLk0w="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-74eb4bfb-ba89-42d1-af56-9914a43af11b",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222424.922944
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222446.3361661
+    },
+    {
+      "eval_id": "what_is_finops",
+      "conversation": [
+        {
+          "invocation_id": "e-fdfa1147-e22f-4a21-9611-53ca942e07b2",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the composable finops in krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Krateo Composable FinOps is a module designed to collect, analyze, and optimize costs and resource utilization across various service providers (cloud and on-premises). It enables organizations to implement \"showback\" (visualizing costs) and \"finops\" practices directly within the Krateo Platform.\n\nHere is a breakdown of its core components and functionality:\n\n### 1. Core Architecture: Exporters and Scrapers\nThe system relies on a duo of applications to gather data:\n*   **Exporters:** Web services that connect to API sources (like Azure, AWS, or GCP) and expose the data in a standardized format (Prometheus).\n*   **Scrapers:** Services that collect data from the exporters and store it in a centralized database (CrateDB).\n\n### 2. Data Standard: FOCUS\nKrateo uses the **FinOps Cost and Usage Specification (FOCUS)**. This is a unified data representation that combines costs, discounts, and usage into a single view. By using FOCUS, Krateo reduces the overhead of managing different data formats from multiple cloud providers.\n\n### 3. Key Functionalities\n\n#### Data Collection & Management\n*   **finops-operator-exporter:** Manages the pipeline for exporting FOCUS cost reports.\n*   **finops-operator-scraper:** Creates scrapers to upload metrics to the database.\n*   **finops-database-handler:** Acts as a proxy for the database, allowing for complex SQL queries and \"notebooks\" to perform computations on stored data.\n\n#### Data Presentation (Showback)\nCosts and usage metrics are parsed and displayed directly within the **Krateo Composable Portal**. For example, when a user views a Virtual Machine resource in the portal, they can see real-time pricing and historical cost data associated with that specific resource.\n\n#### Optimization (Day 1 & Day 2)\nKrateo uses **Open Policy Agent (OPA)** to perform optimizations:\n*   **Day 1 (Provisioning):** Policies applied during resource creation (e.g., selecting the region with the lowest carbon intensity or the best price).\n*   **Day 2 (Operations):** Ongoing optimizations triggered by periodic jobs (e.g., a \"moving window\" algorithm that identifies wasted resources in existing deployments and suggests scaling down).\n\n### 4. Typical Workflow\n1.  **Parsing:** When a `CompositionDefinition` is created, the FinOps parser looks for resource annotations to link them to pricing data.\n2.  **Creation/Update:** When a user creates a resource, a **mutating webhook** applies OPA policies to optimize the deployment.\n3.  **Monitoring:** The exporters and scrapers continuously feed usage and cost data back into the system.\n4.  **Visualization:** The portal displays the resulting financial and performance metrics to the end-user."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-58ff0bc0-e30b-4a10-b539-0c63cd3cdc60",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX5wsrEl1YIOBuhm-QY7_CEtwhm207Qb84YBOPvYOWPY-uSSDvXxMggpoAY89a1_41ykRUsYYdqaDM96loIVPn_V-fM9kKEqeUTXx37XFfHGmy7-MwlIgJrToxTmYLt7dzhKIeOkI-VFtDfi5EdyYxEKBh_rPHkxZLkUgNCBoWQ0FAs8IWfnpRDKe3MF4A3WSUQIKewGPPWtfpz31jSXtYSlw2dgsS5xrhOM_7v05cg6Psjqy6qLZs6bGI_qny4-swU6xbZStoCQ4zL_E0-BFOKwgDHq4AtLQ6m70oEmS91co7AhmaU0ezUvZn2_-UHEwkZ7sfgQA0UohVh9LVozioZGfLCRIZtbjmUDHHIYamQriAQGPPWtfHcMq7eKfVx5ypuf8YX17mrJWd7KhN_cWImKEDwceTerSOT1th6YXxGsi5xl5jWe-Qb1A7tjYDviAN75O6kR8sK39GKmNT9XPQST-fkBRoacaWB9Nh8IsxbuHWmgHX1E3sE2ZiY6Mu7108GPmma6W6Hdo03WpzMSdFmEU9ofpQ8yHanGAJL84d6n5v4dT-HBFVxS3D3qeEEY3z5x6e_oRF3VjgZQZAsVSPo9JFk46BUZpAPIiYGDCMOute-1P7w3pjdMBeMI1dezUP9eSixBkxL_k1uX51T98SPw1QW4KaQGPPWtfdxGQtBUgiGatfugKvgT9_tCTyJj3HJGPcO_R_3mGIHPNYk8EDe4pe32hIuUqpCNCKIfxdLGkzFAnAiM72KiGfuhRBj_AUQSqbPvWDG6f0DsP4WVmNtUEuwJxVr7SQzvQNdGtIA=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-58ff0bc0-e30b-4a10-b539-0c63cd3cdc60",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222460.02032
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222475.700724
+    },
+    {
+      "eval_id": "what_is_finops_operator_exporter",
+      "conversation": [
+        {
+          "invocation_id": "e-1d8d6a76-76c2-4c6f-bfb5-b26ede412db1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the finops operator exporter in krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **finops-operator-exporter** is a key component of the Krateo Composable FinOps module. Its primary role is to manage the exporting of financial data (specifically **FOCUS** cost reports) from API endpoints into a format that Krateo can process.\n\n### Overview and Role\nThe exporter acts as a bridge between external data sources (like cloud provider billing APIs) and Krateo's internal monitoring systems. It is responsible for creating a generic exporting pipeline based on a configuration provided via a Custom Resource (CR).\n\n### How it Works\nWhen a Custom Resource is created for the exporter, the operator performs the following actions:\n1.  **Deployment**: It spins up a Kubernetes deployment containing a generic Prometheus exporter.\n2.  **Configuration**: It creates a ConfigMap containing the specific exporter configuration.\n3.  **Service**: It creates a Service to expose the metrics collected by the exporter in Prometheus format.\n4.  **Automation**: It automatically generates a Custom Resource for the **FinOps Operator Scraper**, which then handles the task of uploading that data into a database (like CrateDB).\n\n### Data Format\nThe exporter is designed to handle **FOCUS** (FinOps Cost and Usage Specification) reports. It typically expects the source API to provide data in a CSV format that follows the FOCUS standard, which allows Krateo to provide a unified view of costs, discounts, and resource usage across different providers.\n\n### Summary of the Flow\n*   **Trigger**: A user applies an `ExporterScraperConfig` or `FocusConfig` CR.\n*   **Export**: The `finops-operator-exporter` sets up the Prometheus exporter to read the FOCUS CSV.\n*   **Scrape**: It triggers the scraper to move that data from the Prometheus endpoint into the FinOps database.\n*   **Showback**: Once in the database, the information can be displayed in the Krateo Composable Portal for cost visualization and optimization."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-50504546-d596-4062-a351-bcac3784a49a",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rXyxe1Kzu8SwTvRo8RX5xRDkrHp554j6Ox0m5eCkWBrSzche1DP-qKgqFAQGPPWtfGYsr30D_IW7sKq9U1EHuDRzXwp5gJ1QAizsFVco3Bdf1NCuvIBn1YvEHAGBsaIA4_zU1zfiVpRSYgZmCt61TtWlFlVWI152S2_J3WD5YcAcQG2BVjSkaSDEayZXINV3dAFUZ_GNHx9yPL9dqnfUWPEMMqh0pR-r_UmLJ8Xg6K44KZgGPPWtf23bZMU35odocC65587JAht9v1iUJ0srJTMT9gm2eBsQVLhC6c_gglsOhCbMYbEYyqEcyEMEqLmntNhb2ZgzhAnVQ3fcWHSRFack2UKp0B_EvAwRZUiFZD4-ZNLeQMHHvsQqyAQGPPWtf18st8VnQMBaDh4x-Z-qhrYeZtYYHwFNHOrqHDxWiTdMWMe0z5g8hgEZuPD-7G0Wk8fUL5kyDiMvXGTSOM5z0XRBaoI1JcOAjQ1WUQmPKsNcJuVC03bkfJ7C96QDvrKocHsE0LSKEC_wsJASuJTIWX0B4cvZUklgPjpckP7BfkYjPJkalU_zKQqXcC6pDhVvPlFiTnMXU5ryFvLcmqg2TQ9Kk9KEspdk7GqvrfREKyQEBjz1rX9wOD40Mprhq1XKBTwn8SHSRv-a6hv7G3o8D68ICWD1VKTHygST6tzmIBAUn5Lu4eLyoi2CgLRWnG-5tqwXxYnDCe-iNr_cGn1HxWLlusG6BAkeC1uG6Dms97tuRX__pzLeKKKZveRFxjgOB2it6rq_Z_W8Arg2XskFNRY8gaUcRvnerb9vGYMVQSnWJ_ZFX9oJxMPD75f1biLZXnleXzGFhiaTbBoA5uULVye2bChS1qjUWXwoI4AGZxszr3Vr8jy1dzqgKigIBjz1rX36GhuybWeaH9udZh2h__xu3o1jpX62z4hnPJV39u5eWKhFO9ePQDf_-lPO9ORNMxmgo3prdHOz2lFNGpsUodkwX-qiyyUZYFtlTwTWyBxoEuqggEVvdWUqgRhfI2E6eKaXlkIl6s6Q4xGOhGX3tWQJX-FmWlGUmByq0kqOLRJUm7Jj63CAPbHzMH8AMVs-kTX2iJg_vGwqXk3lHgXkHZIInnhxfJ1qX9Tf1XwcvZRxNj4nn5-5XEcJZKYZ_AqcDV7vM7MhIOgbtls-TxdVYcrsWvIRR_a7MVxJT5NXsYJof1upWyPM1Uv78o9Lqg8nn09Zl22X7ZokjErqPXhvl7XygYCO9VAqAAQGPPWtfPm1jmiN5J1ytv1tUa1SRjL5_e_MNzrEAa-p7R1mPB78mmCmpw7th4kZ4Y-kz7E-2QGmOyWOAP-pUkOQOqDriKh1lkO91sOkGnIe0XnRT6MTjxre_Eb60co42ReZ9KdTSqYyxH8FahGQSvok9PhE_0hpp29-LsgFaDHnX"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-50504546-d596-4062-a351-bcac3784a49a",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222487.303473
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222576.7328382
+    },
+    {
+      "eval_id": "what_is_finops_operator_scraper",
+      "conversation": [
+        {
+          "invocation_id": "e-1e80f915-c0e4-40ca-8221-7fbd3b97addb",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the finops operator scraper?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **finops-operator-scraper** is a core component of the Krateo Composable FinOps module. Its primary role is to manage the lifecycle of data scrapers that collect metrics from Prometheus exporters and store them in a database for analysis.\n\n### Key Functions\n*   **Automated Scraper Management**: It acts as a Kubernetes operator that watches for `ScraperConfig` Custom Resources (CRs).\n*   **Resource Creation**: When a `ScraperConfig` is applied, the operator automatically creates:\n    *   A **Deployment** containing a generic Prometheus scraper.\n    *   A **ConfigMap** containing the specific configuration for that scraper.\n*   **Data Pipeline**: The scraper connects to a specified Prometheus endpoint (the exporter), parses the data (often cost reports like FOCUS), and uploads it to a database (typically CrateDB) via the `finops-database-handler`.\n\n### How it works with other components\nThe scraper is usually the second half of the FinOps data collection pipeline:\n1.  **Exporter**: Collects raw data from an API (e.g., Azure, GCP) and exposes it in Prometheus format.\n2.  **Scraper**: The `finops-operator-scraper` ensures a scraper is running to pull those metrics from the exporter and save them permanently in the database.\n\n### Example Configuration\nA `ScraperConfig` defines where to pull data from, how often to poll, and which database configuration to use:\n\n```yaml\napiVersion: finops.krateo.io/v1\nkind: ScraperConfig\nmetadata:\n  name: sample-scraper\n  namespace: finops-system\nspec:\n  scraperConfig:\n    tableName: cost_data_table\n    api:\n      path: /metrics\n      verb: GET\n      endpointRef:\n        name: exporter-service-url\n        namespace: finops-system\n    pollingInterval: 1h\n    scraperDatabaseConfigRef:\n      name: main-db-config\n      namespace: finops-system\n```\n\nIn summary, the **finops-operator-scraper** automates the \"scraping\" part of the observability pipeline, ensuring that financial and usage metrics are consistently moved from exporters into your FinOps database."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-0003a8af-b899-4c9d-a775-38437436242d",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX-JHqJW9nl1ABBBF39ph7SblrKU1o_zZwECzac1-zrFgpb6g2nCrsQp2AY89a187uVn-87SSAhJ96cEWfUzjuX6sBfcQ3SRDy-6og3lN2zDbiIJ3UecShWNBnPvpclo3YU7BHtrtreDQm_yjsPH7UdADOfDSM8Icu5TeKbEIdJ-iACMWOPDTwmFfaOIoji3j14RnOV0tJ7kTozK9hty3gwp-AY89a19o5igC9djX7FkGAcgAOlO2cMFzvJXC5EGNFU7HMOpNDJ9ymLDv9rF0qo9UBvrSt2HPYQK6sUcqpEt_XFkB89DgOaJyqP9FoI1gHIaVqm5fKUEJJbyYYrWIVWeYbbR3UULXiT7jjJJ9uzVzAVMBWNWgRAzOyEGKlKydCsEBAY89a1_qWVaPD9vsGcNbNlMIZrDN45ABAYnrsR4BHd292AlYHmBDlwSN6Mebt4L8zKW5vegaa5O4AKJjqLKSxwdFXcjt9oIo2_rd0Wb1gb1vlO94ziZG3x4HYzzirvzTiuAdv9t4X7fU1A4uapb6jGFJFbVXSOEgEv6nsG2GpAl0EWgNJ3lowuvm-QHpZ-06X9sxS9WcR21jJlSdaKLfHRBnoT-oYwvk5a3OazgiYuKbalJ7OnmSqL2OtIx9u-zrHgrIAQGPPWtfE07qBO-QKOx3O7bOHk-ZPX65qLqBMw6HY0SJmrvNOZ25-8Mjb4GkFgEaO9pnYKGMqwKM007q4IMmwUk0XyYhFkMvKlGWHuL_E8GyNIQK8waul5w9X0xfUsGnBFlGntfHvP4oWMx9TVNGq5npcboLMeLj1DAU7F_6U7g2vBVz8m4BYUgt-VPITuLIW7JLvHnWzJHt9_fZoLAu5yYdhxKOLsUhzKJ_n3uTSfNkAFYqmD2YxOHPDrJ9Ap_rPQyGonJQNJhbCpkCAY89a19RStOP61MOE5l8ur-MKHe2yfADTbdXNsEplZvNvKw60p2fVh2hWBc4z_tNGfjdaVEBuiPE9q9Y4tzgNqjf7jLU80b5gjLZ9OYXDZSyng0oG6zaiDRLrmUKpow2hX3RpckNoo5CwjudnxfN1RJxVPn1_SVK07igY0Q6qeF7fMwB6ZLF0vhbM06An_VtY9M9cHFg9a-cCfQy7bUrh7xhkEiNhTJ-UzlgdagWF4s-tsgL85TrKd8J9EZEU4Wj1N7igiWmdW6yvH9FkyBsgfPM--SZU_QVAwtJi3QcPy-2Qy-GHRh9egAoPICQgZIxMnurYYxpNuL_BUqZn8FtqJIPuZSSD6K1v0DkPD4Kv5w_y2VT0kv0F10KkAEBjz1rX5LVHX9J5LyHD1J5dWLkfx_LAJg4C3pme73-U93yZvKbNThR0zzPXEBlBBCzlZ2hnngUZI50MWZUjffq0t8_0XWVv4c5bBwMeCfYJU0X374qQfFJMtPlWy7zLQTycIvIHwTgjHZU5FDIwdOi99PME89sm12GMXVvABojam-Oz_QCg0s43lfrsbQgKQo="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-0003a8af-b899-4c9d-a775-38437436242d",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222589.273718
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222644.656306
+    },
+    {
+      "eval_id": "what_is_finops_operator_focus",
+      "conversation": [
+        {
+          "invocation_id": "e-03e158f8-d913-4ea3-bfbc-d5e45812167e",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the finops operator focus?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **finops-operator-focus** is a component of the Krateo Composable FinOps module specifically designed to manage custom costs using the **FOCUS (FinOps Cost and Usage Specification)** format.\n\n### Overview\nThis operator acts as an entry point for custom cost data. When you create a `FocusConfig` Custom Resource (CR), the operator:\n1.  **Reads the FOCUS fields** defined in your CR.\n2.  **Creates a FinOps Operator Exporter resource**, pointing it to the Kubernetes API server to read the FOCUS custom resource.\n3.  **Triggers the full exporting pipeline**, which includes the creation of deployments, ConfigMaps, services, and the **FinOps Operator Scraper** to handle the final data ingestion into the database (e.g., CrateDB).\n\n### Why it is used\nIt allows users to manually or programmatically define costs that might not be automatically captured by cloud provider exporters, ensuring all financial data—regardless of source—is normalized into the FOCUS format for consistent showback and analysis in the Krateo portal.\n\n### Example Configuration\nA `FocusConfig` resource typically includes details such as `billedCost`, `billingPeriod`, `providerName`, and `resourceId`, alongside tags for organizational mapping:\n\n```yaml\napiVersion: finops.krateo.io/v1\nkind: FocusConfig\nmetadata:\n  name: my-custom-costs\n  namespace: finops-system\nspec:\n  scraperConfig:\n    tableName: custom_costs_table\n    pollingInterval: 12h\n    scraperDatabaseConfigRef:\n      name: main-db-config\n      namespace: finops-system\n  focusSpec:\n    billedCost: 100.0\n    billingCurrency: USD\n    providerName: MyCustomProvider\n    resourceName: internal-service-a\n    tags:\n      - key: environment\n        value: production\n```\n\n### Key Relationships\n*   **FinOps Operator Exporter:** The focus operator tells the exporter where to find the data.\n*   **FinOps Operator Scraper:** Manages the actual upload of the metrics to the database.\n*   **Database Handler:** Provides the API to store and compute metrics from CrateDB."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-6eac7cfc-90e4-486d-992a-37e6be0c2b83",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX4j4Ek5WJDoQiXvmfYCIm28VdKM_U5BVCFS3fyWMrizio_ghlASAgQp8AY89a1-UXnouzyjTCsuY_7R7YU9AtGlAqpLyxfvrDHnfgk2m2rH9w4y7riOefZDTS_ge4zVENxAJR7DIeLIb8U5lW0luXJq75wpy4SNPXpyJVkCdls0-17xKfZwgnfYJacskiydd_N8gCF3sBFGkK8IqNr8ZlMlLQXU7dQp4AY89a1-X4PmrQqqUeG6mOWl41LgiQnL3s9MYRRF8mrBxmiQPtH9e1eqiAusP-0DLRUQjk-cV0BoOOCt1CDHsRznhbKfRKMEuQpFZSaOdT-S9kUVYvRCxcFKI2BYOYwDPCCpVpm1MbTRIQLWiJDZ43nRvjeny1PRzCsYBAY89a1_0G-yfZAkNU_RXll16p98WlZMGsg_9L9DZYe60zB8DMPQtQ1T5Ej1fEhorLr4Wq3vJFHWiYllryKuTUQyXxoSOVFkm-Ohrn3GnBLtZitG7OjDu6h0r_7HuTp9FHvenYiD98GL85aqCSWtHUTcDgPpH19mp_BfnZ7fiOB5XZIi4sSyMOVCMErjtxyVOZi0HX9tw1afOTF-oqU6iTcRxOuo61fMKEotKMCsPb1qT0-T-bNFSEAX95zpBJE9Bn-D2rQ3RCjcBjz1rXwyBC_hnFA0fghsNJuOjMJy41Lf80cWX7K_nLG55NpvObAVlg5KE9PIQViAju1sQ3NO_"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-6eac7cfc-90e4-486d-992a-37e6be0c2b83",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222652.635813
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222709.7136087
+    },
+    {
+      "eval_id": "what_is_finops_database_handler",
+      "conversation": [
+        {
+          "invocation_id": "e-57340e72-2c02-4a6a-b805-6a34e052e7ac",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the finops database handler?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **finops-database-handler** is a core component of the Krateo Composable FinOps module. It acts as a **web service proxy** that manages interactions between the Krateo platform and its database, **CrateDB**.\n\n### Key Functions:\n\n1.  **Database Proxy**: It handles all requests to the CrateDB instance, including data input and output, using SQL queries.\n2.  **Notebook Execution**: One of its most powerful features is the ability to run **notebooks** (Python-based scripts). These notebooks are used to perform complex computations or data transformations directly on the stored FinOps data.\n3.  **Data Upload**: It provides endpoints to receive cost and usage data (often in FOCUS format) and upload it into specific tables within CrateDB.\n4.  **Notebook Management**: It allows users to upload, delete, and list available compute notebooks through its API.\n\n### How it Works:\n\n*   **Authentication**: It uses basic authentication (username and password) to communicate securely with CrateDB.\n*   **Endpoints**:\n    *   `POST /upload`: For pushing data into the database.\n    *   `POST /compute/<compute_name>`: For triggering a specific notebook's logic.\n    *   `POST /compute/<compute_name>/upload`: For adding new computation scripts to the system.\n*   **Notebook Agnosticism**: The notebooks are standalone components. When executed, they are injected with database credentials, allowing them to query data, perform analysis (like identifying wasted resources or forecasting costs), and return customized results.\n\nIn the broader FinOps architecture, the database handler is what enables the **Optimization** and **Showback** phases by making the raw collected data accessible and actionable through its computational API."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-760cfc19-97f1-4c50-89b5-c62dfa9f8bb0",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX9hT7T7Ld3TXQycRQ2fkk7F4bSW3nIjwRwrRvxYEoRvUf37x_sg6jgpxAY89a1-_rJcTBjmxz_q7ZBJTl6lo7fk8fQay4xSszfejClLvUkLIrm_mLpobIvmuyEFYcPtCNX1sfzfCNoyT2NIMegXeV2J-lJF5vJYWWrSrcvwUBXwCMCTClr_0bbH2vw5c_TBPuih0_Zu5G1VYa_8KeQGPPWtfWtY20rhyHfWLD9F6ijB3k6dS_nsPym-_MCu5jmn4RdiSvhueQW9QFBz2IIIKGi_VVOuEV77OyxrTFItzO_bfMXTmQtmd4VKW-QKBpNepVn029KkDfPITixFLdBm73OwrIRA5JcaToVSrwy0cZKiNVxfxzyIKuQEBjz1rXyHRV_4kGI5uiWuYsjL_29xUJuNaX8dDvxYvWap8kaBPnqO2STKSHP5e3kEQMtS4RBls9sIrW0suTYHMnmETAidZZ6uKpXj0d_D40U5W1no2Sh1wpIA1ZEpM1zk6KA7dLV8kUOqqvw-79O4-P_l7E3XdH7po7Pj7Ledwcwq-eyX65kSFfom9aOiP7cQqKN-VsVnQLckMm7DIRJvYC99utYSGV_MLtVRLxzlwkK8FCNrnz_BMLw=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-760cfc19-97f1-4c50-89b5-c62dfa9f8bb0",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222718.739262
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222750.8184547
+    },
+    {
+      "eval_id": "what_is_prometheus_exporter_generic",
+      "conversation": [
+        {
+          "invocation_id": "e-63ac31ac-b16c-404b-9ecf-7268cc91006a",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the finops prometheus exporter generic?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **finops-prometheus-exporter-generic** is a key component of the Krateo Composable FinOps module. Its primary role is to export cost data from API endpoints into a format that Prometheus can understand, specifically using the **FOCUS** (FinOps Cost and Usage Specification) standard.\n\n### Key Responsibilities and Features:\n*   **Data Exporting:** It transforms standard FOCUS cost reports into Prometheus metrics, making financial data available for scraping and monitoring.\n*   **Pipeline Bootstrapping:** For every resource it monitors, it checks for provider and resource Custom Resources (CRs). It then automatically creates new CRs for the `finops-operator-exporter` to set up new exporting pipelines for usage metrics.\n*   **Configuration:** It reads its configuration from a YAML file typically mounted inside the container at `/config/config.yaml`.\n*   **Network:** The exporter runs and exposes its metrics on port **2112**.\n\n### Role in the FinOps Architecture:\nIn the broader FinOps workflow, this exporter acts as a bridge between raw cost data (often in CSV or API format) and the Krateo metrics system. Once it exports the data, a **scraper** (like the `finops-prometheus-scraper-generic`) collects these metrics and uploads them to a database (CrateDB) for visualization in the Krateo Composable Portal and for optimization analysis via OPA (Open Policy Agent)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-f843fba1-8589-4967-be1a-5f9b7298bf10",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX8H8NaeG-BtBKMtr9wIPTzo3kvAs_fqNSU80G04IHx1SZrdOF9Lowgp6AY89a1-zTUIrwHGPMnFq3ELmRspYq0FZcbdDS3njMUBIibcRAnAOTad93HJyUcIPFCXl7Suil0DGpOdpeG2K3KeeTzNN0vf6la7F46SEIAXOj_77qTSotZMMqA0u3xyg9pLeVR4TlPpUSNF6Zpf5lFNaxOgMqUyKlYwKfAGPPWtfemiiQca7aOpsPjneIDgfXT8jFtnhCXhoFk-1S_yWEg_ekgt6bLd0QEbbSvBgkUt7tJTgb7hfO9PSaCjd8aHZJdhULGBnik7aR2vKZoZUSK4xWvd7UOofj1VIrRqxjbu7eR0KxQvLvz99B8kjZeiU9H537ZWWenAK0QEBjz1rXyyhkJVQtsQrqcIyBhpz9s-OLxEWZnmn9U5TntfQKcODpX_N65W6TTjHQAY0UhBtw04kl3pBbyDeIPrpOYrCp6WupesjXA3F2F5pWLcH2sggIYL64bNz5mJMLs2iIdkiIanCfRcYuQIGrm4TNaZgx1UYCwoXqaO9jA30z6NVF1NyC7AAHe5sV9g2nCu3Tdzd-4mzJ9gOD5PyGXESxJkekzdsgidZ0DQVXEk2ripTBLN3mu178xpTLgbl8m1VPQkeTJWAdLkfeYPba7AnvgpcAY89a1_nuNKij5ngFdOArrhY7YPoKkzZq_jqvyUA41FmH__iVc0hkU7yofaVSLd6W3NeAxXqV13ZxfEnsEMKqJWKevGxy_-rXdRNaz-6-K0H__aaQMeynwSSAAQ="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-f843fba1-8589-4967-be1a-5f9b7298bf10",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222764.243636
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222788.5880816
+    },
+    {
+      "eval_id": "what_is_prometheus_scraper_generic",
+      "conversation": [
+        {
+          "invocation_id": "e-18366e58-5ad5-49f8-bef3-3a1a473de360",
+          "user_content": {
+            "parts": [
+              {
+                "text": "what is the finops prometheus scraper generic?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The **finops-prometheus-scraper-generic** is a component within the **Krateo Composable FinOps** module. It is a specialized service designed to bridge the gap between metrics collection and storage.\n\n### Core Functionality\nIts primary task is to **scrape Prometheus endpoints** (usually provided by FinOps exporters) and upload that data into **CrateDB** (Krateo's preferred database for FinOps data) via the `finops-database-handler`.\n\n### Key Characteristics:\n*   **Part of the Exporting Architecture:** It works in tandem with exporters that expose FOCUS (FinOps Cost and Usage Specification) reports or resource usage metrics in Prometheus format.\n*   **Automated Management:** You generally don't need to install or manage it manually. It is automatically deployed and configured by the **FinOps Operator Scraper** when a `ScraperConfig` or `ExporterScraperConfig` Custom Resource is created.\n*   **Configuration:** It obtains its configuration (such as the endpoint to scrape and database credentials) from a file mounted at `/config/config.yaml` within its container.\n*   **Agnostic Data Handling:** While primarily used for cost reports, it can also handle usage metrics (CPU, memory, etc.) if the exporter is configured to provide them.\n\nIn short, it acts as the \"data mover\" that ensures metrics captured from various cloud or on-premise providers are successfully ingested into the Krateo FinOps database for later analysis, showback, and optimization."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-003eab0f-97ca-4533-964d-339453a593ac",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rX6cHmzeWIVhZeH-szEjIoids7uPEMOqtUjCcYUBdPHYLadiLtN6bCgp8AY89a1-2syyI3SVCH0VNuGBcd7v7N2PAzyZ0SPOgwY7OIZM8EFZFkt1NWJkSEMUBymP3HhH0YCgOQEYBmWCYYiamk5wDJw0e5l8X4MteXDUbqBxdQRft5av1DsY1_avjn8v-6hE6t0-npTy0_6XPKMngewnwVHYa4FOpYQqEAQGPPWtf_92JiqvrfdE5g4UKzJUDLZPAvt_S12THAe5KLnsDs1DHiqMgkxdf9D4X_q3tkA_k3p9FAuNtTYzDGmYfqfoNdaFqiSIJt-Y0S6hY2itNLf0g5m19WEYPcrGKxYs-ynyE-ngxSdsN7U-49OMrePltLLvwDAySRnjMXm_RwjgpZQrPAQGPPWtfMeUsma_4kmnYYnvlSeqaB8TcNxPY3A6cGM51KJdvztxG64Endairp_-k9afoW7EhvpJxPLDxzXA-xN3xRd5xPpr34ONAj1DvxYOQkvYFRaZUtyJM4c4gsUAwj8-_KWkgLuSQxhrVMtfQ6WwosZMRW5zzKlwxLNmN1K6DQ7Xhge2RMFb94K0rMrlg3aI6wNS6U4FkM3i4HTaMEC1THHM5BdyqyI2cbVAC42I5pdM1QFMZ-tZJpZ6aWThLXQLb_vEpbGPi_GhTGBOyDQp7AY89a1-NQzEtVz0t72Sq7Y6Hb_osElGGw5SUuml2c1AH0kZT5qNQ2YnEAh33m6uwr_inTsDNaDNePy6PzUC143IwWkw7BsQrqpHat2lP-8DHq-UwY5U66HRADy1FbcGPYidUcaXUArKN2LqFuYyBe2-bY_KoJyUazicn"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-003eab0f-97ca-4533-964d-339453a593ac",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770222811.232317
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770222831.6079984
+    }
+  ],
+  "creation_timestamp": 1770222418.6451244
+}

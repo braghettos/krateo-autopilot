@@ -1,0 +1,496 @@
+{
+  "eval_set_id": "authn_agent_tests",
+  "name": "authn_agent_tests",
+  "eval_cases": [
+    {
+      "eval_id": "what_auth_methods_are_available",
+      "conversation": [
+        {
+          "invocation_id": "e-96e5fbd7-7525-47f5-8884-db3374822dd1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What authentication methods are available in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Krateo supports four primary authentication methods to provide flexible access control for platform engineers and users:\n\n1.  **Basic Authentication**:\n    *   Uses a Kubernetes `Secret` to store passwords.\n    *   Employs a `User` Custom Resource to define the user, their display name, avatar, and group memberships (e.g., `admins` or `devs`).\n    *   Supports login via the web interface or programmatically via cURL.\n\n2.  **LDAP Authentication**:\n    *   Integrates with existing LDAP servers (like OpenLDAP or Active Directory).\n    *   Configured using an `LDAPConfig` resource and a `Secret` for the bind password.\n    *   Allows mapping LDAP groups to Kubernetes roles using `ClusterRoleBinding`.\n\n3.  **OIDC (OpenID Connect)**:\n    *   Integrates with identity providers like Microsoft Entra ID (formerly Azure AD).\n    *   Configured via an `OIDCConfig` resource.\n    *   Supports advanced configurations like custom scopes and optional `RESTAction` integration for fetching additional user data (like groups).\n    *   Provides a customizable login button (icon, text, colors).\n\n4.  **OAuth 2.0**:\n    *   Integrates with OAuth providers such as GitHub.\n    *   Configured via an `OAuthConfig` resource.\n    *   Requires a `RESTAction` to fetch user information and groups from the provider's API (e.g., GitHub API or GraphQL).\n    *   Also supports customizable login graphics.\n\nWould you like more details on how to set up a specific one?"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-4e5f6474-c2cb-48cd-b1dd-d9f669d919a8",
+                        "args": {
+                          "agent_name": "auth_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiQBjz1rX4ObJAgsMgsGdPUpdaJPhtOsyMqBJXHuWFNMTac2vSgKewGPPWtfmeaYFPLth49wSsiqW-bMyiXaLxlzZjFsYdzWj-Bqw_0V5ezz8zA-10-2Zff1oQ6mz4BABGvQ81ACR9Hi76x3kh57UKRrD2d_IGfNi7LK7hvkIffmvloOdm9Oxbgl727nJNFN64_u69rnRmBeLiVSzoaBJWVLHQpnAY89a1_9sYGMlu5tKZKPy4yIUTWZYObojtIEk1GS8NtjvrMdwZCXyE-CUgJrRx95qqb_Dtx85hkBIpAwKvhwMcrWbUPxZVn_3FRJd8KVNl4lJmpeLRq1KRgOZNubZqwb3Bxrv1fumwrBAQGPPWtfJb8eykKYLg-ips4cvvkQp1qL0a2g7cJCeVr_5WxBQ6PahAdMYONbFcKy2Gk8Pl1bNtb4o-Dsa7b0vMiN7b7nB38noHH313h3qCn11AttYaqHZgmliYNNAvtX137l4BrKzKy33LiV6Hf1DxUGawfPZo3Flg-iROgw38fwycp_q95ntx6_AiDxBytnKtqp2s9MlEtRJcoIQP1SqoKw0WOE4AUV6w8Ng8XOoiyAQP9mlY1kz_-Ezw-N_bgKwyQKyQEBjz1rXwl7ZmTqu25_kATnDDhXyNTxgJ7-kBs-7OfpYjFrFAeQOx1xtk1QjmdA6QkStkZ8E1ckgeFEXP3tsIQcLh7IlH98WAwMODpjP8JYc24qACiryZj7QaKDRr-F78OovuleNHhElEMF-WUXgRLyEHmPjqW8g8Y4C1PIczwcEQ2hZ0sxJPZYgWNofJxU2RZvUmmcClkmVq2KhPSbrOpnCZGU6Qmd-orVIQLHriXKoW7FqSBTMqfuO-prrgdOqIUmq0Ic4WdmwDUK_AEBjz1rX-bLouoshbZ9Yf7IQ96_EeP_J5S3vq1zOYyNVZ_bDnzFkidz3y_eXQOvaFIc22lcFqzHsU5E7fhmhVAWOzRNT1vz727xZR8_g9n3yWSMX3wsR78WL43M8larxxHZg5eotVIgLyHwOqNy0dnLS7iMQ-cA61JIjxe43nSoBEHR0gPrd0NeK1QT61YPxKtLUYDhKiP_fg8XY4e9gW7n1fDEn0cqyKiwmwW1cU5oysuWnMFZT4z_Y0Zt2GNYdhAASk6XHT9nNk5bS3QI79X2VeJGEVVC0AgoYJdmP0-oDWQ2PyiE3SZ6OuUeLDs9pHkNgTU2JDVHNnayak0="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-4e5f6474-c2cb-48cd-b1dd-d9f669d919a8",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770132473.860686
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770132505.2799382
+    },
+    {
+      "eval_id": "basic_auth",
+      "conversation": [
+        {
+          "invocation_id": "e-9b034863-749c-4292-980a-5fb7609628c4",
+          "user_content": {
+            "parts": [
+              {
+                "text": "How do I set up basic authentication in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "To set up **Basic Authentication** in Krateo, you need to create two Kubernetes resources: a `Secret` to store the password and a `User` custom resource to define the user's identity.\n\n### 1. Create a Secret for the Password\nFirst, define a secret that holds the user's password.\n\n```yaml\napiVersion: v1\nkind: Secret\ntype: kubernetes.io/basic-auth\nmetadata:\n  name: my-user-password\n  namespace: krateo-system\nstringData:\n  password: \"YourSecurePassword123!\"\n```\n\n### 2. Create the User Custom Resource\nNext, create the `User` resource. This links the username to the secret and assigns them to groups (e.g., `admins` or `devs`).\n\n```yaml\napiVersion: basic.authn.krateo.io/v1alpha1\nkind: User\nmetadata:\n  name: my-user-name # This will be your login username\n  namespace: krateo-system\nspec:\n  displayName: \"My Display Name\"\n  avatarURL: https://i.pravatar.cc/256?img=70\n  groups:\n    - admins\n  passwordRef:\n    namespace: krateo-system\n    name: my-user-password\n    key: password\n```\n\n### Important Notes:\n*   **Username/Password Constraints**: Neither the username nor the password should contain a colon character (`:`).\n*   **Groups**: Assigning a user to the `admins` group gives them administrative privileges within Krateo.\n\n### How to Log In\nOnce these resources are applied to your cluster:\n\n1.  **Web Interface**: Navigate to your Krateo frontend (usually `http://localhost:30080`) and enter the username (`my-user-name`) and the password you defined.\n2.  **CLI/cURL**: You can log in programmatically:\n    ```bash\n    curl http://localhost:30082/basic/login \\\n      -H \"Authorization: Basic $(echo -n 'my-user-name:YourSecurePassword123!' | base64)\"\n    ```\n\nWould you like me to generate and apply a specific user configuration for you? Just let me know the username and the groups you'd like to assign!",
+                "thought_signature": "CqgKAY89a1-0_gZcnKfVEx8whNRDnJlFWpfFnuKo7a83fYtAAA389aDsm_h7w5r-hkgFHJF05H5mACDlDKZ3cqLW9OaRoTTkTgLJeMeTStolxx_6T0Lc9OEMohhG-nstdfWFQ22XU6hkbnN1cFPA9K6K1oXnnn77eDQUR12TXxKKfGMXZRxF9k9_ulcQURHPthH6KiOdiGw3ulLDuXHpOg27vJPjITypbeia7onVsY9X49mHTQACa3-KnNQezIZfugzFeC5EWvsx3D_QiBBJcdpclkwI8Zy0LhTEAHA24ZueB6DF2OXOitivzv4NOVaYdFNqpc6vl559Ll1Lm9WPp3PfkcAkw7wYwBvR4pEaiK8JsIwerwwbiSS1A2Z9wD--WWrrSz_SAHVdTgsyIsKiTV3CJioiu6caVsi2EuJ1RApZXboNhRFeOFyUdj-cAHWL5vTouRSCa6DXYcWbFWWzjuqj87AcyW1TZeMoErYd4BRt_BCJqxFLaReg4d629LrAPD3iwmTuLhW3jACbmpHbj-tAroFhSbVHFZ_UecjRsw_O9iSYuq-eKlIKbpud0BLS0XCrFkNBPSNvEkQd4DSMo1X364oisTkWdSsREaL14yOxJ2ewpgZOS1MMzd_eSj73tJwExu9jInlSI6ONimZ9gfRHkE_Del7VV_xmLLgPcmpVgJG2JBRsjgRmVPx7LnNioX7DjIy6eoTVonmL_GD659NAXvN732JOAse-K6c7EEpLy2ird4k22Nso5KWQVdHywcG7lUWdTpFE-qA9MHVUYAfYf6qZaxhG_EXCb93Shy5bgPxIdSw3JRrwRW1Lc-jWuh-SN3Wb5MEwC3xe_YBiGtGbp-73wkTTJDipfEfIJ8ITXkojQhbo5zIdhALKxOorhcRihQq2ThOVPJSZKYQrpNgly2u49N8nHSFOkbgm3CvSlDsoAmAzcaXxH3c0pl8R6t9XFTa1bnq8F0tV8MU0UGmZCKON3WoIZV0RTGOjEKNNuogVBSIG172gh00YsrzIKwc0M2VKDsEo1i4_VoUxKLq-1CIgjXO_hpDCDixtm527Wn1gykb2y7jVCdT6gHq9uhT9f_E-Q-cupMV1Z3iWm3ODudP16ATAgrTlOqnWtO1J6cFuNP8IMRd64aIJtfPFHZVT1JlUcFINlVCbk8FjohA7JqFgOAzCdpAtbsjz9-wzwD5JDm11ue55zMzc4Gz46oAVKbJPhWDFcqldnU3qpLCw-0xoDLplXNErJ2HJvdGywm5aMf0qjgph1EscQU_0c7ut5IF9of-UAT_RqPLOunLDzJMiKZ37cwR-p0QVSmFGE3IzG3tutPawJXp2k-ESom7FjXzevizHqWJpJ3wTohoG5p9HStWdmRp_TCj4jLaV27_R4iiqmLOiJmYLV_vHhih12-SR-2103HvD2hgQLZMjNnB2hc07WRG32gogZpJPVkTr2idRZZWFiUNiXntx7IGwQNCEdBQyywkzJmgzx_GszZ7C6_3dE174-JFIHmQPI8Scc0R3db1R3liqpE2whwt8nRGmxR_X49KO3hb_Qn50IzQZTurNFyteJBbT6Yo1RP3h1dLaSjMgRdRA5SoEllCtCVMSm7DjmsQBENsHR8wVm_Zrii4QEmv6Ztt6TJ3Z7sCqmNMsEASck53rqVFWArnqWyBsen3dbste90rwjJCK6EIfbSd_Ogu6Dcle8wZTBYCsoSwAlqohX1V7Jkm7c-VHQbHhhQ5NJPs5x-wRJlujugXkhCo_RI32"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-dcee21f2-067d-43f5-bb40-fda746eb0e47",
+                        "args": {
+                          "agent_name": "auth_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CssEAY89a1_0RKls50ZVHyPUN5Nrhl773xtLQhBvm-28gZj56OfRwy2K0YSEORmO8qYDU3fXYU-2uEOkE8fwPQnOc_UsSmGJvP_a0cezuXWkbPwfAxtzlO8IlR5WIlW3snXcR1ImQcvk-iMunNHQSfqnoXfa-uWyQwMkrWf0IfxjEyVW77J_wvi7p5WYa7yuZt0qUVRSTaTmd6dk5LNR0wzqvOZiJ1ioI6Qi7oV5QJISv3rAGHKP1ck-NKc55dnkXeN9SxK5m2HHeCVEvsIA_6QX7zRy7kluOJEn1SYZRRi1QBd46v8rs3SwYg0D-dAAFlELVE6s_Cvl72MEjujStSHMEwLKT8UOWKnh9oDIe8ig2zAz-SyxiZiu4XoEgIEFGZcPS7wWACGDLkRfpqkXS99nPl_nRaam-cNZOUOY8bGCipFzs1s-9ggxjHA3euG3o4V9LnXsCQYo8oCZiwobjuoUSfQm4Cv8_1KssR1G6KGQ5buUgibeBwlSYPV3p4154JvkaIW4wtx7GnNBw-rOuPTlhGMbsv_OV3OTR9IWC_XvA-hkcoBpPZphaWbPgWwIe46Q8NwWYiqCswH8WzLUaSYu3DucQecc3pAo00nWF1U7oIgRMkaBf0HrRUcaFCdRBOyhZ6KMi-FkbzoGYEMq1RBKqXcAvmyX11edDcZeCl-WSl9EiSwNAHysghTKYw2GOXogkdffuOseISFmxBhrHJDBpQJOaxsfIpUTW8HfMFEgKYdocEksw207r1scZUvck8VsyLuRZi9DPaANrv0="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-dcee21f2-067d-43f5-bb40-fda746eb0e47",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770132524.521363
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770132550.1603346
+    },
+    {
+      "eval_id": "ldap_auth",
+      "conversation": [
+        {
+          "invocation_id": "e-7897227b-04a0-4f3c-b517-260703e3a12d",
+          "user_content": {
+            "parts": [
+              {
+                "text": "How do I set up LDAP authentication in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "To set up LDAP authentication in Krateo, you need to create a Kubernetes `Secret` for the LDAP bind password and an `LDAPConfig` custom resource. You can also define a `ClusterRoleBinding` to map LDAP groups to Kubernetes roles.\n\nBelow is an example configuration using the public test server `ldap.forumsys.com`.\n\n### LDAP Configuration Manifest\n\n```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: openldap\n  namespace: krateo-system\nstringData:\n  password: password\n---\napiVersion: ldap.authn.krateo.io/v1alpha1\nkind: LDAPConfig\nmetadata:\n  name: openldap\n  namespace: krateo-system\nspec:\n  dialURL: ldap://ldap.forumsys.com:389\n  baseDN: dc=example,dc=com\n  bindDN: cn=read-only-admin,dc=example,dc=com\n  bindSecret:\n    name: openldap\n    namespace: krateo-system\n    key: password\n---\napiVersion: rbac.authorization.k8s.io/v1\nkind: ClusterRoleBinding\nmetadata:\n  name: krateo-users-admin-ldap\nsubjects:\n- kind: Group\n  name: \"Scientists\"\n  apiGroup: rbac.authorization.k8s.io\nroleRef:\n  kind: ClusterRole\n  name: cluster-admin\n  apiGroup: rbac.authorization.k8s.io\n```\n\n### Steps to Implement:\n\n1.  **Customize the Manifest**: Replace the `dialURL`, `baseDN`, `bindDN`, and `bindSecret` with your organization's LDAP details.\n2.  **Apply the Resources**: You can apply this YAML using `kubectl apply -f <filename>.yaml`.\n3.  **Role Mapping**: In the example above, members of the LDAP group `Scientists` are granted `cluster-admin` permissions. Adjust the `ClusterRoleBinding` to match your desired groups and roles.\n\n### How to Login:\n\n*   **Web Interface**: Navigate to your Krateo frontend. You should now be able to log in using your LDAP credentials (e.g., for the test server, you can use username `einstein` and password `password`).\n*   **CLI (curl)**:\n    ```bash\n    curl -X POST \"http://<krateo-url>/ldap/login?name=openldap\" \\\n       -H 'Content-Type: application/json' \\\n       -d '{\"username\":\"einstein\",\"password\":\"password\"}'\n    ```\n\nWould you like me to help you apply a specific configuration for your environment?",
+                "thought_signature": "CsMIAY89a19fPCKV6NeMHUu_nBjGnez1Z8Lunt1TLps0RBHq97C2AhKz8GcvmA2UY-O-jb4fO65-Pc3951CLNTHe2kVGfbChBkakHfoe0HzwFHevdHCu8NlhpwwY_sDbM5b6u5i6p7Ma37QiDfC1P5aiMYQgx9aHqRD-4sNlokkbHqFabTDfmNIohBb76e7jgfsL3-BbSPuo3PtCVzH2vZmRGvSS95MmYererT9h2_ghW9wizNmCXz0lNoWC99NBOJcP7PQebQy4xRvGrCEnLa07ABmlN3EU-3xDCgc1ntX_fXbrjWun-sQwfQYE5uvulU306P5o4Qciol2VW6LAHvUYFsyDiz2Te7Ls5vKrsUUQrRfROwe0W1GMPaYLNqNkXilf8u--0yX-4kQj3YWNKOsQi5cJrQjAfmaBV7PJGlaYej_qBXNORSQi35FdKiY-rO0yU2cehMi3qDF5RL9mFKHcTaQ0SWi-6mkChsQO5tEUKjiKEUjFXT2_zMamhykpEEbQYmYf2KZRPFe1ZDS_1j1B7ZUb2mF-4RyFSSy-DMcYDnQ8r5u7I4g9xmabGrPwIlCGgvOpixMWU6w0kbSvDtsXZmBxeSnzXTYhTgJ-U2zIc_yPgutdRuc4ZDTnCP9N6-KS4Mswf4zUmaO3Tcf6cCUP7e3V_B8SmGco1EQY6BLU6ZjINlalw2BbIfFt7sqNeZOj8rGj2AyZlDvdzEbPGjTvw7_OZpaGy6k3O5PkHZYhV4D6wRvPJRNKlJ593zZknBX-rAnY1DcJclRbzLg8yT1BvP9ejWD1voL2SZzHIfFI8mJY6QgyBJ65OQ08qcl78GG0zqP-quH82KgDIf2FDGjYhqZKE3pWZzp9zNoQgP7KUItJw6gEljCR5inovgzfzkvmNd_ZaV65Z2dEDX0Gl2caz43ZPdpSF2vJQSZUw19ae98U4-G3bNniCQgJskUi1ccK6Z3bMRoRNmAgHSyFiPdlhW2VFTvzraQrKQZw9SnUNQvjGhe68GrTjKN3amnTuYG5jRkHUO382fXdaNYhfCOY_RQyM9Y4Z4re6wz-mS8sg4eOlbfLw3IfVwYwjaaoYqi2R9N3C66Mz-VigSrGta0vtKBYhqD7y9ZP3sQ9gXc7r9iWFNfiZriG1qh3h1jqFddgZkWS5k5J_mYmW2bFxLxHrwip1taMx_z9BjkQyQdduMuN3hhiLBqnffHAZOPeOP9TCsG_fOcTSFFZjzwHc6Mloe-BUZQsgYTk5CZZsT49-9MzFGx3SIg2VoyzWKcf0zcsNtp_LxjutMZi2Wce7rIwJEsXeCSAln9KgCUz_t7-PiPP1gMVrvBeTwyrWccdJNv7Se1UsI4GTUDmdt_dVau9LKBXZWIyytIFbUdZJK29nziXhC9Oy0urvwacShKO8PVl8brT9Pmj1ravtUqOCR7_YcNQOAK7ewZ7Vq7s_536ph4XXxU="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-b91ccd99-35b5-4f24-b5c5-8a5abb8c3598",
+                        "args": {
+                          "agent_name": "auth_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CpYHAY89a1-u2SaAv3gcLuMM07Evk5cCbHW8zk3EzFcriO-ktCTk5pDnIdi0BGN3yFXRombJ9c4Vtl25207sYxmdW1xBAtA9T72eZF_CGBIkO8xpLKZO6DsgZTjSrFhsdov2D8Nf-faytX-uhiDyom0-7mkc-PhccE85DDsZ9B8SvSPc4q8cllpJCRVSP2pFJN6VhhY-XFKgYMW-lOY_dB-GOTIrvp3iLur886Sj2FOSYYDORRgwe5EmKzdOYqcECQJFRYzK-xpjeoUCR_W4gnuo4-4P8Hc0H5BGlD6KvbmOXunng4FwN5XM3UMrwXbA3mJr7MFunLOteo2PHzm53K_DXlZMiSR9PBIDRX9qERS3lfGUnCLVML-OFXGEbkNBZlxNlUUX86qHyJbLAlNguE20TCxZXDl2BlRmmvC6HA37p_GRGTPptzfjDlBUM7VInlc71WTBNx2IN5TdaemAStoD3vohe3t60DMgO_QYcmpAviuSSD6X4h8P4vKagT5P87bvq9GnTc_cFgCp100jSj2-c8CViq8ZuoDjZBHd-h8MygSgVCpzO72pi3dMdbrD0eqriAz0gIHWdEtYWAT6AYuTfFcEYoElAKMCEPy5io2Zz14lk4imrA00KN3Z2j5-MDWYz7wMU6MiGukQWnrkQ7q8kl-KzXy8plrbdG3gqG_CdHx9MVdPprkauuSq1h1mHXMMKuKJJCi9K_kB5T1PEZEIJvWVkf1fzkalMZpKj9VmJMUZWgMPgCU-UfcQz7rVhsUFRKakY2nxSzjsH_DvxW9h48rN-dBTQz5llHjtJSu36R9MHjiI0VWntH-irYXAs0yhYAIKtyQuNYkhlYkNLPk1J_7qVFvlJ1Nvc5bjTdEONSSWY4hk1MwPR89pxErn6i5m2Q0obTJIKLAmBKRoV-gk5DdMcgOwD5CJP3wI3g4tDuccDHbwGeq686837JcXa1S1tiYn5itoKdUWL_YJUEhmHfXpnX259h0JQ0jpoOUYu_554NEBdIav8HDVXmxZ9SuLo2nCZM0slYvLXyffGtWY9Zl0aicu3gY2kmSc4eTE7IgqeTsW736I26WSbZFFulGO8BA7BKK22Leh3pVokK8jIhKJ9fU3qToMWWx7dS8fahXF82Oe1CVWOc7BXM-hiKHj3_hryskl5YPYXVIeAWbJ-L5szRBcnXVlrUti-XRSTbs8y_-EeRArLt7_YCY60sNBs9ur2kNp"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-b91ccd99-35b5-4f24-b5c5-8a5abb8c3598",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770132562.3711
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770132580.0104723
+    },
+    {
+      "eval_id": "OIDC_auth",
+      "conversation": [
+        {
+          "invocation_id": "e-62dd010a-7de5-4ca3-ac79-fa746d895880",
+          "user_content": {
+            "parts": [
+              {
+                "text": "How do I set up OIDC authentication in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "To set up OIDC authentication in Krateo (using Azure AD / Microsoft Entra ID as an example), you need to perform two main steps: configure your identity provider and then apply the corresponding Kubernetes resources to your cluster.\n\n### 1. Configure the Identity Provider (e.g., Azure Entra ID)\n\n1.  **App Registration**: Create a \"New registration\" in the Azure portal.\n2.  **Redirect URI**: Set the redirect URI to point to your Krateo frontend with the path `/auth?kind=oidc`. For local testing, use `http://localhost:30080/auth?kind=oidc`.\n3.  **Client Secret**: Create a new client secret and save the value.\n4.  **Tokens**: In the \"Authentication\" menu, enable both **Access tokens** and **ID tokens**.\n5.  **API Permissions**: Add the following permissions: `openid`, `email`, `profile`, `User.Read`, and `User.ReadBasic.All`.\n6.  **Manifest**: In the Azure App Manifest, set `groupMembershipClaims` to `\"All\"`.\n\n### 2. Apply Kubernetes Manifests\n\nYou will need to create a `Secret` for your client secret and an `OIDCConfig` resource. You can also optionally include a `RESTAction` to fetch group information.\n\n```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: oidc-example-secret\n  namespace: krateo-system\nstringData:\n  clientSecret: <your-client-secret> # The secret value from Azure\n---\napiVersion: oidc.authn.krateo.io/v1alpha1\nkind: OIDCConfig\nmetadata:\n  name: oidc-example\n  namespace: krateo-system\nspec:\n  discoveryURL: https://login.microsoftonline.com/<your-tenant-id>/v2.0/.well-known/openid-configuration\n  redirectURI: http://localhost:30080/auth?kind=oidc\n  clientID: <your-client-ID>\n  clientSecret:\n    name: oidc-example-secret\n    namespace: krateo-system\n    key: clientSecret\n  additionalScopes: User.Read Directory.Read.All\n  # Optional: Configure the button appearance in the login UI\n  graphics:\n    icon: \"fa-brands fa-windows\"\n    displayName: \"Login with Azure\"\n    backgroundColor: \"#0078d4\"\n    textColor: \"#ffffff\"\n```\n\n### 3. (Optional) Group Resolution via RESTAction\n\nIf you want Krateo to automatically resolve groups for the logged-in user, you can link a `RESTAction`:\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata: \n  name: test-rest-action\n  namespace: krateo-system\nspec:\n  api:\n  - name: groups\n    verb: GET\n    headers:\n    - 'Accept: application/json'\n    path: \"v1.0/me/memberOf?$select=displayName\"\n    endpointRef:\n      name: azure-entra\n      namespace: krateo-system\n    filter: .value | map(.displayName)\n---\napiVersion: \"v1\"\nkind: Secret\nmetadata:\n  name: azure-entra\n  namespace: krateo-system\nstringData:\n  server-url: https://graph.microsoft.com\n```\n\n### 4. Logging In\nOnce applied, navigate to your Krateo UI (e.g., `http://localhost:30080`). You should see a button labeled **\"Login with Azure\"** (or whatever `displayName` you chose). Clicking this will redirect you to the Microsoft login page.",
+                "thought_signature": "CuYEAY89a19XTt6c5TOfouWmTuwADYN8ZKk5gMHzYec-VZ_G4jwOA7vB-mFmnnhRx5ByS03vagHnowxZNA3VOh8HZP3ak5x6TIWGylDarlSQycnwsdwBE0c1KlTJn4Sv9JXB-WLrH-gw-r955V6I3xjPuQU_9gel2KSk6aQ0z6PL47pLXB0pB65sgc79q5PU0F9VGqEFub2wszAqA-T-aRvNsfdXI8Iul_mKJi6GNBdt2-ezfVjkmEl1cHEidwcNeUkmz2daOtavp1eIeRa4-ZYltZXRU5CSK5zyzi1cqbon1meYBz88DCQ_2lJY7I9ubaj3B6VOlR7TMJhWTKteHdzsb2DK1GOzBhTNFrllePBf0WacnA692GkRb4crcf66EIha6PHYFk0E2ZKOvUy1z1H7IiDHaZw9dKE7_4pQ9oHnX_8KoPddJ3a4BQemK4zptCduJzrZEjtmUiemNT1CmljEeqLEIkJzY6zv3tjMEQ5SpoMEzvNxbd3PnT2fgRko6ZUjCEXqANzgCQ8jYd2mLXN9bAHCp_d4ns_1V47wut-veTp4yrzSXlva5xSk59UGXK4cjO9ZT0VM_DdmFsga4sqP06Ivjz0dzuUEtFbIpn07jYkL5Bnxl2A1W_LjeVjKWYz46bByi6I488c2-Qp2v2gk5odJablKDInGI9TAYJPBF3OZBkEZxxOMaRptPoyi-k52rcGrZQUWhG2sjB5grS3n9VDwEL-NwKAoxNOQcuI0vpjOnVnKWqgJ53Qw8ydNEuUfEQFPoEmWk-uedGfdpiN7mp6rlF7bd5HHGX_rVnYBSyjsynnWbV4="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-7b3bf204-c9fd-4558-9661-cdf0db048fb5",
+                        "args": {
+                          "agent_name": "auth_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ct4JAY89a1-b55I-ve4WBkNIfvI9iobKR5twJTtNF06LNPq7D5rUX-ZxBzaKVADozY62C2_Lco0m4rw4w2IX4T6N0aR6Q_X7K3JwIBTgZn2HM-BEu7kCwoSTdvdWxt92tstTt9ENsfHzpYVlw6FcnDj4O4AKqu8rxWRfhMSunaWkKSVe9K9IjWfUvJ6aYo7iwg2Mc5VjXMchgg_pspQPZ8Ve50OEAVTvLTHendt8Lc0dJ04Hg8vpq7wh3Lrdg1owhvDcR1tuTTEeZLO52txtaHSjTf4OnzjJH3xX6L4-2jFqL-uAerKB-ck1Sw0Ufjjp025iOHephz7AqQcH8C454iIy9Y5bmt5uGHAPIY9lP262kHDHn0mUFI7VZEwEAIaDj6A0bW-qh06L6rfaly4LLvwiCaSBCj8hed1Fij6UFYNR_GjdQCdZ26JyZ7Ot-8YWW-c3ZvzD_CggmEQCGQJIhpTlNnHeiWDI4BxoLMNwXN3e9wIDsdTXO3yeeLJ2H2W50UlggRHJq-wgyHxROr4mx2Zk5UQXADImXTtrNCQLNhj-4Cp4rmCdqd0F0Yhyf8rfQPiIn6oBpiwg7CJXYTH-qMTTnvXWpIt436c78Y5jjrCL5Q7dtKqtdMBcNKYkMpLy03j4vbCpP5K5ylTRXOvucZ3zDuQ6ZaGZoSmchawcJN8TNbqNvh3Q-lnBWYG0k1apk65xtKgCHiB1MKn1oCAigxWzspuvrQ02f1CDpIx3HaWgPOGafHR5SMszOBN6JGkf0wfNHG13YEFFiZCihBWTPI2PI-uIdM4JDtXySbFWUMxlGShvxAtE7bZ0B7Z17jfTYTT6rvhslZQuM0iIOUw4DL1UmL2r0z0GrrS30JFazycYlhbWg3D3bz6Cmh_RC95PSEnz_WjZCuX3atijHUg07oiKNUqO44G89XgIbKSkedGES5sYzgesvsucPH-jPjK5bYGliRp6Vjg3Z7uJTFooEMRAyLFbW7bJiqJXkl3pgS6wyLAvdtxy8gmqwb_De915DNh2QKjdBG9StigU0u7wCarW8Ly0HA72HTIbt2R6jIAiYInNxBDb9ZFradaOX7350v_Nd0RIPHXEjP7dNdf2BbrzQYmN8sNKVEC0SiYbwJjnBQKQFMx7RT5gsgzSCtHAwffiwEI3t2EpxxDuc0oVSQsw6CDhNNAj6sq9Wr_gzORSphwEHzOOdo4f0w4mKW6PgTDNq8YTvlQ8-8Dul1k1ySBtDy3yCJbH4T6X4r9OoqdKsadhX2QHFevhUuj37ZdcK406bYhEaNEZ4fNJYpGXAc-2nFR47wiNncKNupCMEerya8Zw7_VsRhODxKi7HlmO_D4eCNTNblq2r8-jOuByKX2q312j6VYhCy92Z22e0DBJ3s_B6WEmZ8bgjPGbyQWx4rIuDCp3UE4lJE49QNiiDpwxa2VbaJP-yNdIYK5mW63hD8kUfKfs1fLF8NnJ0pDdiN5I86Gim_UJgfbJ9mJ59ZYPg8H3LxF83691asSxL90PGahuv4zXVISbk3okFZV9zolzQiBZyqmQ-SwknojE14F8GXnl5AiMS-urRyxeYukrwgl5y7nkxFgzDyXov655gWfMd3-NAPymSQMDCbsGiVgi3xej0hoOrnxQDStRms8UBMV4nnB9Zn5tD6325ATW7A=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-7b3bf204-c9fd-4558-9661-cdf0db048fb5",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770132604.074066
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770132630.4350188
+    },
+    {
+      "eval_id": "OAuth_2_0_auth",
+      "conversation": [
+        {
+          "invocation_id": "e-851ae58d-7b5d-4114-945e-d7f590c99f21",
+          "user_content": {
+            "parts": [
+              {
+                "text": "How do I set up OAuth 2.0 in Krateo?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Setting up OAuth 2.0 in Krateo (using GitHub as an example) involves configuring an OAuth application with your provider and then applying the necessary Kubernetes resources to Krateo.\n\n### 1. Register an OAuth App (GitHub)\nFirst, you need to obtain a **Client ID** and **Client Secret**:\n1. Go to **GitHub Settings** > **Developer settings** > **OAuth Apps** > **New OAuth app**.\n2. **Homepage URL**: `http://<your-krateo-url>:8080/`\n3. **Authorization callback URL**: `http://<your-krateo-url>:8080/auth?kind=oauth` (The path `?kind=oauth` is mandatory for the Krateo frontend).\n4. Register the application and generate a **Client Secret**.\n\n### 2. Create the Client Secret in Kubernetes\nStore your Client Secret securely in a Kubernetes Secret:\n\n```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: oauth2-github-secret\n  namespace: krateo-system\nstringData:\n  clientSecret: <YOUR_GITHUB_CLIENT_SECRET>\n```\n\n### 3. Create the OAuthConfig Resource\nThis resource defines the OAuth parameters for Krateo.\n\n```yaml\napiVersion: oauth.authn.krateo.io/v1alpha1\nkind: OAuthConfig\nmetadata:\n  name: github-config\n  namespace: krateo-system\nspec:\n  clientID: <YOUR_GITHUB_CLIENT_ID>\n  clientSecretRef:\n    name: oauth2-github-secret\n    namespace: krateo-system\n    key: clientSecret\n  authURL: https://github.com/login/oauth/authorize\n  tokenURL: https://github.com/login/oauth/access_token\n  redirectURL: http://<your-krateo-url>:8080/auth?kind=oauth\n  scopes:\n    - read:user\n    - read:org\n  restActionRef:\n    name: github-user-info\n    namespace: krateo-system\n  graphics: # Optional: customizes the login button\n    icon: \"fa-brands fa-github\"\n    displayName: \"Login with GitHub\"\n    backgroundColor: \"#24292e\"\n    textColor: \"#ffffff\"\n```\n\n### 4. Create the RESTAction for User Information\nKrateo uses a `RESTAction` to fetch user details and group memberships from the provider's API after authentication.\n\n```yaml\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: github-user-info\n  namespace: krateo-system\nspec:\n  api:\n  - name: userInfo\n    verb: GET\n    headers:\n    - 'Accept: application/vnd.github+json'\n    path: \"/user\"\n    endpointRef:\n      name: github-api-endpoint\n      namespace: krateo-system\n    filter: '{ \"name\": .login, \"email\": .email, \"preferredUsername\": .login, \"avatarURL\": .avatar_url }'\n  - name: groups\n    verb: GET\n    path: \"/user/orgs\"\n    endpointRef:\n      name: github-api-endpoint\n      namespace: krateo-system\n    filter: '[ .[] | .login ]'\n  filter: '{ \"groups\": .groups, \"name\": .userInfo.name, \"email\": .userInfo.email, \"preferredUsername\": .userInfo.preferredUsername, \"avatarURL\": .userInfo.avatarURL }'\n```\n\n### 5. Define the API Endpoints\nFinally, create the secrets that define the API base URLs used by the RESTAction:\n\n```yaml\napiVersion: v1\nkind: Secret\nmetadata:\n  name: github-api-endpoint\n  namespace: krateo-system\nstringData:\n  server-url: https://api.github.com\n```\n\n### Summary of Steps\n1. **Apply the Secrets** for the client secret and API URL.\n2. **Apply the RESTAction** to handle user data mapping.\n3. **Apply the OAuthConfig** to enable the login method.\n\nOnce applied, a \"Login with GitHub\" button will appear on your Krateo login page.",
+                "thought_signature": "CrQLAY89a1_RuhWcfRUgQC7P6bM3ebWSDk9jULlPBLi0W0XI2wOyfuIMd3uQrJGqdL5P8X9v6pomx1qb1h0O5ZOm0sRbK-V7zfLupKTgfXBHRo6FeEQjzY1tJKrPpt36q6OD5RWz9rq1A70MiyHHWlgRd0lmIfQpbD_BCz-XAlwPVbq4V-EeuFHClEVumJp-ZUQrlS3PpoRag5sHtIyMPcoAI1H4bwfUnbbNdEyL9e-Gn8CRyCa9_n6H0KwZWZAdaaajE963BlIYW_hUyNHwynaOadnSRbZjzA5J9x2U0eXWmmVISu9aHXcyu0ByBWcfrGxexKXICpJBsTkxiH2x4kFfNiD17SGP8DNF6GXKprx1PH5ozJlrOAxUF-UHxK2t2OhFhLx6L60h7LSK6Mmsr6xWmeEF2AmItZJBhsex1Xzg72u5ras1SDfYKFUUHv6eVf3MGQwEWbTfPo6kUvAD9lEexGhs0_U7HZSz5iVYu-Dnm0mjtLtn9fsdQPLbLhq8I07CeBqhyL2Y3cmuZO7FWgSme69D4vlgCsQVBjZHschr5aQl9hC4XQPsHAyBrzQiK6BvBQVL2fyx6Kn9F_-qSYHIBPlree_wtG-0dRM6yWKd9NKnykl9DAV-V5LqnjuJtV4EheGYV62J0wzFRoHgGcrhSEzEjo0xXj68xos8_kS-wBXD8KsJ2nSk3sxlly592c8469oNv491mDqJxEqi9PIYp67CWIg-70vXO5_CupuGYnANCh0UTy746Jfz46cAoJw5DO-Ew7r1NPeWLHW7fSJKdVToOO4JQoAwYuWrpzM6r2zS3aXd0D9HY9X2iI6UUtPTzSi5WvIvkv6VOZt8Oc7w5J4SEJroqbtllPQVejBxMvTpV5PiJ0qrKl8jUXfFgDnYEW8EUv7bngFVidmUbhaHsJlDHtxcMMvK12_mMFkzzLmPMLVJywfg6nB9ShMc1mVwf07xCslVL13pxc5mCZ8NxX_zWxvbeBTnWVDHUHdBpmg-n0cSeqwE9w51RdhSrv4W_fFaIvNJWVA-bHmgD0uQlV39iYxulacMg36G84g3aP-qOJqEsxg2T_Szdf-9wKXHMlPF1mLZ0ATHxcaMJPEHij-4ZUpmHK6Eptun3lCIAVSAWRw4IyjKfWbzAlXzFjeRE-_cj8kzDYO2rEY4CCaDEVRzn_zyJL99m7vkvqiGkmw1_3jt_npjrqjBOurAZa1O7P15j9v6qktnSWxBrr_67qQ9uL96ecT1cadzHbStOEISjJVnifEeWBKTOUzHTMQGfns-IbS3KVZ_ZUALoXeLtisOW-BG5ijYXviE34Rgy6k3nnNowfU2_YpKMHxTJwM8ZOVWKKQKP-VTVCbHbYPb_IoOwEAyDsLRlpf2D3NOTsauD_y-BcjkheJnJyYkTq4hC02TCcpjmhmgZkccvs7_lMyWuDUvPiAVUmZuEu2xmkZXHb23OQ-0ErIaKVlmTqaUdHYW1Da2jlnoDFaWuCWDYEPnrgChBMVnfNlMBYe_BzBIyVB3Tm_9bQXOpI5JBB7SzyAwGDEPnGLHqpZXDRvcc29SgsYEg8hjZ0JBw6xSaejERrnea80JFCCrddPaZ6pRbLdkpFTCpguIy4REu_9WPDGxV7OIhuqjthqH1ROYMg4PmKMPab0wjw6NO7vUWjnQC2L9wnjTxXGGWhlNihuBNpDfDNUl1KKDAEGf2ghWAv6AsV5NTKTy1KT9v-0WYPQiGivzZiggpIyHu2KCda9sN0DxfcyOF-uQ7sxnd67T0dmkkaraEhCf0TkqDkD3_qdR3thTmJJaD3QDGMeCiTILZe9NViebKP-yiThJ3EZj27eSrRWZ24btyN9BCCzug1fVP3M4m23PsAhqifdYn6N9a9gIKFYBkxE4vB1HNJWLp8pedwilGnZLazH2vFWQlHO5-MJJXZx1cIlUAHuwLCeZw8XneY8="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-8492ffe2-c7bd-46dd-bb0d-4279e2fc42c7",
+                        "args": {
+                          "agent_name": "auth_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CsAFAY89a1-cRwXjoTOeyUeB9cU2YgNDYCGEoHuAK7uPjBVZe9YRQqPd6YK3afPDsmnLIssbgl7Rmd1qfqw2KRc6nbxammm2Zi-86basJaLMQ9eefbk9F0sta4tGM44GItaZMFp-hYXfc1JGWUzXexz2eLZ2qkX1XQ_P6d4wYw5tKEl4kaW8NM3BDBJJ-LcHVv8s34JA5cblMKXRGyeKPAmeMJ_kgE0_hQF2rD0z3sQNgnkw_Q9SuWmZMcEw2xi9v-MZ5DkGCKTiTNgGBXoEvHQJPGy3RqmVvDSECSbJekTVZH6DbtTemfuxoEGC2-OQVYEes09AW6xYJKraeS-vfJNPNChFLAj6zE09FmwI1stSdwOqpnHRNPVL5QjIJOVmTgV-vYzctYlZwb98qec8SYoMqcfQYvJ6TlCB90e00zVVihqHiIM7e44U4ECv6_ZiwmpKBg2SmPJ9ueETCe1dnWy1Ng-anOZJcCpW5s3Oq54LYcfgPESS34yCnkx3XZoDSLsPaB1UojUUVW5OGdYc6CFE4qqr5QHufSMdoIYw_sH7Zbs5UnjrhZViUsHRDZXMb8QspcxvzUeH2sfJZNwJEWmHCZsBlfPSSxGxSU5oKwuWDyTv22Q0yH6wu4YqODoED25-EcGLDm_CiCmBNVhEMfarN2IUO9dTQerOMScS0sAogE4IkzmZxu1-wMURJJr5HwpTFg7MBC_ldH0hWY2-iSxzXW1eztLjZbElemmrZR-9SZEnchUVpouoLosBxH0wpmGXNlsQ0-PyZ34qSQeoAmR8eu_c52Lj2rdYRiT9G1ppjnUBjZuhMBDvMZ5o-wpXbUauU60Xcnxcee15XkY74ksebaeSbJXGpJ1_rZpTVXi90SiKjkUlyBOF-svT7aE4VquFayAu3wuPCR3uQEsqlPGjUWCz9qxdKflp79IsrwdhEjk="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-8492ffe2-c7bd-46dd-bb0d-4279e2fc42c7",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770132650.781956
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770132738.3492916
+    },
+    {
+      "eval_id": "create_basic_user",
+      "conversation": [
+        {
+          "invocation_id": "e-50c55d07-4bb6-4042-a4c8-f9cd103ce5c6",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Create a user and password for the basic authentication method. The user name is `Redi` the password is `password` and the group is `admins`"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The user `Redi` has been successfully created with the following configuration:\n\n1.  **Kubernetes Secret**: `redi-password` in namespace `krateo-system` stores the password.\n2.  **User Resource**: `redi` in namespace `krateo-system` associated with the `admins` group.\n\nYou can now log in to the Krateo UI using:\n- **Username**: `redi`\n- **Password**: `password`\n\nOr via cURL:\n```bash\n# Base64 of redi:password is cmVkaTpwYXNzd29yZA==\ncurl http://<your-krateo-url>/basic/login \\\n  -H \"Authorization: Basic cmVkaTpwYXNzd29yZA==\"\n```",
+                "thought_signature": "Ct8BAY89a19xq0mLNYGANX1f9OROmIXY_gzeverBY_hBIdaGCtnkrqk97LxKjTH2LDr2_fhMqt4LVE7zABBl37QfACBvnnrpsm_J72Cit_VibWyqMNINX26LGOPd0YN_hhmIZePVf0n92IE-TuorHlZQCYf4CyrozhfYMM0XXGQoxVgw2oDuHn-CKsi5eS4xVYbSPnMWfZ0RlTY1XG19ni5gt_cfPnUdbi6BCu54jleMJJsVuDwVJrLTIFmynjBkI1AF-g2sa-eiGRO0aAUVuvzcWaHoN8Qm8f8fgt9BUEs9zg=="
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-52c1f757-420f-48cc-9352-376380b18c8f",
+                        "args": {
+                          "agent_name": "auth_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CtwEAY89a18oknoILaEQcIT2pf1Jt-DOfSfdMOOH_VQIH5I_g_F33KpCEJTz5WXm3b7-x5H4J_POQDCgDcm8pUgika52EwBVo2vq2BxruSDbbuofkKol7swnoblrCWWdPYUMq-qAHFHIDmXWq6JZcJijLxxpmivzCYZ0rVveoalV3igvRr3UQaq9bg2ZzUKiNF0Y7oESeMsCFEJA0c-0iCiNfCNPMySuK5dp6YgzTPHC7A_7NGWYryzyDufcHO1k74Bo9sSyT0GLSykC-C7dbHGV2xvRQzwWmy7jKVTWtJstNM62fOG4Z1utEz__e-UPBsZGfPIgLTUGWmyXll-fBi_ETTvTIbBH85RxtQVmg6PAOE44wEMTIicy8zAMwNMLb6soeb-TNfoTGs4S1qjRgWBhPymO8wyAr_TIUr0wADcJ5pCXOJ_rULWpROz9Z1f9vMKx5sKNWJhZ3jvtEE43dPZXVOiiocoriw8voF11V0MYeK-DPBUkjI1DCDWVBXQzAfXO_kSwkDHW9sCoMxVDlhQEHpVthU3bQaFVghKd_dbPrfmtfbztbCQrM5Z0_0Xn2nGGLeJfC-L2DBs-LqJZwdF_bsg_8qJXRkcbUuvOz4DRYHZFwUV42N10-hWfWbuxklHeR_2aPuLsrG9DG3ZZfyKv8-vrvtkxXYS0V363mZg0rJlSmbwd10GBob8oD_IQNtz4jcUxp_G8X7kNLFW9wJYKzRwzpX-tEEIeMm7pe7aRugLRN4hWmpRMUtFhH-kzV0zHWD2rJ1yQAS4fZQqYAnHXVWsE9hXQOLiM-zQGPA=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-52c1f757-420f-48cc-9352-376380b18c8f",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "auth_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-90889fff-fdf9-4e22-89c4-3d7c82b3f9c7",
+                        "args": {
+                          "manifest": "apiVersion: v1\nkind: Secret\ntype: kubernetes.io/basic-auth\nmetadata:\n  name: redi-password\n  namespace: krateo-system\nstringData:\n  password: password\n---\napiVersion: basic.authn.krateo.io/v1alpha1\nkind: User\nmetadata:\n  name: redi\n  namespace: krateo-system\nspec:\n  displayName: Redi\n  groups:\n    - admins\n  passwordRef:\n    namespace: krateo-system\n    name: redi-password\n    key: password\n"
+                        },
+                        "name": "apply_manifest"
+                      },
+                      "thought_signature": "CtEIAY89a19Fqpbm_w_0nBGBqp5efmslzgIFQvCZyv0qL63HO6dxtLqxk-yQ0xlcHxaf1f91bnWA-7I1YM_Bz2H24lU7hVhqH-S_b8Aiu9nl4DSQTtSMdBxrUD5CF07Dy4papmSpQtIqvtd2xQYBiQoFpG_zTV829p3zzFQ8cLAKSOjRfudgFpxFAYKHyMbIavMZxG26mxcQ0_-3A1_tZrWpFiXQFa4afUBhGlh65YFSspg5wCyd6RwhJm8KbewexRz-iHGhOF1ZqO0SlPrZOJv9keFDA7_IZz4L66qQ7gXF5qld5YEfjz1psLofOlntyZRB0OEDhBzpEKCaSCeA9pIE2j5W9JFcgtWqcRZO8ri6-2MSnY9WDEcg0_IBZgO-PaNiLp9AWrpMhvI3eTxR4rLakTLHkTcCGYOEV3771PDJw5Nui3SJzJI1NGSQ9fX9ny3-X37NmnAGQIAXvoLiAwFIOlQj3PX4ULRQY8RyqZ5ZgnOv16WBr52OQzuNXRkAG2lrEAF0juJEZb6qCoI0XITPXft8eKIfUKBOn-gOz88BSbnUQLPNpJrKB-_F8rKPCu-lYI_UoplI3WO0lj7gmUFI6Aqs6XxQTA9Y2uEE-Ap8ZQNQhPLv-aqiBwp0i7EtwkmbyZeUE89XTJMx4h4klpfXOIkrFKuzrpuVQZSCNS-9Q141Hq0MZ1XXIUkx-gsknr9A3t2boRPpbRv5V1KGMCpdZJo3mdys78mAXpHqOotAdZEKzbBFiLa49GDGeSFwQ6Tg2c2Hbi69g2zRiKf-WFwIY8ZUQAnAQNsGbMF02Z9OfHNnCxeT-RloZqmxx74D2I5brj_vLfuw7pD4nC1N-dRWb0AUYwhutpEEkLqUWDbzkEJMjxPDTQMExalVtR_6saC-cCUNEDOSaRzeZE5zML-cuyEg9TopyuWN5QPKij3Uf0BZqRZO9anF7Zp71oChm87iYWnLb_yMC1Yof3LzuNsDUWOz2sYackgVnvqoTSZ2vO1m8FItsxigIze-YyGv3iN4KagB4-YxRTGll1Akq18bzXTHDV_0Y7UmiLSXbdZGP5NvZjJN6BAHTbuX7bDoLWwVmsyGVFzhGI4a1OJgMtXugQ0mjjpkbJRPozZhPZpMovjCfP_v18EhyjHWBgssXRjJNilbN1F6TWWBTAZVelMli8lz06m-WkdThN7wmLu4Dt6cXZW8ExkZNfJN5Zb7zqw-M7woxSLvSR4lAXZ8LkxAaT9ZIwSlaTF-o4WrwaGWj96vkockAXUZQKnKA2gQfsZOW_xgUIS0wgC2n98RCN68B3EKYvFXpc3aU27bUFS61WmrQgjIwhVv54bZJ0IfyJIbwsrFY0s-Yw5Wmj3jsfrsgpLWm-GoKoQo0mHSRQKUFSCsd6lAhH508Sqam3kHQy0I79F7M1Qkw3QVkUWhMDnAXAj_Py2Bk4EG3LdSG-VOYgtrAUYG9M6xzC0z7EOd0W5wEw=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "auth_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-90889fff-fdf9-4e22-89c4-3d7c82b3f9c7",
+                        "name": "apply_manifest",
+                        "response": {
+                          "result": "STDOUT:\nsecret/redi-password created\n\nSTDERR:\nThe User \"redi\" is invalid: spec.avatarURL: Required value"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "auth_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-49637191-bff1-4e02-a750-13557662b7d7",
+                        "args": {
+                          "manifest": "apiVersion: v1\nkind: Secret\ntype: kubernetes.io/basic-auth\nmetadata:\n  name: redi-password\n  namespace: krateo-system\nstringData:\n  password: password\n---\napiVersion: basic.authn.krateo.io/v1alpha1\nkind: User\nmetadata:\n  name: redi\n  namespace: krateo-system\nspec:\n  displayName: Redi\n  avatarURL: https://i.pravatar.cc/256?img=70\n  groups:\n    - admins\n  passwordRef:\n    namespace: krateo-system\n    name: redi-password\n    key: password\n"
+                        },
+                        "name": "apply_manifest"
+                      },
+                      "thought_signature": "CtgDAY89a1-FgxFUpnUPv48cqISxM7SoqwHnfoi5QkTJpJCoyT7ON_blH-R0QvGCTXLDvC3rYA-MWbWI4yjtNIR4fS72kRemwpp5psBKrMoZY9ASXROxI6G9nRrc22cavIMUAVK2VSWnnNN7emkErpaTWlJyQHzgYs7Z6ZJrtM3pkuE7bvia5f6Mv1oWAs5df89PbvxESFRc9GcIP1jjfnWGVbSIxHihnd8zKX7zkqWLWmmdRvnH11ZT3H_uEdF8sYmHTzHntOVr08GP4U0zZuorGuLJWEZu1eFnhBaQxtswibcDFVRp5ACmiOmDLXAUAK8curNe1-iKPEFbeOmlsQOq2TlNbIBKPIcqjPaNdSw2ok-n6f-7b2znn1wsby3hb_wf2FjwNwVb_Ym58OIyblLubJdDAUPVI6rVFIEJwvOmodl5lEBXA43XUQDZ_XI87i4MPQ-TXb1ymhpstr29lZG5DuMiYCXdT7INKziqLkoh_rrDcFgrwG-uidrOHR-8IyaYcpbkMQIDjmUHh9yUVHvBkAExmrctytmJEs5RObieVP6OKCIJ2yp7RhVSK0cEcXVAt7XZhelcFJJrh5uJJjV_EkXRfuMuC5piSlW9H-OGdZlk6WpHiy9aAA=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "auth_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-49637191-bff1-4e02-a750-13557662b7d7",
+                        "name": "apply_manifest",
+                        "response": {
+                          "result": "STDOUT:\nsecret/redi-password configured\nuser.basic.authn.krateo.io/redi created"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770132777.922504
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770132922.091682
+    }
+  ],
+  "creation_timestamp": 1770132491.3437989
+}
