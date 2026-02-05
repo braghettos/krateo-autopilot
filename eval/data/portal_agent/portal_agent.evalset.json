@@ -1,0 +1,1004 @@
+{
+  "eval_set_id": "portal_agent",
+  "name": "portal_agent",
+  "eval_cases": [
+    {
+      "eval_id": "what_is_the_portal",
+      "conversation": [
+        {
+          "invocation_id": "e-c4445081-6678-4372-9ec3-f64f4823f82e",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the Krateo composable portal?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The Krateo Composable Portal is a **declarative frontend framework** designed for Platform Engineering. It allows you to build and manage the Krateo user interface entirely through Kubernetes manifests, treating the UI as code.\n\nHere are the core concepts:\n\n1.  **UI as Code (Kubernetes CRDs):**\n    Every visual element in the portal—such as a button, table, chart, or entire page—is defined as a Kubernetes Custom Resource (CRD). These resources are collectively called **Widgets**. By applying YAML files to your cluster, you dynamically render the frontend.\n\n2.  **Widgets:**\n    These are the building blocks of the portal.\n    -   **Visuals:** `Button`, `Markdown`, `Paragraph`.\n    -   **Layouts:** `Page`, `Row`, `Column`, `Panel`.\n    -   **Data:** `Table`, `DataGrid`, `Form`.\n    -   **Navigation:** `NavMenu`, `NavMenuItem`.\n\n3.  **Dynamic & Composable:**\n    The portal is \"composable\" because you can assemble complex interfaces by referencing other resources (`resourcesRefs`) and templating data (`widgetDataTemplate`). It connects to the Krateo API to fetch real-time data from your cluster or external systems.\n\n4.  **Self-Service:**\n    It empowers Platform Engineers to create custom self-service experiences for developers (e.g., a \"Create Database\" form or a \"Deployment Dashboard\") without needing to write frontend code (React, Angular, etc.). You simply define the desired state in YAML."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-cc2babf9-1cca-4850-b1ee-560feedad46a",
+                        "args": {
+                          "agent_name": "documentation_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiwBjz1rXxYGtEuRfltapaiwImkX9j5N-OWehB6Zg3nKREfE_uBYtx27vUo13ApnAY89a18D3cR3xqrvzFd-g653wskfV7SSZ9H0ZJ6roXmMYuDbD14HTJ9VjcqxAmUsQ8tZ4zr21L74ljftGsOuHpjmnUNUx5eUYz4GINUpczsXeOHIEwzPY56km7Y_bZeOwDY9M9hgwAqTAQGPPWtfpOysKbwi-NE652dNot8VTd6CQqCGrfps_zB96t4tuMHEZ1sLZHD3QcIsBzq3Zhq6y3vF8kUV8SdFFxfPJlVb5EWD-mitsfw_hZPWpfYZxdWMmfmtzn8jFV5canr1Qz5FhJoWAfSIzqUjyyNaI_3YfRzANTc4-3dGBlZjCSzYivsUI9KvboBVnIQGrE5rMQpvAY89a1_1CfENSLBmP38r0kJnjzNMkDRIAFE8E4GD_NYg2m1xZxfmn71nCkiwRAlF2qOv2O0040kZY1mfiRgmhAyBFCF4Cmx1YycXEaH0zURL-UlCS3YUZCjia62axIoXT-fl5KAlMf1jfbBUrMYz"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-cc2babf9-1cca-4850-b1ee-560feedad46a",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "documentation_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-8e2b82a9-35ec-46b2-b294-07505fe077c7",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "CiQBjz1rXzrUNqSYL4OgnbIAgBA9WDZAc-soJAnyTXMjMEd1ABAKWwGPPWtfVqNX593vUMbgP14NkAKZr68UzqjqwftUYJ6sthsoIVQ1y72vag5_ysHw_2JyDkPlAUYTra1JhS1YMSlIyNID9j-1aSBPivt66LqCfSmIQoqtnlpgmyYKjQEBjz1rX2DVr3vsxB76MVxTtgJXlyLKrndk2xrcVFfLXGc4byl5wz0_30HvNKBvSREgHLqEgBKD0nFGrDR3GRvoMy3eS0oEiMlLFqsrwFClwtvrvPn8i7bMH1xuBqPFDoUGy14-VDw8xyRy2C9U1uGb6O6RqbvlNeC6pTgRydSX65sIs3-kFvKAw4FOvewKvAEBjz1rX_Nc1mUchPUfdfBbN14dqNVK5lNnXg5Qxl6IPniCdHPSAPYbs9RmePzPTLj9wsHgM9X_6J3D6-sJP8nIwFQeFMGjd__RGMWsDPpo9_X7dyLz7Oa-VqJdbV8mKBRVrsfwwDW81w0eEdF2YSB6QAQimJCo0RZNzhlvfiDB_MrJ0hsa1l5H31AAoEYfLnwOhgrMTORB7BgzzZq-rKjrBeZSUNvm9hwTgNVvTFv74qg6pVTqdeI67g5sRgqwAQGPPWtfsQFvJZbcZPNVgFuo_3N9yX3Z0fH_lxbeLxS62hzKZsUgx3dWssecG9a9d3-QYmOzpLNUtgsxHS8RHD0W0QqWrptZeMNypqDq-AOE8ejgzG4Q_013AdJuwzoqKLRBCVa9ad2gfXTKIYgJMw5IS58_Zn257Sykhk5yvGocbDnH6j4HhNcdFtbNtUNVx1NQaFyAViWwYyLieQOx2n5P5ixLme5HxH4o824uk5IXCuwBAY89a19ebNRlKCPt-6a-l7Xh_LgIeq-GLKnVgoTDswrIlpl4wAjqqY7DAI1mAwR6ugT-rbRkwQsmF1Sjt5JXFdUdinNd8GoJwxdMN9iDAGJO9w7c2RSSHdKcIlLCRbOS48zgyMbdrGCO_07-6liif7MiShgvWJCaH12GDN1yE49IvHwnQmk1NiuFkiYJwy9kfxQPh_CAsSw1bpAPaLK37NV11SBhHZKDzQlI4cfeHnJAc774igwbOFUhHsElBXU6H0FeUjBB6sNvkcg5dL6L2qLKjVqK3oOEuTk-6t86EAdobEJYf-KEsk4FxSwKjAIBjz1rXzK_wEJUKrDDKLoE9twNjZprMz2ASxkK4xdUIpWtQUrfURRi0bLdKL9m8xkEI9G1O4SusgLohQP4a9UakWywejy9dnVHPDD5Mut1BUSR7KYn-F5oerVWK6R7LeptUcCrU6S4H05pyexi4AMCf_8w_QEAstVR7f8f5li3F16xgxg8xG-JPOmqE4mClQv7KzHgFfam2gCJ05WyjpWb23WWIdW6OIq3KLvnzv3U5GPEbL5kgmqPtF5JgBw0KwFhCu7fzSNutKIVCkZIv2YqttMtv51o3_br2IxBJ-cjuEDB-ku9-mP2TbSKtLS7PsgohCQI6hBGnM13M6an5_UJEFgOgOH6zFtOXJovCpMCAY89a18xLV4uXCCh3vy0dYxW4Qt4jCfu4saDQC2ofZ9ZDe2H_ZIQWOAIsCX-4N2Dmk4rZgDdYVoEPOy9gpYb8q3lJwQ9D265KMnXiCeL8uGDqV5SBVvxKYbbZEMEmfTSyZjvjufe-uEV1din3cDtoApLh1GJddsP5IN7gpdeLaa6gFQQf5bkAAgDLbo5CbED9jEqwP_cpXWymdIY_gZfoNJfsXxZyhL0dpndN_G3uRZ-5ykUzMHOa5c4TrEEvO6YamK3SdeDhXjrlwrfK8h3eQ7vCcwvEj6VbgSyrVsLxu5XCGhTXqD0RhhMJNH-TGFh2If8KHz-FIGWgaIT6oqR_qGYroalbAXjtLI6mRKV0TCGFTw="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "documentation_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-8e2b82a9-35ec-46b2-b294-07505fe077c7",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770305920.89802
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770305967.7751658
+    },
+    {
+      "eval_id": "static_table",
+      "conversation": [
+        {
+          "invocation_id": "e-151b7f95-f691-4df3-b29b-ba569caa3cb1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Crate a table widget with some static data in it"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the YAML for a `Table` widget with static data.\n\nIn Krateo, the `data` property for a Table expects a **list of rows**, where each row is a **list of column objects** containing the value and its type (e.g., `stringValue`, `intValue`).\n\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: Table\nmetadata:\n  name: static-users-table\n  namespace: default\nspec:\n  widgetData:\n    pageSize: 5\n    allowedResources:\n      - buttons\n    columns:\n      - title: \"ID\"\n        valueKey: \"id\"\n      - title: \"Name\"\n        valueKey: \"name\"\n      - title: \"Role\"\n        valueKey: \"role\"\n    data:\n      # Row 1\n      - - valueKey: \"id\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"1\"\n        - valueKey: \"name\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Alice\"\n        - valueKey: \"role\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Admin\"\n      # Row 2\n      - - valueKey: \"id\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"2\"\n        - valueKey: \"name\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Bob\"\n        - valueKey: \"role\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Developer\"\n      # Row 3\n      - - valueKey: \"id\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"3\"\n        - valueKey: \"name\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Charlie\"\n        - valueKey: \"role\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Viewer\"\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-d2ec1a51-1df8-43e3-a91c-074e72e61538",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ci8Bjz1rXz4pgdSPTFWINUmFBAfmJgGkwgaYfxd4P6wQzK7wzLjnGT48If96L75bmwpyAY89a18WWW8IlC7zssakmP41rIot7FuyjGA42JskXLL_8s7Qx8Chtkinndp0wJmQ5NOLnyjS8QsjaiBZEkLmmtHdjbjw6YOdailpkaa7MQF-3UzaXGdkQxP4vwcyl_DPnBq_ndnRf4v5mGLYBfjrPG5oCpABAY89a18GA68o8zisFgxoYxh2nhUuHVuROcqLflyV0bDl7E8CM69FX11woRPMNQCtJsRcHNPqhQeX-_M4q9Y1oYMSRZDYhYhcupMZSUxP4TDMxFgjDQChDxJgbLNKPKbbMLYKNeL45x6IBey1ySn_ysCbm-t3hQ621-yLgiReie3UPvXoU9Mvj6uh54HMKaLiCiMBjz1rXyDrH-hb21WDxJuPeUkC-zmO9StXgJs4CPUVfa269A=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-d2ec1a51-1df8-43e3-a91c-074e72e61538",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-a2b722db-cb40-4875-b9bc-860c72bbca9f",
+                        "args": {
+                          "widgets": [
+                            "Table"
+                          ]
+                        },
+                        "name": "get_widgets"
+                      },
+                      "thought_signature": "CiQBjz1rXyZDt2Gt7DWrfWAthcOGjt6Ec1F3n4oONQlnFoNKL6MKYQGPPWtf1Wiilrr_2IMw_mgFZ3v0xFZBA2BnU54asD1ZjZclzlto0oyPon-wnU-NiglZ0lrYwXkUSl20sqW4dLUAppiXts2LsBLmvmu5qIyqcp66IigcfcJLNwwaAVFlDegKVAGPPWtf9GvWfED-1eoCLBqsN0zgS1eK9uvyy7WhFbRlT7QZ7VzJEVD02HU96DSsGrpALSPygStuP2iMYdo-N5wEm0wLXbTdfUYpCTuh080CnUSSOwqQAQGPPWtf2UcQa5UATLb9H2V56zhzr34rJw8HDMK4hkNmKo0V2TQQc9648bDPsh7eX4gPcekztzqFQVa_6gyZFC9CtAVdFyMFI66BRuWZPfRnL-mcYp6hXjW9v6wQPNyENnVy3uxPMN8vgVGTCiH84E85laerZy2IpNvMXyMxh6B1jWtYlt90Vw-9CmgtPkoIMQqhAQGPPWtf1tACn7HPVThTfNDJu_d7GMgcNaIFPMaCJ460STpen1CTPXXYGzRGnCF7myNABJeVaioONCc2r1EX9nr29dCWkykVHYHA-28dppjBqNv34WxuGHvHEhHvm-TqWIjMPFTK526dYkoWlVWJ7uP537tbz7ZQHQqz030dbPSUCLChgVrEMpjEVqaTDPfUwojofMQ3jBFYpDXOtiVyWfNiCsgBAY89a18_46ffZEuCNocEnpHwLkk8clgGgVYSQ234LS5i8533ruu4N1L8hCsEX90eAci_dvIz2du3ULZWtAdTfLNI_UTDa2fliNEVjpezxRJvKrSZ1kQWS6fD1d8faOhcb6iUNG2_v_ei6uJEyNG8maU5YxB0cMpxwNfB7PuRBBrBUzobbCaFHOlQ_YYE0qi2tvW5OSIVEH3WOdxaOYflUKdypHej9Bdn4QJVfKfE5abDVp-WO98u2_JVlTOErKkJt2bdAtJEYJkK7gEBjz1rXyB6Ahn2XHH9rc4_-sXB3Y9bUciG6t08Q8hfAAPLFnmjGoK1NcPZVw9d4bRN5nOjPPuxOmx3EV6ziMH4MRpSxHxwRh4ZhABJqjBk4IwoH96ltTXeOGerYDRZGH4bruqC2w0VfWsLGfsx-c5sZecj68E8f4BT2HFhrPZXhVYBg_-yMd7ykqj8-kt23Las_DFzNFmQqOCC3bAUflTV9M_GdWOE5RcVbhdKMMmwn7C3g9t9IP8VdbzC5R0DMKtjRDdRnH4DEvmB44ZsLpRnz4Rbanees8AEZoHWiR3pYdireReHoUVvCpymx5GbCowCAY89a19TtpK9hppENJLR2Po7fF6lbu-yVftlEW493Sqn7F-jvAy2l0FUvVxbdU0bBxU_1Xtx68t6A95ymYfXyHITTFizOY1DcD_RXpybd8WDhOHmidNGsR1w9s5WuIfZcmt3vvC5M2RGO7uPAnpe8hvchH3ZbRxQdGkvMsF19OKjvOig9mowq0tfALO_b_NzANSrnT5wIPKB8eoHZRm665KNdL9QJ0ycYPD6FAZqtnFVsehdODdMZrMPJuT3FF5nomyZrYzfeCAnQcfU49epXiXqLsGa1C8jsgUDt8fZF9iqEqLSuHVx0F3u4-yCCdXHNQylqoOBwzC6g_BB78RI_6FoH80taBRF8apzUgrHAgGPPWtfGblttMZiQoyXZI01csbFKA_LmMBEu3hF4S1Gd4wbhP6h56OhH6q5nDcOXbPQ5Dmdf6du86c0QAfjciF11zDTtRr0blKVNL4_tJmSENgJfW49dSi6WEqeu3NP77Qx63jLpmtnIgNOrOdbSwbLtGQzrIeGiHYLBzgaGUBXbD5eQKgnEb864RFXJKhILuEWghUQdValmEq-vH6zBPhUFKB44K20oWGm28Y0AC88Tv0ZkQpHuYLna_cs14jyYOI9806oxPsVNiIUMTdCFJQvv2zquclbNgcEjU5abOfl2IzfHLqcD6tm7kv0p1ng7NkudRIQTc8VgRGwTM8vS-2Ti1uecU10hdNnoFYa9VlbJ20v9bMUQ9Sl9dzayeEG3V1lSKxQ-QbWJnXYypdBX3YK5GWBz5iMSbR6LkjIDKvZIiyeAqoFhwrEAgGPPWtftd_NhEiuywDN5hVgMTV7Ut293eQ5S2ZBX_aJrBkq_C-WwrrVmdZ1fHJy9moexLJFnsL7NMRJSy7NW1p6zNEQjvO9d_nbs1kdrljLmHoxnURhgwIBF1__2COlJX_QT4XdL_5iudf9Ajb4ihFEgelqyNPv9NPVuv_kRi9krl3NpBxx9LmNQjwwHdNuMVnUTooYqi39KyRmDzvGV1ZVDI-d7ib1EGs8ZAbPnLeRcaA3fKGHs7YTi3gzjso2IOBCMNxEcHhZuM9XOLnn8m7NouwinQgpLx22822Ri6kzZeAt39Zy8CJAYwX-bBrC825aQ1wa8DN0ke20KL1yYJdKQywaOMDnztmqroS9cnJaEj0TtGy1OH1xuvYpFZuvJ6BWbPCrii-hgWq8_xA1RA-kcIE9CidthOquNPEoc5RY1oqEswrLAQGPPWtfBtqWa9k3eFcDuv3xXsGyoWontwSa1Cqyf0lnF5KsI-iMCwtiy_8NUc8_aYyaWAmx_IZkxU1bPD6IwLle21kmUZ2GMzq43IDv4WPpFE_a9HycsjnlRzhiPeCwhv4G9Rm3s2MsG29v71_kYDXkbVoK3oaNKYDSX_86xWebp6QbUesYcNtP1lGH0WfLHDeBXQoj-SHcIziTb9G10hbzcBtZnNTQ_kEwuoJHNUgzQg7TglfXtJZiqnfVaLqTS2O56bZexPF1VHt1"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-a2b722db-cb40-4875-b9bc-860c72bbca9f",
+                        "name": "get_widgets",
+                        "response": {
+                          "result": [
+                            "### Table\n\nTable displays structured data with customizable columns and pagination\n\n#### Props\n\n| Property | Required | Description | Type |\n|-|-|-|---|\n| allowedResources | yes | the list of resources that are allowed to be children of this widget or referenced by it | array |\n| columns | yes | configuration of the table's columns | array |\n| columns[].color | no | the color of the value (or the icon) to be represented | `blue` \\| `darkBlue` \\| `orange` \\| `gray` \\| `red` \\| `green` |\n| columns[].title | yes | column header label | string |\n| columns[].valueKey | yes | key used to extract the value from row data | string |\n| data | yes | Array of table rows | array |\n| pageSize | no | number of rows displayed per page | integer |\n| prefix | no | it's the filters prefix to get right values | string |\n\nExample:\n```yaml\nkind: Table\napiVersion: widgets.templates.krateo.io/v1beta1\nmetadata:\n  name: table-of-namespaces\n  namespace: krateo-system\nspec:\n  widgetData:\n    allowedResources:\n      - barcharts\n      - buttons\n      - filters\n      - flowcharts\n    pageSize: 10\n    data: []\n    columns:\n      - valueKey: name\n        title: Cluster Namespaces\n\n  widgetDataTemplate:\n    - forPath: data\n      expression: ${ .namespaces }\n  apiRef:\n    name: cluster-namespaces\n    namespace: krateo-system\n---\napiVersion: templates.krateo.io/v1\nkind: RESTAction\nmetadata:\n  name: cluster-namespaces\n  namespace: krateo-system\nspec:\n  api:\n  - name: namespaces\n    path: \"/api/v1/namespaces\"\n    filter: >\n      .namespaces.items | map(\n        [\n          {\n            \"valueKey\": \"name\",\n            \"kind\": \"jsonSchemaType\",\n            \"type\": \"string\",\n            \"stringValue\": .metadata.name\n          }\n        ]\n      )\n```"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-745fc0d0-201a-4ad0-b010-dcd4ea8f1a24",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: Table\nmetadata:\n  name: static-users-table\n  namespace: default\nspec:\n  widgetData:\n    pageSize: 5\n    allowedResources:\n      - buttons\n    columns:\n      - title: \"ID\"\n        valueKey: \"id\"\n      - title: \"Name\"\n        valueKey: \"name\"\n      - title: \"Role\"\n        valueKey: \"role\"\n    data:\n      - id: \"1\"\n        name: \"Alice\"\n        role: \"Admin\"\n      - id: \"2\"\n        name: \"Bob\"\n        role: \"Developer\"\n      - id: \"3\"\n        name: \"Charlie\"\n        role: \"Viewer\"\n"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiIBjz1rXztqeJl1ayLmm-TZ_Va9yVAlt8-QM3GYC39TxB6wCmwBjz1rXwW2elFqAVf3jWFht9K4aOfO0ScV12rDgTDG9J-z3x0aEUa7UwnQUqlRlYxGLtSqYxL5oZ8qYfdyqwHbAJhfkxN5Mru4SJn4dV6_hqSe0ubY8iva5AE88A5YeRjUhsdR3I-4UV4QRQIKaAGPPWtfBqNRWVngNgHZ_RNJNki1hJaePYgCC_WS2S4oViDGixVxfSRqzyzZ1eMb1UpH0zSHmZRH61OCdBwy2ppaY4Y9QPSloVoD0vBsvNpvalAI-qa4T41RdkQfX4Jo24xFpp3uUhbbCpYBAY89a1_x1UIlroz0kA2bYJwEAlZFlE2lbsmZRdUI4t7UojHK-gS1ooy29qn45LEWDJPdqawqfWaySFYqZuKHwWoVi9NpwhmSaUsjOKZjzs9_NLK-iUFiH9PZ5MknTJDCcRgQTVF5vxbmPfl3Yw6LaaEY3YBSEufBFeDl7PqkHbsjwETDV-Q12SGxFMofZYK2BvAYXKNkCosBAY89a19dXyz0PTgGuO68sg8KEP1QewybJA1iXdTJnzcE1Codgh23S8778Qhabw7I_qtCmtE-0R7y4PNOMNCzvIeq41xwc7vyIPk3IqhcpyrBhUYhRxGAlEyZGUmxshbFJJcyl16pg5siXCAtvzJSk5xq1FwT5gNnV1-9cNo7M2gp7t4XH0uhuwq_RArHAQGPPWtfvLrxs0K7DnToBc51NbH1-pQUhWequPtDzyomQ1LIkJCwKxnNQ64FBAQFdfkvFuro2xUXuXjmhJTK5nkS6and77y4t_bI4-VuEAqvkyrxz9XbbZd3FqoCt6dik8dtUsfXGQRiEKbaCIgZuPhq1WOd84c9ZMEB76-63zcLonjdexByeuOGeT5wSzC-B7M8FmEKXIQ5b9rFfuX9j72hZnw--W9Nwi4wSWwW_g4YGeKEX26XYfRV5CDrywD4qf57CZVSeq0KrAEBjz1rX-4kdv-qespdpkpDvAnwwOd7Izk-dExy6clGz_z5XLkR402gQzoXQpLDO69hUurl6JFpadjlCdqHL1RynT_da5Xzyy1X90HWkde9H0wHy6xuEW-VDVTHZhJapwoh90Gw2LjlLk8v_4kC7OyIgkgbszMMXJOyq09X0s3ISGVTn7HwWoFoOG-2fjoMyUhTbhr6iMa1Sw2hHRoi7_CEZ52cDKMCPxu3AVszCvABAY89a1-urcUqK8UQ-9XiTvW6Hn1NRoWCs1lLB_oQEN2hI8RbENS6xLkWxX_VlPuNPK8xWFHe_CLhAwoLBwkwlFM4zp_kkEAT2mHNIOEKoh3ydZD34CsiB0kxe7qm9-N-VliBzfB69Dvn1mtzikBRP7l-Qhi1_xwXW02p6IAes4CcflCi8j1MS6JZVTvTYi-sn6gm7dJMeXGd-lJFVZY1x7GI781jDgzCSkIB5egf6TqTZdEg351FOyabUtaKhZHE1YcYqJ5yoZ-vlcU6tY2dwac0Ex_-5tJIwqLUHbNJmnBfdi7zKKpmc9-JYeyMQZnHCtwBAY89a1_w4MDjD-c0ntWFNFTHZtDxiLh9DF6E5O1ZZB-ruhz0PBHpgr4impbJ4Zzq-rwtabuCzgwrgqOlSfMTGqn7_S92aiiJ18hEkIfwr8ymKnzwNtd88jaROSmKc8xitOWG2Er_UH5IXJgr2TJNtd65XW9e5USvaT_dhEpVBP9yLrgmpqMt9BQoy_bLxFhDIbI-CBOkE2glZr9eOshaiPVS8tzTCndrekdFCw5i8VGFJ2xWnDqOS1qNXKI84Qj71BNjhuZvLLhpQCVqc6VmiriABQa_qUTQG5fckwrvAQGPPWtfsOYMkxMOvY0_zS_wu8glVjRHTdxEP_iZYcGjcy289sm_RIOPamMfENNTPCQ8622CZde384vsquOo74AaUad4omJjcFEwwK9jC2kZJ0VHA37pKtEUC7stTM-W-DuKRMrvSWT04P3b85SLHskJzDObIKJtxIF61Y0L0vpova05jXuuLxQgNFsA206iQuTzmOMVNZ6Vu6pwMsSvolo0rrGLatsIG2yBQvs1ctPZVrZtCIfsxaKbezViaeADbeX2XZ4iOfUXpYPO-6X7oNhHqNCRSqcjcVhO9TXU7tZ-zgoWBmEx9NOLbzXFQ8N0Cp0CAY89a1_81hqjiT1QP5B4WPr4SSslDWTH6c1o_ab5b6RlrYtAVAS72RvLHjKTCz0P01_ByXCDWVPc2J0UrYN1psskeUi0_ukHnGJ9HhSaMUcBk72BAlxLq664izguMBVUJN1m4U43VieKc8EkupsFTNINqPr5H6XkQuq5yRn5S91YKs-2TnZjwmC36e0gJibfN54yaUlWlEWrQTSYAzOlt6yyJTSYTevTmB8s-K6TBQy_XhT-GutsMs40CqanzeSHlQs20Y-FMdFrdU6y0iy7C49_sdhak-oV8Lwsf_UGuDnXoqkReU5a5B_uKfACyf5gWx75bLPDm6lNCm1MXW67rYB3_-A7nd4fL3ky2VrP_zTM9p-x8k2Vzgh5gxgtCjYBjz1rX5Vo6yWC_qRna8LxLFtnQ5f67-58bw5F7YScC2K2QbQZVbeYggPFJl7b8ZxeKYiDkNg="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-745fc0d0-201a-4ad0-b010-dcd4ea8f1a24",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is invalid. Error:\nError from server (BadRequest): error when creating \"/tmp/tmppuhw4x9j.yaml\": Table in version \"v1beta1\" cannot be handled as a Table: strict decoding error: unknown field \"spec.widgetData.data[0].id\", unknown field \"spec.widgetData.data[0].name\", unknown field \"spec.widgetData.data[0].role\", unknown field \"spec.widgetData.data[1].id\", unknown field \"spec.widgetData.data[1].name\", unknown field \"spec.widgetData.data[1].role\", unknown field \"spec.widgetData.data[2].id\", unknown field \"spec.widgetData.data[2].name\", unknown field \"spec.widgetData.data[2].role\"\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-17bb6733-797c-48b4-be6e-0c1fcb01f055",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: Table\nmetadata:\n  name: static-users-table\n  namespace: default\nspec:\n  widgetData:\n    pageSize: 5\n    allowedResources:\n      - buttons\n    columns:\n      - title: \"ID\"\n        valueKey: \"id\"\n      - title: \"Name\"\n        valueKey: \"name\"\n      - title: \"Role\"\n        valueKey: \"role\"\n    data:\n      - - valueKey: \"id\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"1\"\n        - valueKey: \"name\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Alice\"\n        - valueKey: \"role\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Admin\"\n      - - valueKey: \"id\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"2\"\n        - valueKey: \"name\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Bob\"\n        - valueKey: \"role\"\n          kind: \"jsonSchemaType\"\n          type: \"string\"\n          stringValue: \"Developer\"\n"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiQBjz1rX-14wqtcHCa50S-4iA3pqqZNQicsJyU4bwZxQnOWQpUKZQGPPWtfvSkOWkkrKOWYWinxfclDVXptbZ5-7kH_dO3wabExLE6qcGF2eB1PrZiXPTG57rrKc81Z0cHDESub5983-KPA9kC0eLw28rCLD2qmPGRM2TREfxm4FySwEQmaiBJ3OrCsCnABjz1rX3qUfEmqTexL1KfzQ2OWUaewtJ8I-8iSNWP2Ah3j7mwK_1hSxpd4mFENxE1T7tmoM35RtW37-raw_y6T8_mly9u0ac9d2gMeYpyL0J5yWcC_mjmgISCSZsrsJTzFRI6Tn525C5fs8VZINvjiCsEBAY89a1_-CRSWhj_SoAvN2-1D5sL1bHWEkoXnrkOixnDKKFD6442FpC4ZBGRL9xAXTu9KD1TuY69EltmFV5YazR1iViufz_ft2FInp4EGlkHzBb-0Q1bHOYMd9Q34L48LBmyVqzRR5dIC3RA7Pb_nQ6YkaBj92egDIPA1SSoNEHSpOgkuH2P7uE_cbpVjwhLfj0JHH9SGl9jhBnnUmGO6zPIbMk_nR7cWectERoZfoVapDNznhicpGFHqFk1qt2xyrgqOAQGPPWtfgdXYifCoQkeah9OmJmLQk-ouL0CNpkyLm2FL_kov3VdOU9mDapcCPPuxIC_Pmf80Ul2H_2kUpNSSyeM7OYDdcXGI3WAOwKk-h0UK_GnjxS-ja9GLT3C9PECMFixad2g4UROpjbWiIb_WlokR1NWuVxYzvMfuHkOGu4nrCkxzctJMMJado5UFKlgKygEBjz1rXyaeBA-xl2Owxkh1Hz7ZkfawTTDnSCXnUgAhISb-Mf6OI6rt3oMOEEDajDiqiDMQ_4ijh-4lWmrRbuskQF8nNI4rv1HjauqV5UvkM-eDFV0YGDgxzWkbdUEwy9We4kI5kCz_--pbonv2YajQkaDb2t3TtdYCwBc6FCocQQrDIgDN00WBp3m2yvoSDtXrSiGyxh9atmQqef8xaknZFxrGQoe745NnVTvD5_2YHXeX0Cu5X383TBr8y8sX7UhpUFgPXefKVqXjCvEBAY89a1-BTcPlMQ9VEXrjr1HSts6jaXtdtBWL7fl3Q6OTTXCic7B3xbbcdWm9yPE8jp6aHc1s4HhSoA_w_u8CAN9_uu2q-nv928f61rK9FTPHsoSVvkUnQ7Z_yRZoyu4wwy-ynaFtAbf-_vFdzGYlgEGvkoGa1tshb8PLhqx7Fj7LULGBFjy8Hq1ZJCfaVRuUtQ2OseU4tOWToQGbZ7IzlYtSaWgzco7f13KRxdvA8CKasBCNEQvsGBzw3k411rJgF02rkYv3HnHRDsGHQyxmR2j4ZYSxVN6iUB3ffOh1lUil2eAQDpRkL-MUAH_8SSnxUAqCAgGPPWtfTgBa7u_BUQpCJbdsOy8_HQmK4pLoHQn0L_Z7t6GnR8txJZv4-asyZt3HS0NwErZfze56_QubB0nrO4ApJ_XjaM3xz2whk6AzM_x3qgbVCT930ckOCokzLJMkHfKk_q9gUImylNwpIIHbaSaFDLwRSZeAw5aNryr9E5kXEL35FXsErL0DvqayeSVAxJCbgKfW0aAH_QrDemTV0JxO44Gdoc-3AS8CDUhsqRO8agB9ySVlaRwNga4byk6byI2bGMsViqw5hXxdUIZJNOyuc4AB8296lSAQ3amrDQ4k4WkL5mKwUPpSnwmLP4aQ_De-RSl46vEkT7CHqI5HKZz-xQqSAgGPPWtfZ3iaHKsdhNAXnCmK2zQSvCDJl2WFs3OtKNwGaXYhSQrX7OI0UpYjYkZlf7zPESl5bbWkrl0fjVH6wjR5q4MQGzsHbWB33gxyaZk0Zx3RIROKoqG4rV5Q1bW-10PEclWAZ3t_xlITi847yM5XUMBoynf3DqzuQn8WBmTbXwGanF3M0sA5LnmODd5jIODg5G_hOht6zrq3OzaQICFEown3rQPwhSz62BdFhRTuc96eCRcal2-UXCHuccEursMpJkyZXrJUoKkJMLimIlUneTMpQJt5XNSOY8nhoVU5tfMzKfnWDnIjRmoAoDLnTGxk7BNALYHWlKQauaQvtTo64bPvp0iiX1KLyRCZWGZKPgAKiwIBjz1rX-RTnt3dccdb9gsxCQgd4jlySYsst8bVUoZDbStd6tOvHV8tlsx0e_jr8jFaGXWGmc2OInFoYGFLaS9XGQs9_cHK9GScadhQu-sPp7l_RqSvVNrokM-AWtVZp8P61-G93Adie3aoYdJxJAFIGOux5gw-jit0i9ILEqyeheQ6fJzdl1QKrDk24tQUuhWw_IrJ6LDfCwwA76kmvWmVPDSqfMBZhsW6EegB4tRff3GloZxi-v0nCD7-zRLd2DNea1qU_wUU_13VrgUYW162763MOH-DfNd3GAtErZa7esxcJwdff3AaWGJvNigpoBDEtX9VDQj3XZNRjCbhQKtfNtj3pmxil-8JonwK5wEBjz1rX98nvmT3v7cjLHDpByFxWSi3J40SeEliB58mtxFkmeKo3kNC2SXsCm3CV7lvL3s58dKmuLd-h7FC-cRF7L0n6jMNnbMaetZoT4vWXnIwoKbxtd6JR5KXT90WAhYzaE2zxXrdES0dX_0Jb11BjRLZH8rAALlyGAO2lAnTH66dP-UnHAC2kbhS0QFVl9cBsTXrdcbW1-AwF7s5neT1_ZNX0T7G3D2vNQhqoR_UpfCf9_NoIJy0vY8HFDz1VN2JJVB5NW0Dw89ksV000WUexskdwxySdqoHxc0QM0ETHR-9JmqMZq0K1QEBjz1rX-ELtOooBnaK_wdPoDoK22OFxg8ICXJK7KfXISea5aimKNsNt-zfp13ttTtiGy13lnSewnahIShKj-IPFCOeVdkyYkzyPpt5igg9Pdz97wb4kde-l_Jw15F-_S2RcNfoIZbCRSdJjytZAdJX-NWD87iYOc6JkrCLyAxfQg9RXQsz3ADVuoVgnB86HKaUou5r32SIzgocy7EVCeaAH-5HC3agV1m9qgTnzwl3fWvNnEp2FfPi5JwNYHR9JzML2HcM1u3ZTwIvnpnMozoTyqb-OwYK_gEBjz1rX_1y904sZxNZDbD7X7KYwrvgWu58U6qgPWfK0YZSC8KWPVxt1ZaJsc0WeiIy3BvbPLbNClUFxBaW9xIKjbgs15d-c7HxPjG6Me9p3HcvLfImDaD3ip65JgNJ8BzibYOPl9UkDMSdkaZy62YyMpWeHgC6_T-6qPxLPxPqjwarKZHG735NNH3Wf5mlBPuaivjct0kHv8pJwG1YYxNxAYJ2pImflGtiLHCeQhU3EFy1lQBZwc_6BeiqZgXI1J9EyNj5uISKF2Y77zP79nXF1OON3bN1q5MA87goOaDIvXdMKulZjDPsYqqI2Ez4P-oQGyIt48pHMUXxDPt17wriAQGPPWtf0Ptj1eY2Iq490sEkJwj7-V4-jQKawjlY76TcmDdx4ZPdeWTiCa_i5DvmVJoxeF2OmyjCzUshkQucF0LG-AbIiZb27bUvkcg7Fv9-50RzM9wuKYUyBIj284TCaBgaIO_baqeHXj1OUitscZkmXu-g5F-WRoodmcOvwVr59XzBHFIA6KHxLCQUy6Y5Bcqv900f9MHH2EK4etN4cme7kKhb8_otmTNZsOMHr26SgYHwoerYsbMOGnMqAEuI8uTBPgtOWpP07xHWKCMOLGZnLAz6Epyo6YtG738X2IikcHUK7wEBjz1rX4pMnqkMJi6id9beTZnSHTnWt9vz0PMPAlb4ECwdjBwHNBQd2czIdTyBJynVFkr0maUB6LhjUAOq6eKudWMowjAFJilaqGvVdzYIG2u84gqnvY-s9_YYyx2OJULyJyjcxoYwV5r7BjHbH-H--xNmZ41euVyOyB6BC7Opfo-OFi6eFyflV1kxJsgbhPiD1gdDHRt5NZwqrQXTMX93CkQj1RjkzAU4nngrhHZPWKRldvuzLknjwRlIgT1lOjBQhHSHKWomSV-GTE4ONoqdJoDC1I1vXIsnAr2vx0xs6LMKFpmOh605tfIa79xgrgqGAgGPPWtftBiUahjRBwDoPxTq8cDt5fwsyLkXW5QS36G4wHbcFkT5tuOJJKwNaVabI4ATn1sRdfBO9LJqTcNkPLAqf3fXWpX4KJjGuPgBf5PBUNUr63lHomsxTkOFY9wfNTE3tqYu9TIySd7MvSi6n1GkQc_AVTFvqfWQX_y1YwqTcPFdcZSZtkf903orzOz5lXrMxRVjQIWti2QteWu476zlY8Jb-80gaOdO_X0JbZN8OfpPdHWRnF8vXhnbSvjL47ouiWZRHJ9OcHdgbKh-ElF_aDh7Fz5MFtNspjK8Vva1tVl6TiTdlQsWM5wVHmPWSvHhy92G24aKT9GN0juQyWHf134XdT8KgwIBjz1rX4B6AgC9ZVaKV1HIAEUrBuLOHkXehCgR-b5y3etMTZYAKLOF8AahyOpH6I7M9rHnlsPzZ0Z4UaTVi1juPXAnnpseTFNZ-WysT63VRcSCZjtsNFuUTV-hInan-8cby8-GGkGDyC8S2CGEa1hozbz-sl7QlNqe2Fg5HAAotl1gohUHdJvfww7w6ZSHpsLHAcUdbDh2j2DG7X9lLv6Aqd-G5jLtNtlRBdMcTWTl-yduu-44VPBq97Yx-agBuB0eE4fSYPAFlOCoeU-AYWkLJGpXwiD5-xNgpDCaKwyDVjZjSVwwK4Q0d6YRyW3mFMboN_icNtcoWz-MW0ORC3V8DwP8CncBjz1rX9sWuQsxOFqiYlO6bnGiqmXBd9vQdmUq9sDKmMEQqjmSD9eFePt8ee4mAjsZH93t-q490XA7bgnPNzosfWvet8bhM7Sju3U-dmrpFOd1OJVHk0ALsFReEzljSpW5-wg90o8lrGPcse0rXxSH-9JxgRFTAw=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-17bb6733-797c-48b4-be6e-0c1fcb01f055",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is valid."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770305996.042111
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770306060.5166726
+    },
+    {
+      "eval_id": "piechart_static",
+      "conversation": [
+        {
+          "invocation_id": "e-2ba9475c-45bb-47ea-aa41-5de07d2ffbe5",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a piechart with some static data in it"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is a `PieChart` widget configured with static data.\n\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: PieChart\nmetadata:\n  name: static-pie-chart\n  namespace: default\nspec:\n  widgetData:\n    title: Cloud Usage Distribution\n    description: Static example of cloud provider usage\n    series:\n      total: 100\n      data:\n        - color: blue\n          value: 40\n          label: AWS\n        - color: orange\n          value: 30\n          label: GCP\n        - color: green\n          value: 20\n          label: Azure\n        - color: gray\n          value: 10\n          label: Other\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-3d69a74f-f9f7-4130-a91b-fee0d6dacb1e",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ci8Bjz1rXynP-6Lyuy8P6mbEi4722LUfClUEie9wLxJy_G0MGft-Lq76t08Z7wJv7QpdAY89a192Nw3s1Rh_T6VRtGI7E1DM6yytsqUvk5oy-_ySvo606rU_scmO1h6AaERv5xNqYHRLKpWbj0jpVqN9KPCSUMlsS2Q-QYvfFaJlf4xhsyAifOwpl0zfOvSbCoUBAY89a1_wi-GgYgPuKopwSSaHUY_Pw1vhMCdIWsfQ_K-P0qOy7IvfXOUapMu0cynM6yT_nrf53PgT4AfvwbbvzxEqL5DTHfRs310I9RX1o7lqBBPsGkfFqlcnSbHGMDv5_rwcHiDJBqmJtdsFN0EOpAM0kGL2MWODlhlcomMVqItmoPLi6gqlAQGPPWtfycr8wG2CRgdUTjIoZ1QpiInZaPivK7tWYaJQ1txObfrf_moxuqFm2c80QYIvDWfCKJSS4KHwSjuWoLY_zr9xSE2hh8Dqg8DOztwDlwqUTa3hI7DxBNpeW-wDIHUYl0LrBSItrrhzY3qgkwSJn4EIF5csdNoogttudJykS-hy-RSR-CatNajZVtQFm-rCvtCHltQbsau1S2ZY6AUlLg7dqg=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-3d69a74f-f9f7-4130-a91b-fee0d6dacb1e",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-87e1b266-57d8-48b2-ab47-be1106f85c40",
+                        "args": {
+                          "widgets": [
+                            "PieChart"
+                          ]
+                        },
+                        "name": "get_widgets"
+                      },
+                      "thought_signature": "CiQBjz1rX_SyZl7ufNogziTj6A43bjEVGG3fXi6uIjcIMVygzQkKYQGPPWtf4MDR-Qx3_x7rHLs2ZMg0nbYQJGcwSPKiM4eNBLI4NTcLNFDRJBY1_ExvmjPSj5PnUGHH12RK-_TqoLJ4pJWVTTYgP3RoHAmdrbJYivIO-Ez88ostKmH-edAxW90KbQGPPWtfB8DzjGfrOSfsRDy27dZvoihfQcWFSTdESLihS6Qr9e0xrtRy3s_kzToaRVvSQIFLHY8s83XdB09pPmd-gjh1Wm3_m288wPZmJT6uBS4WQBoJmsoNzzDe1FejdKgZKWAUHBr4dAY_JE4KqwEBjz1rX5giVxqqJC9S9fkqo0Z0wE6Vdb5QXoENUV6oONgyftMAWMbvc2u8UwzUGnboVLYo-gKnZp97MK3o05awDhdBkUnC1ajbytiEhnQZSyrBslkHIH1oF-El7ob9HkdgxxX7evjMiF1jZXENJ4BxTrGdE7KqWAHRL-SYDorJTEIxKlKzTKtG6_pwHFoYi8K-c6OT-l_7oUW-LVCPEReaR0OtWMVudlMmkD8KggEBjz1rX2RMvG_Ad0d9uja0EVP6MBMuokXjwpgbvfT_OOwaD8czstOC4WcuCUiGt6TdxDEAUuzBiHAnZGw4I2-W_-qmGiRsyrvqGDJsnFDFYiaHvtZ-Xuy2XEkmdb-lSVPiq5g_XxXMT_qFKk4krUhgqBt0JjoHRs6s5Ul9e_qWydYYCvcBAY89a19O_QlymPZq74VkW7KYB_X-aY5fLC5h7wlKvAUSRHd9bovm405XFbiDQIdXOKHab0tgMSQAWDvoxtfHL_S48nqUT_1uw9oG8GgVHiMFj1jr6M26M-xyUr-SjnWdfcpkaJjgBMKyHdJhd89epie4KF9jf9qXaWFIz3g5LqDGo9qTzFHT_-mAzJ9w2f4tbGov7j6z-_ekk4snDzILfpZaT0JjX9rM0vJ0L4aafRLmAdIFtl4i7WrMRKiPZheF3uLEw1Ax8GemrOyaJC_SUK78vdP2QX9m7yrVhe9KW3yREUk4QEE26CEPSentR7VzmzNYZSSShwqDAgGPPWtfpFeBDlxUjDhuaDpp3ZIo7_YznAJ_7siKeaXTFCcYUsWIvAhDP0VWUflxR5CWwuM5iuzEu2szpGvEOEMxlXtJEc20m4DddCriE3oVIlGqTrOkqe2kLTlSoIzSH7NXt9b4SJxO4OR-FZmAVQsgEZNArtVqGVUJPyFxpTcYyL9y56z91OcOAaEADVxHzEvrfnye9A0YFkC_QxVjJrrastjstuiHFDfKZNURz3f426SrvqRqlMIMf9qmYG4ETbb1Rds5WPXrOQErqNjZC1K4k6a8mch71JUfhlFzlGjL4ctXVzTdfLVpFaFKh7YT-EZpoo0jEpI2BIWdgMHopMKSVsgKjQIBjz1rX1s_R02etTD6D-9LCkn92y49FIkw4ZNU7bhDYTdJBU8lWfdu1bpZdG-aBnOm5LZ4gISMQvZa2JxhY8u1K14glhAblSGwHNs-wSlZmm1lMd7nbSO6A6j3hSi8w1U3G2asLyLcPRY1VjB3100tUkiDeCi811Fwz5zuT-2bdp7iJNGWZy7XyYv1KhdGy-AUMcgSMOF7aE_QOC8NpOkbzvNd4bq5eaf6vRv1QhRaHIlo4xJyALYK2NqQQUX8LZFSs1bEc_0T5w3hEbq26RK-X2q1ZWabUZqunM32vZCDq92aBQNUp1x2TB-uOPrJcjEs26V6TqQASQkQjrs4KY1GpKKLIxMV-RRS1fjNZgopAY89a19XJ0RGukvlSgGd7-r-PxgQDr3ZldXxzeQavv7iB7jZFNU_jP0="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-87e1b266-57d8-48b2-ab47-be1106f85c40",
+                        "name": "get_widgets",
+                        "response": {
+                          "result": [
+                            "### PieChart\n\nPieChart is a visual component used to display categorical data as segments of a pie chart\n\n#### Props\n\n| Property | Required | Description | Type |\n|-|-|-|---|\n| title | yes | title displayed above the chart | string |\n| description | no | supplementary text displayed below or near the title | string |\n| series | no | data to be visualized in the pie chart | object |\n| series.total | yes | sum of all data values, used to calculate segment sizes | integer |\n| series.data | yes | individual segments of the pie chart | array |\n| series.data[].color | yes | color used to represent the segment | `blue` \\| `darkBlue` \\| `orange` \\| `gray` \\| `red` \\| `green` \\| `violet` |\n| series.data[].value | yes | numeric value for the segment | integer |\n| series.data[].label | yes | label for the segment | string |\n\nExample:\n```yaml\nkind: PieChart\napiVersion: widgets.templates.krateo.io/v1beta1\nmetadata:\n  name: my-pie-chart\n  namespace: test-namespace\nspec:\n  widgetData:\n    title: Pie chart\n    description: This is a description\n    series:\n      total: 100\n      data:\n        - color: blue\n          value: 10\n          label: Blue\n        - color: darkBlue\n          value: 20\n          label: Dark Blue\n        - color: orange\n          value: 30\n          label: Orange\n```"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-63ecc286-2a7f-4c0a-82bc-cfb6b9e6b3e2",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: PieChart\nmetadata:\n  name: static-pie-chart\n  namespace: default\nspec:\n  widgetData:\n    title: Cloud Usage Distribution\n    description: Static example of cloud provider usage\n    series:\n      total: 100\n      data:\n        - color: blue\n          value: 40\n          label: AWS\n        - color: orange\n          value: 30\n          label: GCP\n        - color: green\n          value: 20\n          label: Azure\n        - color: gray\n          value: 10\n          label: Other\n"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiIBjz1rX3uyWMuw5rfKcGvEVDEOov1ZZXww3-ymSONgzmJSCl8Bjz1rX0gYYmp9f2_G4opC_caDv1pgcd3JCs9Ag6XE873bg2m7GXXxNnHj0A4xw1PjqdBTvFIpj1pnqsrjJr_hkBHtWlHEbOl1-bCcsf-yH5P3KyL8UI6hQnrQq9alDgpnAY89a1_kpyMm54uyMt7a5uN77GhHjWnoZuPDHtfom5z-Av7avmYoPulefGDUsGHDzZ5dr7XJKaQcmJmQ6y6IKyFBh0eG5w1RbdREv3aQiBCZi0NoPHut2TCiNEkas-kWB1cPQjA-dAqcAQGPPWtfmr-Y2bibQnvEVAjbG1k0kltSVeWO0bSp6EF20UffXXvRmIXv8DTgxWTz9pgMYhOeZsymORU3RFVLjhy4tB_7AQjAL_rD5EhWI1I7npQN6scnZmKJ43bMiLkRh0mQx6qNGp4ip86_xYAuEOBXd9rbusm0XnF2QSrXBKGRZANfLkDhzyNwYM5A-wIZjZVeh2AmT9OU65YPnQp-AY89a1-HoDhl17_NznMxUGuQAb3dktbT-q535TJN9W1Yek-oFkZ_RhnQCg4GPG_PwQ45IHS3bOr2skPzdAMy8E5OyvC4lBDJXzKsf8mo9gBoGCPZJOx04SLboPaBsh3eDhMvLYQdidqWqajxazc4LhyJmYLjPHmjYE_ooMNGCuUBAY89a18f3_EpAGQcqZB5DyJqns0QArO3sN1akkeW3A65EY95sQfbNWRrdtAVdRyFAbqrLnlZ8NT_7dg9aBcJoRHJlwlXtgaH8GjWhtzkcSjxjehcaYk6vhYgqidCEUXFpCYO9R-5L65mv-fDoHgEWxlkbePcymsNVRIHvaf2hyvlMN9UdV0ugOjq77b5Gy5BAv-5E5Q1KC51thUdlVwqPxP98em2YOcUK0bpfEuRq1aoEdWBsMkjmyzZcqgBSLtMCKPBYeHnRB6YpETClPHrBZ_FY5hy1qqpERqei33bOhAGMH7s2wrQAQGPPWtffvuHY2R7PShZbfg6EsAyynxTZGxCykf3aaSQRiMIB5xjFsDFu9Ltd9QjhRs72Hv03jtb_5pT0k6kvYjH1sGNNP9LS0_pSm-s_A5uKNfqcokWiodRN3f_HYlgDk_y1QlvXmTtP4KqMEtPP-6TkuI5bC2GE2KaH48uLIgHcs-7MmHQHkua7gHxLjV0BzVAiInmJk_PVJ4jWkJGIh7jf98fsgifyq-AzbjzjZ6k4JoaaEWbB9abPuToh4vyCEKHmaMJZcphM5BxI_qF6nEKeAGPPWtf0G-PZlX-NIFxVRxM50iobJiBDRZAL3Ra4oTswVIxI56OFbB8yrHhR0aexEuDEg4sC2wb9MVuGY-5EVLtE-BQzSCYSqEPvENzqCG9wQzKATKUrM2-bOFjzawVaPPCobHaBuIJKTIFPSS97aYxZgZq70mrUg=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-63ecc286-2a7f-4c0a-82bc-cfb6b9e6b3e2",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is valid."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770306068.767361
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770306145.9357355
+    },
+    {
+      "eval_id": "eventlist_static",
+      "conversation": [
+        {
+          "invocation_id": "e-2c654bfe-2ea8-4c7e-a1a8-1415003fe486",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create an eventlist with some static data in it"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the YAML for an `EventList` widget populated with static data.\n\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: EventList\nmetadata:\n  name: static-event-list\n  namespace: default\nspec:\n  widgetData:\n    events:\n      - icon: fa-info-circle\n        reason: Scheduled\n        message: Successfully assigned default/my-app-1 to node-1\n        type: Normal\n        count: 1\n        firstTimestamp: \"2023-10-27T10:00:00Z\"\n        lastTimestamp: \"2023-10-27T10:00:00Z\"\n        metadata:\n          name: my-app-1.12345\n          namespace: default\n          uid: uid-1\n          creationTimestamp: \"2023-10-27T10:00:00Z\"\n        involvedObject:\n          kind: Pod\n          name: my-app-1\n          namespace: default\n          uid: pod-uid-1\n        source:\n          component: default-scheduler\n      - icon: fa-exclamation-triangle\n        reason: FailedPullImage\n        message: 'rpc error: code = Unknown desc = Error response from daemon: pull access denied'\n        type: Warning\n        count: 3\n        firstTimestamp: \"2023-10-27T10:05:00Z\"\n        lastTimestamp: \"2023-10-27T10:06:00Z\"\n        metadata:\n          name: my-app-2.67890\n          namespace: default\n          uid: uid-2\n          creationTimestamp: \"2023-10-27T10:05:00Z\"\n        involvedObject:\n          kind: Pod\n          name: my-app-2\n          namespace: default\n          uid: pod-uid-2\n        source:\n          component: kubelet\n          host: node-1\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-f5a76121-69ed-4536-8dc5-0a81b5867fa5",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ci8Bjz1rX2fLfszQbpPmYX6uo-SwYd3lCLuQbsGbHEwIB7TfPVrVheBbV6O81Nr6AQpxAY89a1_9qRghzQ4Ugs09lCRfibfXnYmB8u9Uh8J-ES86GsicdCRMe2ZuNQC_8c-iwsdCVMXCWyf6zqw9Ysmy_QGk7GO5_qT1n_CXXtrLaylMC-5bHkYyx5Uy1M2kua1l44To5OB_oXMsPw5uRPktujkKeQGPPWtflT0RJTKbEbiN5wGQxA1ZCadeTqXKefqNHNtTTQNXEe8xcigqD5lhtdXdbQOipiD9TyjWph-JkdqX8WjJiF2b_hOT3WmDIHz6J7J_YaUnfI4Ru6T5qgJEG6sd1kj7yAqUf8Z7K5QZPlAOX7Gv3tFm1J2TXlIKuQEBjz1rXz2jg9Tga335Tx2Gdgju2tMx-YHVLBxyXRd3XClR8KmHHVKrmk0pSnlQjxiq5eoXm7IQtCj9i4iDd2t43tOe5LsjkU-cBfua3q40au7uJTGXHnDmwXzo6gDm8WuH1V53NFSiO5twUfpVyWsh5fKwqb7tqcexlsivaUhABFfsYuESr5I6Zo2gvJYgm6s4XWjVvitbEIeKhfvjeZ0KB2Be87rE08RI0zhCPQoX4ZJyN9W_Yf55JwpxAY89a18C5DkOm_JsfXPa07e2vLgkoIDNKLO5LrvbGVUvhkj3mnDLl19jUqJKo1olylb_KJ-5j1692T9T85ymJpzSSoKw6m06tSLA4FLc0S5L_JqeiQ3UrbF7d3-6-d_hfqDJMgeZXy7nqD51ddRQFu8="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-f5a76121-69ed-4536-8dc5-0a81b5867fa5",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-3d4adb99-706a-4109-bdd0-60e245dea0c2",
+                        "args": {
+                          "widgets": [
+                            "EventList"
+                          ]
+                        },
+                        "name": "get_widgets"
+                      },
+                      "thought_signature": "CiQBjz1rX3rVIcBkor6FFHutgvkxEUAKioOWsnz-w2yJObgOJzIKYQGPPWtfi4uDgA3fUf7Soq39Dtov18R4PSnKDhpgA8vtqgUQhFY8K2OiYBIH6_LfJJ5Qz_2Ul42z7nSjfdGhRSXEiMnAfCsGVnKVbGe9XQqy4AxIp8fK31p1i5Mr416mVdUKZQGPPWtfq9K9N4P9ikSsrT7cw0LgviEdqnkF_gmNL9dKgMbxwJMWTeVCQysPAPuLUeQfL6IoeYm0e71M09bLG6sgA_Y6Z50PWlU0OTt4OH5d9JAP3XVyHRoSZcdRPsPxVzsrdIhcCpQBAY89a1_mwYs2QWUpLc54hUvUXQHuBdg2XYr142squci2I3FcK1MTxTS3mgHnzq9B5FR-ZiFxeVQGO7GVkgxhbmC9dUYAvxnGOrcSsEag4JgV2SGEwoXJCsAfye6f-AIQBkCF7fm4BjE6BjpoZLKQJ_MDrH8QPCt1gWlw67GKVwG7xLG0EgKl7qiwv2H3KE1jyfsVFQrEAQGPPWtf7Yp3xsILrfpgzPN35IRT8BeosGMHtZj6cv-IFh2eRoIHXgI9V_O_t7Hj7wKrt0_w0ZsJUsBRcb43KVT2wcqyL3zLg-oy_VvoOY5tVLqqlcw6o2rer38wi9I-3iuId9QgAk-WOaWbMAjvCKnP4X2Lvbwh6rVXB3IvTBYbC9cdd-6i2QSoNTEo99GGJWaNgHU44eiudnJEt7uk_WtHZBz4ww0BD_ca48i5t7avmPpF6nylbhQ0hfg8fkOA4gxUMaoK0gEBjz1rXyjCX4Ohzj584RiibWCZUOH-CiLsuay5MD7SpC7IWV7l0KWbaxMfIwq-n-Djc_atdIuohvCODy4hRvZOC7fDczuseZIvGQ7JoTnmSfvh8I41lXrGEUSA-7uQNniWg8C9D1C0b6Z2hinou7Rse8TWwdM-dY7kqpT5FShz7Z2FULHh2v5Polt8LUKC7dvYrKspESHqyrFePpvLLe13eEb5oGQGNCoohSbc10_gX-eWcGFldhdUPjWsASWIMBGy-_k1qCW62t19pdI-e20skt0K9QEBjz1rX5SfznrYbdxpjnSvOCVIKJL9dFqVmK3vMrMtDuy9Y83dr1AEtD59jPoYHhCMLasTEP577i2k2ErspUq_0scz9UgPvJy23dnKz-KOeEzrQ4Ba-h2Q5nyaNdq9Lvd5stC_ow_3VMrZVnnKZ8PJRZX30ta6ltJ6nYL8r3q9TxpZtoQFkqZAR6mOPv2VmCPY65hlWIguvf4Bur9wgPxdi5u1OmuQnLUfNV8MMOmyKwG6SA-nnawujTRyi1u7ZqCeo3d7l8Ps6j2RxDw_VMRrTs25ZIjOqfSjLokRk9kG14KZ_2rlWhqXBaS1fIQ8LNFlSCneJAr5AQGPPWtfAQ7nnK01424-TD1x2fQhtaxTJTveiRWi5ic64a5w-F94PgflKFyc6ml_dZq5D5Sra2CNxMUrqhwi8fcDl7AaJvF11xKeNhtD9Js8rASYyCHX1rweP6pCxrA1MzLjWMs_AAThaOYNIwA31cKXEnRUwlIBbR2q3ubbH5ZSjglGczlQuULtLICitGdWqBogj66MCxWaq96tsXX6_EHbvfxt94qxueiFuIXLIe_8xuV4jzHF4IIL3-h-lNiNcwRijaBTzB8NtYvDsBefshX5MCN9W-6mmlRw4mvKzPhMp2L-7_RRk17waArh6GCGEcBxF6Kr_5dHCgrGAgGPPWtf_QeYKym4ZFF_p9ADJgsCpacMptc_yddRWsTQb1u7djuAOf-ANFYcUSZqx_ZqsX2koyPZaH3mlxmWvKGfEQc8mwHzfcVPNfYMsBcd-Jr9LOgrd0jzFNfsAmXVv2VkMBa7-euHfDhApQWDRI07DlwZ1ED9XBudCvU_RQQWS9kkvKR5dkgVr7poVgd7DzSEnbtaV31yjV3Ibjc72DBzAg3XtgOt3NCzK5QHqrF2Ji6Dks8lRY9g7nobfY0bZyGYz3_766Bube-TpVQfcrPTY5287PcFhQ4l9l-f3EaiwcyrIpEUZSk10bNHc8gDixdTYRmsHNtYJKpnKsSqWuTPKaC7t5cKqQYTv7eenTUN_ClogE-MBCCIvJD3k-_-e8j-ecmaRSMGMxElPm6WN7jfslFTiJa0re1LFlNQknY7nb8myL94Co8CAY89a1_8Ppr4RXn4uyC5bSrB8B8sjX6LwARTmx8P1uMsK1LuukRDyXWaAcPnfmREdjkq71D-LJn3-QJ3tT0FjFL6FASi33wP8X3bSXGIJPny91MFSw3r_u2m2XEaHdnIk5GS8WcMMHnAg0KhXG9dhFgZH6uBXolSRklr_4hlNuJSEET_iaD_pCvhAXW-vU4OKcWHugIuh7ubYcqf5ELv8WTstoQ5YR5le7IcsmwEsy7jF37WMng7MARfmhrHVuU2HsS5yB8sD9fBnymW8JU8P-DYqyl4X4u9_HcdRzgWeFbeerxpBTudw-sZ8Bj051H5rTQ2Cp1f8vl2hbj0floEDm-1aCJTxCCzawp_JTGJpAqXAgGPPWtf9FmHWHAIXBiWfnyrmAB3kYOEIu2762Jf3-W5I7okk7DKyrJrShWDXpFlR7ZCYGZmwz-zlSakzcgjo5ERA8myOhIkboMOyv-W8p1y3MJHXPUFe969_Lk0HF2EgHB3FT9xqcWoc47E0h9dNO5yeghBRewkKQWsFXyiY9Y5dkxJlBYtwrS9MpHHIYeOrQrXCesKbUa56k8-L7ERXboFhzpeqBr1cBY80uED5qL-A8IwUJ4Z9spdluTeHYonrNnn2jOSXnUF7mywIMdbTDpD7A4PPbC3d17V6LfgeN6vFkPiN1n9FOP-rZGXKSN-UEf2i6NItjO2pVBi6bznwL2q3v0-nnA25Mgc-iwQ3kUtj05-bbeYewpGAY89a19AUtGiScFpxtwE9q1KGiVS5tV_xRAXADmTl4VHWQ8S-bxNlqtsLYOFPc57yE1fFIEQFRqZr0NGoDZ18-iWK2gyCw=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-3d4adb99-706a-4109-bdd0-60e245dea0c2",
+                        "name": "get_widgets",
+                        "response": {
+                          "result": [
+                            "### EventList\n\nEventList renders data coming from a Kubernetes cluster or Server Sent Events associated to a specific endpoint and topic\n\n#### Props\n\n| Property | Required | Description | Type |\n|-|-|-|-|\n| events | yes | list of events received from a k8s cluster or server sent event | array |\n| events[].icon | no | name of the icon associated with the event (font awesome icon name eg: `fa-inbox`) | string |\n| events[].reason | yes | reason or cause of the event | string |\n| events[].message | yes | descriptive message of the event | string |\n| events[].type | yes | type of the event, e.g., normal or warning | `Normal` \\| `Warning` |\n| events[].count | no | number of times the event has occurred | integer |\n| events[].action | no | action associated with the event, if any | string |\n| events[].reportingComponent | no | component that reported the event | string |\n| events[].reportingInstance | no | instance of the component that reported the event | string |\n| events[].firstTimestamp | no | timestamp of the first occurrence of the event | string |\n| events[].lastTimestamp | no | timestamp of the last occurrence of the event | string |\n| events[].eventTime | no | specific timestamp of the event | string |\n| events[].metadata | yes | metadata of the event such as name, namespace, and uid | object |\n| events[].metadata.name | yes | unique name of the event | string |\n| events[].metadata.namespace | yes | namespace the event belongs to | string |\n| events[].metadata.uid | yes | unique identifier of the event | string |\n| events[].metadata.creationTimestamp | yes | creation date and time of the event | string |\n| events[].involvedObject | yes | object involved in the event with key details | object |\n| events[].involvedObject.apiVersion | no | api version of the involved object | string |\n| events[].involvedObject.kind | yes | resource type involved | string |\n| events[].involvedObject.name | yes | name of the involved object | string |\n| events[].involvedObject.namespace | yes | namespace of the involved object | string |\n| events[].involvedObject.uid | yes | unique identifier of the involved object | string |\n| events[].source | yes | information about the source generating the event | object |\n| events[].source.component | no | component source of the event | string |\n| events[].source.host | no | host where the event originated | string |\n| prefix | no | filter prefix used to filter data | string |\n| sseEndpoint | no | endpoint url for server sent events connection | string |\n| sseTopic | no | subscription topic for server sent events | string |\n\nExample:\n```yaml\nkind: EventList\napiVersion: widgets.templates.krateo.io/v1beta1\nmetadata:\n  name: my-event-list\n  namespace: test-namespace\nspec:\n  widgetData:\n    events:\n      - icon: \"fa-exclamation-circle\"\n        reason: \"FailedScheduling\"\n        message: \"0/1 nodes are available: 1 Insufficient memory.\"\n        type: \"Warning\"\n        count: 3\n        firstTimestamp: \"2024-04-20T12:34:56Z\"\n        lastTimestamp: \"2024-04-20T12:45:00Z\"\n        metadata:\n          name: \"my-pod.17d90d9c8ab2b1e1\"\n          namespace: \"default\"\n          uid: \"d1234567-89ab-4def-8123-abcdef012345\"\n          creationTimestamp: \"2024-04-20T12:34:56Z\"\n        involvedObject:\n          apiVersion: \"v1\"\n          kind: \"Pod\"\n          name: \"my-pod\"\n          namespace: \"default\"\n          uid: \"abcd-1234\"\n        source:\n          component: \"scheduler\"\n      - icon: \"fa-rocket\"\n        reason: \"Started\"\n        message: \"Started container nginx\"\n        type: \"Normal\"\n        metadata:\n          name: \"nginx-pod.17d90d9c8ab2b1e2\"\n          namespace: \"default\"\n          uid: \"f1234567-89ab-4def-8123-abcdef012346\"\n          creationTimestamp: \"2024-04-21T08:20:00Z\"\n        involvedObject:\n          apiVersion: \"v1\"\n          kind: \"Pod\"\n          name: \"nginx-pod\"\n          namespace: \"default\"\n          uid: \"defg-5678\"\n        source:\n          component: \"kubelet\"\n          host: \"worker-node-1\"\n    sseEndpoint: \"/events/stream\"\n    sseTopic: \"k8s-event\"\n```"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-5e6273e1-34c6-4917-8a38-ec883b327b43",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: EventList\nmetadata:\n  name: static-event-list\n  namespace: default\nspec:\n  widgetData:\n    events:\n      - icon: fa-info-circle\n        reason: Scheduled\n        message: Successfully assigned default/my-app-1 to node-1\n        type: Normal\n        count: 1\n        firstTimestamp: \"2023-10-27T10:00:00Z\"\n        lastTimestamp: \"2023-10-27T10:00:00Z\"\n        metadata:\n          name: my-app-1.12345\n          namespace: default\n          uid: uid-1\n          creationTimestamp: \"2023-10-27T10:00:00Z\"\n        involvedObject:\n          kind: Pod\n          name: my-app-1\n          namespace: default\n          uid: pod-uid-1\n        source:\n          component: default-scheduler\n      - icon: fa-exclamation-triangle\n        reason: FailedPullImage\n        message: 'rpc error: code = Unknown desc = Error response from daemon: pull access denied'\n        type: Warning\n        count: 3\n        firstTimestamp: \"2023-10-27T10:05:00Z\"\n        lastTimestamp: \"2023-10-27T10:06:00Z\"\n        metadata:\n          name: my-app-2.67890\n          namespace: default\n          uid: uid-2\n          creationTimestamp: \"2023-10-27T10:05:00Z\"\n        involvedObject:\n          kind: Pod\n          name: my-app-2\n          namespace: default\n          uid: pod-uid-2\n        source:\n          component: kubelet\n          host: node-1"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiQBjz1rXzmBW8A7RMymqnk9r3zaGzbzjVQqIS99XxDLtBc-cLwKZwGPPWtfYH3KDoP8TEVG80Od0OvoNw_zvxpR-CZJlSSRHAb6-Eq3eTlXlSQMICD3RWhr2ql14aVWEj3XQyiKkLiD14dbyxmPl7TfLwWRlhP9qBgs0j8yGNqwAQwJSfmfPqwgMDDTAnIKbQGPPWtf96VjwvBqCbIt-SzNSnK-S1wQm-mkLPYIpz9B8NimF6DHfq_4n6jc0ZsbZUKbB5kBDGqRMUP6J0jM54zST1nXyyG0zT-v2z-14wEWxGhZDK4yG5Zho_xkBhH-4JOAv7G_4HiLGIx8eJYKmgEBjz1rX_MkYPgq4u-20SGFZjZTSwRT7Z9ZK-APl6X9bmkkpLJcmikqEQCcPRtyrLJytJ1gf7spfIkJtBk55bhhVKWUv6rFXdLei_7WvbqNSfuXuD9K8XLz0e773JB5ewNR4JkyanMMCt8e_IcfvMM1SIjozR94umIMQCps3dUb7rj5SBU71WaSSRZa__9T78oDRBsudZZVB5vKCpwBAY89a18ehHZBXa3fJdidzGn03GJzK_yQFFbAAH1CTTlrvWsISvycnoaS4JBf-ZLn_J0LXKf9dlCur89IAtT8gR3VZHN0Zno_hZu39Y27is2TbpqMFJ3G4Pg3Vh_aiY7kQdaSAu1nYLpLtwP7_ne4x4hjwmLJAoS5bhFgBtpLFsECQyXhIOd-qT3Gl9lW6M8huAG6Nm5ZwIf6xscFCsIBAY89a1_odRROnkxwF1CCBWDLAdeIFoGlEvLaP9PBA_dlVHRiTVjh_acMqBU51VblnYVmco-DF5-D4i143jOIJM4_vAQgqTycJ0mgJdjeWcs1_zp7dMyhbjezWT58ev4JW0QlbzsY-d6--yj1lHoalGoYC1vzr2813wzTufRaYD5mVWDIx_OgSEy5MoiJZJn3T9uWZyuqS-IlrFb4ZiHVYQTuYRtj1sVYtD7yTcB3nmnKCSIkPgmegNf-HT3efrTpl0sKzAEBjz1rX_InINJiiwv7M6H2t2jd5qZK_3EiwUTfELWJ6FuTB2mV8qbGAZcqy4OkzRG-Ya_YUDJaZJPAKF2FiAb-pqEoV8v6s5vG2IhySD7j3AbPbflvAbI4puoLOdSaxvGj26gfW7dhA24jvUtDITcsRi7FIvKHGt-rL-yvqYGHI7roAFS6kCZQCJ3TgFMR3TLOwwkEOmPqCn0t_D2wzM3oAnvqSBEEhCb7A6CnRUS-gDIHwQLGQJT_UK9QByz1oiLNgtRXd7zKJsvYX8AKgQIBjz1rX6z9Oez2iGp1JiYHBfRJWAOAc4pnVA_T3PKoVYBh__4jSwh6tV8nFfGVgJCQJPyC2em7LPfikA0_X9ejvYc4fmCvT-vA8KpEZsNStgBXdBu--3VcCLnFrstZxaByomQ-XLSCUUD8ZG6bzwbADoGp6daGm87hbzXMMIfILW4WQx4rC46g7T-ZDcmiAxDGeonXOZ9oILNTOmkEtGsvN3DuxCElPi02MglnvbwR50GSsow_JkuEC2wwVWX_GVNQXtb4le5ryRE7dykoJssQSxpT1NE5CEARZnZ1vWeVPqmQR87MORuK5qptQuOLsyIQD_aS5paKXLhoC_zYuKkwzwqsAQGPPWtfkYoowqMNJYuOW2DpV1t43AFJ9ew_FgDy4rfWkwPgHZFBmXUEgZlCgLG2uUsc6YyVAyN7ZMhsMFSWUs6vUNI24_20PTbAxcVYlvOCjzHyFMtwxEYt6ibT0EBhcvtxeyN8qaTsILqD9RbFG5RgYoY9Kgh6dRttIutn10JjWTpTFBEosKY4WFX4SW5bl5N6cF8Z0ZQNGikrzqNIAwemotMy24IB9K5VKCkKzQEBjz1rX-Rqm5beYmSd6VbJ2kyxuHM-jaRWYd5sa_b59vtB4eu2oiSF7YPPtwZXKsNg0k7ECUwkHcEF5G42vhTj4YRkN5qP6a99hV20bz27QALmQ54Kit4XQNy9XY-v9CDfYtDZ3qPe9xxOpa2HASW7IRHR_dcHc7cvZLXtugJ2Mz4n7J9H6kuhrx2Wa46KhWhxLTerFqJmagDmFDpEFlo5Zw_oyjXVpiRLaCOmulGt2axvsqFTKIwMLkdp2SblEUiTdruv_Ql0vhMaznkcCp4CAY89a18NwQHexDrl7-nRABb0SRw0G7g-Z9tuyDwMz1uI5UFp--FRxdOKbEU1zNByb3L9ClSNNxM4hOEmZh673tyAE3qU69RZTznSQcosx4OUI11jg_MpXbVMTEmWWNSlh7DcahWMHqy5UAwOgF5b2wMgCUK7jJSq-jFTijTC5H1xcX1Hj9nZ6ylQ1QfrI1DPqwnwyLDPctBzPHoB6Rr61EN3k0meyxx2MW1L4aTQejnyaRof2PceD62kX1MdrPbpfY6kTJ9rUeiB3sCuHWjnXoRqyJQxF6YqBlTicZ4k3vhSijnDTnnZe-hi3X224Ry_CuuVKl_7bqEXXld-FaEO23UFmNVXs9SjyazRIFAo-np3R4319E0dGXvYSdk96ArjAQGPPWtfzvFt9VJH4yRonJkPUcPD4D3WJxMy8rNt-QGEgoYGmBYvwXf1CNFIzBRfVYgtMmBNcC27Nvg5ZuAjYHAZQShUUsl68qafsLS-07VeZJqo2alU-KU9827Lh4Y8I4q56qNZHZrzwXheczkmt_II1_WIysiB9dJTX-iRwi81aBr3uFUIdoqTMigL7mysBQT926eh3qJpIH8gM4LSn5QYuyxm9sQ6AC4LsTMWZ9dI3Rl16qXMJJUeP3XXk5qRJhR1TGe3cyj51wk-q8CXvKFZdmvN6qPR46HDmz3Y3vOZnumnCsABAY89a198vnzpePqwVbDiI3FeS0SMgIJyd4wl_SX9KboUS4ompHRoJQecFGeeygjlPtIzu2FVTyhJubMxo41-sJoqgmRNru7q9e2n9K6CtV9805w8H1sjcN2w-9Nf5pr6cTxsYcD3cwU8rt83NL9Mcjsd6hXzH_P0zYkc4_v7KlFRgp2tu2Hv3s8uWq64Xqce-kuvK-snBcgu8BcRysRuHPYgWPp7WmDzA_vheMj6uuawSbBAWOZi7uUeqZG4MXvuCosCAY89a18khmuHrcojhnbXBYyeuWw69UYTrWuinAHT8rBuZkPmt_-nxRx3ezRCYh_YOSNjc_QDw-gGUDrZCW3DTXD76-A-83kgCBSUXELTbdjEUA0bacNPYyszs2uGAUk9szYl3S5gUeC_q_cFpHDrGtsIDz47s6x9Zk60qooajuLiDrlhb6guRp-VI3-RQLujbJYb6lZPejHv-2eoyPbPxMkc1XPYVtiFb7_VIxtAvRSP57elx7dLgrHVlJsI1MfkOVNDRBn0lmCVYY9b4i6as1EkPn-y_IF7J9bBfMobLvohEyY-rcFAxNSivAYz_xUIo-ILkzZqdlV6Z-vjlP8PYYX0OflWhGCCb_Kv"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-5e6273e1-34c6-4917-8a38-ec883b327b43",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is valid."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770306163.073694
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770306261.9020607
+    },
+    {
+      "eval_id": "flowchart_static",
+      "conversation": [
+        {
+          "invocation_id": "e-dee774d8-3c3d-467f-b737-5ef1edfe635a",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a flowchart with some static data in it"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the `FlowChart` widget configuration populated with static data representing a simple hierarchy (Application -> Deployment/Service -> Pod).\n\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: FlowChart\nmetadata:\n  name: static-flowchart-demo\n  namespace: default\nspec:\n  widgetData:\n    data:\n      # Root Node: Application\n      - kind: \"Application\"\n        name: \"my-app\"\n        namespace: \"default\"\n        uid: \"uid-app-1\"\n        version: \"v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:00Z\"\n        icon:\n          name: \"fa-layer-group\"\n          color: \"blue\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n            message: \"Healthy\"\n        parentRefs: []\n\n      # Child 1: Deployment (Parent: Application)\n      - kind: \"Deployment\"\n        name: \"my-app-deploy\"\n        namespace: \"default\"\n        uid: \"uid-deploy-1\"\n        version: \"apps/v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:05Z\"\n        icon:\n          name: \"fa-cubes\"\n          color: \"orange\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs:\n          - kind: \"Application\"\n            name: \"my-app\"\n            namespace: \"default\"\n            uid: \"uid-app-1\"\n\n      # Child 2: Service (Parent: Application)\n      - kind: \"Service\"\n        name: \"my-app-svc\"\n        namespace: \"default\"\n        uid: \"uid-svc-1\"\n        version: \"v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:05Z\"\n        icon:\n            name: \"fa-network-wired\"\n            color: \"violet\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs:\n          - kind: \"Application\"\n            name: \"my-app\"\n            namespace: \"default\"\n            uid: \"uid-app-1\"\n\n      # Grandchild: Pod (Parent: Deployment)\n      - kind: \"Pod\"\n        name: \"my-app-deploy-x8z9\"\n        namespace: \"default\"\n        uid: \"uid-pod-1\"\n        version: \"v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:10Z\"\n        icon:\n            name: \"fa-cube\"\n            color: \"green\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs:\n          - kind: \"Deployment\"\n            name: \"my-app-deploy\"\n            namespace: \"default\"\n            uid: \"uid-deploy-1\"\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-f3a8ad20-f6e6-43d0-b778-1a74a137479c",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ci8Bjz1rXz_9RX8tW0ECkkfCFrssS_Wy2UGMRFq0myLGyL43Af_S98wzzIkB742FQwpdAY89a1_t6uxC2nGC98SSQ5x5ngYru13EfZQrVJCK4JZCA_Z2na6LagHI2tOxlC8w_hQQPrr9_bxVndv-_vtesQBMRHISxroTP_WF1rz-GdSrFGznpDX-BdD4PXwXCncBjz1rXy9-M_La7EPtPf4xz_sd_fCnX_8P7crQ_2f4QSl6-YrpoqlPEG2DXX4mUKvQPvMz1SdrPpTuF1F7Yhbots_rOiVIC4163Wt4qeDnDjRjiT-j1dJ1ymPuUFhnb259Vuo05Rwy_Hm-FIOa3nm-QOdQbUdcLAqsAQGPPWtfNMxVq_2Jp6BR5lkn37sx3jeTmhyf6DZwBF90ln-bdnT6kQxfIf_QeYySp_qMzRnC5RF_o3JSfc0NqaMncDkUk9o6THF1LgAuPB70sliGVbqjhhgHAV4tPc1kldMDZI49i2DiTybzqZcxk65buvPHbXwq-n5_O7g0wtMuR4cEijg3NWGtCB0aAZTLQvqHQMpbNRmVz-V_0Za3xQqOG9PNofMxO1nlejkKRAGPPWtfyy_KnaqVOSJ9dNSkKrjadn_j7otj5Y6i4dWWHVoq0AaLcAcTj-t1OhbeCmP7y2VBWhXaLGfbaNnu2dbAmkYt"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-f3a8ad20-f6e6-43d0-b778-1a74a137479c",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-fd431216-6645-4b63-99c6-85a5bb8a9190",
+                        "args": {
+                          "widgets": [
+                            "FlowChart"
+                          ]
+                        },
+                        "name": "get_widgets"
+                      },
+                      "thought_signature": "CiQBjz1rX1JFbDXKaLJJBqzNML26qKAvgQRoHHdyTZLD9hqA3VoKZwGPPWtfToH3p_NaRqDu8GHq2uPiMIyvyIfcIL3M6NGrKldF-tQzWrbsO_E1S1W_rG2YOdvkR2xAQ9LPpjAsVhLrGtzv0zTAYNKm6-z53dqRaJyw_jJyMgGZ99KWFL1cTxCwsEncgYMKcAGPPWtfBu5c6Io8LxkV-KrqTq1lg7zmfK53GAiCGndfMa7x3tJ2jrHC9FalW0dXn7ISIovdnb82--5VGPjarEi8lVPys5sx0EDiPyF1dh4Wjrn9cWOfqQ-fnpJ2STmUjZFrAz8pM8OndglCk1oPu1cKlwEBjz1rX2Cox5l0Yr5K5mWHpHnBIhFN7PZqedME6cZw-6_2CgBvr2cBtFkpWC-9yuAmPW3YOgcmZUFsqAicCk41LPEHbrecFXffFjKtj31t5hMeogbm4kSxmiAqbZsPHyrLl8hjUX5TV3EPpC0MUHtjlwt4rQGLjBVdQvUv9YTX5G3QhFQG8Jn359qHJe7zyXCACbGkFatMCqABAY89a1-Hr_0_RuzzvvzSfGjfvLNM1YmSfP57HrPm_hPCZpX2XkbvcABHFADz3ymDIn_2eGliDEal8yB_ZcKAD3aHJrucNa7mS0f-_tP6kWYurDSE3H68xm979OPuivgsn9hDHysb3WVt5EEOD0L7AiPhkkq9FyaLj4D--78NHZE_JKl9_FJrNpohfMT9GQ5NvEXkEXFZ1B8kwmRbRdkyygrjAQGPPWtfEUn8BJ4aWnt8hEIhnkbIUCdBKLbjqHQo-JWGVH--gyV34ahCPIPnWZAWk93QhUu-eVcGKV1dsbBtOd14bQH_goPDbr1z0mG5vP7SLVv7pLhJCsGnIcavN_5wbdhdoa_LCkZVxPVXGnNZMkLtk8woOdVN9hPC_QkoHIflAsAp6GmwXgnMk1QyeH0AxGzSJ6LOHhIpulcjBWfCno_iZPNa2R574jQfKxaP3m0YbLKK0piqqk_PFaPr40iqwV3LDk_hUCpp588bqsdEIfTbKHmZZ7HYErr958YCVttJithoCvQBAY89a187vWlggJnayOE29YHszNKztpmJFtUBJO_SQ3Qq3FMpcGuLTUaqW4RXa10F7Ye_iq8Zcf9JPvYJwpmPbgtko-MwBLFCMblNNQ5t3QrZm-f1guwd9kJ3q13d2fVkxIxeIrvw9NpgN8uW9PL6fbHzC5DlhEUIqs1cp1kYOSYIA4myEvksrU4vL2Gl4i62eYNoJGyh2YdDkG_bMWNXF-wm-CH3jE71JmLLyGtyRrZ12bFB0oY4l72qsbqtMul4W-CyOXueN2N1hknNnUvBCSqSHDjHN2fiP9Jb2wAF1CdbnlpJ4UNYTgNelwNhRDr9jxaBuAqRAQGPPWtfDsZM7E2AbZA95tmSyFh0ctvlqJX-ZGLYi4EAjGeUzZ4foGG5uR6dhGZVDfT7FimoAVAX1jrY6zJv_cL3Uhv_wHdZNJ2ObMTY3ejCMu_39h4FAhbxzSDBzua3UZnSUgmttIxAnjeHsyrqMeckX78zWDLpVbUtLlysYqhM_qRMAzZIvr7KB8Lp7RL0AFM="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-fd431216-6645-4b63-99c6-85a5bb8a9190",
+                        "name": "get_widgets",
+                        "response": {
+                          "result": [
+                            "### FlowChart\n\nFlowChart represents a Kubernetes composition as a directed graph. Each node represents a resource, and edges indicate parent-child relationships\n\n#### Props\n\n| Property | Required | Description | Type |\n|-|-|-|-|\n| data | no | list of kubernetes resources and their relationships to render as nodes in the flow chart | array |\n| data[].date | yes | optional date value to be shown in the node, formatted as ISO 8601 string | string |\n| data[].icon | no | custom icon displayed for the resource node | object |\n| data[].icon.name | no | FontAwesome icon class name (e.g. 'fa-check') | string |\n| data[].icon.color | no | CSS color value for the icon background | `blue` \\| `darkBlue` \\| `orange` \\| `gray` \\| `red` \\| `green` \\| `violet` |\n| data[].icon.message | no | optional tooltip message displayed on hover | string |\n| data[].statusIcon | no | custom status icon displayed alongside resource info | object |\n| data[].statusIcon.name | no | FontAwesome icon class name representing status | string |\n| data[].statusIcon.color | no | CSS color value for the status icon background | `blue` \\| `darkBlue` \\| `orange` \\| `gray` \\| `red` \\| `green` \\| `violet` |\n| data[].statusIcon.message | no | optional tooltip message describing the status | string |\n| data[].kind | yes | kubernetes resource type (e.g. Deployment, Service) | string |\n| data[].name | yes | name of the resource | string |\n| data[].namespace | yes | namespace in which the resource is defined | string |\n| data[].parentRefs | no | list of parent resources used to define graph relationships | array |\n| data[].parentRefs[].date | no | optional date value to be shown in the node, formatted as ISO 8601 string | string |\n| data[].parentRefs[].icon | no | custom icon for the parent resource | object |\n| data[].parentRefs[].icon.name | no | FontAwesome icon class name | string |\n| data[].parentRefs[].icon.color | no | CSS color value for the icon background | `blue` \\| `darkBlue` \\| `orange` \\| `gray` \\| `red` \\| `green` \\| `violet` |\n| data[].parentRefs[].icon.message | no | optional tooltip message | string |\n| data[].parentRefs[].statusIcon | no | custom status icon for the parent resource | object |\n| data[].parentRefs[].statusIcon.name | no | FontAwesome icon class name | string |\n| data[].parentRefs[].statusIcon.color | no | CSS color value for the status icon background | `blue` \\| `darkBlue` \\| `orange` \\| `gray` \\| `red` \\| `green` \\| `violet` |\n| data[].parentRefs[].statusIcon.message | no | optional tooltip message | string |\n| data[].parentRefs[].kind | no | resource type of the parent | string |\n| data[].parentRefs[].name | no | name of the parent resource | string |\n| data[].parentRefs[].namespace | no | namespace of the parent resource | string |\n| data[].parentRefs[].parentRefs | no | nested parent references for recursive relationships | array |\n| data[].parentRefs[].resourceVersion | no | internal version string of the parent resource | string |\n| data[].parentRefs[].uid | no | unique identifier of the parent resource | string |\n| data[].parentRefs[].version | no | api version of the parent resource | string |\n| data[].resourceVersion | yes | internal version string of the resource | string |\n| data[].uid | yes | unique identifier of the resource | string |\n| data[].version | yes | api version of the resource | string |\n\nExample:\n```yaml\nkind: FlowChart\napiVersion: widgets.templates.krateo.io/v1beta1\nmetadata:\n  name: my-flow-chart\n  namespace: test-namespace\nspec:\n  widgetData:\n    data:\n      - date: \"2025-07-24T15:30:36Z\"\n        icon:\n          name: \"fa-cubes\"\n          color: \"blue\"\n        statusIcon:\n          name: \"fa-check\"\n          color: \"green\"\n          message: \"Available\"\n        kind: \"FrontendGithubScaffolding\"\n        name: \"test2\"\n        namespace: \"demo-system\"\n        parentRefs:\n          - {}\n        resourceVersion: \"\"\n        uid: \"1eed3c65-90d2-4823-a85c-3430d4e41944\"\n        version: \"composition.krateo.io/v0-0-1\"\n\n      - date: \"2024-07-31T15:30:39Z\"\n        icon:\n          name: \"fa-file-alt\"\n          color: \"orange\"\n        statusIcon:\n          name: \"fa-ellipsis\"\n          color: \"blue\"\n          message: \"Progressing\"\n        kind: \"ConfigMap\"\n        name: \"test2-replace-values\"\n        namespace: \"demo-system\"\n        parentRefs:\n          - kind: \"FrontendGithubScaffolding\"\n            name: \"test2\"\n            namespace: \"demo-system\"\n            parentRefs: [{}]\n            uid: \"1eed3c65-90d2-4823-a85c-3430d4e41944\"\n            version: \"composition.krateo.io/v0-0-1\"\n        resourceVersion: \"77493\"\n        uid: \"e99a3efe-7461-4ffe-b956-55cb3882f0c5\"\n        version: \"v1\"\n\n      - date: \"2025-07-31T15:30:39Z\"\n        icon:\n          name: \"fa-cogs\"\n          color: \"gray\"\n        statusIcon:\n          name: \"fa-pause\"\n          color: \"orange\"\n          message: \"Suspended\"\n        kind: \"Application\"\n        name: \"test2\"\n        namespace: \"krateo-system\"\n        parentRefs:\n          - kind: \"FrontendGithubScaffolding\"\n            name: \"test2\"\n            namespace: \"demo-system\"\n            parentRefs: [{}]\n            uid: \"1eed3c65-90d2-4823-a85c-3430d4e41944\"\n            version: \"composition.krateo.io/v0-0-1\"\n        resourceVersion: \"2769771\"\n        uid: \"10c62b82-8096-4f40-a991-8f1a420a7c42\"\n        version: \"argoproj.io/v1alpha1\"\n\n      - date: \"2025-07-31T15:30:39Z\"\n        icon:\n          name: \"fa-database\"\n          color: \"violet\"\n        statusIcon:\n          name: \"fa-xmark\"\n          color: \"red\"\n          message: \"Degraded\"\n        kind: \"Repo\"\n        name: \"test2-repo\"\n        namespace: \"demo-system\"\n        parentRefs:\n          - kind: \"FrontendGithubScaffolding\"\n            name: \"test2\"\n            namespace: \"demo-system\"\n            parentRefs: [{}]\n            uid: \"1eed3c65-90d2-4823-a85c-3430d4e41944\"\n            version: \"composition.krateo.io/v0-0-1\"\n        resourceVersion: \"2771491\"\n        uid: \"36177476-08c3-42dd-a148-48d0b94bbf13\"\n        version: \"git.krateo.io/v1alpha1\"\n\n      - date: \"2025-07-31T15:30:39Z\"\n        icon:\n          name: \"fa-book\"\n          color: \"red\"\n        statusIcon:\n          name: \"fa-question\"\n          color: \"gray\"\n          message: \"Unknown\"\n        kind: \"Repo\"\n        name: \"test2-repo\"\n        namespace: \"demo-system\"\n        parentRefs:\n          - kind: \"FrontendGithubScaffolding\"\n            name: \"test2\"\n            namespace: \"demo-system\"\n            parentRefs: [{}]\n            uid: \"1eed3c65-90d2-4823-a85c-3430d4e41944\"\n            version: \"composition.krateo.io/v0-0-1\"\n        resourceVersion: \"77512\"\n        uid: \"cc1fb868-3ae9-435a-a748-aa54dcd1b26b\"\n        version: \"github.kog.krateo.io/v1alpha1\"\n```"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-fcc0688c-d637-4be4-996a-bed815272483",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: FlowChart\nmetadata:\n  name: static-flowchart-demo\n  namespace: default\nspec:\n  widgetData:\n    data:\n      - kind: \"Application\"\n        name: \"my-app\"\n        namespace: \"default\"\n        uid: \"uid-app-1\"\n        version: \"v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:00Z\"\n        icon:\n          name: \"fa-layer-group\"\n          color: \"blue\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs: []\n\n      - kind: \"Deployment\"\n        name: \"my-app-deploy\"\n        namespace: \"default\"\n        uid: \"uid-deploy-1\"\n        version: \"apps/v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:05Z\"\n        icon:\n          name: \"fa-cubes\"\n          color: \"orange\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs:\n          - kind: \"Application\"\n            name: \"my-app\"\n            namespace: \"default\"\n            uid: \"uid-app-1\"\n\n      - kind: \"Service\"\n        name: \"my-app-svc\"\n        namespace: \"default\"\n        uid: \"uid-svc-1\"\n        version: \"v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:05Z\"\n        icon:\n            name: \"fa-network-wired\"\n            color: \"violet\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs:\n          - kind: \"Application\"\n            name: \"my-app\"\n            namespace: \"default\"\n            uid: \"uid-app-1\"\n\n      - kind: \"Pod\"\n        name: \"my-app-deploy-x8z9\"\n        namespace: \"default\"\n        uid: \"uid-pod-1\"\n        version: \"v1\"\n        resourceVersion: \"1\"\n        date: \"2023-10-27T10:00:10Z\"\n        icon:\n            name: \"fa-cube\"\n            color: \"green\"\n        statusIcon:\n            name: \"fa-check\"\n            color: \"green\"\n        parentRefs:\n          - kind: \"Deployment\"\n            name: \"my-app-deploy\"\n            namespace: \"default\"\n            uid: \"uid-deploy-1\"\n"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiQBjz1rX-OXhjSBsXLoGNGzEAsFeajrO8PuAAv4kIePYct_Gw4KaAGPPWtfbMTxL37isNqDYKb7UxW0KubntW_KMUPpE02BQQc9m91MlDTU68gki39f9AqF9caJX0K_WPyx7TdHSKFI42Li1Omz4RTFcQtncSLB6jZztRsLqFIw_BNflRr5Em5KshTzMeT8CnEBjz1rXxJRbS4SKr96FJe2Aj6yLtb2jeMPhiDgIE8MCkkno9J1jer013hA83eItX7UYMqM2AJhqREYzrZlUwCe2KL7w_FSmJSDCbxQ73pAEqnChSebgzS2m7MNJ71KcplZHHEQfJo4r2hKXLIxsnOv6wqdAQGPPWtfkDRgE6KRL_5ZoUUj5XwUBgSMhf0S6rrftYD_sE6e7-bEbVCH7pFLx5ETo295ih7f6_BCPlcBE-73LMIbdZXXwnyQouBnFahwioUf4F8RlNwqxulsTOKvxk2nEdue2fKnef5ltD6vlXyT22vked88Ky6XEyKThN3aNcODI_bDkHiH2hrsf_iUP7hTBYd8MSyFZaYgkBo84MQKlgEBjz1rXye27IWJDNBs7E4ltPPIzDpGUMN-Pn2jT8OKR13OKDNBDLPRex1hEDIgVgNLFynkYdMCIc1X6xUntKdwuQMzkC1JvrFpogu8CaPvFyl16JXQlJ0UzbNw-tRM6QVBO9LjOZ5VWSxSOYwz1nKpJyvOXR-oqz_w2vGklrtMlX9XG9k0iZVDK07GO-JKFuLA3J9zGIwKxgEBjz1rX5TgiWL9sMXGH-JiA0qVK8SrpYzqidHs6TipdYgZAeIOUJVz5-wWjDnGZ_NCCrRVoYMVsngBdrXifyiAaossILUgVWaEQeKlB7whmx1BXL44HL0zJDeugCGAYuGQUZJ8j35OWEGUMlfaB08x0-rAKMwFjcLmcu4eN66HDZck-5dL3-xx9WqUpQn58iPoQRRGRlfdV7AzHcwVcsqvYXXYtkM-UrjY8gre16zw09z1OzpwJZAp8qX73_Y3FwQMZ01NwYAKnAEBjz1rX4miXcUX-BPSYZqJlonDmmHKqLXJ3wcT5k-iVNddTJxqhf7onHT_XIS2Ibi25GiH7xYrH6d--LcAq3zOA3YYGQY63xpr0YPSDt9oDc1cI6oz3ChSIz_vdcr13A2n-gZ6DooT5wx7krF7FhWkV_-TVL8eEo76njVNaLrjOrVU7mikWdMb-zTdIo-l-An7VxkleD3RA2zKTQ0K9QEBjz1rX4LEvxOKXy18BxZNJSVtlpQVYnxiQQcSivEOAlQI64klzR2IPlV9h-4f2m9bMb7CjHJaeKFfbv1tW4Bk3iCxdz3zAIm5ubSoEXd25dQc750hUEMEOD_sO0B3UbEZJfqw9BIdfpAURTf6Px18r-MANJ-MGLhsmrobQTMRfWU9OzvK0X4sgj8drmUHBc27HOhrZSHpkTFrWJqbSTwCWGq6P3VJAbbPMpzun0bjbGS_vvosAAwsToLhuWfHkZ9UyatybZfSX_8GNVgn4JV1trETwwfWIW6MmenI3fHxEg9mbvy669iNyPoWerS83uFl9ZxH_ArnAQGPPWtfHjiGR1m2GdtdlpOPEeraeaMtvfutWoCVXzxZOHvcBYoKIfTggp5PV50BjKRaL4kP74EWYptis-lRyTrtEODQqihRgNdO1fdsSYDTLoK5veSa3dLYe-n3lx7wf1bke340nE8vbLmabyav0d4lgFOR_OL9J2zPGcyXc-waRHbCugoqRbGfv3wm3vrU8GWQTfY1wXq13hvqQUAF8vsD8dC3jof7FyC6w8Gix6dUyDW3b9vX63QPs9DdpgI5J-Q1IEZdeZDZYiA8UMDjFs-MapINKcwxJyEY5GkpysM6bhbJ6iJCVwrKAQGPPWtfnBr5ZFfWvK-amtSikMCqcHggtDYP5PDi4gtTSdfbDCzeFm9-5l1CtAHKz14KEHP3iRxFlecgamIrfXQvu6CA6tV0iVmqC1GUjYB3OjJrrc2OzqL-Bu1w_uu_rIoPO5CTo-YYBi43Bs1eM8O27Chk0tIq4agOuI5NFcxmf_ViC1GugY-ahSJt35DwOBXwIGrIJVK9jYcKHQ89qAQH4MEP5JCIcKa11ITzb86L45E8yC_XvoCVN-CmROpY8j-S-Z2kHrbOKe4K-QEBjz1rX_uJ8AJ6VQU5QAItxCxFaltId-8O2CaQUwuKuGq6Zpdury-rlPGn3PzW5iqzV1DakNw8s4PBlrcu6FpsMEhnxAE6mi8RotDyHk7xe3_81bjCmckh8GQqCZHNyDdG8YljrMqckO3RfzW0ZpReqijjvgMpD_9-5PTc6XRElxs7JjjQjm-ddKbdrh_bTMq1dXXiKiOouIkDftViJaNZrvEgkytXeg9k-6yKCqYSR-izD6pRYT2AEhTmwHduahH7GgzN31MzGjVskU5oQeQVc_R96FFLQlzdUg20yagMlyvPLb_5LJfm8MqFoOi0Pem9KsDUVhC24VgKxQEBjz1rX2wiMAViZfj__4pWhD_eVfNAErjP-_gEc7mCHixfwBnlBiUyhJS6zgSUwEiMlHCL8hx19OPxoz7-VQtlef0u8dBZS_HTkHBNGozoc5EWa7xHsHKHObUoY9YQxiSDwhFeEMpFPoJ71GyX8heabasxcZ3uLf1NFNWajlDS1ok5uG-0Pu7_dKrITWQXPIRWUDNtrJaOZJxBTNWoRlsjhq_GQcTsGSSMj5se6YSE3SOP_YJOjStAEkleTczw5bbIDH-ioAr9AQGPPWtfkZRFVu60STEXYv8uZtxZoDRvADrfLBAbdTjdgOv1xi3dj7TABXkLIJt1C4fXspzu7k4zF7wL6EKI9xCxxR7AVaXNKubk1kF9XQtrZBNYgxfxmfexGVAyLYiCpCSR3X7NWED7geYAEdepHrEJWOVB9gmL3uArln-Q2YbQm1RqIiAO7CDZbdYTfeMyMWVcSZ_o25PTF-4DD2U3kk_PfHotZK4hO3CNujUrGOU4jVS4iWkbIlv_pXtmNtSQFpgZrHLt1ZVyRyRxLXt9uLH8Y47MSAfn1oP_yimYfZpkP2ppdjfvhsW0XKfwj4HGooUTGmP8RZTO7o8FZnAKwwEBjz1rX2-_NXtyCfujqPrff70q2BLqxKQAieAby7mOBVYwqPBaj45ySs44x6FLKfxVlxHxoW9YjJVPD31qFl0_8V1EJ6mknmahPyeG-aa51EQzbA9fEP8Ktviqn5NAtF-lli69BzDx46sO0im08jB2JKSEgVhnIrmfh87fiy0To3M8rCZIiUCtL80-79RbJFsd6q7hkMTxcOaDS3E8EHqxiChFA8IPJxzBnXeuPzfo3IPCi9MgfxgMjfCP6nonEFXkb8IKigIBjz1rX8mTS6xTxjbeLdTpAW9l16Zw5_XCAAFgHsW0LmMWhsL16uDGHIfy3BeZpTwH5RKfzBfMNhqP6IFpGwUXHlK4P3FkIrDlnPX_JOAYw8_mETegeFAQUCpY1F3WKoCryQToMrMF5_9J9dYWHwsKLXMautn9MnIys_XBHlYl5CHf5Datg7PI-E_BkVmLA4ArR6fAAE5O7MfW3_yDYRnoo3-zuxLeaC7oHomUirjezldz5Aj9eYHjbFFb--Q2EY09JodIwtypoh4OsTT2LUyyedu4kmoR29mast4dqMGeAFDF2loc5cBDM4ZgH67r2_ua0CFKRam4ZGKPbKR26IpAx87o8VkvWMtrGgrmAQGPPWtfUqaXXMyo0p0CNlC2xp33o-sughGsjcBWbyMPvPWkcIXG48Jd-p-hZ4Zss8oZz8SMTFa2LWVeI0al35Li1d3vVNUREhPxRY56lThhqVCE2uu_8Z4ZFkT18NIG1d6gFGHY89J66ykrAGON8EhsMSRNzd7S2LQB1j7YPWEm-pQhUBYhPJQa69ky4ZyogkYQafc34874lWULkrNW4MKwPj_4Z1JTt1BcdyPHCDd1rRrGM2bRB0grA9d83iwXX1C26dgqLVTvly_9Dlu2XUa3yUgXYPFCDP8XosK-JBO9Wd3tkRpiCr4BAY89a1_AiRvTPW3qigOvGBNf2DMmHx-tPA6iNyT06--cXisPiW1v_I6ZicXB9tNM-cnudWq0M5at4PpfPffv3b6uIMKB-x6bmhADN4-QXdVq9q0b3Iafq0G2_UtzVZAHx4paLUWikWa4H7cLBwEj2cKWwSz1nGkryrc8tdnLdO9Hlui_mdo3ONLdLCEi9WQHQdfXGC_tUaT02WLaygnrXl71pBS_5hNaZgq1JyTB3XR74TjwKjT5n_fFvOwVsAqIAgGPPWtfcGdkcZnAjmTEJc5r5F4vl8VfZJ5FxcSZAFQsGq6BfMKOhVfem_62il6RD2_otFuBuWklpCWNsFbKR8mu2a4errkmJ3ya0xi3eF3lPIn-1bf2zRPoH0ajs2wor6N1BvJNroigFoK5c3oi9bN_Qdh01hBX0qd1GJlvFOjgnMk4BH59hj1OTShLqFuJD3ebct8QGtJlOxWMXLiK8tO4T7nuwTYOJTK9cJruFWyxZkntb8tkjT77ONskGFpa_3WmHjuei4zjn2rwsweAM1x8cTc7RbcDCvHPHVEERV9Wb41wcNVbk1Ky-RAjPZqLo6f7UIGgSLNKK5m26QobWCn5y0zsQGMGsgrcAQGPPWtfYA-xX_cLsyMSc_jngDPcMNf1FhZhVDg4uho6653txXunk6EMycEwc15Ejrx-fuJglRGg2kspqX6sWs2GFlZYGL5ZIkZyMOEIXT7hZ7eLE7mLgj7A-BRwnaUbNXChYTA8tcvgu_GyBNRh5SlB6ggs6Z2WufGY5TztiOp_kb4vyga1ixF5R7aH-rY8EpeCVU3U2oFWqIGpv6-iHQlxwvQQ5mqr1cSH6vc8atAbcS-1QWtRpYd9-N26c6IeCYXF4qlGibE3Fp7G2n-1Vvh4io-t57eabCv2gNc="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-fcc0688c-d637-4be4-996a-bed815272483",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is valid."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770306268.731946
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770306319.6758912
+    },
+    {
+      "eval_id": "markdown_static",
+      "conversation": [
+        {
+          "invocation_id": "e-a7e34d93-828b-4fd4-bad4-034862ff248b",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a markdown with some static data in it"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the YAML configuration for a Markdown widget with static content.\n\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: Markdown\nmetadata:\n  name: example-markdown\n  namespace: default\nspec:\n  widgetData:\n    markdown: |\n      # Hello World\n      \n      This is a static markdown widget created by Krateo Autopilot.\n      \n      ## Features\n      - **Bold text**\n      - *Italic text*\n      - `Inline code`\n      \n      ## Code Block\n      ```yaml\n      key: value\n      ```\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-5b31e4f0-8365-4bf2-ad5b-4b5b52b9c61d",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ci8Bjz1rX6PpY4EOZlQSW4CXsbVjmJUXUFB2k0ydswJmluDfn87zMzucKedttM_FowpvAY89a19mWl2vvUxSLe6kIEPBWLyu0BSCNRFyc5b-h821EzRRToz0yfbyo2xl2pvumafGsNTcSl5HmJDYw_ZDki-t6Eg0A1aIvg8N23InLJEjHtlFNdOUwUw4urWponP4N0dsK5MspDJ94rFZyuzdCm4Bjz1rXzZN-uDZ0Y5kD1_D9NG24hRy3eZWLSe4JeN_l_9AyoyJAHtQ4Ax5THpm7N2gDFewliFyNLUCbkrtyW9sSl3wa6mpybGpCof7cj19FuHNp4keZ3bEvxwYxVMM2E00A0FjyKBduA6YNpLzTwp-AY89a1_NEBUBHYnluu4PxF25Y_tujTCSfzsMcTwwHRhUEqtpqGb8nJmt--wqCaLGHD1VIHxaFWerREvhg8vjE4anAltP8g7L4x8BU_Zr1u7W7JVwoCZQjoXrUjUSlEBjU_zel6VQ-8S3iMyLgoJ8GL1761WIuMnxDJTRnLy2"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-5b31e4f0-8365-4bf2-ad5b-4b5b52b9c61d",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-d89179ba-d917-4327-a92b-240a03d8cd8f",
+                        "args": {
+                          "widgets": [
+                            "Markdown"
+                          ]
+                        },
+                        "name": "get_widgets"
+                      },
+                      "thought_signature": "CiQBjz1rX27hYZfQh8nSoFSdJc3qEcHQNzB-5X3snGdi6Y3iEuMKbQGPPWtfIevMljjijkt49R7MyNCDWHW7z9RI-xE4obqtPY-_woA1q8aVrzlXiEazkTA1qC3JmerDT_uJcFyIMpkRhWs6RK9p3qND32Jh6MUJ9P7DCoaBg7Dokxir62xP-nuJhaD5JHijuU5XOgoKagGPPWtfi2p3YALhn8DhpGFIPxwdtHEH4NWndUoJ03kINoANpa0GaJY_SCuB0a7vnIr2TgiRpwb2rFu78m3V3u6S9-lKlqdONSf8vHjrIp404Prw4hbBpgWWs-rTcqd6CxIqNtm-q9ckuVgKoAEBjz1rXyKXTLzY0b_p3iYdqnDgVo3PNhznYxaTCDfdga1ymiaYGH3PrRExblyI3q-VHSe87xPz3jo9m0HXTzRTOwck43hGzWh7jem8DT147gOcy4r6dvMvrgfCER1h8AJZQiDc9Szw1iCcI3uHDj2L5ejjClDFjT4l2zKdq_q7nrg5_v0GiDhBekMC_WrDVuOmd0J5cjg3N0T7R-FFMnTvCp0BAY89a1_BW6w8--2TxvosTv_MJ3OY-UBP6LWxUuDr3bk2bREOvhUFLRu3fho3ATG-cgtWu-QRlv0BqQuRDrIX62NFzoIwh7QFPK7D50m6FrLCLbuP0vqRW7KmefmopvQcuLK7KL38qrGFRApPCiCkJIbDiDWNskomaFvE0REqae6T2ojfsqaSt883rV79lW3bD1RwI9Hp5w746o1WnQrWAQGPPWtfPVjoBsvRw-BOvnvwMFo_y4COzS0PKBrKU49NnNQFlNeIPmpwnGXSRxexEuTr5Oe9bDH-WwMevxjwy1H7RmztWLE449GctH2VguI3ojE7i-HvkO57H9WM1l7wKx0JnsX0sOEVMeFrZCQ6-pQUwZ993CFu65ZqNO4jP3TyXkcY85jrStBuLMki380yAXAzSfb0sh74APLsttHnFiG3ycO2F7xsOUy-pLLPGxRNHbA2otFGGwNTRd7snnygYxRsJzPhkNFpoZQCW49uPCLasTW-jXoKhAEBjz1rXwJMg1e6JuFhu4xRbotq3L8nzKBV10bGBIhqJ6ZRfmN2FZ683LQ9B_IYS2pwLWfRBpxgibX50zztGa4nENPqqxHoWYU3Vj5EsuHNsXeg4S7hqKYC8solHAObWIw7H_Zj_CYnyFMOSWTB4kDdIrsQM8tAReaBMiM5zfgV23HsxoY="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-d89179ba-d917-4327-a92b-240a03d8cd8f",
+                        "name": "get_widgets",
+                        "response": {
+                          "result": [
+                            "### Markdown\n\nMarkdown receives markdown in string format and renders it gracefully\n\n#### Props\n\n| Property | Required | Description | Type |\n|-|-|-|---|\n| markdown | yes | markdown string to be displayed | string |\n\nExample:\n```yaml\nkind: Markdown\napiVersion: widgets.templates.krateo.io/v1beta1\nmetadata:\n  name: test-markdown\n  namespace: test-namespace\nspec:\n  widgetData:\n    markdown: \"# Titolo H1\\n## Sottotitolo\\nTesto **in grassetto**, _in corsivo_ e `codice inline`.\\n\\n- Lista 1\\n- Lista 2\\n\\n1. Primo\\n2. Secondo\\n\\n> Questo è un blockquote.\\n\\n[Link a Google](https://google.com)\\n\\n```js\\nconsole.log('Ciao mondo');\\n```\"\n```\n\n"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-66e3004f-044a-4236-8376-47d8f60cc995",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: Markdown\nmetadata:\n  name: example-markdown\n  namespace: default\nspec:\n  widgetData:\n    markdown: |\n      # Hello World\n      \n      This is a static markdown widget created by Krateo Autopilot.\n      \n      ## Features\n      - **Bold text**\n      - *Italic text*\n      - `Inline code`\n      \n      ## Code Block\n      ```yaml\n      key: value\n      ```"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiIBjz1rX9_6aOIM7jsqnbDEiQvwDhv5mH1WI2_xg_KxvVBhCm8Bjz1rX4F0ZNitVHlF8SAlNdTvrsa7mmhvj9BPPVNAxQEQl2Bnz_mrtii5JD0aAyFRV-94oCcGKxcC7mPtLe78BSaR_iYtdhp4yJxV85eSn1C09Ct8kUVCuSX4J7-E1b8h_ywJbkI_Efer73bsIKkKXAGPPWtfqceW49gi6mZEAUVnZkW8w7Ch9LVU_WZjW5UlH15_Opba4YXxScQcGdu6S8TiGlQWP2S9dYbfstnwX9dx236vjL_kE8af-L7wfb0DV5jfoagQSs4qyH1rCpQBAY89a1-smxaCrm1R05pdknWoLwK7-xW1uzmr1qOm5H4iUXcD6_Cln8JPTF1N1LWt-jBPfHGXPrFRbvSB_Aba59NeK70OF2hJ07n7In2lpBOZ2IIZFDGhchZepQljOH1MxaHZWkfCyhNEIBiVWzuZC2YqrxlFtrKIv-7uO181ROS2idLpgT49JAhQzWP0aEyWArYWPwqPAQGPPWtfWp0Mn9gY_zu_k62gQRxiJfnFMu-DezB2Z9eM1Hk00rME3TtQLaQ5HlIy3nYMlLF6RqXonmR_brvPCfDR786V-d3O6fXE7i7Z573uQpYdU0ozHUBlqL2Bb5Yqbmd6geGhW_X7h9oyoU2e4dFJ0fWAAEOB0BSKHaPNP7Qcfu09iPWhV4SSTexa-77bCtIBAY89a1-sbHr-FRtvlKkAtb_LABN7DR3OD0_e928nGScM0gF_arV7dI3yheY4Yh6mO0-YSX6HfBDcycQRh1NbPp-csJ02xi48J1O0VJdYQ-LFio-5ldZgqdUYFzEEbOyFLjbAEFRcLLTbCHTYdFtNKYc3UIhxDXAorVmwMOIYekU6HkO3NuFdBqT_v6fPSMi8QxIS3lXL3iR7GcIWnUQkSglyKv83Rl9_StE-LkC3goHTxfS-X6Pa8xa7XPDpSeuEwEBHrjZbTmKKztve8XX40jpfCo0BAY89a1__MkS7got0pfth91SzZg9dW48JYO6yjFQqQO0zIpKsSxfOCCib9RcOG05KT_Wu71gGlAMugHblj2wpDwK5ZEwCjgJqGAZDgyz9fRJISXN1RdPqTlawxr4Ie_H0E8YviIQEyDU1vIFohCyAjcQggaCLg3B4iIYbKUGFQFKPzNTguPB5g0QUTjWi"
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-66e3004f-044a-4236-8376-47d8f60cc995",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is valid."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770306330.365043
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770306356.3559487
+    },
+    {
+      "eval_id": "form_static",
+      "conversation": [
+        {
+          "invocation_id": "e-ed924848-64db-4dcd-a9db-3776adee4c17",
+          "user_content": {
+            "parts": [
+              {
+                "text": "create a form with some static data in it"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the YAML for a `Form` widget pre-filled with static data (using default values). It is configured to submit the data to create a `ConfigMap`.\n\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: Form\nmetadata:\n  name: static-data-form\n  namespace: default\nspec:\n  widgetData:\n    submitActionId: submit-action\n    # Schema defines the form fields and their default (static) values\n    stringSchema: |\n      {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": \"string\",\n            \"title\": \"Name\",\n            \"default\": \"my-static-config\"\n          },\n          \"namespace\": {\n            \"type\": \"string\",\n            \"title\": \"Namespace\",\n            \"default\": \"default\"\n          },\n          \"content\": {\n            \"type\": \"string\",\n            \"title\": \"Content\",\n            \"default\": \"Default static content\"\n          }\n        },\n        \"required\": [\"name\", \"namespace\", \"content\"]\n      }\n    actions:\n      rest:\n        - id: submit-action\n          resourceRefId: configmap-ref\n          type: rest\n          headers:\n            - 'Content-Type: application/json'\n          # Base payload structure\n          payload:\n            apiVersion: v1\n            kind: ConfigMap\n            metadata:\n              name: placeholder\n              namespace: placeholder\n            data:\n              message: placeholder\n          # Map form inputs to payload fields\n          payloadToOverride:\n            - name: metadata.name\n              value: ${ .json.name }\n            - name: metadata.namespace\n              value: ${ .json.namespace }\n            - name: data.message\n              value: ${ .json.content }\n  resourcesRefs:\n    items:\n      - id: configmap-ref\n        apiVersion: v1\n        resource: configmaps\n        verb: POST\n```"
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "invocation_events": [
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-f76eb2e9-5f7b-4277-b2fe-c13608ae631c",
+                        "args": {
+                          "agent_name": "portal_agent"
+                        },
+                        "name": "transfer_to_agent"
+                      },
+                      "thought_signature": "Ci8Bjz1rX6UcNpPeMhYnjGuOQ3uKJSjmb7eLGnX0pqKH9oKb-ApFJuE9AmxQG6n6-Qp8AY89a19FD8UN-fwAbZI5Z_Ee7zGJIj1_m47qJg2rCzshekbAO7Dstoagmgz0ThmC_HTQLRCXFc5FWDCf4equTy3a8Wk3QLaehVRSIU32pbq_GWsT08HNasj0oWLuHb63GIPJlP3XqzlAFk3wfdDlePCve91EZ3bKYz883gp-AY89a1-yDFLr8iSdbzY0kJgFJjOF-GeP5qjYKP1JApDcCb8P5JqCRqp3azxwgkB369gpH1-7bWHeRHh3ptQgXMnYqDsOztJF5TfXrDH-GYU7ofhwfE-K6wXIvcZKJXSL7vBWl8wAZZkTZ2Fv57ARSDlpLbBBVAhr19x1iH5kCoMBAY89a1-3WIocK8YvYaldjCj8By2FvlUGEMV1rmlSQjXlFyPL9TbfnvAHeUrcKdSb6jhfIw0sZva9GUYrm6ba9ywpniAx10_fnUCE9-Xxd7_r9SRBXebr1d580SMHlUtp0Ign1Wv75dFiZtLMWQ_Scrs6Eg802yCTbzDdxhzEbLJkjOE="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-f76eb2e9-5f7b-4277-b2fe-c13608ae631c",
+                        "name": "transfer_to_agent",
+                        "response": {
+                          "result": null
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-4e9daf62-d966-45f5-88da-9603e44826f9",
+                        "args": {
+                          "widgets": [
+                            "Form"
+                          ]
+                        },
+                        "name": "get_widgets"
+                      },
+                      "thought_signature": "CiQBjz1rX4Oe_1sjtexUQAICPzM0evMwqUBAgVDLljsY6ztZAuIKbgGPPWtfp0NEBE8qFzzmH9XpaJh0TIE3BHmJW-9Pkh0GT44l4GKG8jPvTE-66RmrlvugwY16tJJDrDV7FDDQzGmZehgZsjuZDYnkW4kU-2kvGlkVNLXcFtjDtD69-fcMVDfCDQDjfZvk2Rho17ZqCnEBjz1rX1nOalFcstgzouJzSb-qpHg_AYRkJqQAt5b-PQMHK0gixkTTdfc3jX2v-u11CGGyWTu3F1s3EDNIvYpRYmlz79CkTqpbbHsbcrDwl0KWCu2o994HYOpVNxjjZcewUDw8Q_fweRpu0SH0mgeAeAqiAQGPPWtfqxjFTYhix04PlKo55eUWKSWaqa2Hr8TrrRXwGPYzm4yVTf9kLKz8VtVfGISc-n68UMd7EjtB7vrLi8vyYl4bEMS0hkcOXJGneiWV9yiHIob9gFC3mSZzjlASr_XIu6ueOmEMyDAXqN_zuIQPtoajNh55yyY4D5uz54KBomAF795DUnD8GWu3q1ThaUuYcJM-j6rDVWVimddPNICCRAqzAQGPPWtfgqsOtVyyJJK5QtqU3-GgodFhtsRNLgAWikNhvsrKF25qh3Pqz6c5xejiHb141jU-eTn_URk9jdgYS4Vs6LY8BxeZ_QlDfvGpInEmB2d_8me2j1SjH6JGMqhAJnWMjB9q-8rYkX45MhE20RrF2qaJF9mofYOIF5ErQ7Gt9Ko34lQBHuWVZK-x2haJIZSDxYqDx_asTxjx3zMPcRadsgYsf-5QN6MM99j0dM-Toow7CoQCAY89a1_HaKDim_hKlUecLnrw7x_pSka1g-mT_kiPL0lGUlIkixQhA-YZFiPkKkzCc7FJZWaqw1COat0nb_tgF9YpqwyCHkIxrrGWpjai2qrlBN54CxTCpShquzLDoPt4jZ8BsSO_sQPbM157VQTEqRmOTGxQIC9miSsnLGQSyOMROG0mouPIWergqI0W-OTno13OEiPVTEqR1sBw1JjEJWDzgiIoWGjLD_ui5uhKljCpOhj7P6FokVEAuexxtRis7OosxBg2gdta1FjUXZyt13zvlRtubQgtAr3eQHcJGDMikkmLZWipUz_rycsKMXvgrbxhHOGT04_Jm3xLp_Q4MrCMrZ0KhAIBjz1rX8_GnZGkPPqBMfLddlm-xDxAHesix3hgNTV3O0RVnwxdgdxmK4rbQxvIOvZQy5zBjoSMMMMJzFM7VcpqwdKojRi99JelkqdIANYepr-llr1iqTEnfdoCqq5YsWRD_hC5nwP7xH9fpctkYlNLhzeCwWdrpWoPUeOOQ9PABhc34ztjSdUvySc2OBVJeFvA-R16HlUQOFrGosghZyPMTrShEltOo14W9o49eV-H0FUYyl0U84SfVUOLx83Yt8SdNPgqFYgVObA9eRr-T-yCFSKUlD736Nihw4nlYh9xajTsddSvd8bEw0HNZqkE7rvQswGWSWsNznEalDhjjMOtenmlPgrvAQGPPWtfiGH7Uxaa4Bx_ZDcuLqz0Idg6bwR91PE--Qp7IhpNxZvn17dQQ2n3vRNxai9GSRASF9JUy_hQQ_xOE7HPwouneb0R8hb3H0dACvW-mtp7kYlNSGL-HdqWVlBEpVze3XhUppC_OyGZDVdcXl4T0_r-8trAATh0iJD7C3p1ObntKuMP8nzsnK5KMwiZ5oQ3_EspY3FUTpn9tgc-dei8iH8VUzqHlE0k7HTS0ivdV5-R7x4WOhAnFHZ-xRH19JGnMLHonAmCWAKqkcGPZ4e3bYiTL5OfB0rCQq3hk8Gc4s3DXAqa1tyVkKpCD1HkCsICAY89a18fPb-G4wOlf7bCFKvr19Z0Xt08N9DqTCrqx3p4pyaNgyt2IJvO2nimtzzcIYp6tJCGMESZIFRXs5iEOcxLtdpJ8z9BgMiQZ_hkyRwwy4TUFRJN_KbJ7VrB5ahnda1GgBRTTp3DNZiHFexQOLVOsaYlHP89GuZ358hHeGP1sov_3wYBl7EtnM3Y9WVZOFIEgVA4qUZaVSAtgkwiFe7VUfU5WRIBVQY3eiZvi7O6rLl1prhZ3Z7BECSc1_cBIb7pWh0zBwePqJxep__RpdZ6zNBtRmG4rznNWRppywW8gmUutR0foeAT9c2683J2dpQ8k_c2Obcz3iW6fNKovEPk_rloLN82Z9rr-8yaCGGyIkdmW0LP9qjqf8m8GIF87nu_ZmTl3ONxdraUdy9qdgH0AneP5a9WuyuOk4Y6sVTbsAqkAgGPPWtffZTQiy6cI5sp0VDLUAtCfE2CdI2lsIUZDF21XZoN-CxJJDGIyIi3ngk_ck2Dc3shN3IeVw3-sXV10K511NIlQ4SCBcNyqQc_7LLN8SiRju5RmhrUGf8DGP00lmSh3Gw4F37Nn__2kHJZ6hMQdl6tWL86-sFRKdhY3Dj3eRWIdNNxcOjVzDBvqv-ffD1ZqUiODIFJyz2ly6ngZhGxDJZC-OBbBaFNU_H7HC4Bzu6ttZmuP6Au-YMq-BNHyFJRK66dPgUqOmFpoKFgZhpGSvvy3u20TarecoNsfVLAZnvyxL2jaZ_71qcbFFFSzaL-qbq_jfRZ_aCIu2WFsLPtiPgC7v16PYDIhf2toSoH3rWu4Kdwnhuq9e15m3LFiuD3MboKjQIBjz1rX-ci3Ge1P1spskfLhyBPeNXppbnTNSvzbz1r3iUjQ9ChhpraCRhZSKMab7GJU73kJ3G46cWMahYyybFZmN7HkgBUKT0-r-UjWKvAUR61lSKTu8BnokUH_KdHD2AnuxCd6AcMEpUW1H7ZpnzLTHJgck5oCIJuxVEqABgfNGmlrGQJT_jzi8trwOiT0b96J8kNO8Hy1KN5TkPgytd702Rjn_ZAGoCP1vfKvzbVEt7NwQLCaarThlS7CSlK47ZIhLvNG66Iyww8Cta0plTdQw00OujLc_-Qow0jxK2RMBPpVe9598E2a5-drcSXKEx0ZJDvjyVPS9e84RmZwXxsG40Io9er0ncsWOcxcwqOAgGPPWtfuJyVxFvBThN_vcnSH-ssrV83ONKOgKPJtAd6_4UzwIG4UXNhgLEUizNi2fMgxdImjmXl-ILMf6w-phXYheY0A26WweQ356TlxsMcrJBMe8aUTUc1rdXufNzl6BTuJs09LwfiZDFbusDfActezQxdaEOM81bA05mGCAD0Vjsg0liAQWega7sMc1Y2yHdoMdb4PzeUl59CC2v9exBYHIVfZysicCMr7ZZCc99jv45rnMXUp5NPOpLtqp4BCxxtLVzvt69BR8BeHcmKY9Bkm2AsINgZZ-nkV9fMNDQMHc3AkI5ilvW6bRwH9bxrEyQWfMCUfIQbqncwhARMK21scnAHWmuBAL6ehtJVkQ=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-4e9daf62-d966-45f5-88da-9603e44826f9",
+                        "name": "get_widgets",
+                        "response": {
+                          "result": [
+                            "### Form\n\nA classic form that collects user input through fields like text boxes and checkboxes\n\n#### Props\n\n| Property | Required | Description | Type |\n|-|-|-|-|\n| actions | yes | the actions of the widget | object |\n| actions.rest | no | rest api call actions triggered by the widget | array |\n| actions.rest[].payloadKey | no | key used to nest the payload in the request body | string |\n| actions.rest[].headers | yes |  | array |\n| actions.rest[].id | yes | unique identifier for the action | string |\n| actions.rest[].resourceRefId | yes | the identifier of the k8s custom resource that should be represented | string |\n| actions.rest[].requireConfirmation | no | whether user confirmation is required before triggering the action | boolean |\n| actions.rest[].onSuccessNavigateTo | no | url to navigate to after successful execution | string |\n| actions.rest[].errorMessage | no | a message that will be displayed inside a toast in case of error | string |\n| actions.rest[].successMessage | no | a message that will be displayed inside a toast in case of success | string |\n| actions.rest[].onEventNavigateTo | no | conditional navigation triggered by a specific event | object |\n| actions.rest[].onEventNavigateTo.eventReason | yes | identifier of the awaited event reason | string |\n| actions.rest[].onEventNavigateTo.url | yes | url to navigate to when the event is received | string |\n| actions.rest[].onEventNavigateTo.timeout | no | the timeout in seconds to wait for the event | integer |\n| actions.rest[].onEventNavigateTo.reloadRoutes | no |  | boolean |\n| actions.rest[].onEventNavigateTo.loadingMessage | no | message to display while waiting for the event | string |\n| actions.rest[].type | yes | type of action to execute | `rest` |\n| actions.rest[].payload | no | static payload sent with the request | object |\n| actions.rest[].payloadToOverride | no | list of payload fields to override dynamically | array |\n| actions.rest[].payloadToOverride[].name | yes | name of the field to override | string |\n| actions.rest[].payloadToOverride[].value | yes | value to use for overriding the field | string |\n| actions.rest[].loading | no |  | object |\n| actions.rest[].loading.display | yes |  | boolean |\n| actions.navigate | no | client-side navigation actions | array |\n| actions.navigate[].id | yes | unique identifier for the action | string |\n| actions.navigate[].loading | no |  | object |\n| actions.navigate[].loading.display | yes |  | boolean |\n| actions.navigate[].path | no | the identifier of the route to navigate to | string |\n| actions.navigate[].resourceRefId | no | the identifier of the k8s custom resource that should be represented | string |\n| actions.navigate[].requireConfirmation | no | whether user confirmation is required before navigating | boolean |\n| actions.navigate[].type | yes | type of navigation action | `navigate` |\n| actions.openDrawer | no | actions to open side drawer components | array |\n| actions.openDrawer[].id | yes | unique identifier for the drawer action | string |\n| actions.openDrawer[].type | yes | type of drawer action | `openDrawer` |\n| actions.openDrawer[].resourceRefId | yes | the identifier of the k8s custom resource that should be represented | string |\n| actions.openDrawer[].requireConfirmation | no | whether user confirmation is required before opening | boolean |\n| actions.openDrawer[].size | no | drawer size to be displayed | `default` \\| `large` |\n| actions.openDrawer[].title | no | title shown in the drawer header | string |\n| actions.openDrawer[].loading | no |  | object |\n| actions.openDrawer[].loading.display | yes |  | boolean |\n| actions.openModal | no | actions to open modal dialog components | array |\n| actions.openModal[].id | yes | unique identifier for the modal action | string |\n| actions.openModal[].type | yes | type of modal action | `openModal` |\n| actions.openModal[].resourceRefId | yes | the identifier of the k8s custom resource that should be represented | string |\n| actions.openModal[].requireConfirmation | no | whether user confirmation is required before opening | boolean |\n| actions.openModal[].title | no | title shown in the modal header | string |\n| actions.openModal[].loading | no |  | object |\n| actions.openModal[].loading.display | yes |  | boolean |\n| buttonConfig | no | custom labels and icons for form buttons | object |\n| buttonConfig.primary | no | primary button configuration | object |\n| buttonConfig.primary.label | no | text label for primary button | string |\n| buttonConfig.primary.icon | no | icon name for primary button | string |\n| buttonConfig.secondary | no | secondary button configuration | object |\n| buttonConfig.secondary.label | no | text label for secondary button | string |\n| buttonConfig.secondary.icon | no | icon name for secondary button | string |\n| schema | no | the schema of the form as an object | object |\n| stringSchema | no | the schema of the form as a string | string |\n| submitActionId | yes | the id of the action to be called when the form is submitted | string |\n| fieldDescription | no |  | `tooltip` \\| `inline` |\n| autocomplete | no | autocomplete configuration for the form fields | array |\n| autocomplete[].path | yes | the path of the field to apply autocomplete | string |\n| autocomplete[].fetch | yes | remote data source configuration for autocomplete | object |\n| autocomplete[].fetch.url | yes | the URL to fetch autocomplete options from | string |\n| autocomplete[].fetch.verb | yes | HTTP method to use for fetching options | `GET` \\| `POST` |\n| dependencies | no | list of dependencies for the form fields | array |\n| dependencies[].path | yes | the path of the field | string |\n| dependencies[].dependsField | yes |  | object |\n| dependencies[].dependsField.field | no | the field that this field depends on | string |\n| dependencies[].fetch | yes |  | object |\n| dependencies[].fetch.url | yes | the URL to fetch options | string |\n| dependencies[].fetch.verb | yes | HTTP method to use for fetching options | `GET` \\| `POST` |\n| objectFields | no | configuration for object fields in the form | array |\n| objectFields[].path | yes | the path of the object field | string |\n| objectFields[].displayField | yes | the field to display in the objects list | string |\n\nExample:\n```yaml\napiVersion: widgets.templates.krateo.io/v1beta1\nkind: Form\nmetadata:\n  name: nginx-creation-form\n  namespace: krateo-system\nspec:\n  widgetData:\n    submitActionId: nginx-creation-submit-action\n    stringSchema: |\n      {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": \"string\",\n            \"title\": \"Name\"\n          },\n          \"namespace\": {\n            \"type\": \"string\",\n            \"title\": \"Namespace\"\n          },\n          \"serviceType\": {\n            \"type\": \"string\",\n            \"title\": \"Service Type\"\n          },\n          \"imageRepository\": {\n            \"type\": \"string\",\n            \"title\": \"Image Repository\"\n          },\n          \"imageTag\": {\n            \"type\": \"string\",\n            \"title\": \"Image Tag\"\n          }\n        },\n        \"required\": [\"name\", \"namespace\", \"serviceType\", \"imageRepository\", \"imageTag\"]\n      }\n    actions:\n      rest:\n        - id: nginx-creation-submit-action\n          resourceRefId: nginx-composition-resource\n          type: rest\n          headers:\n            - 'Content-Type: application/json'\n          payload:\n            apiVersion: \"composition.krateo.io/v0-1-0\"\n            kind: \"NginxWebServer\"\n          payloadToOverride:\n            - name: metadata.name\n              value: ${ .json.name }\n            - name: metadata.namespace\n              value: ${ .json.namespace }\n            - name: spec.service.type\n              value: ${ .json.serviceType }\n            - name: spec.image.repository\n              value: ${ .json.imageRepository }\n            - name: spec.image.tag\n              value: ${ .json.imageTag }\n  resourcesRefs:\n    items:\n      - id: nginx-composition-resource\n        apiVersion: composition.krateo.io/v0-1-0\n        resource: nginxservers\n        verb: POST\n```\n\n> NOTE: ALWAYS include actions.rest[].headers as shown in the example above. i.e., ALWAYS add \n```\nheaders:  \n- 'Content-Type: application/json'\n```\n> NOTE: in the `value` of the `payloadToOverride` ALWAYS access variables using `${ .json.x.y.z }`.\n  Example: \n  - if the variable is named `name`, use `${ .json.name }`.\n  - if the variable is named `metadata.namespace`, use `${ .json.metadata.namespace }`. \n\n> NOTE: The Form creates the resource, NEVER use a restaction with a Form!\n\n> NOTE: The form DOES NOT have a `widgetData.title` field, DO NOT include it.\n\n> NOTE: when creating forms for compositions, it is important to get the apiversion right. Example composition.krateo.io/v0-1-0\n"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-4dbb0f71-04b6-4d28-9250-0a604611634e",
+                        "args": {
+                          "yaml_content": "apiVersion: widgets.templates.krateo.io/v1beta1\nkind: Form\nmetadata:\n  name: static-data-form\n  namespace: default\nspec:\n  widgetData:\n    submitActionId: submit-action\n    stringSchema: |\n      {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": \"string\",\n            \"title\": \"Name\",\n            \"default\": \"my-static-config\"\n          },\n          \"namespace\": {\n            \"type\": \"string\",\n            \"title\": \"Namespace\",\n            \"default\": \"default\"\n          },\n          \"content\": {\n            \"type\": \"string\",\n            \"title\": \"Content\",\n            \"default\": \"Default static content\"\n          }\n        },\n        \"required\": [\"name\", \"namespace\", \"content\"]\n      }\n    actions:\n      rest:\n        - id: submit-action\n          resourceRefId: configmap-ref\n          type: rest\n          headers:\n            - 'Content-Type: application/json'\n          payload:\n            apiVersion: v1\n            kind: ConfigMap\n            metadata:\n              name: placeholder\n              namespace: placeholder\n            data:\n              message: placeholder\n          payloadToOverride:\n            - name: metadata.name\n              value: ${ .json.name }\n            - name: metadata.namespace\n              value: ${ .json.namespace }\n            - name: data.message\n              value: ${ .json.content }\n  resourcesRefs:\n    items:\n      - id: configmap-ref\n        apiVersion: v1\n        resource: configmaps\n        verb: POST\n"
+                        },
+                        "name": "validate_yaml"
+                      },
+                      "thought_signature": "CiQBjz1rX4etwE36LAxJpgS2INgQ5iZXD2Ow0MOuUJnal2fFn5cKagGPPWtf7pU4STghZ_aGm84FLw2Z8Yqs6Y57dMn8zBKsPR8VxIOzutdLSJMcv007ORn6PDWh9Pxw2na7iGRndpFP_9Yoaxrd1O7ZLvtGTITbVyPeMGEUOrfxegB8vewjnROeN8nOsXujIggKZQGPPWtfXPvvC-1SmIRsmOkF30XyKZEBl7DRayYFKhrl4aV7siwSrdwBx8RFQvz9xPO8KtpDBXQMJtqYzFXzrhLBn___i9-LqudPwZjHDe7FfSIdXeS6Z_uEIm4LcB6YIuqwkCR4CpsBAY89a19NFSUVNNzookoBP5gFjOmnY4tFc7PxbH9ERkNYilVH4JiKwDTfHEbimYMQYdKi1JMZxmYrWAUgOKM4fUS2eVyn4A-SQfsSTIoLLvXd4m0yHi1a2VYtuN6jowLgad_CULslgYUGNr6q7Ivzl6Aqht8BNOiYQvs9CbeRg_R2pOt-EM9bY9XGbhxzcYgFCZ8QvV8xgbAFesQKmQEBjz1rXxiB-Y-KmJfaIMLlrQRaIS5_v-xAfpt5ZHWFnzW83nGRDF7ruRN1ZpfhPNeCriTn4l4_mlPwILXG8Xwsh4csjOtNqKEUeD0NuPJkJ7I7leTGgdrLFPFllAd_Ahho-fkv5vS1k4WWG2p4IV72-5W_-y5LzCAi25QPJp3kDXtZJmaqmjntcxtuFXl4DcO9DeZTKYnZdWEK-QEBjz1rXzrom1LaQj6xdia4pURS5yaTv4g3iRE4RYFlwe9uSugnTf57XDpvkjlcddtH7WyarGTwG2X9st0eWyBKFOcydj-ZGkEFFTgvdWxlkPJA6n1iER8w8z2RTkljNXWvVBvSl7EcVbLSG8H-5l8DJB8ZFSfoqsP4pzJPvObSXl6sr6yMU-8Y9HSk2Qhg3pnRNT0Ra9HkhytoqH8o57zYaDVWhm7D4xXR8HLTyM13jPzF-9iSmmrRWgTALUCyoS8q6a-1WqH3iwOVyc7t6V0YyIjyFpScUVcT5HUmTEFb_S626qRfOLsWDuRsHscR0Jt_w3T2Y11MbeUK-AEBjz1rX1nN_ead_vWvl-AgB5kbxDV540rikZMCjz9T6ZWYrA8ZVJ7tb9D0udMC9ZI7t5NxYc457y-vG9eZ3G3mCwFs0sHZNQreo7QwOyomKUTitNQsDoY7ud0ikhj_Kng2CGzIvsyZuQtHhKmjjnjyuHrycURBCS3VAbsQArU-SLDI6x9XlL7chVzrV9eLkWvdlJSW9N0fbKJJvJMPjHpfeAbqcMjwKe9pAqMQTkZh4HYsrfCgklNTcDeGIf1grusm7pzB78S-4o-jrehYTFy9qXWjx--cRgoff1hTDkYB5Za7GWkvKU2NE_KA2LoUdZLxj3mpWtrG3gq7AgGPPWtf0FoAZDhBbYjCetoxhAF7h4dTQg8zFJhDJjw9iiAdti6d1efR4p1k4CWC073fBj3Nj7ZO_jizSM_hRWN4_o4HSWgVF0JjIlc3NNDGwPh7FI-4uZCrfP74uVTsVioba9LzaD_J4rmyF1lNr3jCxB_X-Ry-Cmt7VDHNGLUDHWTPWi407rRsqWb1bwWVno_p7a3dA9JZ9WgENTjZ4fwKbzuFk5pObEQF7WOF7mNaMY-EHqbtmGwAGfsZ-1iZFYV_P5W5fJasSHB3b3MJUKARuaDVLXnMezLyTFyjy_fn1HC1w69iaukZP7V56jdx5cMXh3Kd7GJLajIdFvBNDde4KGjpqaf_SfTHiejoxH-uqW-D8EfZQL1wR738yBhNte8N56MDBCuIxWlDjZIBN6DbAtVuzaIKsI-9ywr8AQGPPWtf8mfUYD6b51Ho1cKvRa5r-eRM0dn3JazOHparvuh7L4z7gPQ_Vhatk6ZXHA56UIOdnyX0hfa3WUT8YWgMqB1a4F6FqtHMJfxeMuh2QwdLeFg4ip8CA0-DUxYw54HbjgdxGZJsTLHZaDp3c0cP4gfjbN_pZTEkZbGBUzj85muFiS1ZEH7wrvYfsZ9cKKVjCEwbRkyN-nV9tD_T6PoMbhXaT3cuSmoGYJD9qoTleh6O02qnOKY46Mq-yc7OfDd9NOTFRX5QuK7JPCnluJlayODnqzAOdclO8fPPV4H0ZOZtJsFa-wRL5ScNrcgUXI75TNUrcr1jIcjwaAqUAgGPPWtf9fgsouoLVQJKG__ueAMpdaNLYGYO5A_UG22nGpjWGydew8sy4wOqWh2EGguqfz58YrsOWsls_y9ea18mEHFV28q9R9oO_QletdSt5slXep29Arn1oLUNxBWCEy8gDYCep3SjSHFeg5QPOtew-RTlVAM2Q14RpPdL9TKkHonBVjRRWwIlbk-_YurvHbjwCb4tNaFRt8fWoa-hzWsbrlSd4ikoGqgkG7SVKDspy-gKFArPFbtr50xlAghOJv5ILADdAC6qNKg8xpxD-1j5sK4zxhHvCYVrhfgZ_nU8dYeJZLhFu-h1sZpGkIGC_yj0yKxlgCKYmf4bSEQMpWXaw-FlqQ1cqmIY8g-kXR5R9HcwAwr4AQGPPWtffwaV9JAk-xGjVm6ePG2szswP-P0PNxigg96Ct7UHn1dqJbbKQAEWERWDNwyAyW0p4NAamM6cmd77IBQKK0Ehl8Dc54aUagnZ3VMhnt5oUHMl8bPtMSLPdMtcQYSlpDC3PFKt-TBZE4Et3OykaW3ignKaHbpx-zN_x7Z_dAEm4MXHwn32Tsijy3_pbmz4S-n3dS4rFKsh6rpRdXdlMNPk-Or2SS5xN4dvfLlPNFmYzCxMS_-6kRGlBZSiIPZOjhBMaQTo1ZQPH7NhqZ2pmKnEp51szAd_4Ob_QB-OrvH-2_7J47II0FSyKnm2d2YasMgzMRNyCoUCAY89a1_qWWeGgFoJ6ElaFTfifN8sP0ywoUFLxzeMv6PuwMhX039wZfdlnn69s2o6lQFFgvkWgp-m4WL_p6GUNVMNt8D-3bhIlf_rcKDUhEhJzo4iE0zu-wE2vLdUPCbLcZULmF7G7hRQ6ZNKwazTc6n0LrApRhHtBxdSKKmAD0WVC5685e9Ywu7Cj1K6I4XcHabt3_V7gcBeIjhd69lxl1QCC1-FmWQ2Se1BMAhqskzJ3TdTFwZ48OSr3-kw9IuaYL_6AGknDESnfdoEYhcU6AlD9_Cc1B913LerzE7PC54X1XuymBSbbOkwO74_CltUeS5JcDls-ZeCcfzVOxr_GKp5vfTmCqQCAY89a1_HoNGD87fARqlVJgqtL9Q_GV1BnYg_NM1aSRg7oXk8JXDe8CKeHb5nObzo7rF7hN6WZYcUMWQsfW7xjgaWdMWrh2R1ykhnoYz0ONmHIQWpbEyrGxfDEUKgt5WTW2PthTPPvkiRm241Q3Ki9Ka9xZcWyP5VqyDBJxy0Rwr-FrwJRZDZ9fFSjcQLcHOlBHmhjlbnReojUwaVH3yvHFgWTAmyFQzUfypijnGhefYWM1EWHf8fCSKz6ArgTlvWLumSlJ_d2J9H_xyKNcOtrtuMH336vLBC5QmJUruzyht2XuBmbauKy-2TDp2icLSKBOODMGhYgm6SJULl8LS4CyFPYJS1Hkie5WZ2gwNMA3dFOTUT8enQkiPWdO2pwZc7GNGPSArgAQGPPWtfJ6_mQuMPFrVribmcbN6Mn1deAE8Z_Rk18csaM0b69GyqQNLBnZOmt_bWi4KlmL1KJ41CjziT_Ol6FBwaXJhjKzmalLNxl9_kp_lKP0yHTR-JEgv03i_qEwpX0KJ0Zjmlfns7LZHgy8WqdhpcCP0WjUK4WEBc8mvhl5wdqnzmIyxyU-JD5Ko9Um8xNLFrR66e_8Je6f2CNVsZXHMv-RKLDIILJj64qNge3H1PEhKaGnU1ygv6w3tyW1uXCXpZGcniaFR6-nFR2bFFbDWm22wvKC2tCDfCzXgiT-5-CpACAY89a1-eswLWuIpPIRpLZTaVXNgifvvNvPvWmcyV35GfoV5zosVhcPyN5qCXNIcxd2n6l-sru_sH6AMKTs3qeFN9eFpGqPtAVwGSQ9DL7n70F0BUCFiskSKfO3AMxVgW6T9Eejdfmb1A6M2pgcsaspWka253jiOOYCJIBq3jib4o0znql4FQnNQlNmjOFgKSIFUKPHo2k1azZt85w_sqmMY0zmpZIuNmClNmu3nmJe93q4WuRqxl5mdtW59fNgsMSFkLogMWzp5y0l0NyM3hlK4I_o38J4TcUrLGSnJnNmdMu_e2dh3pXMBBW1rKLsVK4W-kys38WZq4CDbxITAiP83QAyJ1Nu89V5F1415eU3IKlwIBjz1rX2VWvFxaSAgY31IgP6q4Y8-7E4VCgWMlJ8QGAHrUM3vWbif7o8ixLroJKlIkR1PPcpUSVHdAftDTPKMn709viIPN65zNIkZklt7BoKjPA9Dl4CGJE2QO6DPpTyKWhc_auasMicX4zUhJubIe3PhHrmtF6piGtlkyc5EnKYAnxYkxSYp7TzE97RLrEqR-oTdhXOYG9vqGABBJVU4prPFH_IY1oMiNh1tMWnPpdhu4x2q916jSelmTHhksHO21mmUMHWczxg0SGmhomQfq7TFKwzuATVAzYNqdmQwTBCj4Ck5IGj873wYdwgEnRtmxr-6Re3dFYWEQyn3VCJPdMbHSUMO0PuJ6uCKFmC7tSwEsAnChUcQKhgIBjz1rX7sKIFiG3RE1TCyaEwTjOvto1cngDNRV-5W6NdT4y-SWW6q1TEETqfh2TzbVrcfYSVgtU4twmnkf2EkoqWfWHRw3Rm1B11PVHoRRah4HlkRiuaHI8qsHGJweLdmlj4B1kaR2up0p36XHBmBH160se6J8bw36qIQVPQCYr90GS8m8MFp6hgKYfO7x1w169NlQe8qY3xnZ6dUuCVWt2ijzS12TuRdbP_Nh8Dtat2H93KkDD96l6qi94Lzf-9Lc8XciTutIbP-6q8zOk20cb2ZfYAtnYc0EU6GMXxIvWS-P4QMxMHjceso6Fhu7lyatevh5hjeU4pyHUoamBFKbLH6QhczKCscCAY89a1_5Ci6nPDNVelZFya1JpsNcb7am1hmJyAAM8R1-KtIV8M350KuWNoCppBIX1OG6EQSM48QPveSRpuU9ddlyxbT4_HqNriclvTM7eJteqVDPECCAy-_hY3VV7IXRl0Bw449SsGlFV6Ta-MjdtJPGfJTs3MKsnjLjSVYwaw6hJY0T2gzlwKnP96jpex2PkgL1FEmV5NzrDK3aCuY4JZrsuJttq9bl25YGkWIedYEW8b787El9HOZrIWB9TivOynAQFltvYKav6y5bvnFmgMV72MeVuvOrx246d8xW5BzNHMzPy__15WOQBEQxfGZ7dEQromYAvDIvnhugG0170wwypA579Q2Cei783v4I4LfoQacHLWb0b5yqBqdM0wZToahi0UMepdHnUSvaK1Vgg73RC0829uGdAifXLyoMzyypuy9T_0_VCpwCAY89a19OlDi-q8Y7u5vYBFVpt_y0ha0tF9_FN-8gd7IqPeye7QEe8POQP-UoGAUXPQzHUWPllkqLSdzeOV0Gz97gOwsjhnFJkvMbahZw99av2TZNoZnvzTvP4gp10rg4w3qBZcXryy2pWdHwDjf3KCKnm1mvnbMerbdXLW-pObClXgdhDe1-wtLoCAWxvMJ4xH646hKsQhnu3Ccp5YnqjtCRL1W6PJjuyGK2LomEM2xUHyqYO-ctp7Q-FVahyLoVq9RYjbTtODFwMgp6mw23b933Za_gZLZb7MAOlhp60kKMvm10wqxcgJDLaBsrj3yDXIZCeAxbIVJ4_4xym-vCFvfxL1_Il-BX42vxPLjxPqDsAHPQCuhMEGXs8YAKiwIBjz1rX5RTDhatc-bW5ubU0TuD1Ub6Gn9UlHKQVOK7Y9ioI2Hs_38g8SXmsbWWaGGVzxJwIucLvJK4Y6oam-syjFkNZog4v8HQiPICn2FNVvq3gsRYTRbPmRr62C9BhmuGxqiFEZU1jjuAaoVFpLVPI_uw2nltGFUjtKkCbGT-zkLprouDfW_mtzDUO3DaJ914IQy9_8oLDgfLNVI0ImAh-rbeqFkQ3oscICIdYwgUI5zJdXZ_Q38-otYlbvAV_nRDvheOT-NQJlstolFgn2TNSO5lyyQi4dEbAN4sSRa_PA0GROVplsE10SYshK1xCd4jRiyZEgFs1BwFGS6iwLLvvNPorDjOPCKogxMKvwIBjz1rX_ulFpqH4YlRcUs8J8uxP_XxGV87bUUeULC_NDAYUb8MEmwghnFaznKm9uD34FlJ_bFhYPOSCVdTrO5r2M6TdtTvYBcVdE6qq-1tj0wiD4iHGkKVt2LZy2uEtioqax7xNshgnTLbKg9G4_Z5b9V3nduEN0TUtqqXooLvbj2ZBT91wATNcGj9GineoFExDSU_rXnFdlPSTo3GRJoHHkNuwhvCVpq6p2mSImRDyzxwpHbLprylosUlna62y0OBn-axvuqtV8eta_dwQejuol9Kla2m1-mS7g14PvD44s5FbvG7dtBVl4QELVGRs_wkF7JK1u3RjzU3qq3I2cp6bsIpUKCEyTbzkQwixi2-7E3XEXULK-f1C0x_LYZeGEQ75VtOkLn3OAMZ477IwOHE6UPESvfkkkRax1G-SmIXCqsCAY89a1_MEPrwrGbNdBh1vZIRxOMAWyTr9HWgo-1f3IMO52CEiejKAUxAzje3nqSRu-UpuuH-feoA0A5GGnUgRavm2iNaSlv3Qxao3T_nOakVhk9RkJihC8f36aY7kYIbpXILqmhX6woWL8ySTqggHqvlvuN3VRpeWU-FRdGUAnJyLsSmlk4xL1hCtOXuAwUiHOYNE1cp1pStKeCr4hbQZL-1jK1ZB20vOHbqfq3CiYR1NNf0-ICnX-Pf8IWuABYcrs7mAvgO4y9YtuJBPhAQoisFqLgCrBhPge2LO5-AwhWEtRDjlIqjhqj2u8zxQgQRKCUVSPgE-47_2J30Lhg7GN8W_kximOvsba5R1_AZmVwGT09lvV5_7-PcCP0Ykh1J76UWj2j6M8atkS0KlwIBjz1rXxNvbQaDZptGOUeQnXY5zfW85LwZ4pUIlNTNvIceRSnLGIa8-7-NPI1KxTw06qL4grgUel7MQpjd-r4KbrWWAtjRq8t_5yxs7Vh0DredRJv3TnUMVTnCkxnZBGvYmbpNir78BIAtgR-kE1P9o4qIvtT-cidse-gVWn1Hkyhj1hUbwXiVq-3Cee0_xc1h4TjRCQcEcTr6CKymVrlS-te4mt4vxBed252f2z-Z57TaHwJ_xxRI8XY_ftOGdmxm-isSS90nbOaH8zEYpvmg0cpQmtOCByn5YULDN8XWFSeFcD-u0F3CNJY7YVFFtisyPg4uPSK2QTfoqCTS9Ng2BRMMexzv6PCSX9tbxWfJRwQKVPV_wzUK5AEBjz1rX0bseNGTH1WgZJjs-d2e5X3AgqtU0CF955wZBG8e1hzmoixdRoubNz1Xn8MbGR-qhUnVfFUb-nCii2qeXd13ji_tASXgKh8KubK9TKGN6f6aiasBO6XqNqwNdSoID2eCcwzC_tS06RXKdH65XD3ep78WO6z9NtQv9G9sr3icKSuM33wo0DVpihp2KBrboQkGNm6V4brbBv56mh-bAML8JBrXMsySsaC1ERWe70lPN-U0_qr3GkQ-bHrfP7p9QVhPi0x1c4OVdRV7vzsoYwFBG5XVEs62PN3cmnuDmp0rYSUK5AEBjz1rX_UeBXr3JhIPPJFfqUTL8Wosu2n9nXugkRrYcNuynjwdeOTzmqDMKgJIU_MvIsY7JkIPChRVour4HdZ_UavNuW46aetSRsxesztmMwnfZP2cIoEwFGHn8pr-a1x1qxY-5cYPkzXwNGL2Xr0PEb--5lUb4P6fIHqSrMWmfV5sBiStqnGSGcrrdUuakL_Q65rZF3rjmHbvBcEZbuDkCqMM19ZR8x-2PX8GTZWUxw3MHSXvOSz6HEvoc_5h1btuN7tGXqo2Ah_EfPtdZ-xNpRYyLavNgdkM_CVLYPjit9aeKVYK7QEBjz1rXxGlME1frKS2L4GUH9oKebvawwNmBrtdNM4wNj0iFzaC7gF467j2XO1zydtpAPs7bNr2S5DfOZ-1EkdyQ3NI5_CRX4uTjP0ddsvvf9ZuNP_7bdJwL_tOjyhl_xuajvGt0Pvc36bloItMAF6cyLox9UW9cF-kLY6NM3Boxt2R7bJERvwfXqlTfDvsJQrMhKUwsFU5XEthvN2Cp8OJjgCfnPOALXP1Q6EqyZHfiRAowctpHVm8uzFVfl8JplwU1RZs6rCAycw345lhPysJ5CX8dNlyOARoiJXebkgXpCFAMLaDPofZP_xZV4QKoQIBjz1rX1TwQHdDrp9HjQaq_llAWceDT2A-JRhDkwK0r_E4tpyZXj8O8FjTH1J_UgVruiClsISw12itihWVQTdK6rCFWTpx0OJVrEySyeAXqIePedV6mZXzLoGq-k2gLRss4x2SaHClJXMILAaZT74TBhTG2mygSvANX39JacNig3Y8cHUFYoUqqezaPKFX_h_1oN8TzhT4z1--4I-0CsNsHfXjnm5ykQ55KD3DQFn5sBarT6B7MF5TSdxPIYjWDAN8vd0jfetSzV-du2GgR_wSz4jhvbDf4-c2WrpGRhogA-XrBEl9X8zyNES8tCz0PGpMPfi4-QkzOky6yXGv6pyCie3pFwPT30Jc4grAE1zjoI703LaDM5AGAQR8J7MHFSi4CpsCAY89a1_eeFP6MWvIPA-HNU6xazh-AHguKk7b686Kr1cvXRk0wemMLPAmSsXtaGFRC1r2EldeOKM0xLLnlMQy3URUmOlOaapYqHjPstV4QC8Yg2IB17dSp8HlYcZGiafeGkOOt0cKSFv1QleI9xA15Dfl1XZ14KtYUOIYd_Io-UCjXgK24sRzTb40oGhFFnACgxIZngihWniaA8Twuy0AkMi-SlGguwjWr6rwU8EeQrqmbf_uApkjse8iC60VvBUChI1ReW-BEEEgn0GGmTRu4gCcUnoYyCAyrhd0qOG-ILtX7ALR2d2o6qSrWba6M22EfP0LmxZs1NlRalYQFJeWlTAkDg2ceJsueqpBqIHz7LcokXR_ef4CaEzxuQq6AgGPPWtfQHQr3uahv693FUjsd9RU654WglcVZVYiISv5_qm9g0zXQ579hXlpsZxMgs7f3qQGrXZDwui4Jwcy1xbA1WqEB55pwcJVYEXRJI1S-eCcctCo9qsj4gaDgqjBsW3l0-qilPeGpzyaSfVYN7vK9eKRbjqJeG-xqQVBdshI60VXVTBUD8LcwpNWs29owKyQgsL3LFNpOIQNRHnvIescpU8438ZND1T1xU-FSyyNNL4z8x_lXtAqLJ9y8LYB6WHp26h_1cUqgReEYdYuJJT-QzN2sUKsCbnZ40mKEoldhZxX5-9A_JJ19OsP85DwC2SANPwYkfYpwPx7oWFluYpVKzCNpIN8gQClay73u9HU6Ej72Aj5OIXT4U-2eY4ZkqMhP4rPqqnOme3qx5ZlGqnIxwBOLCZAFvkvCqwCAY89a1-2__baXjkOIh8iswqtQwKi4nbbSNULZnYfB20okYg2BPoSS6KFnpqsW0Xkr2mtRw8-QeloERCVaagBTOg6mTBfMmamZRgeKlmGMqaaGmNyL70YTt4yW-miQB-J2fgDnCXq5ISMZvL4xOfCBbZGkWy0a2zGSlpBjEg3gUOJBzsYs_1Guu5MPHt2d7KsFadfQJArCO_HOpRwqIoS8Z_GpktnXrWisqq6-pkqQEJ_0Ffbz56c1KW6Vc5FQuXMgi29yg0ZMnd2Y2i6ULL-dioowasvJpuNigs5HBI3qIZdHW6n_bgc9s0ydzIB584Y9_77kGaiJwyO2iOgFm6a7phM4YkQFjL3d3LO_iGO8LxsZy1YgjxrUfZiZ9aF6J7BXQuGeqAsMPFFkoKpCpQCAY89a180mjxSF9sOUftMzeJpNPqH_LSaTORXm5vpMcPYpFAwO09eHBfNGM4iN1-PPEp7_DkwLJb-nrRQEN8diGb5n6_v_fp-l158aaOPvIerw6kiq93WpnAVlsp7QMoq8f9vYUQZCWZdqU1GMrBN8HI0ERYSUD5pHD5LXDZSJVNBtefkc0q2Vo6kyO9nGC4CQ1JnwJESzwE9aIN9L5T_NzSBJbDVEe1-s5VCSqwzqhUqCeKAMZBLjsrpWIqYb6zt0Kl-v_eL0o-w4_-ubUAl28Ko-cotU-T3P7sHzB0jzLj7qbLniWUR99JoFVaTys6zR-kyFq-fB5lbgdgrFjexQamUDJVEX5nQsxFGfFkue1I-M-8JCp0CAY89a19wrVEj77QAMnSmg_WNyy6pYAz0aeBpftyFuUgMsTuXuCQ6_kEOwgOHxgIXk43Eraw2N47KeOptNobNhwVN2dH_envmS9KtmQ7K9PJR2uu5Ezx-6JYYyHbMVclZu7dGAMhD8PfNsDTrSoLm0jpraSWH7HdznDAQZ37_ih5Z7MtMGSD58m3oGhtwUFZr97zHaoiFbxwpb5kOSG2WCim2t5Yju2Xvj99Ik7bAL51zrEsTLpyQ8j9I_VFnIkBxdW4MBiX6B3TXO1vTBJ0w2LVzl3gU1ByU7PNYp5OAz8tlzsB5gEgy6zmzGgCxll-HeqomTXrgO9Zaad-fC79Gv8QrNcgxnlM8TfnNR-9E9DA5VXmoHKvQTOCEHmxGCqACAY89a19UGVwr7VVWOTJ5w1G2EdPRkSDCVSxHSwA-XQTM-Xi1TlbH05Sak7gy_nTpD_gtO4ZkN1jKaEj5r1etl2B-siG-CzCIvdTQXCLXW5eXx9BkAE68DmKheaDKN3-vwD2DtqXwXn8LyuXUaQ6vDkhiblYFXjOQL_L1wu0U0ph4v-9DEhgj-4hfuVOUFkJXnDp4edi3L2xtSv9IXWdo_LdQwYfBE9qN1tFamUST7vmFKyS1zbbwUY0LYqr6XOtXhiM6TVQ20_CVFl4geXpEwMrIL3oSbNeuGI4YlHxDWLRVw1_0Jrd82lwYI8F3TpNydOhCdhp2TlsgvTuqdDDercAs75Bvpom2PgNT2TwmLjQbp4yvkPBjyYhtnwAEguGxCqACAY89a1-3w-5TwXkost1C-Lo227WK_rkSue-Rbfd52mIlMTmx76CD4ntZD8fFHhk68o2GbEmCc50g6y7bdoEVwnZ1FHUZHjKwLg0rli5CG9LHwItMq46sfjxB6CfXDyR8EEqlkN7ivZ1HmhZFJxLhNaOl2K5vusnbUK2Otm0DkJIUMPP_jf1ITIseJsTIOJyfPMMHFoqsD7AKv-zHAdqsQ5lTJ1TRVXtHv4UC6OTOlPc5kiqSTeuyWIpgjgd3-su3ICDyTo1uQbYMKXVO5Y0vSg4bJYXiO2_yZc4AU73Dxxfi-jyAtzqULd_k7-FytgDAsjWxXZFM4CXxms4uEGppldZ-v2Eop0mSY6J27IegHLlYQH1mWd3jd1zQa07mXDGjCv4BAY89a18f05z1q1hZCT5eX5Gy91ehvCl9fAgqoigoJ9-ZEauHcVEhwhRgLZ478PsWVJB15E3suBsdKp5D_2hBhMPICjBCXDwPeDMYlcMTbEPCqiH3BS2Foea_iDecGRqb8tUVGhGqb5D7AgiwwaHhFvYlZdwgiT_3C8UcjRj380bkcPj5p1EKp26O9qGg1V6x6NRzKA51z0sY_Qr9wGXgqnTCSk_r0Yuron4jITVK0DxJlR_GDvb-C-i6K9cwGrMv-ilqMwHwR62vNIlIF2sz2rjl7lr435FHqLz4zXD-DPuHk4rGLNf3fhWe_KJZ_R-0ErZGWqKd3fG_-4c2qGgK-AEBjz1rX8n1tlleUJrcCsILo2VLtRARogr0RN1535dmDBRP1hxnDGHPV8EF6UVWHYCBojeFOaKqJ5vAMcq2rRWItlW_-gFRNcpVVtbQM2HhK5u_zKpl5Oe0ePKsyEAxmb7LCDZWxfMRDeTEmpEpNofXGwYuYhOIiRpAzk7_xEiMq38Hq0OkxbHY0P6U4bjL-XIOU8zXwDcxa44MxJGiR_okTrE7L5av4LrnvgBUNS3sa8I8YuFzWcAJSNLcbzjDhul22B3Xgmes10qJhnICFknP0PEPt1WnUqZOP0IYQW7IMQtCKDVY68e9O3sOd_wy8cnfPtnJjewuOgrxAQGPPWtfSgeiQbVTL25QPhmNtQsfQ9OShiranPgnI7aTn-4qKDRejtj8eC5jXSrVPcL51Vm0m41mEQ0ZBc97RWmpQM37z6Ya3v-nzlwDS12JdkS8s62610ZX8bcgexjUC3ZF0X_gu4HzZ7CsjQXBtGRwPss2ENmopc0cBjEECCp_uH-BB4UrZG3h8c64OAYCAwQ7REZ6bTmLLZT03PZYEj1pgaDcy5YKpL5NGSBDB0KmWB9SW7V4qvUCuKWkCgmP89HcnSbgUcn2sy9xW4v7kcpHB7O37QGZptKBukqzr1sK5L2itOvr2opCEfQ1nxvaQ6AKgQIBjz1rXxmJsyL6kZDlFvyRFb9oEbSdfr536SYsm7FFgbk0iib9cP9AJ-uph75fpF0kBd_lkkCP2JJ_Qcp3vhUO6ZT2tpSW3gJy0cbj6rReoZfr1nvP4phfGS5xLWCF3KDEWdZOCoko_a361zxdRTEU7d-AlT3sPmfHNvXkFSEGtdsRBjDhRpQ4rfNzsFmhkUnyHOPLXV3DFkaNFGSlw-JnqB7MmI03qXRqGtTzFBGReKLmbImwmUMTnkHhArRuPT5EbhB8R0ZFiXHW_KUB0gXwKVvGAPIiwBIuwAArJ4waFHXOQHQj6qjsXj6WQQ77GeI9FeV8Uf9qcd2nSMzvY_2oLwqbAgGPPWtfqYoj260vUKkvdxJU08c-_tCXb6y3QeFh1ajE6rEMizkKfdotOsz2TZffmECqTI99BmIUy1YpzWWQQbT5z6mdM1HuvVYxfqxWBxm_98Fl_Wx5vH0UL_WCq5XqfplqDPISCf2NA-wuVy7uDGxZXeaox78pkVebwcaBfouQwYaOARMvhjlxg1yfaL4xVr8M7RVUVegAHPo_dZIu9LHj4lUtUsrzQLMCWK6NpBQruzsVdVUWgzlsxzJaSjZShoG1e12FS3Dw-o7eiOO__E7rnvMpvlvlXv-71S7ndYWLz8klk-rYdFWX1-oZGWtbQCdRJoDbKDE63Q9fWE7LkMY6wLI4OnSlxH2I12b0C6fgZ83drHaYOREv_A0KoQIBjz1rX8dLAQq_Bcypajj2f5To7A5oio8OH1QExUsI848uX2NZ3mvxvhgWmqT4M-jHePq7reGPZpV52cqmJC1TlKvW4zvtDKOl3Rc1YB4KCQRjFQmJCxiJ5J78uG57_-knc48pnPG2md6R88Bu07jVS2eXcywAKyABXoWik5KCOaI0isSucqltabywYZt4k9UViXgi2UGRlBk3062c4oa7EHbkWe7z1HVwKJ7fzImXlieuEJm3lq6yWGLeJ-i2pOyzGZSeJSAWKAWYg1vPXfKwwfiQqtuPynRDfVWEtUKxvNeZv95QeEinq7K7JZ-x6M7FbhueNr12uI_K6oNoeIsuM_U3CU3L4YEGhKyhMi-6D2iC1ozzhXOTDuR1IoVAG07OCu0CAY89a1_lh9czweSQFrSPVrk7xhOdOhFjUu4PeFHrbyh8YWxHEeEOQTlQW9kHjxqjNa8GDg0zYlhCosD62f-9kKmsWIYEXQWrfCW7fuhCVkjj5QgxOWY78gEOdx-B1iHDLD8Z47Sjiom21XKzKhJ4SM7nsMUbI3VyhwBhNGdDdSy_pjjRNowsuApUcowNEjGSm664hJ8VbWwUorBY9emvST3l-El3kArufB-6R8a9H33dHez-U3nPTQflp5nnr60f2qWQfp7nTSLbkJkay5ecRCwnQPcE1zjSSSHMqB71lamKOcaP3QKEyd0K6zvRpVw4_DcSD9W64TG18OEAvSXyRbx7B_gW5Ep0_RLZXvbPXDIX_fUHpRvislcbVbDjy39sDDKaqXzlyNX0wxEs7Et9juy4UNhwrmc4G0ztl41PTPJLvjNJI5UWBa3m_jOO4FSU5ti_dju4DIgskpAvG5vXupSRnB68GqGeW9msfp8KlwIBjz1rX6lvzQ5TyZ5RWFmhdjsS5tjijl4pfNj_TxzCmrocug840Yg7LU7Pvjm2QfEuT3biGVc2y69K11XBOkQ0xdP7dYHpCieoXNeoQXyqGWPcy-Fw7GqSFKLFwLmd3czZE8A_fejsJ8_P82vj9yZHPB0nu94wCxMfpvED30lnia8toi5Q3dfEdG41eeFiSlvDdI6rZJ2tAcd0Xkhv8QkiKghdLQXjcMnS5MCi78C6fO9s08nGJ4_Cx18D0Alm5iIO2NkHuuv9z3q9uffMHqObj743bwSSRrcdOLg-HoeSLYCe7qO4dPHEufZ2g13eMZxprC6p4oj4TKQNQOvvv0gn3dA8lwtCQRp_nr4P-Pxf-f_kMk8hkpwKkgIBjz1rXyB20SAzN4gDMGj3v1Jp5e2NLo9oVkLNInnTp9Qp2o0sGzqcXeaHokMi77L0e7vVzpQB7sYamcI3Thb1xNS5-ZVQzxxu62BXhKyT468QbD3Hrzc6LY6gg2iJiH3jED2GSK9dzvVDl6s5QDxVJvy79U2bwOJHlyc-oC_u3ZsCAIELyRXOniuZzRgArqAp_GVRMnIXUOW7Cx7Hy3aiyXFydyyhbQ_zT62r15D7gyLwvJ3lRkOFtAR21CspmpVyEAS13l8j8-86e4wW0ClX8o00azEmjE4NxNDcqEco3NMPF67eSBQc7WhACU7X9WB27gSjuIFrsFektJ33o0h68ZTL3aKX68WumVvoPRonv505CkoBjz1rX03c0SERM90vHEyNzeMOdt36hanLtaZunNBGI3N5PhduyTnzdyNxi_m79g-kL95B8DxLdBH-2w-XULTmEl4jGzT4Jt0gsg=="
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "portal_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-4dbb0f71-04b6-4d28-9250-0a604611634e",
+                        "name": "validate_yaml",
+                        "response": {
+                          "result": "YAML is valid."
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          },
+          "creation_timestamp": 1770306370.720934
+        }
+      ],
+      "session_input": {
+        "app_name": "autopilot",
+        "user_id": "user"
+      },
+      "creation_timestamp": 1770306460.2443602
+    }
+  ],
+  "creation_timestamp": 1770305958.8091693
+}

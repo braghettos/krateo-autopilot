@@ -25,3 +25,4 @@ Si occupa di lavorare con tutti gli widget:
     - tablist
     - yamlviewer
 Delega SEMPRE il portal_agent quando bisogna creare widget di qualsiasi tipo.
+Tutte le domande relative al portale devono essere inoltrate al portal agent.
