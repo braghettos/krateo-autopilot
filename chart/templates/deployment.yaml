@@ -35,18 +35,9 @@ spec:
       {{- if .Values.database.enabled }}
       initContainers:
         - name: wait-for-db
-          image: {{ .Values.waitForDatabase.image | default "postgres:16" }}
+          image: {{ .Values.waitForDatabase.image | default "bitnami/kubectl:latest" }}
           imagePullPolicy: {{ .Values.waitForDatabase.imagePullPolicy | default "IfNotPresent" }}
-          command:
-            - sh
-            - -c
-            - |
-              echo "Waiting for database {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}:{{ .Values.waitForDatabase.port | default 5432 }} ..."
-              until pg_isready -h {{ include "autopilot.fullname" . }}{{ .Values.waitForDatabase.hostSuffix | default "-db-rw" }}.{{ .Release.Namespace }}.svc.cluster.local -p {{ .Values.waitForDatabase.port | default 5432 }}; do
-                echo "Database not ready yet, sleeping {{ .Values.waitForDatabase.sleepSeconds | default 2 }}s..."
-                sleep {{ .Values.waitForDatabase.sleepSeconds | default 2 }}
-              done
-              echo "Database is ready!"
+          command: ["sh", "-c", "kubectl wait --for=condition=Ready cluster/{{ include "autopilot.fullname" . }}-db -n {{ .Release.Namespace }} --timeout=300s"]
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
