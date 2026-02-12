@@ -1,10 +1,12 @@
 # Taken from https://google.github.io/adk-docs/deploy/gke/#code-files
 
+import uuid
 import logging
 import os
 
+import httpx
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from google.adk.cli.fast_api import get_fast_api_app
 
 # Configure logging
@@ -71,11 +73,41 @@ def create_app() -> FastAPI:
 # Initialize the FastAPI app
 app = create_app()
 
-# Additional routes can be added here
-# Example:
-# @app.get("/health")
-# async def health_check():
-#     return {"status": "healthy"}
+@app.get("/health/startup")
+async def startup_check():
+    try:
+        session_id = f"s_startup_probe_{uuid.uuid4().hex[:8]}"
+        user_id = "u_startup_probe"
+        app_name = "autopilot"
+        
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            await client.post(
+                f"http://localhost:{DEFAULT_PORT}/apps/{app_name}/users/{user_id}/sessions/{session_id}",
+                headers={"Content-Type": "application/json"}
+            )
+            log.info("Startup probe session created successfully")
+            
+            response = await client.post(
+                f"http://localhost:{DEFAULT_PORT}/run",
+                headers={"Content-Type": "application/json"},
+                json={
+                    "appName": app_name,
+                    "userId": user_id,
+                    "sessionId": session_id,
+                    "newMessage": {
+                        "role": "user",
+                        "parts": [{"text": "Hello"}]
+                    }
+                }
+            )
+            
+            response.raise_for_status()
+            log.info("Startup probe completed successfully")
+            return {"status": "ready"}
+            
+    except Exception as e:
+        log.error(f"Startup probe failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Startup check failed: {str(e)}")
 
 if __name__ == "__main__":
     """Run the application server."""
