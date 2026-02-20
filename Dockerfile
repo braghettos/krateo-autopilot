@@ -36,12 +36,13 @@ ENV PATH="/home/autopilot/.local/bin:$PATH"
 
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-COPY --chown=autopilot:autopilot main.py .
+COPY --chown=autopilot:autopilot main.py main.py
 COPY --chown=autopilot:autopilot tools tools
 COPY --chown=autopilot:autopilot agents agents
 COPY --chown=autopilot:autopilot agents/config.py config.py
 COPY --chown=autopilot:autopilot autopilot autopilot
 COPY --chown=autopilot:autopilot descriptions descriptions 
 COPY --chown=autopilot:autopilot prompts prompts
+COPY --chown=autopilot:autopilot database/ database/
 
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]

@@ -8,6 +8,7 @@ import httpx
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from google.adk.cli.fast_api import get_fast_api_app
+from database.database_config import DatabaseConfig
 
 # Configure logging
 log_level = os.getenv('LOG_LEVEL', 'INFO').upper()
@@ -16,14 +17,11 @@ logging.basicConfig(
     format="[%(levelname)s] - [%(asctime)s] - [%(name)s]: %(message)s"
 )
 log = logging.getLogger(__name__)
-print(f"Logging level set to: {log_level}")
 
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 DEFAULT_PORT = 8080
-DEFAULT_DB_PORT = 5432
-SQLITE_SESSION_URI = "sqlite:///./sessions.db"
 
 # Example allowed origins for CORS
 ALLOWED_ORIGINS = [
@@ -37,30 +35,10 @@ LOGO_CONFIG = {
     "image_url": "https://raw.githubusercontent.com/krateoplatformops/krateo-v2-docs/main/static/img/black-only-square.png"
 }
 
-def get_session_service_uri() -> str:
-    """Construct the session service URI."""
-    cluster_name = os.getenv('CLUSTER_NAME')
-    db_username = os.getenv('DB_USERNAME')
-    db_password = os.getenv('DB_PASSWORD')
-    db_name = os.getenv('DB_NAME')
-    
-    if all([cluster_name, db_username, db_password, db_name]):
-        db_host = f"{cluster_name}-rw"
-        uri = (
-            f"postgresql+asyncpg://{db_username}:{db_password}"
-            f"@{db_host}:{DEFAULT_DB_PORT}/{db_name}"
-        )
-        log.info(f"Using PostgreSQL session service at {db_host}:{DEFAULT_DB_PORT}/{db_name}")
-        return uri
-    
-    log.info("Using local SQLite session service")
-    return SQLITE_SESSION_URI
-
-
 def create_app() -> FastAPI:
-    """Create the FastAPI application."""
-    session_uri = get_session_service_uri()
-    
+    db_config = DatabaseConfig()  # reads DB_USERNAME, DB_PASSWORD, etc. from env automatically
+    session_uri = db_config.get_session_service_uri()
+
     return get_fast_api_app(
         agents_dir=AGENT_DIR,
         session_service_uri=session_uri,
