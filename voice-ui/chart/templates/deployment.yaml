@@ -42,6 +42,7 @@ spec:
             httpGet:
               path: /api/config
               port: http
+              scheme: HTTPS
             initialDelaySeconds: 5
             periodSeconds: 10
           resources:
