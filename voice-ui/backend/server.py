@@ -17,7 +17,7 @@ from pydantic import BaseModel
 
 A2A_ENDPOINT = os.environ.get(
     "A2A_ENDPOINT",
-    "http://kagent-controller.kagent.svc.cluster.local:8083/api/a2a/krateo-system/krateo-autopilot/",
+    "http://kagent-controller.krateo-system.svc.cluster.local:8083/api/a2a/krateo-system/krateo-autopilot/",
 )
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 POLL_INTERVAL = 2  # seconds
@@ -49,26 +49,24 @@ async def send_to_autopilot(req: AutopilotRequest):
     2. Poll GET until the task completes or times out
     3. Return the agent's response text
     """
-    task_id = str(uuid.uuid4())
-    session_id = req.session_id or str(uuid.uuid4())
+    request_id = str(uuid.uuid4())
+    context_id = req.session_id
 
-    # A2A JSON-RPC: tasks/send
     a2a_payload = {
         "jsonrpc": "2.0",
-        "id": task_id,
-        "method": "tasks/send",
+        "id": request_id,
+        "method": "message/send",
         "params": {
-            "id": task_id,
-            "sessionId": session_id,
             "message": {
                 "role": "user",
-                "parts": [{"type": "text", "text": req.message}],
+                "parts": [{"kind": "text", "text": req.message}],
             },
         },
     }
+    if context_id:
+        a2a_payload["params"]["contextId"] = context_id
 
     async with httpx.AsyncClient(timeout=httpx.Timeout(POLL_TIMEOUT + 10)) as client:
-        # Send the task
         try:
             resp = await client.post(A2A_ENDPOINT, json=a2a_payload)
             resp.raise_for_status()
@@ -79,65 +77,37 @@ async def send_to_autopilot(req: AutopilotRequest):
 
         result = resp.json()
 
-        # Check if the response already contains the completed result
+        if "error" in result:
+            error = result["error"]
+            raise HTTPException(status_code=500, detail=error.get("message", str(error)))
+
         if "result" in result:
-            task_result = result["result"]
-            state = task_result.get("status", {}).get("state", "")
-            if state == "completed":
-                return _extract_response(task_result)
+            return _extract_response(result["result"])
 
-        # Poll for completion
-        elapsed = 0
-        while elapsed < POLL_TIMEOUT:
-            await asyncio.sleep(POLL_INTERVAL)
-            elapsed += POLL_INTERVAL
-
-            poll_payload = {
-                "jsonrpc": "2.0",
-                "id": str(uuid.uuid4()),
-                "method": "tasks/get",
-                "params": {"id": task_id},
-            }
-            try:
-                poll_resp = await client.post(A2A_ENDPOINT, json=poll_payload)
-                poll_resp.raise_for_status()
-                poll_result = poll_resp.json()
-            except (httpx.HTTPStatusError, httpx.RequestError):
-                continue
-
-            if "result" in poll_result:
-                task_data = poll_result["result"]
-                state = task_data.get("status", {}).get("state", "")
-                if state in ("completed", "failed"):
-                    return _extract_response(task_data)
-
-    raise HTTPException(status_code=504, detail="Autopilot request timed out")
+    raise HTTPException(status_code=504, detail="No result from autopilot")
 
 
-def _extract_response(task_data: dict) -> dict:
-    """Extract text from A2A task artifacts."""
-    state = task_data.get("status", {}).get("state", "unknown")
+def _extract_response(result_data: dict) -> dict:
+    """Extract text from A2A message/send result."""
+    context_id = result_data.get("contextId", "")
 
-    if state == "failed":
-        error_msg = task_data.get("status", {}).get("message", "Agent returned an error")
-        return {"text": f"Error: {error_msg}", "state": state}
-
-    # Extract text from artifacts
-    artifacts = task_data.get("artifacts", [])
+    artifacts = result_data.get("artifacts", [])
     texts = []
     for artifact in artifacts:
         for part in artifact.get("parts", []):
-            if part.get("type") == "text":
+            if part.get("kind") == "text":
                 texts.append(part["text"])
 
-    # Fallback: check status message
+    # Fallback: check history for assistant messages
     if not texts:
-        status_msg = task_data.get("status", {}).get("message", "")
-        if status_msg:
-            texts.append(status_msg)
+        for msg in result_data.get("history", []):
+            if msg.get("role") == "agent":
+                for part in msg.get("parts", []):
+                    if part.get("kind") == "text":
+                        texts.append(part["text"])
 
     response_text = "\n\n".join(texts) if texts else "No response from autopilot."
-    return {"text": response_text, "state": state}
+    return {"text": response_text, "contextId": context_id}
 
 
 # Serve frontend static files

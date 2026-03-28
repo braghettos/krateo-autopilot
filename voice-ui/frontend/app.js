@@ -172,9 +172,9 @@ async function sendToAutopilot(message) {
     });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
-    return data.text || "No response.";
+    return data;
   } catch (err) {
-    return `Error contacting autopilot: ${err.message}`;
+    return { text: `Error contacting autopilot: ${err.message}` };
   }
 }
 
@@ -309,6 +309,7 @@ Your job:
         if (call.name === "send_to_autopilot") {
           const userMsg = call.args?.message || "";
           const result = await sendToAutopilot(userMsg);
+          if (result.contextId) sessionId = result.contextId;
 
           // Send tool response back to Gemini
           ws.send(JSON.stringify({
@@ -316,7 +317,7 @@ Your job:
               functionResponses: [{
                 id: call.id,
                 name: call.name,
-                response: { result: result },
+                response: { result: result.text || "No response." },
               }],
             },
           }));

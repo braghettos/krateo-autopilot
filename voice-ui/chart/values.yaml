@@ -15,7 +15,7 @@ geminiApiKeySecret:
   key: apiKey
 
 # A2A endpoint for the Krateo Autopilot agent
-a2aEndpoint: "http://kagent-controller.kagent.svc.cluster.local:8083/api/a2a/krateo-system/krateo-autopilot/"
+a2aEndpoint: "http://kagent-controller.krateo-system.svc.cluster.local:8083/api/a2a/krateo-system/krateo-autopilot/"
 
 resources:
   requests:
