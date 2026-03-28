@@ -134,15 +134,23 @@ Return ONLY a JSON array of 4 strings, nothing else. Example: ["Check pod logs",
         try:
             resp = await client.post(url, json={
                 "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.7, "maxOutputTokens": 200},
+                "generationConfig": {
+                    "temperature": 0.7,
+                    "maxOutputTokens": 500,
+                    "thinkingConfig": {"thinkingBudget": 0},
+                },
             })
             resp.raise_for_status()
             data = resp.json()
             text = data["candidates"][0]["content"]["parts"][0]["text"]
             # Parse JSON array from response (strip markdown fences if present)
-            text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+            import re as _re
             import json as _json
-            suggestions = _json.loads(text)
+            # Extract JSON array from response, handling markdown fences
+            match = _re.search(r'\[.*?\]', text, _re.DOTALL)
+            if not match:
+                return {"suggestions": []}
+            suggestions = _json.loads(match.group(0))
             if isinstance(suggestions, list):
                 return {"suggestions": suggestions[:4]}
         except Exception:
