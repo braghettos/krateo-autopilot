@@ -85,15 +85,20 @@ async function startAudioCapture() {
       int16[i] = s < 0 ? s * 0x8000 : s * 0x7fff;
     }
 
-    // Send as base64-encoded PCM
+    // Send as base64-encoded PCM (Gemini 3.1 format)
     const bytes = new Uint8Array(int16.buffer);
-    const b64 = btoa(String.fromCharCode(...bytes));
+    // Encode in chunks to avoid call stack overflow on large buffers
+    let b64 = "";
+    for (let off = 0; off < bytes.length; off += 8192) {
+      b64 += String.fromCharCode(...bytes.subarray(off, off + 8192));
+    }
+    b64 = btoa(b64);
     ws.send(JSON.stringify({
       realtimeInput: {
-        mediaChunks: [{
+        audio: {
           mimeType: `audio/pcm;rate=${INPUT_SAMPLE_RATE}`,
           data: b64,
-        }],
+        },
       },
     }));
   };
