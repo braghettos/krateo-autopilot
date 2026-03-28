@@ -19,7 +19,7 @@ let playbackContext = null;
 let playbackQueue = [];
 let isPlaying = false;
 let isListening = false;
-let sessionId = crypto.randomUUID();
+let sessionId = self.crypto?.randomUUID?.() || (Math.random().toString(36).slice(2) + Date.now().toString(36));
 
 const micBtn = document.getElementById("mic-btn");
 const statusEl = document.getElementById("status");
@@ -204,6 +204,7 @@ async function connect() {
   const url = `${GEMINI_WS_BASE}?key=${apiKey}`;
 
   ws = new WebSocket(url);
+  ws.binaryType = "arraybuffer";
 
   ws.onopen = () => {
     // Send session setup
@@ -255,7 +256,10 @@ Your job:
   ws.onmessage = async (event) => {
     let msg;
     try {
-      msg = JSON.parse(event.data);
+      const text = event.data instanceof ArrayBuffer
+        ? new TextDecoder().decode(event.data)
+        : event.data;
+      msg = JSON.parse(text);
     } catch {
       return;
     }
