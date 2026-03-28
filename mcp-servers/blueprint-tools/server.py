@@ -217,9 +217,11 @@ def list_blueprints() -> list[str]:
                 log.warning("Failed to get description for %s: %s", name, e)
             descriptions.append(f"name: {name}, namespace: {namespace}, description: {desc}")
 
+        if not descriptions:
+            return ["No blueprints (CompositionDefinitions) are currently installed in the cluster. Use list_marketplace_blueprints to see what's available to install."]
         return descriptions
     except Exception as e:
-        return [f"Error: {e}"]
+        return [f"Error listing blueprints: {e}. Try list_marketplace_blueprints instead."]
 
 
 @mcp.tool()
