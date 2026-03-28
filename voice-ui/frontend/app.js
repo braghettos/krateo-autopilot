@@ -16,8 +16,7 @@ let mediaStream = null;
 let audioContext = null;
 let scriptProcessor = null;
 let playbackContext = null;
-let playbackQueue = [];
-let isPlaying = false;
+// playback uses gapless scheduling via AudioContext.currentTime
 let isListening = false;
 let sessionId = self.crypto?.randomUUID?.() || (Math.random().toString(36).slice(2) + Date.now().toString(36));
 
@@ -118,10 +117,13 @@ function stopAudioCapture() {
   }
 }
 
-// --- Audio playback ---
+// --- Audio playback (gapless scheduling) ---
+
+let nextPlayTime = 0;
 
 function initPlayback() {
   playbackContext = new AudioContext({ sampleRate: OUTPUT_SAMPLE_RATE });
+  nextPlayTime = 0;
 }
 
 function enqueueAudio(b64Data) {
@@ -137,26 +139,19 @@ function enqueueAudio(b64Data) {
     float32[i] = int16[i] / (int16[i] < 0 ? 0x8000 : 0x7fff);
   }
 
-  playbackQueue.push(float32);
-  if (!isPlaying) playNext();
-}
-
-function playNext() {
-  if (playbackQueue.length === 0) {
-    isPlaying = false;
-    return;
-  }
-  isPlaying = true;
-  const samples = playbackQueue.shift();
-  const buffer = playbackContext.createBuffer(1, samples.length, OUTPUT_SAMPLE_RATE);
-  buffer.getChannelData(0).set(samples);
+  // Schedule this chunk to play immediately after the previous one
+  const buffer = playbackContext.createBuffer(1, float32.length, OUTPUT_SAMPLE_RATE);
+  buffer.getChannelData(0).set(float32);
   const source = playbackContext.createBufferSource();
   source.buffer = buffer;
   source.connect(playbackContext.destination);
-  source.onended = playNext;
-  source.start();
 
-  drawWaveform(samples.slice(0, 300));
+  const now = playbackContext.currentTime;
+  const startAt = Math.max(now, nextPlayTime);
+  source.start(startAt);
+  nextPlayTime = startAt + buffer.duration;
+
+  drawWaveform(float32.slice(0, 300));
 }
 
 // --- A2A proxy ---
@@ -200,7 +195,7 @@ async function connect() {
     return;
   }
 
-  const model = "gemini-2.5-flash-native-audio-latest";
+  const model = "gemini-3.1-flash-live-preview";
   const url = `${GEMINI_WS_BASE}?key=${apiKey}`;
 
   ws = new WebSocket(url);

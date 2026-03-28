@@ -45,5 +45,14 @@ spec:
               scheme: HTTPS
             initialDelaySeconds: 5
             periodSeconds: 10
+          volumeMounts:
+            - name: tls
+              mountPath: /app/tls
+              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: tls
+          secret:
+            secretName: {{ .Values.tlsSecret | default "voice-ui-tls" }}
+            optional: true
