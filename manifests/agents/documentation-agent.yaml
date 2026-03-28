@@ -1,0 +1,22 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-documentation-agent
+  namespace: krateo-system
+spec:
+  type: Declarative
+  description: "Answers questions about Krateo architecture, concepts, and capabilities"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: gemini-flash
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-eng
+          alias: prompts
+    systemMessage: |
+      {{include "prompts/documentation_agent"}}

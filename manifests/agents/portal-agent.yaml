@@ -1,0 +1,47 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-portal-agent
+  namespace: krateo-system
+spec:
+  type: Declarative
+  description: "Generates and validates Krateo Composable Portal widget CRDs (YAML configurations)"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: gemini-flash
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-eng
+          alias: prompts
+    systemMessage: |
+      {{include "prompts/portal_agent"}}
+
+      ## YAML Validation
+
+      When you draft portal widget YAML, you MUST validate it before presenting
+      the final output. Use the k8s_apply_manifest tool with dry_run=true (or
+      pass the flag --dry-run=server when the tool supports it) to validate the
+      manifest against the live API server. If validation fails, fix the errors
+      and re-validate. Only output the final YAML once it passes validation.
+    tools:
+      - type: McpServer
+        mcpServer:
+          name: kagent-tool-server
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - k8s_apply_manifest
+            - k8s_get_resources
+      - type: McpServer
+        mcpServer:
+          name: krateo-portal-tools
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - get_widget
+            - get_widgets

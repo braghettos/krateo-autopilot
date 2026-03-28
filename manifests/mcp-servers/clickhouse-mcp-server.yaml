@@ -1,0 +1,9 @@
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: clickhouse-mcp-server
+  namespace: krateo-system
+spec:
+  description: "ClickHouse OTel observability MCP server — exposes list_databases, list_tables, and run_select_query tools to query pod logs, Kubernetes events, and infrastructure metrics stored in otel_logs, otel_metrics_gauge, otel_metrics_sum, and otel_metrics_histogram tables"
+  protocol: SSE
+  url: http://clickhouse-mcp-server.krateo-system:8000/sse

@@ -1,30 +1,59 @@
-name: release-autopilot-pullrequest
+name: release-mcp-server-pullrequest
 
 on:
   pull_request:
     paths:
-      - Dockerfile
-      - main.py
-      - 'autopilot/**'
-      - 'tools/**'
-      - 'agents/**'
+      - 'mcp-servers/**'
     branches:
       - main
 
-env:
-  GHCR_REPO: ghcr.io/${{ github.repository }}
-
 jobs:
-  build:
-    name: Build and NOT Push
+  detect:
+    name: Detect changed MCP servers
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.changes.outputs.matrix }}
+      has_changes: ${{ steps.changes.outputs.has_changes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find changed MCP servers
+        id: changes
+        run: |
+          set -euo pipefail
+          COMPONENTS=()
+          for dir in mcp-servers/*/; do
+            name="$(basename "$dir")"
+            if [[ -f "${dir}Dockerfile" ]]; then
+              COMPONENTS+=("$name")
+            fi
+          done
+
+          if (( ${#COMPONENTS[@]} == 0 )); then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
+          else
+            JSON=$(printf '%s\n' "${COMPONENTS[@]}" | jq -R -s 'split("\n")[:-1] | map({component: .})')
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "matrix={\"include\":$JSON}" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    name: Build ${{ matrix.component }}
+    needs: detect
+    if: needs.detect.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.detect.outputs.matrix) }}
 
     permissions:
       contents: read
       packages: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
@@ -37,11 +66,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Dockerfile (multi-arch, no push)
+      - name: Build (no push)
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./mcp-servers/${{ matrix.component }}
           platforms: linux/amd64,linux/arm64
           push: false
-          cache-from: type=registry,ref=${{ env.GHCR_REPO }}:buildcache
-          cache-to: type=registry,ref=${{ env.GHCR_REPO }}:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/krateo-${{ matrix.component }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/krateo-${{ matrix.component }}:buildcache,mode=max

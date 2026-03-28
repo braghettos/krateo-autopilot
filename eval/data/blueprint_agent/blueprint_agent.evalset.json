@@ -27,7 +27,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -45,7 +45,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -96,7 +96,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -114,7 +114,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -165,7 +165,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -183,7 +183,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -234,7 +234,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -252,7 +252,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -303,7 +303,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -321,7 +321,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -373,7 +373,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -391,7 +391,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -443,7 +443,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -461,7 +461,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -584,7 +584,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -602,7 +602,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -654,7 +654,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -672,7 +672,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -724,7 +724,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -742,7 +742,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -794,7 +794,7 @@
           "intermediate_data": {
             "invocation_events": [
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {
@@ -812,7 +812,7 @@
                 }
               },
               {
-                "author": "root_agent",
+                "author": "krateo_autopilot",
                 "content": {
                   "parts": [
                     {

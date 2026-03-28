@@ -1,0 +1,55 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-code-analysis-agent
+  namespace: krateo-system
+spec:
+  type: Declarative
+  description: "Resolves Krateo components to their GitHub source repositories, searches code for error patterns, reads source files, and checks recent commits for regressions"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: gemini-pro
+    stream: true
+    a2aConfig:
+      skills:
+        - id: krateo-code-analysis
+          name: "Krateo Code Analysis & Source Tracing"
+          description: "Traces Krateo components to their GitHub source repositories, searches code for error patterns, reads source files, and checks recent commits for regressions"
+          tags:
+            - krateo
+            - code-analysis
+            - github
+            - source-code
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-eng
+          alias: prompts
+    systemMessage: |
+      {{include "prompts/code_analysis_agent"}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: github-mcp-server
+          toolNames:
+            - search_code
+            - get_file_contents
+            - list_commits
+            - search_repositories
+            - list_branches
+            - get_commit
+            - get_repository_tree
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: kagent-tool-server
+          toolNames:
+            - k8s_get_resources
+            - helm_list_releases
+            - helm_get_release

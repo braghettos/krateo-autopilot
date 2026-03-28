@@ -1,0 +1,10 @@
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: krateo-blueprint-tools
+  namespace: krateo-system
+spec:
+  description: "Krateo blueprint and composition management tools (list/get blueprints,
+    marketplace, form URLs, JSON Schema generation)"
+  protocol: STREAMABLE_HTTP
+  url: http://krateo-blueprint-tools:8080/mcp

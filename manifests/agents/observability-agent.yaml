@@ -1,0 +1,43 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-observability-agent
+  namespace: krateo-system
+spec:
+  type: Declarative
+  description: "Troubleshoots Krateo and Kubernetes issues by querying ClickHouse OTel telemetry: pod logs, Kubernetes events, and infrastructure metrics"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: gemini-pro
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-eng
+          alias: prompts
+    systemMessage: |
+      {{include "prompts/observability_agent"}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          name: clickhouse-mcp-server
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - list_databases
+            - list_tables
+            - run_select_query
+    a2aConfig:
+      skills:
+        - id: krateo-observability
+          name: Krateo Observability & Troubleshooting
+          description: "Analyzes ClickHouse OTel data to diagnose Krateo and Kubernetes issues: pod crashes, OOMKills, slow deployments, error spikes, metric anomalies, and K8s event patterns"
+          tags:
+            - krateo
+            - observability
+            - troubleshooting
+            - clickhouse
+            - kubernetes

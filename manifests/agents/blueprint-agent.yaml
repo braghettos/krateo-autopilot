@@ -1,0 +1,44 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-blueprint-agent
+  namespace: krateo-system
+spec:
+  type: Declarative
+  description: "Creates and manages Krateo blueprints (CompositionDefinitions) and compositions"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: gemini-pro
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-eng
+          alias: prompts
+    systemMessage: |
+      {{include "prompts/blueprint_agent"}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          name: kagent-tool-server
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - k8s_apply_manifest
+            - k8s_get_resources
+            - k8s_get_resource_yaml
+      - type: McpServer
+        mcpServer:
+          name: krateo-blueprint-tools
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          toolNames:
+            - list_blueprints
+            - get_blueprint
+            - get_blueprint_form
+            - get_marketplace_blueprint
+            - list_marketplace_blueprints
+            - gen_values_schema_json

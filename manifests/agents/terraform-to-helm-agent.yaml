@@ -1,0 +1,43 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-tf-to-helm-agent
+  namespace: krateo-system
+spec:
+  type: Declarative
+  description: "Translates Terraform modules into Helm charts that deploy native Kubernetes resources"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: gemini-pro
+    stream: true
+    a2aConfig:
+      skills:
+        - id: terraform-to-helm
+          name: "Terraform Module to Helm Chart"
+          description: "Converts Terraform modules into Helm charts — maps TF variables to values.yaml, TF resources to K8s templates, and TF outputs to NOTES.txt"
+          tags:
+            - terraform
+            - helm
+            - kubernetes
+            - code-generation
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-eng
+          alias: prompts
+    systemMessage: |
+      {{include "prompts/tf_to_helm_agent"}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: github-mcp-server
+          toolNames:
+            - get_file_contents
+            - get_repository_tree
+            - search_code
+            - search_repositories
