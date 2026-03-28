@@ -116,6 +116,35 @@ header h1 {
   font-style: italic;
 }
 
+#suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+#suggestions.hidden {
+  display: none;
+}
+
+.suggestion {
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  border: 1px solid #30363d;
+  background: #161b22;
+  color: #8b949e;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion:hover {
+  border-color: #58a6ff;
+  color: #c9d1d9;
+  background: #1c2533;
+}
+
 #controls {
   display: flex;
   flex-direction: column;

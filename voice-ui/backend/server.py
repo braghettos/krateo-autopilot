@@ -110,6 +110,47 @@ def _extract_response(result_data: dict) -> dict:
     return {"text": response_text, "contextId": context_id}
 
 
+class SuggestionsRequest(BaseModel):
+    user_message: str
+    agent_response: str
+
+
+@app.post("/api/suggestions")
+async def get_suggestions(req: SuggestionsRequest):
+    """Generate 3-4 context-aware follow-up questions using Gemini Flash."""
+    if not GEMINI_API_KEY:
+        return {"suggestions": []}
+
+    prompt = f"""Based on this conversation with a Kubernetes platform assistant, suggest exactly 4 short follow-up questions the user might want to ask next. Each question should be concise (under 8 words), actionable, and different from each other.
+
+User asked: {req.user_message}
+Assistant responded: {req.agent_response[:1000]}
+
+Return ONLY a JSON array of 4 strings, nothing else. Example: ["Check pod logs", "Scale deployment to 3", "Show recent events", "List services"]"""
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+
+    async with httpx.AsyncClient(timeout=15) as client:
+        try:
+            resp = await client.post(url, json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"temperature": 0.7, "maxOutputTokens": 200},
+            })
+            resp.raise_for_status()
+            data = resp.json()
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            # Parse JSON array from response (strip markdown fences if present)
+            text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+            import json as _json
+            suggestions = _json.loads(text)
+            if isinstance(suggestions, list):
+                return {"suggestions": suggestions[:4]}
+        except Exception:
+            pass
+
+    return {"suggestions": []}
+
+
 # Serve frontend static files
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
 if os.path.isdir(FRONTEND_DIR):

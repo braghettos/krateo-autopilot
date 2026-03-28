@@ -310,6 +310,7 @@ Your job:
           const userMsg = call.args?.message || "";
           const result = await sendToAutopilot(userMsg);
           if (result.contextId) sessionId = result.contextId;
+          const responseText = result.text || "No response.";
 
           // Send tool response back to Gemini
           ws.send(JSON.stringify({
@@ -317,12 +318,17 @@ Your job:
               functionResponses: [{
                 id: call.id,
                 name: call.name,
-                response: { result: result.text || "No response." },
+                response: { result: responseText },
               }],
             },
           }));
 
           setStatus("listening", "Listening...");
+
+          // Update context-aware suggestions
+          lastUserMessage = userMsg;
+          lastAgentResponse = responseText;
+          refreshSuggestions();
         }
       }
     }
@@ -369,6 +375,93 @@ micBtn.addEventListener("click", async () => {
     waveformCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
   }
 });
+
+// --- Suggestion chips (context-aware) ---
+
+const suggestionsEl = document.getElementById("suggestions");
+let lastUserMessage = "";
+let lastAgentResponse = "";
+
+function attachChipListeners() {
+  suggestionsEl.querySelectorAll(".suggestion").forEach((btn) => {
+    btn.addEventListener("click", () => handleChipClick(btn.textContent));
+  });
+}
+
+async function handleChipClick(text) {
+  suggestionsEl.classList.add("hidden");
+  addMessage("user", text);
+
+  const result = await sendToAutopilot(text);
+  if (result.contextId) sessionId = result.contextId;
+  const responseText = result.text || "No response.";
+
+  // Feed to Gemini so it speaks, or show as text
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({
+      clientContent: {
+        turns: [
+          { role: "user", parts: [{ text }] },
+          { role: "model", parts: [{ text: responseText }] },
+        ],
+        turnComplete: true,
+      },
+    }));
+  } else {
+    addMessage("agent", responseText);
+  }
+  setStatus("connected", "Connected");
+
+  // Generate new context-aware suggestions
+  lastUserMessage = text;
+  lastAgentResponse = responseText;
+  await refreshSuggestions();
+}
+
+async function refreshSuggestions() {
+  try {
+    const resp = await fetch("/api/suggestions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_message: lastUserMessage,
+        agent_response: lastAgentResponse,
+      }),
+    });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    if (data.suggestions && data.suggestions.length > 0) {
+      suggestionsEl.innerHTML = data.suggestions
+        .map((s) => `<button class="suggestion">${s}</button>`)
+        .join("");
+      attachChipListeners();
+      suggestionsEl.classList.remove("hidden");
+    }
+  } catch {
+    // Silently ignore — suggestions are optional
+  }
+}
+
+// Also extract options from agent responses (numbered lists, bullet points)
+function extractOptionsFromResponse(text) {
+  // Match patterns like "1. Option A" or "- Option B" or "* Option C"
+  const lines = text.split("\n");
+  const options = [];
+  for (const line of lines) {
+    const match = line.match(/^\s*(?:\d+[\.\)]\s*|[-*]\s+)\*{0,2}(.+?)\*{0,2}\s*$/);
+    if (match && match[1].length > 3 && match[1].length < 80) {
+      // Skip lines that look like descriptions rather than actionable options
+      const opt = match[1].replace(/\*{1,2}/g, "").trim();
+      if (!opt.includes(":") || opt.indexOf(":") > 30) {
+        options.push(opt);
+      }
+    }
+  }
+  return options.slice(0, 4);
+}
+
+// Initial static chips
+attachChipListeners();
 
 // --- Init ---
 
