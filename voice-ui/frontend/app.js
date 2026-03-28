@@ -27,6 +27,9 @@ const transcriptLog = document.getElementById("transcript-log");
 const waveformCanvas = document.getElementById("waveform");
 const waveformCtx = waveformCanvas.getContext("2d");
 
+let currentInputMsg = null;   // accumulates input transcription fragments
+let currentOutputMsg = null;  // accumulates output transcription fragments
+
 // --- UI helpers ---
 
 function setStatus(state, text) {
@@ -40,6 +43,14 @@ function addMessage(role, text) {
   div.textContent = text;
   transcriptLog.appendChild(div);
   transcriptLog.parentElement.scrollTop = transcriptLog.parentElement.scrollHeight;
+}
+
+function addLiveMessage(role) {
+  const div = document.createElement("div");
+  div.className = `msg ${role}`;
+  div.textContent = "";
+  transcriptLog.appendChild(div);
+  return div;
 }
 
 function drawWaveform(data) {
@@ -225,10 +236,13 @@ async function connect() {
 
 Your job:
 - For greetings and simple questions, respond directly with your voice.
-- For ANY request related to Kubernetes, infrastructure, deployments, pods, helm, blueprints, observability, alerts, troubleshooting, or platform operations — use the send_to_autopilot tool.
-- After getting the tool result, summarize the key points naturally in speech. Don't read raw YAML or JSON — interpret and explain.
+- For ANY request related to Kubernetes, infrastructure, deployments, pods, helm, blueprints, observability, alerts, troubleshooting, platform operations, status, logs, errors, health checks, or component information — ALWAYS use the send_to_autopilot tool IMMEDIATELY. Never ask for clarification on these topics — just call the tool.
+- After getting the tool result, summarize the key points naturally in speech. Don't read raw YAML or JSON — interpret and explain concisely.
 - Be concise and conversational. You're a voice assistant, not a text dump.
-- Introduce yourself as "Krateo Autopilot" when first greeted.`,
+- Introduce yourself as "Krateo Autopilot" when first greeted.
+- IMPORTANT: When the user's request is clear enough to act on, call the tool immediately. Do NOT ask "is there anything specific?" or "what would you like to know?" — just fetch the information.
+- ALWAYS reply in the same language the user is speaking. If the user speaks Italian, reply in Italian. If English, reply in English. Auto-detect the language and match it.
+- When you hear "Crateo", "crateo", or similar, it ALWAYS means "Krateo" (the platform). Correct the spelling when passing to the tool.`,
           }],
         },
         tools: [{
@@ -286,18 +300,28 @@ Your job:
         }
       }
 
-      // Input transcription (what the user said)
+      // Input transcription (what the user said) — accumulate into one message
       if (sc.inputTranscription && sc.inputTranscription.text) {
-        addMessage("user", sc.inputTranscription.text);
+        if (!currentInputMsg) {
+          currentInputMsg = addLiveMessage("user");
+        }
+        currentInputMsg.textContent += sc.inputTranscription.text;
+        transcriptLog.parentElement.scrollTop = transcriptLog.parentElement.scrollHeight;
       }
 
-      // Output transcription (what Gemini said)
+      // Output transcription (what Gemini said) — accumulate into one message
       if (sc.outputTranscription && sc.outputTranscription.text) {
-        addMessage("agent", sc.outputTranscription.text);
+        if (!currentOutputMsg) {
+          currentOutputMsg = addLiveMessage("agent");
+        }
+        currentOutputMsg.textContent += sc.outputTranscription.text;
+        transcriptLog.parentElement.scrollTop = transcriptLog.parentElement.scrollHeight;
       }
 
-      // Turn complete
+      // Turn complete — finalize current messages
       if (sc.turnComplete) {
+        currentInputMsg = null;
+        currentOutputMsg = null;
         setStatus("listening", "Listening...");
       }
     }
@@ -312,7 +336,10 @@ Your job:
           if (result.contextId) sessionId = result.contextId;
           const responseText = result.text || "No response.";
 
-          // Send tool response back to Gemini
+          // Show the full response as text in transcript
+          addMessage("agent", responseText);
+
+          // Send tool response back to Gemini so it speaks a summary
           ws.send(JSON.stringify({
             toolResponse: {
               functionResponses: [{
@@ -392,18 +419,25 @@ async function handleChipClick(text) {
   suggestionsEl.classList.add("hidden");
   addMessage("user", text);
 
-  const result = await sendToAutopilot(text);
-  if (result.contextId) sessionId = result.contextId;
-  const responseText = result.text || "No response.";
+  // Send as text input to Gemini — it will trigger the send_to_autopilot
+  // tool call, speak the response, AND show transcriptions in the transcript
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({
+      realtimeInput: { text: text },
+    }));
+    setStatus("thinking", "Autopilot thinking...");
+  } else {
+    // Fallback: direct A2A call if Gemini is not connected
+    const result = await sendToAutopilot(text);
+    if (result.contextId) sessionId = result.contextId;
+    const responseText = result.text || "No response.";
+    addMessage("agent", responseText);
+    setStatus("connected", "Connected");
 
-  // Display the response as text in the transcript
-  addMessage("agent", responseText);
-  setStatus("connected", "Connected");
-
-  // Generate new context-aware suggestions
-  lastUserMessage = text;
-  lastAgentResponse = responseText;
-  await refreshSuggestions();
+    lastUserMessage = text;
+    lastAgentResponse = responseText;
+    await refreshSuggestions();
+  }
 }
 
 async function refreshSuggestions() {

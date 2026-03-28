@@ -123,6 +123,8 @@ async def get_suggestions(req: SuggestionsRequest):
 
     prompt = f"""Based on this conversation with a Kubernetes platform assistant, suggest exactly 4 short follow-up questions the user might want to ask next. Each question should be concise (under 8 words), actionable, and different from each other.
 
+IMPORTANT: Reply in the SAME LANGUAGE as the user's message. If the user wrote in Italian, suggest in Italian. If in English, suggest in English.
+
 User asked: {req.user_message}
 Assistant responded: {req.agent_response[:1000]}
 
