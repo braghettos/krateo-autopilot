@@ -305,7 +305,7 @@ Your job:
         if (!currentInputMsg) {
           currentInputMsg = addLiveMessage("user");
         }
-        currentInputMsg.textContent += sc.inputTranscription.text;
+        currentInputMsg.textContent += sc.inputTranscription.text.replace(/\b[Cc]rateo\b/g, "Krateo");
         transcriptLog.parentElement.scrollTop = transcriptLog.parentElement.scrollHeight;
       }
 
@@ -314,7 +314,7 @@ Your job:
         if (!currentOutputMsg) {
           currentOutputMsg = addLiveMessage("agent");
         }
-        currentOutputMsg.textContent += sc.outputTranscription.text;
+        currentOutputMsg.textContent += sc.outputTranscription.text.replace(/\b[Cc]rateo\b/g, "Krateo");
         transcriptLog.parentElement.scrollTop = transcriptLog.parentElement.scrollHeight;
       }
 
