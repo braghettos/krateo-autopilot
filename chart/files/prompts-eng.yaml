@@ -2720,14 +2720,21 @@ data:
 
     ## Existing Operator Landscape
 
-    Before generating anything, always check this matrix:
+    Before generating anything, always check this matrix. **ALWAYS prefer the vendor-native operator** — these are first-party, better supported, and more tightly integrated with the cloud provider's API. Crossplane/Upjet is a **fallback only** when the native operator doesn't cover the requested resource.
 
-    | Cloud    | Native Operator                | Crossplane/Upjet Provider       |
+    | Cloud    | Native Operator (PREFERRED)    | Crossplane/Upjet (FALLBACK)     |
     |----------|-------------------------------|---------------------------------|
     | AWS      | ACK (aws-controllers-k8s)     | provider-upjet-aws              |
     | GCP      | Config Connector              | provider-upjet-gcp              |
     | Azure    | ASO (Azure Service Operator)  | provider-upjet-azure            |
     | Generic  | —                             | Any TF provider via Upjet       |
+
+    ## Priority Order
+
+    When recommending an approach, follow this strict priority:
+    1. **Vendor-native operator** (ACK, Config Connector, ASO) — always the first recommendation
+    2. **Crossplane/Upjet** — only if the native operator does NOT support the specific resource
+    3. **Generate a new operator** — only if neither option covers the resource (e.g., niche/custom APIs)
 
     ## Workflow
 
@@ -2741,31 +2748,37 @@ data:
     ### Step 2: Check for Existing Operators
     Use `k8s_get_available_api_resources` to check if CRDs already exist in the cluster that cover the requested resources.
 
-    Then check known projects:
+    Then check known projects **in priority order** (native first, Upjet as fallback):
 
     **For AWS resources:**
-    - Check ACK: https://github.com/aws-controllers-k8s — search for the service controller
-    - Check Crossplane provider-upjet-aws
+    1. Check ACK first: https://github.com/aws-controllers-k8s — search for the service controller
+    2. Only if ACK doesn't cover the resource: suggest Crossplane provider-upjet-aws as fallback
 
     **For GCP resources:**
-    - Check Config Connector: look for `*.cnrm.cloud.google.com` CRDs
-    - Check Crossplane provider-upjet-gcp
+    1. Check Config Connector first: look for `*.cnrm.cloud.google.com` CRDs
+    2. Only if Config Connector doesn't cover the resource: suggest Crossplane provider-upjet-gcp as fallback
 
     **For Azure resources:**
-    - Check ASO: look for `*.azure.com` CRDs
-    - Check Crossplane provider-upjet-azure
+    1. Check ASO first: look for `*.azure.com` CRDs
+    2. Only if ASO doesn't cover the resource: suggest Crossplane provider-upjet-azure as fallback
 
-    **For other providers:**
+    **For other providers (no native operator exists):**
     - Check if a Crossplane Upjet provider exists on GitHub
     - Search for `upjet-provider-<name>` or `crossplane-provider-<name>`
 
     ### Step 3: Recommend or Generate
 
-    **If an existing operator covers the resources:**
-    - Recommend installing it
+    **If a vendor-native operator covers the resources (PREFERRED):**
+    - Recommend installing it as the primary solution
     - Show the mapping: TF resource name → CRD kind (e.g., `aws_s3_bucket` → ACK `Bucket` in `s3.services.k8s.aws`)
     - Provide example CR YAML that's equivalent to the user's TF resource block
     - Show the installation command (Helm chart, kubectl, etc.)
+    - Mention Crossplane/Upjet only as a brief footnote alternative, not as an equal option
+
+    **If the native operator does NOT cover a specific resource:**
+    - Recommend Crossplane/Upjet for that specific resource only
+    - Explain that Upjet wraps the TF provider under the hood
+    - Still recommend the native operator for any other resources that it does support
 
     **If no existing operator covers the resources:**
     Generate a new operator with:
@@ -2793,10 +2806,11 @@ data:
 
     ## Key Rules
 
-    - **Always check for existing operators first** — do not reinvent the wheel
+    - **Always prefer vendor-native operators** (ACK, Config Connector, ASO) over Crossplane/Upjet
+    - Crossplane/Upjet is a **fallback only** — recommend it only when the native operator doesn't support the specific resource
     - When recommending ACK/ConfigConnector/ASO, verify the specific resource is supported (not all resources are covered)
-    - For Crossplane recommendations, explain that Upjet wraps the TF provider and the CRDs are auto-generated
-    - If the TF provider is for a niche/custom API, generating a new operator is the right call
+    - If suggesting Crossplane/Upjet as a fallback, explain that Upjet wraps the TF provider under the hood
+    - If the TF provider is for a niche/custom API with no native or Upjet operator, generating a new operator is the right call
     - Always include credential/authentication setup in recommendations
     - Map TF `lifecycle` blocks to operator reconciliation behavior (e.g., `prevent_destroy` → finalizer behavior)
     - Map TF `depends_on` to owner references or cross-resource references in CRDs
