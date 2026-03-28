@@ -1,0 +1,23 @@
+{{- if .Values.mcpServers.clickhouse.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: clickhouse-mcp-server
+  namespace: {{ .Values.namespace }}
+spec:
+  description: "ClickHouse OTel observability MCP server"
+  protocol: {{ .Values.mcpServers.clickhouse.protocol }}
+  url: {{ .Values.mcpServers.clickhouse.url }}
+{{- end }}
+{{- if .Values.mcpServers.github.enabled }}
+---
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: github-mcp-server
+  namespace: {{ .Values.namespace }}
+spec:
+  description: "GitHub official MCP server — source code search, file contents, commits, PRs, repo management"
+  protocol: {{ .Values.mcpServers.github.protocol }}
+  url: {{ .Values.mcpServers.github.url }}
+{{- end }}

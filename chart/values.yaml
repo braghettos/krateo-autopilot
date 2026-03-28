@@ -1,0 +1,79 @@
+namespace: krateo-system
+
+# Gemini API key secret — must already exist in the namespace
+geminiApiKey:
+  secretName: gemini-api-key
+  secretKey: apiKey
+
+# Model configurations
+models:
+  flash:
+    name: gemini-flash
+    model: gemini-2.5-flash
+    provider: Gemini
+  pro:
+    name: gemini-pro
+    model: gemini-2.5-pro
+    provider: Gemini
+
+# Vertex AI provider config (optional)
+vertexAI:
+  enabled: false
+  secretName: gcloud-credentials
+
+# MCP servers — these are RemoteMCPServer CRDs pointing to existing deployments
+mcpServers:
+  clickhouse:
+    enabled: true
+    url: http://clickhouse-mcp-server.krateo-system:8000/sse
+    protocol: SSE
+  github:
+    enabled: true
+    url: http://github-mcp-server.krateo-system:3000/mcp
+    protocol: STREAMABLE_HTTP
+
+# Agents — enable/disable individual agents
+agents:
+  autopilot:
+    enabled: true
+    modelConfig: gemini-flash
+  k8s:
+    enabled: true
+    modelConfig: gemini-flash
+  helm:
+    enabled: true
+    modelConfig: gemini-flash
+  auth:
+    enabled: true
+    modelConfig: gemini-flash
+  blueprint:
+    enabled: true
+    modelConfig: gemini-flash
+  documentation:
+    enabled: true
+    modelConfig: gemini-flash
+  portal:
+    enabled: true
+    modelConfig: gemini-flash
+  restaction:
+    enabled: true
+    modelConfig: gemini-flash
+  observability:
+    enabled: true
+    modelConfig: gemini-flash
+  codeAnalysis:
+    enabled: true
+    modelConfig: gemini-pro
+  ansibleToOperator:
+    enabled: true
+    modelConfig: gemini-pro
+  tfProviderToOperator:
+    enabled: true
+    modelConfig: gemini-pro
+  tfToHelm:
+    enabled: true
+    modelConfig: gemini-pro
+
+# Prompts language
+prompts:
+  language: eng

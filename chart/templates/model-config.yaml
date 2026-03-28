@@ -1,0 +1,33 @@
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: {{ .Values.models.flash.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  model: {{ .Values.models.flash.model }}
+  provider: {{ .Values.models.flash.provider }}
+  apiKeySecret: {{ .Values.geminiApiKey.secretName }}
+  apiKeySecretKey: {{ .Values.geminiApiKey.secretKey }}
+---
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: {{ .Values.models.pro.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  model: {{ .Values.models.pro.model }}
+  provider: {{ .Values.models.pro.provider }}
+  apiKeySecret: {{ .Values.geminiApiKey.secretName }}
+  apiKeySecretKey: {{ .Values.geminiApiKey.secretKey }}
+{{- if .Values.vertexAI.enabled }}
+---
+apiVersion: kagent.dev/v1alpha2
+kind: ModelProviderConfig
+metadata:
+  name: vertex-ai-provider
+  namespace: {{ .Values.namespace }}
+spec:
+  type: GeminiVertexAI
+  secretRef:
+    name: {{ .Values.vertexAI.secretName }}
+{{- end }}

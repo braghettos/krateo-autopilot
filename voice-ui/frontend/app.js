@@ -200,7 +200,7 @@ async function connect() {
     return;
   }
 
-  const model = "gemini-2.5-flash-live-preview";
+  const model = "gemini-2.5-flash-native-audio-latest";
   const url = `${GEMINI_WS_BASE}?key=${apiKey}`;
 
   ws = new WebSocket(url);

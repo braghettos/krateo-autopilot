@@ -1,0 +1,188 @@
+{{- if .Values.agents.auth.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-auth-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Manages Krateo authentication: LDAP, OIDC, OAuth 2.0, and basic auth"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.auth.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/auth_agent"}}`}}
+{{- end }}
+---
+{{- if .Values.agents.blueprint.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-blueprint-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Manages Krateo blueprints (CompositionDefinitions), compositions, and marketplace"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.blueprint.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/blueprint_agent"}}`}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: krateo-blueprint-tools
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: github-mcp-server
+          toolNames:
+            - create_repository
+            - create_or_update_file
+            - push_files
+            - get_file_contents
+            - search_repositories
+{{- end }}
+---
+{{- if .Values.agents.documentation.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-documentation-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Answers questions about Krateo architecture, concepts, and capabilities"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.documentation.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/documentation_agent"}}`}}
+{{- end }}
+---
+{{- if .Values.agents.portal.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-portal-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Manages Krateo Composable Portal widget CRDs"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.portal.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/portal_agent"}}`}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: krateo-portal-tools
+{{- end }}
+---
+{{- if .Values.agents.restaction.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-restaction-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Generates valid RESTAction CRDs with JQ filters and endpoint refs"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.restaction.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/restaction_agent"}}`}}
+{{- end }}
+---
+{{- if .Values.agents.observability.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-observability-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Troubleshoots Krateo and Kubernetes issues by analyzing telemetry from ClickHouse"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.observability.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/observability_agent"}}`}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: clickhouse-mcp-server
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: kagent-tool-server
+          toolNames:
+            - k8s_get_resources
+            - k8s_describe_resource
+            - k8s_get_events
+            - k8s_get_pod_logs
+{{- end }}

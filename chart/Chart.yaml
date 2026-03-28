@@ -1,0 +1,6 @@
+apiVersion: v2
+name: krateo-autopilot
+description: Installs all Krateo Autopilot agents, MCP servers, model configs, and prompts
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

@@ -1,0 +1,113 @@
+{{- if .Values.agents.k8s.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: k8s-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Kubernetes Expert AI Agent specializing in cluster operations, troubleshooting, and maintenance"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.k8s.modelConfig }}
+    stream: true
+    a2aConfig:
+      skills:
+        - id: k8s-operations
+          name: "Kubernetes Operations & Troubleshooting"
+          description: "Diagnoses and resolves Kubernetes issues: pod crashes, resource problems, networking, RBAC, and cluster operations"
+          tags: [kubernetes, troubleshooting, operations]
+    systemMessage: |
+      {{`{{include "prompts/k8s_agent"}}`}}
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: kagent-tool-server
+          requireApproval:
+            - k8s_apply_manifest
+            - k8s_create_resource
+            - k8s_create_resource_from_url
+            - k8s_delete_resource
+            - k8s_patch_resource
+            - k8s_execute_command
+            - k8s_rollout
+            - k8s_scale
+          toolNames:
+            - k8s_get_resources
+            - k8s_describe_resource
+            - k8s_get_events
+            - k8s_get_pod_logs
+            - k8s_get_resource_yaml
+            - k8s_get_available_api_resources
+            - k8s_get_cluster_configuration
+            - k8s_check_service_connectivity
+            - k8s_execute_command
+            - k8s_apply_manifest
+            - k8s_create_resource
+            - k8s_create_resource_from_url
+            - k8s_patch_resource
+            - k8s_delete_resource
+            - k8s_label_resource
+            - k8s_remove_label
+            - k8s_annotate_resource
+            - k8s_remove_annotation
+            - k8s_rollout
+            - k8s_scale
+{{- end }}
+---
+{{- if .Values.agents.helm.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: helm-agent
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Helm Expert AI Agent specializing in Helm chart management, releases, repositories, and troubleshooting"
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.helm.modelConfig }}
+    stream: true
+    a2aConfig:
+      skills:
+        - id: helm-operations
+          name: "Helm Chart Management & Troubleshooting"
+          description: "Manages Helm releases, repositories, upgrades, rollbacks, and troubleshoots Helm-related issues"
+          tags: [helm, kubernetes, charts, releases]
+    systemMessage: |
+      {{`{{include "prompts/helm_agent"}}`}}
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    tools:
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: kagent-tool-server
+          toolNames:
+            - helm_list_releases
+            - helm_get_release
+            - helm_upgrade
+            - helm_uninstall
+            - helm_repo_add
+            - helm_repo_update
+            - k8s_get_resources
+            - k8s_get_available_api_resources
+            - k8s_apply_manifest
+{{- end }}

@@ -1,0 +1,134 @@
+{{- if .Values.agents.autopilot.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: krateo-autopilot
+  namespace: {{ .Values.namespace }}
+spec:
+  type: Declarative
+  description: "Orchestrator for Krateo PlatformOps — routes user requests to the appropriate specialist sub-agent and installs Krateo"
+  skills:
+    refs:
+      - gcr.io/neon-481711/krateo-install-skill:latest
+  declarative:
+    deployment:
+      env:
+        - name: GOOGLE_GENAI_USE_VERTEXAI
+          value: "0"
+    modelConfig: {{ .Values.agents.autopilot.modelConfig }}
+    stream: true
+    promptTemplate:
+      dataSources:
+        - kind: ConfigMap
+          name: krateo-prompts-{{ .Values.prompts.language }}
+          alias: prompts
+    systemMessage: |
+      {{`{{include "prompts/autopilot"}}`}}
+    tools:
+      - type: McpServer
+        mcpServer:
+          name: kagent-tool-server
+          kind: RemoteMCPServer
+          apiGroup: kagent.dev
+          requireApproval:
+            - k8s_apply_manifest
+          toolNames:
+            - k8s_apply_manifest
+            - k8s_get_resources
+      {{- if .Values.agents.auth.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-auth-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.blueprint.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-blueprint-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.documentation.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-documentation-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.portal.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-portal-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.restaction.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-restaction-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.observability.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-observability-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.k8s.enabled }}
+      - type: Agent
+        agent:
+          name: k8s-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.helm.enabled }}
+      - type: Agent
+        agent:
+          name: helm-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.codeAnalysis.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-code-analysis-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.ansibleToOperator.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-ansible-to-operator-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.tfProviderToOperator.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-tf-provider-to-operator-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+      {{- if .Values.agents.tfToHelm.enabled }}
+      - type: Agent
+        agent:
+          name: krateo-tf-to-helm-agent
+          kind: Agent
+          apiGroup: kagent.dev
+      {{- end }}
+    context:
+      compaction:
+        compactionInterval: 5
+        overlapSize: 1
+        summarizer:
+          modelConfig: {{ .Values.agents.autopilot.modelConfig }}
+    a2aConfig:
+      skills:
+        - id: krateo-platform-ops
+          name: Krateo Platform Operations
+          description: "Full-stack AI assistant for Krateo PlatformOps"
+          tags: [krateo, platform, kubernetes]
+{{- end }}

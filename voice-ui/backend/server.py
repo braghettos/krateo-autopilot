@@ -36,7 +36,7 @@ async def get_config():
     """Return non-sensitive configuration for the frontend."""
     return {
         "geminiApiKey": GEMINI_API_KEY,
-        "model": "gemini-2.5-flash-live-preview",
+        "model": "gemini-2.5-flash-native-audio-latest",
     }
 
 
