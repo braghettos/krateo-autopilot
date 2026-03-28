@@ -396,20 +396,8 @@ async function handleChipClick(text) {
   if (result.contextId) sessionId = result.contextId;
   const responseText = result.text || "No response.";
 
-  // Feed to Gemini so it speaks, or show as text
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify({
-      clientContent: {
-        turns: [
-          { role: "user", parts: [{ text }] },
-          { role: "model", parts: [{ text: responseText }] },
-        ],
-        turnComplete: true,
-      },
-    }));
-  } else {
-    addMessage("agent", responseText);
-  }
+  // Display the response as text in the transcript
+  addMessage("agent", responseText);
   setStatus("connected", "Connected");
 
   // Generate new context-aware suggestions
