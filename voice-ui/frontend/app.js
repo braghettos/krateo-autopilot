@@ -382,10 +382,8 @@ Your job:
           if (result.contextId) sessionId = result.contextId;
           const responseText = result.text || "No response.";
 
-          // Show the full response as text in transcript
-          addMessage("agent", responseText);
-
           // Send tool response back to Gemini so it speaks a summary
+          // (the spoken summary will appear via outputTranscription)
           ws.send(JSON.stringify({
             toolResponse: {
               functionResponses: [{
