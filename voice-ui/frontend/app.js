@@ -21,6 +21,9 @@ let isListening = false;
 let sessionId = self.crypto?.randomUUID?.() || (Math.random().toString(36).slice(2) + Date.now().toString(36));
 
 const micBtn = document.getElementById("mic-btn");
+const micIcon = document.getElementById("mic-icon");
+const stopIcon = document.getElementById("stop-icon");
+const micLabel = document.getElementById("mic-label");
 const statusEl = document.getElementById("status");
 const hintEl = document.getElementById("hint");
 const transcriptLog = document.getElementById("transcript-log");
@@ -35,6 +38,41 @@ let currentOutputMsg = null;  // accumulates output transcription fragments
 function setStatus(state, text) {
   statusEl.className = `status ${state}`;
   statusEl.textContent = text;
+}
+
+function setMicState(state) {
+  // state: "ready" | "recording" | "processing" | "disabled"
+  micBtn.classList.remove("active", "processing");
+  micBtn.disabled = false;
+  micIcon.style.display = "";
+  stopIcon.style.display = "none";
+  micLabel.classList.remove("recording");
+
+  switch (state) {
+    case "recording":
+      micBtn.classList.add("active");
+      micIcon.style.display = "none";
+      stopIcon.style.display = "";
+      micLabel.textContent = "Listening... tap to stop";
+      micLabel.classList.add("recording");
+      hintEl.textContent = "";
+      break;
+    case "processing":
+      micBtn.classList.add("processing");
+      micLabel.textContent = "Processing...";
+      hintEl.textContent = "Waiting for response";
+      micBtn.disabled = true;
+      break;
+    case "ready":
+      micLabel.textContent = "Tap to speak";
+      hintEl.textContent = "";
+      break;
+    case "disabled":
+      micBtn.disabled = true;
+      micLabel.textContent = "Connecting...";
+      hintEl.textContent = "";
+      break;
+  }
 }
 
 function addMessage(role, text) {
@@ -193,7 +231,7 @@ async function sendToAutopilot(message) {
 
 async function connect() {
   setStatus("connecting", "Connecting...");
-  micBtn.disabled = true;
+  setMicState("disabled");
 
   // Fetch API key from backend
   let apiKey;
@@ -281,8 +319,7 @@ Your job:
     // Setup complete
     if (msg.setupComplete) {
       setStatus("connected", "Connected");
-      micBtn.disabled = false;
-      hintEl.textContent = "Click the microphone to start";
+      setMicState("ready");
       initPlayback();
       addMessage("system", "Connected to Gemini Live");
       return;
@@ -318,17 +355,26 @@ Your job:
         transcriptLog.parentElement.scrollTop = transcriptLog.parentElement.scrollHeight;
       }
 
-      // Turn complete — finalize current messages
+      // Turn complete — finalize current messages and auto-disable mic
       if (sc.turnComplete) {
         currentInputMsg = null;
         currentOutputMsg = null;
-        setStatus("listening", "Listening...");
+        if (isListening) {
+          stopMic();
+        } else {
+          setMicState("ready");
+          setStatus("connected", "Connected");
+        }
       }
     }
 
     // Tool call from Gemini
     const tc = msg.toolCall;
     if (tc && tc.functionCalls) {
+      // Auto-disable mic when tool call starts
+      if (isListening) stopMic();
+      setMicState("processing");
+
       for (const call of tc.functionCalls) {
         if (call.name === "send_to_autopilot") {
           const userMsg = call.args?.message || "";
@@ -350,7 +396,7 @@ Your job:
             },
           }));
 
-          setStatus("listening", "Listening...");
+          setStatus("connected", "Speaking...");
 
           // Update context-aware suggestions
           lastUserMessage = userMsg;
@@ -368,10 +414,9 @@ Your job:
 
   ws.onclose = (e) => {
     setStatus("disconnected", "Disconnected");
-    micBtn.disabled = true;
-    micBtn.classList.remove("active");
-    isListening = false;
-    stopAudioCapture();
+    if (isListening) stopMic();
+    setMicState("disabled");
+    micLabel.textContent = "Disconnected";
     if (e.code !== 1000) {
       addMessage("system", `Disconnected (code ${e.code})`);
     }
@@ -380,26 +425,28 @@ Your job:
 
 // --- Mic button ---
 
+function stopMic() {
+  isListening = false;
+  stopAudioCapture();
+  setMicState("ready");
+  setStatus("connected", "Connected");
+  // Clear waveform
+  waveformCtx.fillStyle = "#161b22";
+  waveformCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+}
+
 micBtn.addEventListener("click", async () => {
   if (!isListening) {
     try {
       await startAudioCapture();
       isListening = true;
-      micBtn.classList.add("active");
+      setMicState("recording");
       setStatus("listening", "Listening...");
-      hintEl.textContent = "Speak now — click again to pause";
     } catch (err) {
       addMessage("system", `Microphone error: ${err.message}`);
     }
   } else {
-    isListening = false;
-    micBtn.classList.remove("active");
-    stopAudioCapture();
-    setStatus("connected", "Connected");
-    hintEl.textContent = "Click the microphone to start";
-    // Clear waveform
-    waveformCtx.fillStyle = "#161b22";
-    waveformCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+    stopMic();
   }
 });
 
