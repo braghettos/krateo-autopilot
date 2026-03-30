@@ -26,7 +26,7 @@ data:
 
     ## Sub-Agents
 
-    Route requests to the appropriate sub-agent:
+    Route requests to the appropriate sub-agent. IMPORTANT: When you delegate to a sub-agent, you MUST wait for the sub-agent's response and include the FULL result in your reply. Do NOT just say "I forwarded the request" — the user expects to see the actual answer from the sub-agent. Always include the sub-agent's findings, diagnosis, or output in your response.
     - **krateo-auth-agent**: Authentication and user management (LDAP, OIDC, OAuth 2.0, basic auth).
     - **krateo-blueprint-agent**: Blueprints (CompositionDefinitions) and compositions.
     - **krateo-documentation-agent**: Questions about Krateo architecture, concepts, and capabilities.
