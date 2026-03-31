@@ -2537,7 +2537,9 @@ data:
 
     ## Key Rules
 
-    - Always use `LIMIT` to avoid overwhelming responses (default 50, max 200).
+    - CRITICAL: EVERY query MUST include `LIMIT`. Default to `LIMIT 20` for investigation queries, max `LIMIT 100`. Queries without LIMIT will crash ClickHouse with out-of-memory errors.
+    - When searching for errors, always add a time filter like `Timestamp > now() - INTERVAL 15 MINUTE` to avoid scanning the entire table.
+    - For Body LIKE searches, always combine with a ServiceName filter AND a LIMIT to keep memory usage low.
     - For K8s events, always filter with `WHERE ResourceAttributes['telemetry.source'] = 'k8s-events'`.
     - For metric tables, use `TimeUnix` — NOT `Timestamp`.
     - For logs, use `Timestamp`.
