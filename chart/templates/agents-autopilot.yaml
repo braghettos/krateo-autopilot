@@ -7,14 +7,15 @@ metadata:
 spec:
   type: Declarative
   description: "Orchestrator for Krateo PlatformOps — routes user requests to the appropriate specialist sub-agent and installs Krateo"
+{{- if .Values.agents.autopilot.skillRef }}
   skills:
     refs:
-      - gcr.io/neon-481711/krateo-install-skill:latest
+      - {{ .Values.agents.autopilot.skillRef }}
+{{- end }}
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.autopilot.modelConfig }}
     stream: true
     promptTemplate:
@@ -30,8 +31,10 @@ spec:
           name: kagent-tool-server
           kind: RemoteMCPServer
           apiGroup: kagent.dev
+{{- if .Values.hitlApproval }}
           requireApproval:
             - k8s_apply_manifest
+{{- end }}
           toolNames:
             - k8s_apply_manifest
             - k8s_get_resources
@@ -118,6 +121,16 @@ spec:
           name: krateo-tf-to-helm-agent
           kind: Agent
           apiGroup: kagent.dev
+      {{- end }}
+      {{- /* extraAgents: blueprint-contributed specialists (a component or the installer ships
+             its own Agent and registers it here). The orchestrator stays the single mandatory
+             entry point; these are reachable only through this A2A routing. */}}
+      {{- range .Values.extraAgents }}
+      - type: Agent
+        agent:
+          name: {{ .name }}
+          kind: {{ .kind | default "Agent" }}
+          apiGroup: {{ .apiGroup | default "kagent.dev" }}
       {{- end }}
     context:
       compaction:

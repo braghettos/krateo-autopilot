@@ -10,8 +10,7 @@ spec:
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.codeAnalysis.modelConfig }}
     stream: true
     a2aConfig:
@@ -64,8 +63,7 @@ spec:
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.ansibleToOperator.modelConfig }}
     stream: true
     a2aConfig:
@@ -106,8 +104,7 @@ spec:
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.tfProviderToOperator.modelConfig }}
     stream: true
     a2aConfig:
@@ -156,8 +153,7 @@ spec:
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.tfToHelm.modelConfig }}
     stream: true
     a2aConfig:

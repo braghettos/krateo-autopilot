@@ -10,8 +10,7 @@ spec:
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.k8s.modelConfig }}
     stream: true
     a2aConfig:
@@ -33,6 +32,7 @@ spec:
           apiGroup: kagent.dev
           kind: RemoteMCPServer
           name: kagent-tool-server
+{{- if .Values.hitlApproval }}
           requireApproval:
             - k8s_apply_manifest
             - k8s_create_resource
@@ -42,6 +42,7 @@ spec:
             - k8s_execute_command
             - k8s_rollout
             - k8s_scale
+{{- end }}
           toolNames:
             - k8s_get_resources
             - k8s_describe_resource
@@ -77,8 +78,7 @@ spec:
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.helm.modelConfig }}
     stream: true
     a2aConfig:

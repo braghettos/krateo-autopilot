@@ -1,5 +1,11 @@
 namespace: krateo-system
 
+# Human-in-the-loop approval gate for mutating Kubernetes tools (k8s_apply_manifest,
+# k8s_patch_resource, k8s_delete_resource, k8s_scale, ...). true (default, safe): the
+# k8s-agent and autopilot pause for approval before changing the cluster. false: they
+# execute remediations autonomously (no approval) — use for closed-loop automation.
+hitlApproval: true
+
 # Gemini API key secret — must already exist in the namespace
 geminiApiKey:
   secretName: gemini-api-key
@@ -16,17 +22,25 @@ models:
     model: gemini-2.5-pro
     provider: Gemini
 
-# Vertex AI provider config (optional)
+# Gemini Vertex AI provider config.
+# When enabled, ModelConfigs use provider GeminiVertexAI with Application Default
+# Credentials (no API key / no SA-key file) — the kagent agent pods authenticate to
+# Vertex via the GKE node SA token from the metadata server. The node pool's SA must
+# have an IAM role covering aiplatform.* (e.g. roles/aiplatform.user or roles/editor)
+# and the node pool must run with the cloud-platform OAuth scope.
 vertexAI:
   enabled: false
-  secretName: gcloud-credentials
+  projectID: ""
+  location: us-central1
+  # secretName is only used for explicit SA-key auth; left unset for ADC.
+  secretName: ""
 
 # MCP servers — these are RemoteMCPServer CRDs pointing to existing deployments
 mcpServers:
   clickhouse:
     enabled: true
-    url: http://clickhouse-mcp-server.krateo-system:8000/sse
-    protocol: SSE
+    url: http://clickhouse-mcp-server.krateo-system:8000/mcp
+    protocol: STREAMABLE_HTTP
   github:
     enabled: true
     url: http://github-mcp-server.krateo-system:3000/mcp
@@ -37,6 +51,9 @@ agents:
   autopilot:
     enabled: true
     modelConfig: gemini-flash
+    # Optional kagent skill OCI image (skills-init pulls it anonymously, so it must be a
+    # public registry). Empty by default — set to your own skill image if you have one.
+    skillRef: ""
   k8s:
     enabled: true
     modelConfig: gemini-flash
@@ -77,3 +94,11 @@ agents:
 # Prompts language
 prompts:
   language: eng
+
+# Extra A2A sub-agents to register on the orchestrator — component/blueprint-contributed
+# specialists (e.g. the installer's krateo-installer-agent). The orchestrator stays the
+# single mandatory entry point; these are reachable only through its routing. Each entry:
+# name (required), optional kind (default Agent) and apiGroup (default kagent.dev). Unset =
+# none. Example:
+#   extraAgents:
+#     - name: krateo-installer-agent
