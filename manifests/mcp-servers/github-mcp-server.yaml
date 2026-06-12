@@ -1,9 +1,0 @@
-apiVersion: kagent.dev/v1alpha2
-kind: RemoteMCPServer
-metadata:
-  name: github-mcp-server
-  namespace: krateo-system
-spec:
-  description: "GitHub official MCP server — source code search, file contents, commits, PRs, repo management"
-  protocol: STREAMABLE_HTTP
-  url: http://github-mcp-server.krateo-system:3000/mcp

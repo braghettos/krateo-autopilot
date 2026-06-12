@@ -1,1 +1,0 @@
-Gestisce il login e l’autenticazione di Krateo. Crea account in Krateo e risponde a domande sull’autenticazione. Gestisce domande relative a authn, ai Secrets degli utenti o alla risorsa personalizzata User in Krateo.
