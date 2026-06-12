@@ -1,0 +1,18 @@
+apiVersion: eval.krateo.io/v1alpha1
+kind: Challenge
+metadata:
+  name: restaction-list-pods
+spec:
+  description: The restaction agent creates a RESTAction CR that lists cluster pods.
+  agent: krateo-autopilot
+  prompt: |
+    Create a Krateo RESTAction named "eval-list-pods" in the "krateo-system" namespace that lists
+    the pods in the cluster via the Kubernetes API, and apply it. Confirm with the tool
+    `checkKrateoFixed` (challenge "restaction-list-pods") and keep going until fixed=true.
+  asserts:
+    - kind: resourceExists
+      resource: restactions.templates.krateo.io
+      name: eval-list-pods
+      namespace: krateo-system
+  cleanup:
+    - run: kubectl delete restactions.templates.krateo.io eval-list-pods -n krateo-system --ignore-not-found

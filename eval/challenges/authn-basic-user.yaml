@@ -1,0 +1,18 @@
+apiVersion: eval.krateo.io/v1alpha1
+kind: Challenge
+metadata:
+  name: authn-basic-user
+spec:
+  description: The auth agent creates a basic-auth User CR.
+  agent: krateo-autopilot
+  prompt: |
+    Set up basic authentication for a new Krateo user named "eval-user" in the "krateo-system"
+    namespace (create the User resource for basic auth). Apply it to the cluster, then verify with
+    the tool `checkKrateoFixed` (challenge "authn-basic-user") and keep going until fixed=true.
+  asserts:
+    - kind: resourceExists
+      resource: users.basic.authn.krateo.io
+      name: eval-user
+      namespace: krateo-system
+  cleanup:
+    - run: kubectl delete users.basic.authn.krateo.io eval-user -n krateo-system --ignore-not-found

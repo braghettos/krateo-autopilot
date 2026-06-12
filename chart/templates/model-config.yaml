@@ -1,33 +1,29 @@
+{{- /*
+  ModelConfigs for the autopilot agents.
+
+  vertexAI.enabled=true  -> provider GeminiVertexAI with the geminiVertexAI block
+    (projectID + location). No apiKeySecret: kagent authenticates to Vertex via
+    Application Default Credentials (the GKE node SA token from the metadata server).
+
+  vertexAI.enabled=false -> provider Gemini with the apiKeySecret (Gemini API key).
+*/}}
+{{- range $alias, $m := .Values.models }}
 apiVersion: kagent.dev/v1alpha2
 kind: ModelConfig
 metadata:
-  name: {{ .Values.models.flash.name }}
-  namespace: {{ .Values.namespace }}
+  name: {{ $m.name }}
+  namespace: {{ $.Values.namespace }}
 spec:
-  model: {{ .Values.models.flash.model }}
-  provider: {{ .Values.models.flash.provider }}
-  apiKeySecret: {{ .Values.geminiApiKey.secretName }}
-  apiKeySecretKey: {{ .Values.geminiApiKey.secretKey }}
+  model: {{ $m.model }}
+{{- if $.Values.vertexAI.enabled }}
+  provider: GeminiVertexAI
+  geminiVertexAI:
+    projectID: {{ $.Values.vertexAI.projectID | quote }}
+    location: {{ $.Values.vertexAI.location | quote }}
+{{- else }}
+  provider: {{ $m.provider }}
+  apiKeySecret: {{ $.Values.geminiApiKey.secretName }}
+  apiKeySecretKey: {{ $.Values.geminiApiKey.secretKey }}
+{{- end }}
 ---
-apiVersion: kagent.dev/v1alpha2
-kind: ModelConfig
-metadata:
-  name: {{ .Values.models.pro.name }}
-  namespace: {{ .Values.namespace }}
-spec:
-  model: {{ .Values.models.pro.model }}
-  provider: {{ .Values.models.pro.provider }}
-  apiKeySecret: {{ .Values.geminiApiKey.secretName }}
-  apiKeySecretKey: {{ .Values.geminiApiKey.secretKey }}
-{{- if .Values.vertexAI.enabled }}
----
-apiVersion: kagent.dev/v1alpha2
-kind: ModelProviderConfig
-metadata:
-  name: vertex-ai-provider
-  namespace: {{ .Values.namespace }}
-spec:
-  type: GeminiVertexAI
-  secretRef:
-    name: {{ .Values.vertexAI.secretName }}
 {{- end }}

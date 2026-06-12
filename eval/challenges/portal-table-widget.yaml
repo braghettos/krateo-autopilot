@@ -1,0 +1,19 @@
+apiVersion: eval.krateo.io/v1alpha1
+kind: Challenge
+metadata:
+  name: portal-table-widget
+spec:
+  description: The portal agent creates a Composable Portal Table widget CR.
+  agent: krateo-autopilot
+  prompt: |
+    In the Krateo cluster, create a Composable Portal "Table" widget named "eval-table" in the
+    "krateo-system" namespace, populated with a small amount of static data, and apply it to the
+    cluster. To confirm you succeeded, call the tool `checkKrateoFixed` with challenge
+    "portal-table-widget", and keep adjusting until it reports fixed=true.
+  asserts:
+    - kind: resourceExists
+      resource: tables.widgets.templates.krateo.io
+      name: eval-table
+      namespace: krateo-system
+  cleanup:
+    - run: kubectl delete tables.widgets.templates.krateo.io eval-table -n krateo-system --ignore-not-found

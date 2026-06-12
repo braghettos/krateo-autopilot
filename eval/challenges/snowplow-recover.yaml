@@ -1,0 +1,20 @@
+apiVersion: eval.krateo.io/v1alpha1
+kind: Challenge
+metadata:
+  name: snowplow-recover
+spec:
+  description: SRE fix-it — the autopilot diagnoses and recovers a scaled-down snowplow.
+  agent: krateo-autopilot
+  # steps inject the fault BEFORE the agent runs (mirrors kagent's spec.steps[].run).
+  steps:
+    - run: kubectl scale deployment/snowplow -n krateo-system --replicas=0
+  prompt: |
+    The Krateo portal is showing "404 Page not found" and widgets failing to load in the
+    "krateo-system" namespace — it looks like the snowplow content API is not serving. Investigate
+    and restore it to a healthy state. Use the tool `checkKrateoFixed` (challenge
+    "snowplow-recover") to confirm, and you have permission to keep trying until fixed=true.
+  asserts:
+    - kind: deploymentReady
+      name: snowplow
+      namespace: krateo-system
+  # no cleanup: a healthy snowplow is the desired end state.

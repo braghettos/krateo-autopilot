@@ -1,9 +1,0 @@
-apiVersion: kagent.dev/v1alpha2
-kind: ModelProviderConfig
-metadata:
-  name: vertex-ai-provider
-  namespace: krateo-system
-spec:
-  type: GeminiVertexAI
-  secretRef:
-    name: gcloud-credentials

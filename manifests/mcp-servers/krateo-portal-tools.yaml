@@ -1,9 +1,0 @@
-apiVersion: kagent.dev/v1alpha2
-kind: RemoteMCPServer
-metadata:
-  name: krateo-portal-tools
-  namespace: krateo-system
-spec:
-  description: "Krateo portal widget specification tools (get_widget, get_widgets)"
-  protocol: STREAMABLE_HTTP
-  url: http://krateo-portal-tools:8080/mcp

@@ -7,14 +7,15 @@ metadata:
 spec:
   type: Declarative
   description: "Orchestrator for Krateo PlatformOps — routes user requests to the appropriate specialist sub-agent and installs Krateo"
+{{- if .Values.agents.autopilot.skillRef }}
   skills:
     refs:
-      - gcr.io/neon-481711/krateo-install-skill:latest
+      - {{ .Values.agents.autopilot.skillRef }}
+{{- end }}
   declarative:
     deployment:
       env:
-        - name: GOOGLE_GENAI_USE_VERTEXAI
-          value: "0"
+{{- include "krateo-autopilot.genaiEnv" . | nindent 8 }}
     modelConfig: {{ .Values.agents.autopilot.modelConfig }}
     stream: true
     promptTemplate:
@@ -30,53 +31,13 @@ spec:
           name: kagent-tool-server
           kind: RemoteMCPServer
           apiGroup: kagent.dev
+{{- if .Values.hitlApproval }}
           requireApproval:
             - k8s_apply_manifest
+{{- end }}
           toolNames:
             - k8s_apply_manifest
             - k8s_get_resources
-      {{- if .Values.agents.auth.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-auth-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.blueprint.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-blueprint-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.documentation.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-documentation-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.portal.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-portal-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.restaction.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-restaction-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.observability.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-observability-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
       {{- if .Values.agents.k8s.enabled }}
       - type: Agent
         agent:
@@ -91,33 +52,15 @@ spec:
           kind: Agent
           apiGroup: kagent.dev
       {{- end }}
-      {{- if .Values.agents.codeAnalysis.enabled }}
+      {{- /* extraAgents: blueprint-contributed specialists (a component or the installer ships
+             its own Agent and registers it here). The orchestrator stays the single mandatory
+             entry point; these are reachable only through this A2A routing. */}}
+      {{- range .Values.extraAgents }}
       - type: Agent
         agent:
-          name: krateo-code-analysis-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.ansibleToOperator.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-ansible-to-operator-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.tfProviderToOperator.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-tf-provider-to-operator-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.tfToHelm.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-tf-to-helm-agent
-          kind: Agent
-          apiGroup: kagent.dev
+          name: {{ .name }}
+          kind: {{ .kind | default "Agent" }}
+          apiGroup: {{ .apiGroup | default "kagent.dev" }}
       {{- end }}
     context:
       compaction:

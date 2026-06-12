@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "krateo-autopilot values",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "namespace": {
+      "type": "string",
+      "description": "Namespace where the autopilot resources are installed."
+    },
+    "geminiApiKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "secretName": {
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        }
+      },
+      "description": "Reference to an existing secret holding the Gemini API key."
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Model configurations, keyed by an arbitrary alias."
+    },
+    "vertexAI": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "projectID": {
+          "type": "string",
+          "description": "GCP project ID hosting Vertex AI."
+        },
+        "location": {
+          "type": "string",
+          "description": "Vertex AI region, e.g. us-central1."
+        },
+        "secretName": {
+          "type": "string"
+        }
+      },
+      "description": "Gemini Vertex AI provider configuration. When enabled, ModelConfigs use provider GeminiVertexAI with Application Default Credentials (no API key) \u2014 the pod's GKE node SA must have aiplatform access. secretName is optional (only for explicit SA-key auth)."
+    },
+    "mcpServers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "url": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Remote MCP servers, keyed by an arbitrary alias."
+    },
+    "agents": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "modelConfig": {
+            "type": "string"
+          },
+          "skillRef": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Agents to deploy, keyed by agent name."
+    },
+    "prompts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "type": "string"
+        }
+      },
+      "description": "Prompts configuration."
+    },
+    "hitlApproval": {
+      "type": "boolean",
+      "description": "HITL approval gate for mutating k8s tools. true=pause for approval (safe); false=autonomous remediation."
+    },
+    "global": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Helm global values (injected by the composition runtime)."
+    },
+    "extraAgents": {
+      "type": "array",
+      "description": "Extra A2A sub-agents to register on the orchestrator (component/blueprint-contributed specialists, e.g. the installer's krateo-installer-agent). The orchestrator stays the single mandatory entry point; these are reachable only via its routing.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "apiGroup": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
