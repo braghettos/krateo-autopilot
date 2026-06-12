@@ -130,6 +130,13 @@ Rules:
 - **Tools** — the domain's tools as `RemoteMCPServer` (or builtin kagent tools).
 - **Eval** — the agent ships its own `eval/challenges/*.yaml` (§5) for its domain.
 - **No standalone entry point** — reachable only through the orchestrator's A2A routing.
+- **Knows its codebase + chart (required).** A dedicated agent must be the authoritative expert on
+  its component, grounded in real code — never guessing. This is wired **structurally**, not in
+  prose: the agent chart's `Chart.yaml` `sources` declares the **braghettos fork of the codebase**
+  AND the chart repo that packages it (per `CHART-STANDARD.md` — fork from krateoplatformops if the
+  codebase fork is missing), and the agent is given **github MCP tools** (`get_file_contents`,
+  `search_code`, …) plus a prompt section naming those repos, so it reads the actual code/CRDs/schema
+  on demand. Reference: `krateo-authn-agent` → `sources: [braghettos/authn, braghettos/krateo-authn-chart]`.
 
 **Current state & migration:** only `krateo-installer/kagent/` exists today, and it is the legacy
 kog-style raw-manifest "expert" pattern — its Agent is named **`krateo-installer-expert`** while the
