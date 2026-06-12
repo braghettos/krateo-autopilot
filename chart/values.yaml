@@ -60,9 +60,6 @@ agents:
   helm:
     enabled: true
     modelConfig: gemini-flash
-  auth:
-    enabled: true
-    modelConfig: gemini-flash
   blueprint:
     enabled: true
     modelConfig: gemini-flash
