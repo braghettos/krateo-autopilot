@@ -60,21 +60,6 @@ agents:
   helm:
     enabled: true
     modelConfig: gemini-flash
-  blueprint:
-    enabled: true
-    modelConfig: gemini-flash
-  documentation:
-    enabled: true
-    modelConfig: gemini-flash
-  portal:
-    enabled: true
-    modelConfig: gemini-flash
-  restaction:
-    enabled: true
-    modelConfig: gemini-flash
-  observability:
-    enabled: true
-    modelConfig: gemini-flash
   codeAnalysis:
     enabled: true
     modelConfig: gemini-pro
