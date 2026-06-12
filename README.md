@@ -1,189 +1,76 @@
-# Krateo Autopilot (kagent)
+# krateo-autopilot
 
-Krateo Autopilot is an AI assistant for [Krateo PlatformOps](https://krateo.io),
-re-engineered to run natively on [kagent](https://kagent.dev) — the open-source
-framework for Kubernetes-native AI agents.
+Krateo Autopilot — the **kagent-native** AI orchestrator for [Krateo PlatformOps](https://krateo.io).
+A single mandatory entry point that routes user requests to specialist sub-agents over A2A. Built
+on [kagent](https://kagent.dev), the framework for Kubernetes-native AI agents.
 
-## Architecture
+Part of the [krateo-installer](https://github.com/braghettos/krateo-installer) ecosystem.
 
-```
-kagent Controller
-└── Agent: krateo-autopilot (orchestrator)
-    ├── Skill: krateo-install-skill     (Helm-based Krateo installer)
-    ├── Agent: krateo-auth-agent        (authentication management)
-    ├── Agent: krateo-blueprint-agent   (blueprint/composition creation)
-    │   └── MCP: krateo-blueprint-tools (list/get/marketplace/schema tools)
-    ├── Agent: krateo-documentation-agent (Krateo knowledge base)
-    ├── Agent: krateo-portal-agent      (portal widget YAML generation)
-    │   └── MCP: krateo-portal-tools    (widget specification files)
-    └── Agent: krateo-restaction-agent  (RESTAction CRD generation)
-```
+## What it ships
 
-## Prerequisites
+| Path | Chart | OCI artifact |
+|------|-------|--------------|
+| `chart/` | `krateo-autopilot` | `oci://ghcr.io/braghettos/krateo/krateo-autopilot` |
 
-- Kubernetes cluster with kagent installed ([kagent.dev/docs/getting-started](https://kagent.dev/docs/getting-started))
-- `kubectl` configured to access the cluster
-- Helm 3
-- A Google Cloud project with Vertex AI enabled
+The chart renders, via kagent constructs:
 
-## Installation
+- **`Agent` CRDs** — the orchestrator + specialists: `krateo-auth-agent`, `krateo-blueprint-agent`,
+  `krateo-documentation-agent`, `krateo-portal-agent`, `krateo-restaction-agent`,
+  `krateo-observability-agent`, `krateo-code-analysis-agent`, the IaC/codegen agents
+  (`krateo-ansible-to-operator-agent`, `krateo-tf-provider-to-operator-agent`,
+  `krateo-tf-to-helm-agent`), plus the built-in `k8s-agent` / `helm-agent`.
+- **`ModelConfig`** — Gemini, or **GeminiVertexAI via Application Default Credentials** when
+  `vertexAI.enabled=true` (no API key / SA-key; the pod uses the GKE node SA token).
+- **`RemoteMCPServer`** — the tool servers (`kagent-tool-server`, `clickhouse-mcp-server`,
+  `github-mcp-server`, and the custom `krateo-portal-tools` / `krateo-blueprint-tools`).
+- **Prompts** — `promptTemplate` `dataSources` ConfigMap rendered from `chart/files/prompts-{eng,ita}.yaml`.
+- **`hitlApproval`** — a human-in-the-loop gate on mutating Kubernetes tools.
 
-### 1. Create the Krateo namespace and GCP credentials Secret
+## How the installer consumes it
 
-```bash
-kubectl create namespace krateo-system
+The installer umbrella deploys `krateo-autopilot` (when `features.observabilityAgents=true`) as a
+composition pulling `oci://ghcr.io/braghettos/krateo/krateo-autopilot`. The orchestrator is the
+**single mandatory entry point**; specialists are reachable only through its A2A routing.
 
-kubectl create secret generic gcloud-credentials \
-  --from-file=key.json=/path/to/your/service-account-key.json \
-  -n krateo-system
-```
+### Federated specialist agents (`extraAgents`)
 
-### 2. Deploy the MCP servers
+Components and blueprints can ship their own specialist agent and register it on the orchestrator
+without forking this chart, via the `extraAgents` hook:
 
-```bash
-helm upgrade --install krateo-blueprint-tools \
-  ./mcp-servers/blueprint-tools/chart \
-  --namespace krateo-system
-
-helm upgrade --install krateo-portal-tools \
-  ./mcp-servers/portal-tools/chart \
-  --namespace krateo-system
+```yaml
+extraAgents:
+  - name: krateo-installer-agent   # shipped by the installer repo
 ```
 
-### 3. Apply the prompt ConfigMaps
+This is how Krateo installation is driven — the autopilot routes install requests to
+`krateo-installer-agent` (which edits the `Installer` CR), **not** a bundled install skill.
 
-```bash
-# English prompts (default)
-kubectl apply -f manifests/prompts/eng-configmap.yaml
+## Custom MCP tool servers
 
-# Italian prompts (optional)
-kubectl apply -f manifests/prompts/ita-configmap.yaml
+`mcp-servers/portal-tools` (with the 24 portal widget specs) and `mcp-servers/blueprint-tools`
+give the portal/blueprint agents Krateo-specific knowledge. They are container images, built and
+published on component-prefixed tags (`portal-tools/X.Y.Z`, `blueprint-tools/X.Y.Z`) and wired in
+as `RemoteMCPServer`.
+
+## Evaluation
+
+`eval/` runs the per-agent `*.evalset.json` scenarios against the live agents (pytest/A2A harness).
+
+## Local validation
+
+```sh
+helm lint chart
+helm template smoke chart
 ```
 
-### 4. Apply ModelConfig and ModelProviderConfig
+## Release
 
-```bash
-kubectl apply -f manifests/model-provider-config.yaml
-kubectl apply -f manifests/model-config.yaml
-```
+- **Chart** → push a semver tag (`X.Y.Z`) → `release-oci.yaml` publishes to
+  `oci://ghcr.io/braghettos/krateo`.
+- **MCP-server images** → push a `portal-tools/X.Y.Z` or `blueprint-tools/X.Y.Z` tag →
+  `release-mcp-server-tag.yaml` builds and pushes the image.
 
-### 5. Register MCP servers with kagent
+## Links
 
-```bash
-kubectl apply -f manifests/mcp-servers/krateo-blueprint-tools.yaml
-kubectl apply -f manifests/mcp-servers/krateo-portal-tools.yaml
-```
-
-### 6. Deploy the agents
-
-```bash
-# Sub-agents first
-kubectl apply -f manifests/agents/auth-agent.yaml
-kubectl apply -f manifests/agents/blueprint-agent.yaml
-kubectl apply -f manifests/agents/documentation-agent.yaml
-kubectl apply -f manifests/agents/portal-agent.yaml
-kubectl apply -f manifests/agents/restaction-agent.yaml
-
-# Root agent last (depends on sub-agents)
-kubectl apply -f manifests/agents/autopilot.yaml
-```
-
-### 7. Verify
-
-```bash
-kubectl get agents -n krateo-system
-kubectl get remotemcpservers -n krateo-system
-```
-
-## Usage
-
-```bash
-# Interact via the kagent CLI
-kagent invoke --agent krateo-autopilot --namespace krateo-system \
-  --message "List all blueprints installed in the cluster"
-
-# Or use the kagent UI
-kagent ui
-```
-
-## Language Switching
-
-To switch from English to Italian prompts, patch each agent's `promptTemplate`
-to reference `krateo-prompts-ita` instead of `krateo-prompts-eng`:
-
-```bash
-# Example for root agent
-kubectl patch agent krateo-autopilot -n krateo-system --type=merge \
-  -p '{"spec":{"declarative":{"promptTemplate":{"dataSources":[{"kind":"ConfigMap","name":"krateo-prompts-ita","namespace":"krateo-system","alias":"prompts"}]}}}}'
-```
-
-## Project Structure
-
-```
-autopilot/
-├── manifests/                    # Kubernetes manifests
-│   ├── namespace.yaml
-│   ├── model-config.yaml
-│   ├── model-provider-config.yaml
-│   ├── agents/                   # kagent Agent CRDs
-│   │   ├── autopilot.yaml
-│   │   ├── auth-agent.yaml
-│   │   ├── blueprint-agent.yaml
-│   │   ├── documentation-agent.yaml
-│   │   ├── portal-agent.yaml
-│   │   └── restaction-agent.yaml
-│   ├── mcp-servers/              # RemoteMCPServer CRDs
-│   │   ├── krateo-blueprint-tools.yaml
-│   │   └── krateo-portal-tools.yaml
-│   └── prompts/                  # Agent system prompts as ConfigMaps
-│       ├── eng-configmap.yaml
-│       └── ita-configmap.yaml
-├── mcp-servers/                  # Custom MCP server implementations
-│   ├── blueprint-tools/          # Blueprint/composition/schema tools
-│   │   ├── server.py
-│   │   ├── schema.py             # Python port of krateoctl gen-schema logic
-│   │   ├── requirements.txt
-│   │   ├── Dockerfile
-│   │   └── chart/
-│   └── portal-tools/             # Portal widget specification tools
-│       ├── server.py
-│       ├── requirements.txt
-│       ├── Dockerfile
-│       ├── widgets/              # Widget spec markdown files
-│       └── chart/
-├── skills/                       # Container-based skills
-│   └── krateo-install/           # Krateo installation skill
-│       ├── SKILL.md
-│       ├── Dockerfile
-│       └── scripts/
-├── prompts/                      # Source prompt markdown files
-│   ├── eng/
-│   └── ita/
-├── descriptions/                 # Agent description files
-│   ├── eng/
-│   └── ita/
-└── eval/                         # Evaluation tests (kagent invoke based)
-```
-
-## Building Container Images
-
-```bash
-# Blueprint tools MCP server
-docker build -t ghcr.io/krateoplatformops/krateo-blueprint-tools:latest \
-  mcp-servers/blueprint-tools/
-
-# Portal tools MCP server
-docker build -t ghcr.io/krateoplatformops/krateo-portal-tools:latest \
-  mcp-servers/portal-tools/
-
-# Krateo install skill
-docker build -t ghcr.io/krateoplatformops/krateo-install-skill:latest \
-  skills/krateo-install/
-```
-
-## Notes on gen_values_schema_json
-
-The `gen_values_schema_json` tool in `krateo-blueprint-tools` is a pure Python
-port of [`krateoctl gen-schema`](https://github.com/krateoplatformops/krateoctl).
-It parses the same `# @schema` annotation format used in Krateo blueprint charts,
-so all existing charts remain compatible without any changes.
+- Installer umbrella: https://github.com/braghettos/krateo-installer
+- kagent: https://kagent.dev
