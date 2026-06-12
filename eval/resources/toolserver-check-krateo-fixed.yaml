@@ -1,0 +1,17 @@
+# Registers the eval's self-check tool with kagent so the autopilot (or a sub-agent) can call
+# `checkKrateoFixed` and iterate until the cluster satisfies a challenge. The tool image must
+# bundle this eval/ dir + kubectl + fastmcp (mirrors kagent's npx check-kubernetes-cluster-fixed).
+apiVersion: kagent.dev/v1alpha1
+kind: ToolServer
+metadata:
+  name: check-krateo-fixed
+  namespace: krateo-system
+spec:
+  description: Check whether the Krateo cluster satisfies an eval challenge's success assertions
+  config:
+    stdio:
+      command: python
+      args:
+        - check_krateo_fixed_server.py
+      env:
+        KRATEO_EVAL_NAMESPACE: krateo-system

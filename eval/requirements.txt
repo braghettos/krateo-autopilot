@@ -1,0 +1,6 @@
+# Krateo Autopilot eval harness (kagent-native, outcome-based).
+# External, NOT pip-installable: the `kagent` CLI and `kubectl` must be on PATH, with a
+# cluster where the autopilot is deployed.
+pyyaml>=6.0
+pytest>=8.0
+fastmcp>=2.0   # only needed to run the check-krateo-fixed MCP tool server
