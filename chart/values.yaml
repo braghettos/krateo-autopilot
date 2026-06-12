@@ -60,18 +60,6 @@ agents:
   helm:
     enabled: true
     modelConfig: gemini-flash
-  codeAnalysis:
-    enabled: true
-    modelConfig: gemini-pro
-  ansibleToOperator:
-    enabled: true
-    modelConfig: gemini-pro
-  tfProviderToOperator:
-    enabled: true
-    modelConfig: gemini-pro
-  tfToHelm:
-    enabled: true
-    modelConfig: gemini-pro
 
 # Prompts language
 prompts:

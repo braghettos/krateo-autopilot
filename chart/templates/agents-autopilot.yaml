@@ -52,34 +52,6 @@ spec:
           kind: Agent
           apiGroup: kagent.dev
       {{- end }}
-      {{- if .Values.agents.codeAnalysis.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-code-analysis-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.ansibleToOperator.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-ansible-to-operator-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.tfProviderToOperator.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-tf-provider-to-operator-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
-      {{- if .Values.agents.tfToHelm.enabled }}
-      - type: Agent
-        agent:
-          name: krateo-tf-to-helm-agent
-          kind: Agent
-          apiGroup: kagent.dev
-      {{- end }}
       {{- /* extraAgents: blueprint-contributed specialists (a component or the installer ships
              its own Agent and registers it here). The orchestrator stays the single mandatory
              entry point; these are reachable only through this A2A routing. */}}
