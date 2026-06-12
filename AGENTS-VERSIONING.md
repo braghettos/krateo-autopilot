@@ -119,6 +119,11 @@ release workflow.
 
 Rules:
 
+- **Component-scoped, not function-scoped.** One agent per COMPONENT, named `krateo-<component>-agent`,
+  and it is the expert on the WHOLE component — all its CRDs, its runtime behaviour, its codebase and
+  chart — not a single function. E.g. `krateo-snowplow-agent` covers both RESTActions (the CRD) and
+  how snowplow serves/populates portal content at runtime; `krateo-authn-agent` covers all auth
+  methods + the authn service. Don't name agents after one CRD/feature (no `krateo-restaction-agent`).
 - **Naming — `krateo-<domain>-agent`** (e.g. `krateo-installer-agent`, `krateo-portal-agent`). This
   is exactly the name the orchestrator routes to via `extraAgents`; the old kog `-expert` naming is
   retired for platform agents.
