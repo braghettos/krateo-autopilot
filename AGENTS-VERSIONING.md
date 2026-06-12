@@ -88,3 +88,45 @@ All agent charts publish to the single consolidated registry
 `oci://ghcr.io/braghettos/krateo`, carry the canonical `lint.yaml` + `release-oci.yaml`, and use
 the `krateo-` repo naming + topic taxonomy. See the installer's `kagent/AUTOPILOT-DESIGN.md` for
 the orchestration design and the org repo-sanitization standard for naming/registry/CI.
+
+## 7. The `/kagent` directory — shipping a federated agent
+
+A component repo that ships its own specialist agent puts it under **`/kagent`** as a **dedicated
+agent chart** (decision 2026-06-12), NOT raw manifests and NOT mixed into the component's
+blueprint chart:
+
+```
+<component-repo>/kagent/
+├── chart/
+│   ├── Chart.yaml            # name: krateo-<domain>-agent ; version: CHART_VERSION (tag-driven)
+│   ├── values.yaml
+│   ├── values.schema.json    # core-provider requires it
+│   └── templates/
+│       ├── agent.yaml        # kind: Agent (kagent.dev/v1alpha2)
+│       └── modelconfig.yaml  # OPTIONAL — prefer referencing the autopilot's ModelConfig by name
+├── compositiondefinition.yaml   # → oci://ghcr.io/braghettos/krateo/krateo-<domain>-agent
+├── release-oci.yaml + lint.yaml # canonical (the agent chart is just another /krateo chart)
+└── README.md
+```
+
+Rules:
+
+- **Naming — `krateo-<domain>-agent`** (e.g. `krateo-installer-agent`, `krateo-portal-agent`). This
+  is exactly the name the orchestrator routes to via `extraAgents`; the old kog `-expert` naming is
+  retired for platform agents.
+- **Deployment** — the agent chart publishes to `/krateo` like any other component. The installer
+  adds it to `values.yaml` `components` (gated on the relevant feature) and registers it on the
+  orchestrator with `componentValues.krateo-autopilot.extraAgents: [{ name: krateo-<domain>-agent }]`.
+- **Model** — reference the autopilot's `ModelConfig` by name; only ship a `ModelConfig` if the
+  agent needs a different tier.
+- **Tools** — the domain's tools as `RemoteMCPServer` (or builtin kagent tools).
+- **Eval** — the agent ships its own `eval/challenges/*.yaml` (§5) for its domain.
+- **No standalone entry point** — reachable only through the orchestrator's A2A routing.
+
+**Current state & migration:** only `krateo-installer/kagent/` exists today, and it is the legacy
+kog-style raw-manifest "expert" pattern — its Agent is named **`krateo-installer-expert`** while the
+orchestrator (and this standard) route to **`krateo-installer-agent`**. That mismatch breaks
+routing and is the first thing to fix: rename to `krateo-installer-agent`, repackage as the chart
+above, register via `extraAgents`. The per-domain `*-chart` repos have no `/kagent` yet — they
+adopt this structure as they federate. The kog `agent-<x>-expert.yaml` reference is superseded by
+this standard for installer-integrated agents.
