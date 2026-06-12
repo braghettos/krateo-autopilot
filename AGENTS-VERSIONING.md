@@ -98,16 +98,24 @@ blueprint chart:
 ```
 <component-repo>/kagent/
 ├── chart/
-│   ├── Chart.yaml            # name: krateo-<domain>-agent ; version: CHART_VERSION (tag-driven)
+│   ├── Chart.yaml            # name: krateo-<domain>-agent
 │   ├── values.yaml
 │   ├── values.schema.json    # core-provider requires it
 │   └── templates/
 │       ├── agent.yaml        # kind: Agent (kagent.dev/v1alpha2)
-│       └── modelconfig.yaml  # OPTIONAL — prefer referencing the autopilot's ModelConfig by name
+│       ├── modelconfig.yaml  # OPTIONAL — prefer referencing the autopilot's ModelConfig by name
+│       └── rbac.yaml         # OPTIONAL — only if the agent needs cluster authority (e.g. patch a CR)
 ├── compositiondefinition.yaml   # → oci://ghcr.io/braghettos/krateo/krateo-<domain>-agent
-├── release-oci.yaml + lint.yaml # canonical (the agent chart is just another /krateo chart)
 └── README.md
 ```
+
+The agent chart is published by the **repo's** `.github/workflows/release-oci.yaml` (workflows
+can't live under `kagent/`) and linted by the canonical `lint.yaml` (its `find -maxdepth 3`
+already discovers `kagent/chart/`). **Versioning:** if `kagent/chart/` is the repo's *only*
+primary artifact, use the tag-driven `CHART_VERSION`; if it **shares** the repo with another
+primary chart (e.g. the installer umbrella), pin the agent chart version **literally** so it
+versions independently of that repo's tag, and add a publish step for `kagent/chart` to the repo's
+release workflow.
 
 Rules:
 
