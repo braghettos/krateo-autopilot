@@ -35,6 +35,8 @@ jobs:
             [ -f "$f" ] || continue
             sed -i "s/CHART_VERSION/${{ steps.ver.outputs.chart_version }}/g" "$f"
             sed -i "s/APP_VERSION/${{ steps.ver.outputs.app_version }}/g" "$f"
+            # pin `sources` to the released ref so the orchestrator reads this exact version
+            sed -i "s/SOURCE_REF/${{ steps.ver.outputs.chart_version }}/g" "$f"
           done
 
       - name: Helm setup
