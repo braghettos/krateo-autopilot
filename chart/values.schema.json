@@ -34,7 +34,18 @@
             "type": "string"
           },
           "provider": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "Anthropic",
+              "OpenAI",
+              "AzureOpenAI",
+              "Ollama",
+              "Gemini",
+              "GeminiVertexAI",
+              "AnthropicVertexAI",
+              "Bedrock",
+              "SAPAICore"
+            ]
           }
         }
       },
