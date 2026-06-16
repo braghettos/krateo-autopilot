@@ -72,6 +72,25 @@
       },
       "description": "Gemini Vertex AI provider configuration. When enabled, ModelConfigs use provider GeminiVertexAI with Application Default Credentials (no API key) \u2014 the pod's GKE node SA must have aiplatform access. secretName is optional (only for explicit SA-key auth)."
     },
+    "localModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Opt-in: render every model slot as a kagent ModelConfig with provider Ollama pointing at host. Takes precedence over vertexAI. Default false (vertexAI/Gemini stays the default)."
+        },
+        "host": {
+          "type": "string",
+          "description": "Ollama endpoint, e.g. http://ollama.ollama.svc.cluster.local:11434."
+        },
+        "model": {
+          "type": "string",
+          "description": "Local model id pulled in Ollama; overrides every slot's model id. Must support tool calling (e.g. qwen3.6)."
+        }
+      },
+      "description": "Local LLM (Ollama) provider \u2014 opt-in path to run the agents on a local, no-cloud model."
+    },
     "mcpServers": {
       "type": "object",
       "additionalProperties": {

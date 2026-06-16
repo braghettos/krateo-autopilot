@@ -35,6 +35,19 @@ vertexAI:
   # secretName is only used for explicit SA-key auth; left unset for ADC.
   secretName: ""
 
+# Local LLM (Ollama) provider — opt-in. When enabled, every model slot above is rendered as
+# a kagent ModelConfig with provider Ollama pointing at `host`, and the slot model id is
+# overridden by `model` (so flash/pro both resolve to the local LLM). Takes precedence over
+# vertexAI. Disabled by default — vertexAI / Gemini stays the default. Point `host` at an
+# in-cluster Ollama Service (e.g. http://ollama.ollama.svc.cluster.local:11434) and use a
+# tool-calling-capable model (the agents are tool-heavy): qwen3.6 is recommended; gemma4
+# works but needs careful chat-template config; gemma <=3 cannot tool-call. See the installer
+# QUICKSTART "Run the agent layer on a local model (Ollama)".
+localModel:
+  enabled: false
+  host: ""
+  model: qwen3.6
+
 # MCP servers — these are RemoteMCPServer CRDs pointing to existing deployments
 mcpServers:
   clickhouse:
