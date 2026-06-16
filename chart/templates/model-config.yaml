@@ -1,11 +1,16 @@
 {{- /*
   ModelConfigs for the autopilot agents.
 
-  vertexAI.enabled=true  -> provider GeminiVertexAI with the geminiVertexAI block
-    (projectID + location). No apiKeySecret: kagent authenticates to Vertex via
-    Application Default Credentials (the GKE node SA token from the metadata server).
+  localModel.enabled=true -> provider Ollama with the ollama.host block, pointing every
+    model slot at a local Ollama endpoint (no cloud, no API key). The slot model id is
+    overridden by localModel.model so flash/pro both resolve to the local LLM. Takes
+    precedence over vertexAI — this is the opt-in "run the agents on a local LLM" path.
 
-  vertexAI.enabled=false -> provider Gemini with the apiKeySecret (Gemini API key).
+  localModel.enabled=false (default):
+    vertexAI.enabled=true  -> provider GeminiVertexAI with the geminiVertexAI block
+      (projectID + location). No apiKeySecret: kagent authenticates to Vertex via
+      Application Default Credentials (the GKE node SA token from the metadata server).
+    vertexAI.enabled=false -> provider Gemini with the apiKeySecret (Gemini API key).
 */}}
 {{- range $alias, $m := .Values.models }}
 apiVersion: kagent.dev/v1alpha2
@@ -14,13 +19,19 @@ metadata:
   name: {{ $m.name }}
   namespace: {{ $.Values.namespace }}
 spec:
+{{- if $.Values.localModel.enabled }}
+  model: {{ $.Values.localModel.model }}
+  provider: Ollama
+  ollama:
+    host: {{ $.Values.localModel.host | quote }}
+{{- else if $.Values.vertexAI.enabled }}
   model: {{ $m.model }}
-{{- if $.Values.vertexAI.enabled }}
   provider: GeminiVertexAI
   geminiVertexAI:
     projectID: {{ $.Values.vertexAI.projectID | quote }}
     location: {{ $.Values.vertexAI.location | quote }}
 {{- else }}
+  model: {{ $m.model }}
   provider: {{ $m.provider }}
   apiKeySecret: {{ $.Values.geminiApiKey.secretName }}
   apiKeySecretKey: {{ $.Values.geminiApiKey.secretKey }}
