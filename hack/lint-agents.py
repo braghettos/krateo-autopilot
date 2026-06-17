@@ -172,7 +172,24 @@ def check_prompts(cdir, agent_files):
             errs.append(f"[PROMPT-P2] missing/empty files/prompts-{lang}.yaml — §9.4 bilingual required")
     if prompt_text.strip() and "## Your component" not in prompt_text:
         warns.append("[PROMPT-P3] prompt lacks the '## Your component' grounding footer — §9.1")
+    # §10 D2 — the grounding footer should reference version-pinned docs retrieval, not bare "read source"
+    if "## Your component" in prompt_text:
+        cues = ("docs/llms.txt", "ref=", "@ <", "@<")
+        if not any(c in prompt_text for c in cues):
+            warns.append("[DOC-D2] grounding footer doesn't reference version-pinned docs (docs/llms.txt @ <version>) — §10.3")
     return errs, warns
+
+
+def check_repo_docs(root, has_agent):
+    """§10 D1 — a component repo (one that ships an agent) should carry the chart-repo docs set."""
+    if not has_agent:
+        return []
+    docs = os.path.join(root, "docs")
+    missing = [f for f in ("llms.txt", "overview.md", "crds.md", "wiring.md")
+               if not os.path.exists(os.path.join(docs, f))]
+    if missing:
+        return [f"⚠ [DOC-D1] repo missing docs/{{{','.join(missing)}}} — §10.1 (chart-repo docs set)"]
+    return []
 
 
 def main():
@@ -182,6 +199,8 @@ def main():
         print("no agent charts found — nothing to lint")
         return 0
     total = 0
+    for w in check_repo_docs(root, has_agent=bool(charts)):
+        print(f"    {w}")
     for cdir in charts:
         rel, name, errs, warns = lint_chart(cdir)
         if errs:

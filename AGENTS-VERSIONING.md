@@ -327,3 +327,94 @@ Context Rot [Chroma 2025]; persona-no-accuracy [Zheng 2024, arxiv 2311.10054]; r
 reasoning [Kong 2024, arxiv 2308.07702]; persona double-edged [Kim 2024, arxiv 2408.08631]. Vendor:
 Anthropic prompt best-practices, Building Effective Agents, Writing tools for agents, extended
 thinking; OpenAI GPT-4.1 prompting guide, function-calling guide.
+
+## 10. Documentation standard — version-correct, agent-fetchable component docs
+
+§9 tells an agent to ground by reading its component; §10 makes that **precise and
+version-correct**. Today component repos ship only a `README.md`, so agents spelunk raw code
+(slow, inconsistent) and may read `main` while an OLDER version is deployed — describing fields or
+behavior that aren't in the running build. §10 fixes both: a **standardized docs artifact in every
+component repo** that the agent fetches **at the exact tag matching the deployed version**.
+
+### 10.1 The two doc sets (both repos)
+
+A component spans a **chart repo** (`krateo-<domain>-chart`, the deployment unit) and a **code
+repo** (`braghettos/<component>`, the implementation). Each carries its own `docs/`, versioned by
+its own repo's tags, with an `llms.txt` index (per the [llmstxt.org](https://llmstxt.org)
+convention — a curated markdown map the agent reads first, then fetches only the page it needs):
+
+**Chart repo `docs/` — the deployment + API view** (`krateo-<domain>-chart/docs/`):
+```
+docs/
+  llms.txt        # index: one-line map + links to the files below
+  overview.md     # what the component is; how it deploys as a Krateo composition
+  crds.md         # the CRDs it owns: purpose + key fields (curated, not the raw schema)
+  wiring.md       # composition/installer wiring: values, exposure, deps, gotchas
+  examples/*.yaml # canonical minimal manifests
+```
+
+**Code repo `docs/` — the internals + runtime view** (`braghettos/<component>/docs/`):
+```
+docs/
+  llms.txt        # index
+  architecture.md # how the service is built; the key packages/flows
+  behavior.md     # runtime behavior, endpoints, integration contracts
+  gotchas.md      # runtime pitfalls
+```
+
+Each set cross-links the other and notes that each is versioned in its own repo. Docs are
+**curated and grounded in the real code/CRDs** (never invented), and **lean** (§9 ethos — the doc
+is the curated grounding; the agent can still open raw source for exhaustive detail). Because docs
+live in-repo, **every release tag captures the docs as-of that version automatically** — no
+separate docs-versioning machinery.
+
+### 10.2 Version-correct retrieval (the tag match)
+
+The matching primitive already holds in our CI:
+
+- **Chart repo tag == chart version.** `Chart.yaml` ships `version: CHART_VERSION`, substituted to
+  the git tag at release (`release-oci.yaml`). So `docs/` at tag `V` *is* the docs for chart
+  version `V`. The deployed chart version is cluster-observable from
+  `CompositionDefinition.spec.chart.version` (and the Composition's apiVersion `v<maj>-<min>-<patch>`).
+- **Code repo tag == image version == chart `appVersion`.** The chart's `appVersion` is stamped
+  from the code repo's latest semver tag (`APP_VERSION`), and that is the deployed container image
+  tag. The agent reads it from the component Deployment's image tag.
+
+So an agent grounds in **version-correct** docs by reading the deployed versions off the cluster and
+fetching each repo's `docs/` **at the matching tag**:
+
+1. Resolve versions (via `kagent-tool-server`): chart version ← `CompositionDefinition.spec.chart.version`;
+   image version ← the component Deployment's container image tag.
+2. Fetch via github MCP at the matching ref:
+   `get_file_contents("krateo-<domain>-chart", "docs/llms.txt", ref=<chart-version>)` and
+   `get_file_contents("<component>", "docs/llms.txt", ref=<image-version>)`.
+3. From each index, fetch the specific page needed — always at that same `ref`.
+
+> The agent reads the DEPLOYED COMPONENT's version — NOT its own agent-chart version. The agent
+> chart (`kagent/chart`, `0.1.x`) versions independently of the component it speaks for.
+
+### 10.3 The grounding footer (supersedes §9.1's footer)
+
+The agent's `## Your component` footer encodes the §10.2 procedure verbatim, e.g.:
+
+```markdown
+## Your component — snowplow (codebase + chart)
+Ground every answer in the VERSION-CORRECT docs. First get the deployed versions with the k8s
+tools: chart version = `CompositionDefinition.spec.chart.version` for snowplow; image version =
+the snowplow Deployment's image tag. Then read, via the github tools at those tags:
+- `braghettos/krateo-snowplow-chart` `docs/llms.txt` @ <chart-version> — deployment, CRDs, wiring.
+- `braghettos/snowplow` `docs/llms.txt` @ <image-version> — internals, runtime behavior.
+Open the specific page each index points to (same ref). If something isn't in the docs, read the
+source at that tag — don't guess.
+```
+
+### 10.4 Enforcement (lint)
+
+`hack/lint-agents.py` checks (warn during rollout, hard once adopted):
+- **D1** — the chart repo has `docs/llms.txt` + the mandated chart-doc files.
+- **D2** — the agent's grounding footer references the version-pinned docs retrieval
+  (`docs/llms.txt` + a `ref=`/`@ <version>` cue), not a bare "read the source".
+
+The code repo's `docs/` presence is checked in the code repo's own CI (canonical `release-tag.yaml`
+/ `lint.yaml`). Adoption is per-component: a component is §10-conformant once both repos ship the
+docs set and its agent footer points at the version-pinned retrieval.
