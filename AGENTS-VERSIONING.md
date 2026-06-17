@@ -188,3 +188,142 @@ fails the build on any violation.
 
 Pick `gemini-pro` only for agents doing heavy synthesis (the codegen/IaC agents); everything else
 uses `gemini-flash`.
+
+## 9. Prompt standard — the specialist agent `systemMessage`
+
+§7–§8 govern how an agent is packaged and configured; §9 governs the **content of its prompt**.
+The prompt IS the agent's behavior spec. This standard is grounded in the agentic-prompting
+literature (citations at the end) and tuned for the reality of our stack: modern tool-calling +
+extended-thinking models, agents that **read their own source/CRDs on demand via the github MCP**
+(agentic retrieval — deliberately NOT a RAG vector store), and tools that mutate live clusters.
+
+**The one load-bearing finding:** for these agents, accuracy comes from **grounding** (reading the
+real source/cluster state), *not* from persona, not from reasoning scaffolding. A 162-persona ×
+2,410-question study found expert personas give **no reliable accuracy gain** [Zheng 2024]; on
+native tool-calling models, bolted-on ReAct/CoT scaffolding adds ≈0 [ToolSandbox 2024]. So the
+prompt budget goes to *what to ground in and when to act*, not to "you are a brilliant expert, think
+step by step".
+
+### 9.1 Canonical structure (in this order)
+
+A specialist `systemMessage` has six sections. Identity + the grounding contract go FIRST, and the
+grounding footer restates grounding LAST — because models attend most to the start and end of a
+prompt and "lose the middle" [Liu 2023].
+
+1. **Identity & scope** — one sentence: `You are krateo-<domain>-agent, the expert on Krateo
+   <component>` — expert on the WHOLE component (CRDs + runtime + codebase + chart), not one
+   function. Mirror the agent's `a2aConfig.skills`. (Role sets scope/tone, not correctness.)
+2. **Grounding contract** (early, high-priority) — read the relevant source/CRD via the github MCP
+   (and inspect live state via `kagent-tool-server`) BEFORE asserting; trust the file you read over
+   your training prior; if you cannot verify a claim from something you read, say so and read more —
+   **do not guess**; reference the path you relied on.
+3. **Domain knowledge** — a LEAN curated reference: the key CRDs, the canonical patterns, SHORT
+   examples. Point to the chart/source for exhaustive field-level detail instead of inlining it
+   (long prompts degrade accuracy 20–50% — "context rot" [Chroma 2025]; agentic on-demand reads
+   match or beat preloaded/RAG context on technical, fast-changing corpora [Subramanian 2025]).
+4. **Tools & when to use them** — name the agent's actual tools and the policy: read freely;
+   **mutating/irreversible actions (`k8s_apply_manifest`, `helm_upgrade`, deletes) require explicit
+   user confirmation first**; reversible reads are autonomous.
+5. **Working rules** — clarify ambiguity before assuming; after a tool fails, diagnose from the
+   observed output before retrying and don't repeat an identical failing call; report failures
+   honestly.
+6. **Grounding footer** — `## Your component — <domain> (codebase + chart)`: name the **braghettos
+   code fork + chart repo** (the same repos as `Chart.yaml` `sources`, §7/C6) and instruct the agent
+   to read them via the github tools. This restates grounding at the end of the prompt by design.
+
+### 9.2 Rules (DO)
+
+- **Lead with a one-line role** for scope/tone — and rely on grounding, not the title, for accuracy
+  [Zheng 2024; Kong 2024; Anthropic best-practices].
+- **Mandate read-before-claim + abstention + attribution.** Explicit in-prompt grounding raised
+  accuracy up to 28% / mean 12% [Addlesee 2024]; an explicit "say you don't know rather than guess"
+  rule is the fix for confident hallucination [Kalai 2025]; "according to the source" framing
+  increases verbatim sourcing [Weller 2023]; citing the path is a measurable faithfulness signal
+  [Bohnet 2022]. Anthropic ships the same instruction ("never speculate about code you have not
+  opened … read the file before answering"); OpenAI's GPT-4.1 agent reminder is "do NOT guess".
+- **State an explicit tool-use policy** — when, and when NOT, to call each tool — in the prompt, not
+  only in the tool schema [OpenAI function-calling; Anthropic].
+- **Confirm before irreversible / shared-infra mutations; keep reversible actions autonomous**
+  [Anthropic best-practices]. Also enforce confirmation in the tool/HITL layer, not the prompt alone
+  [OpenAI function-calling] — `hitlApproval` already does this; the prompt must agree with it.
+- **Self-correct only against ground truth.** Reflect/retry when anchored to a real tool observation
+  (exit status, rollout health, file contents); never "re-read your own answer and judge it" —
+  intrinsic self-correction is unreliable and can degrade reasoning [Huang 2024].
+- **Keep it lean; load detail on demand** via the github MCP rather than pre-stuffing references
+  [Chroma 2025; Subramanian 2025]. Treat a 500+-line prompt as a smell.
+- **Put the highest-priority instructions at the START and restate them at the END**; fence
+  tool-retrieved source from instructions with Markdown headings / XML tags (not JSON) [Liu 2023;
+  OpenAI GPT-4.1; Anthropic].
+- **Positive, specific instructions with the *why*** beat negative/bare ones [Anthropic].
+- **3–5 diverse examples** if examples are used [Anthropic; OpenAI].
+
+### 9.3 Anti-patterns (DON'T)
+
+- **No hand-rolled ReAct / "think step by step" / CoT scaffolding.** Native tool-calling + extended
+  thinking already do the Thought→Action→Observation loop; generic scaffolding is redundant and can
+  duplicate reasoning [Yao 2022; ToolSandbox 2024; Anthropic extended-thinking].
+- **No forceful "MUST / CRITICAL / ALWAYS" spam** — it *overtriggers* current Claude models; use
+  plain imperatives [Anthropic best-practices].
+- **Don't lean on persona for correctness, and don't stack multiple/elaborate personas** — wrong-fit
+  personas can *degrade* reasoning [Zheng 2024; Kim 2024].
+- **Don't preload large reference dumps / full CRD or API dumps** into the prompt — read them on
+  demand [Chroma 2025].
+- **Don't describe tools in prose** — define them structurally (kagent `tools` / MCP); invest in the
+  tool description text instead [OpenAI; Anthropic].
+- **No multi-path search (Tree-of-Thoughts / self-consistency) in an action prompt** — it N×s cost
+  and can't be majority-voted over irreversible side effects [Yao 2023].
+
+### 9.4 Mechanics (lint-enforced — `hack/lint-agents.py`)
+
+- **Storage:** `kagent/chart/files/prompts-<lang>.yaml` as a ConfigMap, data key `<domain>_agent`,
+  rendered via `templates/prompts.yaml`. NOT a large inline `systemMessage` in `agent.yaml`.
+- **P1 — non-empty:** the prompt must have content (catches empty/placeholder prompts).
+- **P2 — bilingual:** both `prompts-eng.yaml` and `prompts-ita.yaml` exist and are non-empty,
+  structurally identical (only the prose translated).
+- **P3 — grounding footer:** the prompt contains the `## Your component` grounding section (warn).
+
+### 9.5 Reference skeleton
+
+```markdown
+# krateo-<domain>-agent
+You are krateo-<domain>-agent, the expert on Krateo <component> — its CRDs, runtime, source and chart.
+
+## Grounding (do this first)
+Before answering anything factual, read the relevant file from your source/chart via the github
+tools and prefer it over memory. If you can't verify a claim from something you read, say so and
+read more — don't guess. Mention the path you relied on.
+
+## What you help with
+- <skill 1, mirrors a2aConfig.skills> …
+
+## <Domain> essentials
+<lean reference: key CRDs + canonical patterns + short examples; link to source for the rest>
+
+## Tools
+- kagent-tool-server: inspect/operate the cluster (kubectl/helm). Read freely; for k8s_apply_manifest
+  / helm_upgrade / deletes, confirm with the user first.
+- github-mcp-server: read your own source/chart (the repos below) and search by topic.
+
+## Working rules
+Clarify ambiguity before acting. After a tool fails, diagnose from its output before retrying.
+Report failures honestly.
+
+## Your component — <domain> (codebase + chart)
+You are authoritative on <component> because you read both: codebase `github.com/braghettos/<repo>`,
+chart `github.com/braghettos/krateo-<domain>-chart`. Read them via the github tools for exact
+fields, defaults, and behavior.
+```
+
+### 9.6 References
+
+Reasoning/acting: ReAct [Yao 2022, arxiv 2210.03629]; Reflexion [Shinn 2023, arxiv 2303.11366];
+CoT [Wei 2022, arxiv 2201.11903]; Plan-and-Solve [Wang 2023, arxiv 2305.04091]; ToT [Yao 2023,
+arxiv 2305.10601]; "LLMs Cannot Self-Correct Reasoning Yet" [Huang 2024, arxiv 2310.01798];
+ToolSandbox [Apple 2024, arxiv 2408.04682]. Grounding/structure/persona: "According to…" [Weller
+2023, arxiv 2305.13252]; in-prompt grounding [Addlesee 2024, ACL Safety4ConvAI]; "Why LMs
+Hallucinate" [Kalai 2025, arxiv 2509.04664]; Attributed QA [Bohnet 2022, arxiv 2212.08037];
+agentic vs RAG retrieval [Subramanian 2025]; Lost in the Middle [Liu 2023, arxiv 2307.03172];
+Context Rot [Chroma 2025]; persona-no-accuracy [Zheng 2024, arxiv 2311.10054]; role-play-for-
+reasoning [Kong 2024, arxiv 2308.07702]; persona double-edged [Kim 2024, arxiv 2408.08631]. Vendor:
+Anthropic prompt best-practices, Building Effective Agents, Writing tools for agents, extended
+thinking; OpenAI GPT-4.1 prompting guide, function-calling guide.
