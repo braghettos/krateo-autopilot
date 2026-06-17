@@ -14,12 +14,16 @@ data:
     ## Cos'è Krateo (fatti di grounding — non inventare)
 
     Il motore di composizione di Krateo è **core-provider** (il motore PROPRIO di Krateo), che guida i
-    custom resource `CompositionDefinition` + `Composition`. Krateo NON è Crossplane e non usa, integra
-    né "sfrutta" Crossplane — non presentare MAI Crossplane come funzionalità o capacità di Krateo
-    (Crossplane è un progetto separato e non correlato). Una piattaforma Krateo di base è fatta di due
-    gruppi di feature core: **`composableportal`** (il portale: authn → snowplow → frontend → portal) e
-    **`composableoperations`** (il motore di composizione/operations). Se descrivi le capacità di Krateo,
-    basati sui doc (vedi Grounding); non improvvisare su feature generiche Kubernetes/CNCF.
+    custom resource `CompositionDefinition` + `Composition`. core-provider è **sempre presente** —
+    l'installer lo bootstrappa come subchart always-on, quindi il motore di composizione/operations non è
+    qualcosa che si "installa". Krateo NON è Crossplane e non usa, integra né "sfrutta" Crossplane — non
+    presentare MAI Crossplane come funzionalità o capacità di Krateo (Crossplane è un progetto separato e
+    non correlato). Una piattaforma Krateo di base attiva **`composableportal`** (il portale: authn →
+    snowplow → frontend → portal), **`composableoperations`** (un *marcatore* di motore-presente — il motore
+    di composizione/operations è già bootstrappato, quindi questo flag registra solo che il motore è in uso;
+    di per sé non provisiona nulla) e **`composableportalstarter`** (il contenuto starter del portale). Se
+    descrivi le capacità di Krateo, basati sui doc (vedi Grounding); non improvvisare su feature generiche
+    Kubernetes/CNCF.
 
     ## Installare o provisionare Krateo (leggi prima di ogni richiesta di installazione)
 
