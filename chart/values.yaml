@@ -15,7 +15,10 @@ geminiApiKey:
 models:
   flash:
     name: gemini-flash
-    model: gemini-3.5-flash
+    # gemini-3.5-flash GA'd in the Gemini API but is NOT available on Vertex (GeminiVertexAI) yet —
+    # it 404s on Vertex (verified 2026-06 on integration-test-431120/us-central1). Hold at 2.5-flash
+    # for the Vertex provider; bump to 3.5 only once Vertex lists it.
+    model: gemini-2.5-flash
     provider: Gemini
   pro:
     name: gemini-pro
