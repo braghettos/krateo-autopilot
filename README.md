@@ -22,7 +22,8 @@ The chart renders, via kagent constructs:
 - **`ModelConfig`** — Gemini, or **GeminiVertexAI via Application Default Credentials** when
   `vertexAI.enabled=true` (no API key / SA-key; the pod uses the GKE node SA token).
 - **`RemoteMCPServer`** — the tool servers (`kagent-tool-server`, `clickhouse-mcp-server`,
-  `github-mcp-server`, and the custom `krateo-portal-tools` / `krateo-blueprint-tools`).
+  `github-mcp-server`). Domain MCP servers live in their own code repos; don't add one for what the
+  model + these already do (see `AGENTS-VERSIONING.md` §8 C7).
 - **Prompts** — `promptTemplate` `dataSources` ConfigMap rendered from `chart/files/prompts-{eng,ita}.yaml`.
 - **`hitlApproval`** — a human-in-the-loop gate on mutating Kubernetes tools.
 
@@ -47,10 +48,12 @@ This is how Krateo installation is driven — the autopilot routes install reque
 
 ## Custom MCP tool servers
 
-`mcp-servers/portal-tools` (with the 24 portal widget specs) and `mcp-servers/blueprint-tools`
-give the portal/blueprint agents Krateo-specific knowledge. They are container images, built and
-published on component-prefixed tags (`portal-tools/X.Y.Z`, `blueprint-tools/X.Y.Z`) and wired in
-as `RemoteMCPServer`.
+A domain MCP server is justified only when it exposes a capability the model itself + the shared
+`kagent-tool-server` (kubectl/helm) + `github-mcp-server` (code & repo-by-topic search) cannot —
+e.g. `clickhouse-mcp-server` (live OTel query access), which lives in its own code repo. The former
+`portal-tools` / `blueprint-tools` servers were removed: widget specs are prompt knowledge,
+schema-generation is something the model does directly, and marketplace listing is a github
+topic-search. See `AGENTS-VERSIONING.md` §8 C7.
 
 ## Evaluation
 
@@ -67,8 +70,7 @@ helm template smoke chart
 
 - **Chart** → push a semver tag (`X.Y.Z`) → `release-oci.yaml` publishes to
   `oci://ghcr.io/braghettos/krateo`.
-- **MCP-server images** → push a `portal-tools/X.Y.Z` or `blueprint-tools/X.Y.Z` tag →
-  `release-mcp-server-tag.yaml` builds and pushes the image.
+- **MCP-server images** → built+published from each server's own code repo (not this repo).
 
 ## Links
 
