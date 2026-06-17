@@ -15,10 +15,12 @@ geminiApiKey:
 models:
   flash:
     name: gemini-flash
-    model: gemini-2.5-flash
+    model: gemini-3.5-flash
     provider: Gemini
   pro:
     name: gemini-pro
+    # HOLD at 2.5-pro: gemini-3.5-pro is limited Vertex preview as of 2026-06 with no published
+    # GA Vertex/Gemini-API model ID. Bump to gemini-3.5-pro once Google lists it.
     model: gemini-2.5-pro
     provider: Gemini
 
