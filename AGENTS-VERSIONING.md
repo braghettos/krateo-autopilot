@@ -429,7 +429,7 @@ Ground every answer in the VERSION-CORRECT docs. First get the deployed versions
 tools: chart version = `CompositionDefinition.spec.chart.version` for snowplow; image version =
 the snowplow Deployment's image tag. Then read, via the github tools at those tags:
 - `braghettos/krateo-snowplow-chart` `docs/llms.txt` @ <chart-version> — deployment, CRDs, wiring.
-- `braghettos/snowplow` `docs/llms.txt` @ <image-version> — internals, runtime behavior.
+- `braghettos/krateo-snowplow` `docs/llms.txt` @ <image-version> — internals, runtime behavior.
 Open the specific page each index points to (same ref). If something isn't in the docs, read the
 source at that tag — don't guess.
 ```
