@@ -181,14 +181,13 @@ def check_prompts(cdir, agent_files):
 
 
 def check_repo_docs(root, has_agent):
-    """§10 D1 — a component repo (one that ships an agent) should carry the chart-repo docs set."""
+    """§10 D1 — a component repo (one that ships an agent) must carry the docs/llms.txt agent index.
+    The index is the load-bearing artifact; the file tree behind it may be richer than the §10.1
+    baseline, so D1 enforces the index (+ topic coverage by review), not a rigid filename set."""
     if not has_agent:
         return []
-    docs = os.path.join(root, "docs")
-    missing = [f for f in ("llms.txt", "overview.md", "crds.md", "wiring.md")
-               if not os.path.exists(os.path.join(docs, f))]
-    if missing:
-        return [f"⚠ [DOC-D1] repo missing docs/{{{','.join(missing)}}} — §10.1 (chart-repo docs set)"]
+    if not os.path.exists(os.path.join(root, "docs", "llms.txt")):
+        return ["⚠ [DOC-D1] repo missing docs/llms.txt (agent index) — §10.0/§10.4"]
     return []
 
 

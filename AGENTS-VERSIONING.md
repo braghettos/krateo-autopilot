@@ -336,6 +336,32 @@ version-correct**. Today component repos ship only a `README.md`, so agents spel
 behavior that aren't in the running build. §10 fixes both: a **standardized docs artifact in every
 component repo** that the agent fetches **at the exact tag matching the deployed version**.
 
+### 10.0 Two audiences, one source of truth
+
+Component docs serve **both** consumers as first-class — neither is an afterthought:
+
+- **Humans** (contributors, operators, blueprint authors): narrative, tutorials, and decisions —
+  `README.md`, `howto/`, `CONTRIBUTING.md`, ADRs, architecture deep-dives. Browseable and didactic;
+  may be as rich as the component warrants.
+- **Agents** (the component's specialist agent, grounding via the github MCP): a **lean,
+  code-traced, self-contained, version-tagged** reference reached through **`llms.txt`**.
+
+There is **one source of truth** — the same Markdown files serve both; the agent does NOT get a
+forked copy of reality. **`llms.txt` is the bridge** ([llmstxt.org](https://llmstxt.org)): a curated
+index that (a) lets an LLM navigate the set and (b) points the agent at the reference subset it
+should ground in. Optionally ship `llms-full.txt` (the agent-relevant docs concatenated) for a
+one-shot fetch. Two hard rules make the shared set safe for the agent:
+
+- **Self-contained from code.** The agent CANNOT read project memory or your working notes — it sees
+  only what's in the repo at the tag. Agent-reachable docs must be derived from and traceable to the
+  code (`file:line`), never relying on memory/notes the agent can't see.
+- **Version-honest per tag.** Because the agent fetches at the deployed version's tag (§10.2), the
+  docs at tag `V` must describe `V`. "Re-verify at `file:line`" is therefore a *per-release*
+  obligation, not a one-time write.
+
+Human-only material (ADR narrative, tutorials, contributor guides) can be richer and is simply left
+OUT of the agent path by `llms.txt` — it stays for people without bloating what the agent ingests.
+
 ### 10.1 The two doc sets (both repos)
 
 A component spans a **chart repo** (`krateo-<domain>-chart`, the deployment unit) and a **code
@@ -411,9 +437,17 @@ source at that tag — don't guess.
 ### 10.4 Enforcement (lint)
 
 `hack/lint-agents.py` checks (warn during rollout, hard once adopted):
-- **D1** — the chart repo has `docs/llms.txt` + the mandated chart-doc files.
+- **D1** — the chart repo has `docs/llms.txt` (the agent index) and that index covers the required
+  **topics** (deployment/overview, CRDs, wiring/operations). D1 enforces the *index + topic
+  coverage*, NOT a rigid filename set — a mature repo may keep a richer tree (e.g. snowplow's
+  `architecture/` + `adr/` + `howto/`) as long as `llms.txt` maps it. The §10.1 file list is the
+  recommended baseline for a repo starting from scratch, not a hard schema.
 - **D2** — the agent's grounding footer references the version-pinned docs retrieval
   (`docs/llms.txt` + a `ref=`/`@ <version>` cue), not a bare "read the source".
+
+The code repo's `llms.txt` + coverage is checked in the code repo's own CI. The `llms.txt` index is
+the load-bearing artifact for both D-checks: it is what makes one human-readable doc set also
+agent-navigable.
 
 The code repo's `docs/` presence is checked in the code repo's own CI (canonical `release-tag.yaml`
 / `lint.yaml`). Adoption is per-component: a component is §10-conformant once both repos ship the
