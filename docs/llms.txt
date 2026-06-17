@@ -1,0 +1,38 @@
+# krateo-autopilot
+
+> The kagent-native AI orchestrator for Krateo PlatformOps: a single mandatory entry point that
+> routes every user request to specialist sub-agents over A2A. This is the **home repo of the
+> Krateo Agents Versioning & Federation standard** — the orchestrator and the standard it enforces
+> both live here. Use this index to navigate the autopilot's own docs.
+
+## How to use (agents)
+
+The orchestrator grounds in these docs at the **deployed autopilot version** — the
+`krateo-autopilot` composition's `CompositionDefinition.spec.chart.version` (cluster-observable;
+the chart ships `version: CHART_VERSION`, stamped from the git tag at release, so `docs/` at tag
+`V` is the docs for chart version `V`). Resolve that version off the cluster with the k8s tools,
+then read the files below via the github tools at the matching `ref=` — never guess about the
+fleet; read it.
+
+## Docs
+
+- [README.md](../README.md): Orchestration design — what the autopilot ships (Agents, ModelConfig,
+  RemoteMCPServers, prompts, hitlApproval), the single-entry-point agent loop and A2A routing, the
+  tools, `extraAgents` federation, and how the installer consumes the chart.
+- [AGENTS-VERSIONING.md](../AGENTS-VERSIONING.md): The standing Agents Versioning & Federation
+  standard, §1–§10:
+  - §1 single mandatory entry point; §2 kagent-native packaging (two OCI streams); §3 versioning
+    rules; §4 `extraAgents` federation; §5 outcome-based evaluation; §6 registry & CI; §7 the
+    `/kagent` agent-chart layout.
+  - §8 conformance — the lint-enforced config standard (C1–C7: chart name, Agent name, canonical
+    ModelConfigs, `modelConfig.create`, `appVersion`, `sources`, no dangling MCP refs).
+  - §9 prompt standard — the specialist `systemMessage` (canonical structure, DO/DON'T, mechanics,
+    reference skeleton, citations).
+  - §10 documentation standard — version-correct, agent-fetchable component docs (`docs/llms.txt`
+    + version-pinned retrieval at the deployed tag); this very file is its application to the
+    autopilot.
+
+## Optional
+
+- [AGENTS-VERSIONING-PLAN.md](../AGENTS-VERSIONING-PLAN.md): the one-off migration that established
+  the standard (historical context; the standard above is the standing convention).
