@@ -132,7 +132,47 @@ def lint_chart(cdir):
         if create and name not in STANDALONE_AGENTS:
             errs.append(f"[C4] modelConfig.create=true but {name} is not a standalone agent")
 
-    return rel, name, errs
+    # §9 prompt standard
+    perrs, warns = check_prompts(cdir, agent_files)
+    errs.extend(perrs)
+    return rel, name, errs, warns
+
+
+def check_prompts(cdir, agent_files):
+    """§9.4 prompt mechanics: P1 non-empty, P2 bilingual files, P3 grounding footer (warn)."""
+    errs, warns = [], []
+    files_dir = os.path.join(cdir, "files")
+    langs = ("eng", "ita")
+    lang_state = {}
+    prompt_text = ""
+    for lang in langs:
+        p = os.path.join(files_dir, f"prompts-{lang}.yaml")
+        content = ""
+        if os.path.exists(p):
+            try:
+                cm = load_yaml(p)
+                data = cm.get("data", {}) if isinstance(cm, dict) else {}
+                content = "".join(str(v) for v in (data or {}).values()).strip()
+            except Exception:
+                content = open(p).read().strip()  # templated — fall back to raw text
+        lang_state[lang] = (os.path.exists(p), content)
+        prompt_text += content
+
+    # inline systemMessage fallback (non-canonical per §9.4, but counts for P1 non-empty)
+    for af in agent_files:
+        raw = open(af).read()
+        if "systemMessage:" in raw:
+            prompt_text += raw.split("systemMessage:", 1)[1]
+
+    if not prompt_text.strip():
+        errs.append("[PROMPT-P1] no prompt content (empty prompts-*.yaml and no inline systemMessage) — §9.4")
+    for lang in langs:
+        exists, content = lang_state[lang]
+        if not exists or not content:
+            errs.append(f"[PROMPT-P2] missing/empty files/prompts-{lang}.yaml — §9.4 bilingual required")
+    if prompt_text.strip() and "## Your component" not in prompt_text:
+        warns.append("[PROMPT-P3] prompt lacks the '## Your component' grounding footer — §9.1")
+    return errs, warns
 
 
 def main():
@@ -143,7 +183,7 @@ def main():
         return 0
     total = 0
     for cdir in charts:
-        rel, name, errs = lint_chart(cdir)
+        rel, name, errs, warns = lint_chart(cdir)
         if errs:
             total += len(errs)
             print(f"✗ {rel} ({name})")
@@ -151,8 +191,10 @@ def main():
                 print(f"    {e}")
         else:
             print(f"✓ {rel} ({name})")
+        for w in warns:
+            print(f"    ⚠ {w}")
     if total:
-        print(f"\n{total} conformance violation(s) — see AGENTS-VERSIONING.md §8")
+        print(f"\n{total} conformance violation(s) — see AGENTS-VERSIONING.md §8/§9")
         return 1
     print("\nall agent charts conform")
     return 0
