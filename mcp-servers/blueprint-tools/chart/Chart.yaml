@@ -1,6 +1,0 @@
-apiVersion: v2
-name: krateo-blueprint-tools
-description: Krateo blueprint and composition management MCP server
-type: application
-version: 0.1.0
-appVersion: "0.1.0"

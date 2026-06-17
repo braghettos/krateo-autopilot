@@ -47,3 +47,15 @@ jobs:
             echo "::endgroup::"
           done
           exit $fail
+
+      - name: Agent conformance (AGENTS-VERSIONING.md §8)
+        run: |
+          set -euo pipefail
+          # Vendored byte-identical like the rest of the canonical CI. Self-skips in repos that
+          # don't vendor the linter yet (enforcement turns on as the script propagates).
+          if [ -f hack/lint-agents.py ]; then
+            python3 -m pip install --quiet pyyaml
+            python3 hack/lint-agents.py .
+          else
+            echo "hack/lint-agents.py not vendored here — skipping agent conformance"
+          fi

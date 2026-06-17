@@ -22,11 +22,13 @@ repo publishes exactly **two** OCI streams:
 | Models | `ModelConfig` (Gemini, or GeminiVertexAI via ADC) | **chart** |
 | Skills | kagent `skillRef` OCI | **chart** (referenced) |
 | Tools | `RemoteMCPServer` | **chart** (referenced) |
-| Custom MCP tool servers | container images on component-prefixed tags (`portal-tools/X.Y.Z`) | **release-mcp-server** image |
+| Custom MCP tool servers | a `RemoteMCPServer` pointing at a server image built+published from its **own code repo** (e.g. `krateo-clickhouse-mcp-server-chart`) | the server repo's image |
 
 - **Chart release** → `oci://ghcr.io/braghettos/krateo/<chart>` on a semver tag (`X.Y.Z`),
   `CHART_VERSION`-substituted (tag-driven). Canonical `release-oci.yaml` + `lint.yaml`.
-- **MCP-server image release** → built on `portal-tools/X.Y.Z`, `blueprint-tools/X.Y.Z` tags.
+- **MCP-server images** → built+published from each server's own code repo; the autopilot chart
+  references them by `RemoteMCPServer` URL only. (Don't bundle MCP server code in the autopilot
+  repo — and per §8 C7, don't build a server for what the model + existing tools already do.)
 
 No other streams. The legacy autopilot-container / prompts-ORAS / single-prompt / voice-ui
 workflows are retired; prompts and agents are not versioned independently of the chart.
@@ -150,3 +152,39 @@ routing and is the first thing to fix: rename to `krateo-installer-agent`, repac
 above, register via `extraAgents`. The per-domain `*-chart` repos have no `/kagent` yet — they
 adopt this structure as they federate. The kog `agent-<x>-expert.yaml` reference is superseded by
 this standard for installer-integrated agents.
+
+## 8. Conformance — the lint-enforced rules
+
+§1–§7 describe the intent; this section is the **checkable contract**. Every agent chart (any
+`kagent/chart/` or a `charts/*-agent/` chart) MUST satisfy all of the following. The canonical
+`lint.yaml` runs `hack/lint-agents.py` (vendored byte-identical, like the other canonical CI) and
+fails the build on any violation.
+
+| # | Rule | Why |
+|---|------|-----|
+| C1 | **Chart name** matches `^krateo-[a-z0-9-]+-agent$`. | The OCI artifact, the composition Kind (`Krateo<Domain>Agent`), and the routing name all derive from it. |
+| C2 | **`Agent.metadata.name` == the chart name**, verbatim — no short form. The `extraAgents` registration in the installer MUST use the same string. | The orchestrator routes by exact name; a short `authn-agent` vs chart `krateo-authn-agent` is the #1 drift. |
+| C3 | **ModelConfig is referenced by a canonical name**: `gemini-flash` (default / cheap tier) or `gemini-pro` (heavy / reasoning tier). The name is provider-independent — Gemini vs GeminiVertexAI vs Ollama is a *toggle* owned by autopilot, never encoded in the name. | One fleet-wide model namespace; flipping the whole fleet to Vertex/local is one flag (see `installer-agent-modelconfig-localmodel`). Per-agent names like `vertex-gemini` fragment that. |
+| C4 | **`modelConfig.create: false`** (reference autopilot's shared config) — UNLESS the agent is *standalone-capable* (installable without autopilot, e.g. `krateo-installer-agent`). A standalone agent MAY create its own config but MUST create it under a canonical C3 name (so references resolve identically whether autopilot or the agent created it). | Avoids duplicate/divergent ModelConfigs; keeps the agent-only profile working. |
+| C5 | **`appVersion: CHART_VERSION`** (CI-stamped) — no literal appVersion. Chart `version` is tag-driven `CHART_VERSION`, or pinned literally only when the chart shares a repo with another primary chart (per §7). | Uniform, traceable provenance; the audit found codegen agents pinning literal `0.1.0`. |
+| C6 | **`Chart.yaml` `sources`** lists the braghettos code fork AND the chart repo. | Grounds the agent in real code via github MCP (§7). |
+| C7 | **Every `RemoteMCPServer` the agent references is created somewhere** — by autopilot (`chart/templates/mcp-servers.yaml`) for shared servers, or by a deployed component for domain servers. No dangling tool refs. | The audit found `krateo-blueprint-tools` / `krateo-portal-tools` referenced but created nowhere → agent `ReconcileFailed`. |
+
+> **Don't build a domain MCP server for what the LLM + existing tools already do.** A dedicated
+> `RemoteMCPServer` is justified only when it exposes a capability that the model itself, the
+> shared `kagent-tool-server` (kubectl/helm), and `github-mcp-server` (code + repo-by-topic search)
+> cannot. The retired `krateo-blueprint-tools` / `krateo-portal-tools` failed this test —
+> schema-generation is something the model does directly, marketplace listing is a github
+> topic-search, and widget specs are prompt knowledge or `kubectl explain`. Such capabilities are
+> better delivered through the agent's own planning/reasoning than a server to maintain.
+> `clickhouse-mcp-server` is the counter-example that *is* justified (live OTel query access).
+
+**Canonical ModelConfig set** (owned by autopilot, `modelOwner: true`):
+
+| Name | Tier | Default model |
+|------|------|---------------|
+| `gemini-flash` | default / cheap / high-volume | `gemini-2.5-flash` |
+| `gemini-pro` | heavy / reasoning (codegen, schema-gen) | `gemini-2.5-pro` |
+
+Pick `gemini-pro` only for agents doing heavy synthesis (the codegen/IaC agents); everything else
+uses `gemini-flash`.
