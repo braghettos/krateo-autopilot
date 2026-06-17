@@ -64,7 +64,7 @@
         },
         "location": {
           "type": "string",
-          "description": "Vertex AI location — defaults to `global` (recommended for Gemini 2.5); set a region (e.g. us-central1) for data residency."
+          "description": "Vertex AI location \u2014 defaults to `global` (recommended for Gemini 2.5); set a region (e.g. us-central1) for data residency."
         },
         "secretName": {
           "type": "string"
@@ -167,6 +167,18 @@
           "apiGroup": {
             "type": "string"
           }
+        }
+      }
+    },
+    "fetch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "mcpServer": {
+          "type": "string"
         }
       }
     }
