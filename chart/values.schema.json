@@ -64,7 +64,7 @@
         },
         "location": {
           "type": "string",
-          "description": "Vertex AI region, e.g. us-central1."
+          "description": "Vertex AI location — defaults to `global` (recommended for Gemini 2.5); set a region (e.g. us-central1) for data residency."
         },
         "secretName": {
           "type": "string"
