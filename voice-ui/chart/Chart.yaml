@@ -1,6 +1,0 @@
-apiVersion: v2
-name: krateo-voice-ui
-description: Voice interface for Krateo Autopilot using Gemini Multimodal Live API
-type: application
-version: 0.1.0
-appVersion: "0.1.0"
