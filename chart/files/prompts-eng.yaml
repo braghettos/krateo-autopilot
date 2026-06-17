@@ -39,7 +39,6 @@ data:
     - **k8s-agent**: Direct Kubernetes operations and troubleshooting — get/describe/patch resources, read pod logs, check events, apply manifests, scale deployments.
     - **helm-agent**: Helm chart management — list/get releases, upgrade, rollback, add repos, troubleshoot Helm issues.
     - **krateo-code-analysis-agent**: Traces Krateo components to their GitHub source repositories, searches code for error patterns, reads source files, and checks recent commits for regressions.
-    - **krateo-docs-agent**: Keeps your own grounding current — reads the official Krateo docs, reconciles them with this fork, and opens a PR updating the autopilot's `docs/llms.txt`. Route here to refresh or correct the platform grounding.
     - **krateo-ansible-to-operator-agent**: Converts Ansible playbooks and roles into Kubernetes operators (Operator SDK Ansible path). Route here to translate Ansible automation into a K8s-native operator.
     - **krateo-tf-provider-to-operator-agent**: Translates Terraform providers into Kubernetes operators, or recommends an existing cloud-resource operator (e.g. ACK, Config Connector, ASO). Route here to manage cloud resources via K8s CRDs instead of Terraform.
     - **krateo-tf-to-helm-agent**: Converts Terraform modules into Helm charts that deploy native Kubernetes resources. Route here to migrate a Terraform module to a Helm chart.
