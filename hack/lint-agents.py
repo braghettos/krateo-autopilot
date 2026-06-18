@@ -139,7 +139,8 @@ def lint_chart(cdir):
 
 
 def check_prompts(cdir, agent_files):
-    """§9.4 prompt mechanics: P1 non-empty, P2 bilingual files, P3 grounding footer (warn)."""
+    """§9.4 prompt mechanics: P1 non-empty, P2 bilingual files, P3 grounding footer (warn),
+    P4 verify-before-assert rule present (§9.2)."""
     errs, warns = [], []
     files_dir = os.path.join(cdir, "files")
     langs = ("eng", "ita")
@@ -172,6 +173,16 @@ def check_prompts(cdir, agent_files):
             errs.append(f"[PROMPT-P2] missing/empty files/prompts-{lang}.yaml — §9.4 bilingual required")
     if prompt_text.strip() and "## Your component" not in prompt_text:
         warns.append("[PROMPT-P3] prompt lacks the '## Your component' grounding footer — §9.1")
+    # §9.2 P4 — verify-before-assert: never state a fact (URL/IP/port/status/version/config/file)
+    # from memory; form a hypothesis, verify it against ground truth (the EXACT resource / the
+    # version-pinned source), and say so if it can't be verified. Bilingual markers (eng+ita).
+    vba_markers = (
+        "from memory or assumption", "verify it against ground truth", "verify before you assert",
+        "dalla memoria o per assunzione", "verificala contro la verita",
+    )
+    if prompt_text.strip() and not any(m.lower() in prompt_text.lower() for m in vba_markers):
+        errs.append("[PROMPT-P4] prompt lacks the verify-before-assert rule (never state a fact from "
+                    "memory — verify against ground truth / the exact resource, say so if unverifiable) — §9.2")
     # §10 D2 — the grounding footer should reference version-pinned docs retrieval, not bare "read source"
     if "## Your component" in prompt_text:
         cues = ("docs/llms.txt", "ref=", "@ <", "@<")

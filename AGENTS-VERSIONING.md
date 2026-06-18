@@ -241,6 +241,14 @@ prompt and "lose the middle" [Liu 2023].
   increases verbatim sourcing [Weller 2023]; citing the path is a measurable faithfulness signal
   [Bohnet 2022]. Anthropic ships the same instruction ("never speculate about code you have not
   opened … read the file before answering"); OpenAI's GPT-4.1 agent reminder is "do NOT guess".
+- **Verify before you assert (P4, lint-enforced).** Never state a runtime fact — a URL, IP, port,
+  status, version, config value, file content, or whether a resource exists — from memory or
+  assumption. Form a hypothesis, then **verify it against ground truth before saying it**: live
+  state via the k8s/tool reads (read the EXACT resource — a component's endpoint is the External-IP
+  + port of ITS OWN Service, never a sibling's), chart/behavior/source facts via the fetch/github
+  tools against the version-pinned source. State only what you verified; if you cannot, say so. This
+  is the fix for the live failure where an agent reported a component URL using a sibling's IP. The
+  linter (`hack/lint-agents.py` P4) requires a verify-before-assert marker in every agent prompt.
 - **State an explicit tool-use policy** — when, and when NOT, to call each tool — in the prompt, not
   only in the tool schema [OpenAI function-calling; Anthropic].
 - **Confirm before irreversible / shared-infra mutations; keep reversible actions autonomous**
