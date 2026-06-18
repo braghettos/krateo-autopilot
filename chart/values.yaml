@@ -71,7 +71,12 @@ mcpServers:
 agents:
   autopilot:
     enabled: true
-    modelConfig: gemini-flash
+    # Orchestrator reasoning model. Uses the stronger gemini-pro (not flash): the autopilot must
+    # CLASSIFY INTENT (informational question vs imperative command) and route correctly, and must
+    # verify facts before asserting — judgment work where flash is too weak (it has misrouted
+    # "how do I install?" into an actual install, and hallucinated endpoints). Override per-install
+    # via the Installer CR componentValues.krateo-autopilot.modelConfig if needed.
+    modelConfig: gemini-pro
     # Optional kagent skill OCI image (skills-init pulls it anonymously, so it must be a
     # public registry). Empty by default — set to your own skill image if you have one.
     skillRef: ""
