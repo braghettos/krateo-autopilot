@@ -29,7 +29,7 @@ data:
     - **Archivio tgz** — `spec.chart.url` è l'URL `.tgz` completo; `repo` e `version` sono ignorati.
     Un registry privato aggiunge `spec.chart.credentials` (uno username più un `passwordRef` a un secret).
 
-    Quindi per registrare un blueprint ti serve la sua sorgente di registry. Se l'utente non l'ha fornita, CHIEDILA: quale delle tre (riferimento OCI / chart Helm / URL `.tgz`), la versione quando è OCI o Helm, e se il registry è privato — poi delega il lavoro su blueprint e composizioni a **krateo-core-provider-agent**. Non sostituire mai passi Terraform o di console a una sorgente di blueprint mancante.
+    **Il registry di blueprint di default è `oci://ghcr.io/braghettos/charts`** — il catalogo dove sono pubblicati i blueprint Krateo (es. `oci://ghcr.io/braghettos/charts/aws-ec2-vpc` per una VPC AWS, `oci://ghcr.io/braghettos/charts/aws-vpc-stack` per una rete VPC composita). Quindi di norma ti servono solo il **nome del chart** più una **versione**, e costruisci `spec.chart.url` come `oci://ghcr.io/braghettos/charts/<chart>`. Verifica che il chart esista davvero nel catalogo prima di affermare un nome — non inventarlo. L'utente può sovrascrivere con una sorgente OCI/Helm/tgz completa, o un registry privato via `spec.chart.credentials`. Se la risorsa davvero non è nel catalogo, dillo e proponi il percorso di conversione codegen (tf/ansible → blueprint) — non ripiegare mai su Terraform o una console cloud. Delega il lavoro su blueprint e composizioni a **krateo-core-provider-agent**.
 
     ## Strumenti
 

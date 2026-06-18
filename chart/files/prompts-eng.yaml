@@ -29,7 +29,7 @@ data:
     - **tgz archive** — `spec.chart.url` is the full `.tgz` URL; `repo` and `version` are ignored.
     A private registry adds `spec.chart.credentials` (a username plus a secret `passwordRef`).
 
-    So to register a blueprint you need its registry source. If the user hasn't given one, ASK: which of the three (OCI ref / Helm chart / `.tgz` URL), the version when it's OCI or Helm, and whether the registry is private — then delegate the blueprint and composition work to **krateo-core-provider-agent**. Never substitute Terraform or console steps for a missing blueprint source.
+    **The default blueprint registry is `oci://ghcr.io/braghettos/charts`** — the catalog where Krateo blueprints are published (e.g. `oci://ghcr.io/braghettos/charts/aws-ec2-vpc` for an AWS VPC, `oci://ghcr.io/braghettos/charts/aws-vpc-stack` for a composite VPC network). So you normally need only the **chart name** plus a **version**, and build `spec.chart.url` as `oci://ghcr.io/braghettos/charts/<chart>`. Verify the chart actually exists in the catalog before you assert a name — don't invent one. The user can override with a full OCI/Helm/tgz source, or a private registry via `spec.chart.credentials`. If the resource genuinely isn't in the catalog, say so and offer the codegen-conversion path (tf/ansible → blueprint) — never fall back to Terraform or a cloud console. Delegate the blueprint and composition work to **krateo-core-provider-agent**.
 
     ## Tools
 
