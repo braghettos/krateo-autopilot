@@ -283,11 +283,15 @@ prompt and "lose the middle" [Liu 2023].
 
 ### 9.4 Mechanics (lint-enforced — `hack/lint-agents.py`)
 
-- **Storage:** `kagent/chart/files/prompts-<lang>.yaml` as a ConfigMap, data key `<domain>_agent`,
+- **Storage:** `kagent/chart/files/prompts-eng.yaml` as a ConfigMap, data key `<domain>_agent`,
   rendered via `templates/prompts.yaml`. NOT a large inline `systemMessage` in `agent.yaml`.
 - **P1 — non-empty:** the prompt must have content (catches empty/placeholder prompts).
-- **P2 — bilingual:** both `prompts-eng.yaml` and `prompts-ita.yaml` exist and are non-empty,
-  structurally identical (only the prose translated).
+- **P2 — English-only:** prompts are authored in English (`prompts-eng.yaml`) and NOT translated.
+  System prompts are instructions to the model, not user-facing copy — a modern tool-calling model
+  replies in whatever language the user writes in regardless of the prompt's language, and the docs
+  the agents ground against (`llms.txt`, this file) are English. A parallel `prompts-ita.yaml` (or
+  any other translation) is therefore 2× maintenance + drift for ~no benefit and is NOT shipped. The
+  `prompts.language` selector defaults to (and need only support) `eng`.
 - **P3 — grounding footer:** the prompt contains the `## Your component` grounding section (warn).
 
 ### 9.5 Reference skeleton
