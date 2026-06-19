@@ -139,11 +139,11 @@ def lint_chart(cdir):
 
 
 def check_prompts(cdir, agent_files):
-    """§9.4 prompt mechanics: P1 non-empty, P2 bilingual files, P3 grounding footer (warn),
+    """§9.4 prompt mechanics: P1 non-empty, P2 English prompt present, P3 grounding footer (warn),
     P4 verify-before-assert rule present (§9.2)."""
     errs, warns = [], []
     files_dir = os.path.join(cdir, "files")
-    langs = ("eng", "ita")
+    langs = ("eng",)
     lang_state = {}
     prompt_text = ""
     for lang in langs:
@@ -170,15 +170,14 @@ def check_prompts(cdir, agent_files):
     for lang in langs:
         exists, content = lang_state[lang]
         if not exists or not content:
-            errs.append(f"[PROMPT-P2] missing/empty files/prompts-{lang}.yaml — §9.4 bilingual required")
+            errs.append(f"[PROMPT-P2] missing/empty files/prompts-{lang}.yaml — §9.4 English prompt required")
     if prompt_text.strip() and "## Your component" not in prompt_text:
         warns.append("[PROMPT-P3] prompt lacks the '## Your component' grounding footer — §9.1")
     # §9.2 P4 — verify-before-assert: never state a fact (URL/IP/port/status/version/config/file)
     # from memory; form a hypothesis, verify it against ground truth (the EXACT resource / the
-    # version-pinned source), and say so if it can't be verified. Bilingual markers (eng+ita).
+    # version-pinned source), and say so if it can't be verified.
     vba_markers = (
         "from memory or assumption", "verify it against ground truth", "verify before you assert",
-        "dalla memoria o per assunzione", "verificala contro la verita",
     )
     if prompt_text.strip() and not any(m.lower() in prompt_text.lower() for m in vba_markers):
         errs.append("[PROMPT-P4] prompt lacks the verify-before-assert rule (never state a fact from "
