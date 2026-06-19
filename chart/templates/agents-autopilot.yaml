@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   type: Declarative
-  description: "Orchestrator for Krateo PlatformOps — routes user requests to the appropriate specialist sub-agent and installs Krateo"
+  description: "Krateo PlatformOps assistant — answers questions and reports status (read-only); orchestrates specialist sub-agents when attached, otherwise defers changes to the Installer CR or a specialist"
 {{- if .Values.agents.autopilot.skillRef }}
   skills:
     refs:
@@ -31,12 +31,10 @@ spec:
           name: kagent-tool-server
           kind: RemoteMCPServer
           apiGroup: kagent.dev
-{{- if .Values.hitlApproval }}
-          requireApproval:
-            - k8s_apply_manifest
-{{- end }}
+          # READ-ONLY by design: the standalone autopilot answers questions and reports status
+          # but never mutates the platform itself — it defers installs/changes to a specialist
+          # sub-agent (when attached) or to the Installer CR. So it holds no apply tool.
           toolNames:
-            - k8s_apply_manifest
             - k8s_get_resources
 {{- if .Values.fetch.enabled }}
       # Tokenless doc grounding: GET the version-pinned raw docs/llms.txt URL (public, no auth/token).
