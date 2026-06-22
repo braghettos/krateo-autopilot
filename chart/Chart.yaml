@@ -5,6 +5,18 @@ type: application
 version: CHART_VERSION
 appVersion: "0.1.0"
 home: https://krateo.io
+icon: https://raw.githubusercontent.com/krateoplatformops/krateo/main/docs/media/logo.svg
+keywords:
+  - krateo
+  - autopilot
+  - kagent
+  - ai
+  - orchestrator
+annotations:
+  krateo.io/category: generator
+  krateo.io/maturity: beta
+  krateo.io/display-name: Krateo Autopilot
+  krateoSupportedVersion: ">= 2.5.1"
 # SOURCE_REF is stamped to the release tag by release-oci, so the published chart's `sources`
 # point at the exact released ref the orchestrator reads via the github MCP. (The chart `version`
 # already tracks the release — it is CHART_VERSION, stamped from the tag.)
