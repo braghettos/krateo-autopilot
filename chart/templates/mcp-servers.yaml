@@ -91,3 +91,77 @@ spec:
       name: mcp
 {{- end }}
 {{- end }}
+{{- if .Values.mcpServers.chartAuthoring.enabled }}
+---
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: chart-authoring-mcp
+  namespace: {{ .Values.namespace }}
+spec:
+  description: "Krateo chart-authoring MCP — validate a drafted Helm chart via helm-render, generate its values.schema.json, and scaffold a blueprint skeleton"
+  protocol: {{ .Values.mcpServers.chartAuthoring.protocol }}
+  url: {{ .Values.mcpServers.chartAuthoring.url }}
+{{- if .Values.mcpServers.chartAuthoring.deployWorkload }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chart-authoring-mcp
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: chart-authoring-mcp
+    app.kubernetes.io/name: chart-authoring-mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chart-authoring-mcp
+  template:
+    metadata:
+      labels:
+        app: chart-authoring-mcp
+    spec:
+      containers:
+        - name: server
+          image: {{ .Values.mcpServers.chartAuthoring.image }}
+          ports:
+            - containerPort: {{ .Values.mcpServers.chartAuthoring.port | default 8085 }}
+              name: mcp
+          env:
+            - name: PORT
+              value: "{{ .Values.mcpServers.chartAuthoring.port | default 8085 }}"
+            # The chart-authoring MCP validates a drafted chart by rendering it through the
+            # in-cluster helm-render-service (same renderer the previewBlueprint drawer uses),
+            # so "validate_chart ok" == "the preview will render".
+            - name: HELM_RENDER_URL
+              value: {{ .Values.mcpServers.chartAuthoring.helmRenderUrl | default "http://krateo-helm-render-service.krateo-system.svc:8080" }}
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: {{ .Values.mcpServers.chartAuthoring.port | default 8085 }}
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chart-authoring-mcp
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: chart-authoring-mcp
+spec:
+  selector:
+    app: chart-authoring-mcp
+  ports:
+    - port: {{ .Values.mcpServers.chartAuthoring.port | default 8085 }}
+      targetPort: {{ .Values.mcpServers.chartAuthoring.port | default 8085 }}
+      name: mcp
+{{- end }}
+{{- end }}

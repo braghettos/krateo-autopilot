@@ -110,4 +110,20 @@ spec:
             - k8s_get_resources
             - k8s_get_available_api_resources
             - k8s_apply_manifest
+{{- if .Values.mcpServers.chartAuthoring.enabled }}
+      # Chart AUTHORING toolset (krateo-chart-authoring-mcp): lets the helm-agent draft a NEW
+      # blueprint chart and self-validate it before returning — generate_values_schema derives a
+      # complete Krateo-compliant values.schema.json from the chart, validate_chart renders the tree
+      # through helm-render-service (the same renderer previewBlueprint uses), scaffold_chart seeds a
+      # skeleton. This is what makes the orchestrator able to DELEGATE blueprint authoring here.
+      - type: McpServer
+        mcpServer:
+          apiGroup: kagent.dev
+          kind: RemoteMCPServer
+          name: chart-authoring-mcp
+          toolNames:
+            - validate_chart
+            - generate_values_schema
+            - scaffold_chart
+{{- end }}
 {{- end }}

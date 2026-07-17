@@ -76,6 +76,20 @@ mcpServers:
     tokenSecretKey: token
     authSecret: gh-mcp-auth         # secret whose value is "Bearer <token>"
     authSecretKey: authorization
+  # Krateo chart-authoring MCP: gives the helm-agent a blueprint author+validate loop —
+  # validate_chart (renders the drafted tree through helm-render-service, the SAME renderer the
+  # previewBlueprint drawer uses), generate_values_schema (derives a complete, Krateo-compliant
+  # values.schema.json from the chart), and scaffold_chart. Deployed in-chart; no auth (calls
+  # helm-render-service in-cluster). Grounding (which CRDs exist) uses the agent's existing
+  # kagent k8s_get_available_api_resources tool.
+  chartAuthoring:
+    enabled: true
+    url: http://chart-authoring-mcp.krateo-system:8085/mcp
+    protocol: STREAMABLE_HTTP
+    deployWorkload: true
+    image: ghcr.io/braghettos/krateo-chart-authoring-mcp:0.1.0
+    port: 8085
+    helmRenderUrl: http://krateo-helm-render-service.krateo-system.svc:8080
 
 # Agents — enable/disable individual agents.
 # DEFAULT IS STANDALONE: only the autopilot agent runs. The generic k8s/helm sub-agents are
@@ -95,14 +109,17 @@ agents:
     # Optional kagent skill OCI image (skills-init pulls it anonymously, so it must be a
     # public registry). Empty by default — set to your own skill image if you have one.
     skillRef: ""
-  # Generic Kubernetes/Helm specialists — OFF by default (standalone autopilot). Enable to
-  # attach them as A2A sub-agents the autopilot can delegate cluster/Helm work to.
+  # Generic Kubernetes/Helm specialists — attached as A2A sub-agents the autopilot delegates
+  # cluster/Helm work to. helm is ON because it is also the blueprint chart-AUTHOR+VALIDATOR
+  # (chart-authoring-mcp toolset) the orchestrator delegates blueprint drafting to; it runs on
+  # gemini-pro because authoring valid Helm/YAML for real kinds needs the stronger model (and
+  # avoids flash's runaway-loop risk) — the validate_chart loop is the correctness backstop.
   k8s:
     enabled: false
     modelConfig: gemini-flash
   helm:
-    enabled: false
-    modelConfig: gemini-flash
+    enabled: true
+    modelConfig: gemini-pro
 
 # Prompts language
 prompts:
