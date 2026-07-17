@@ -66,6 +66,16 @@ mcpServers:
     enabled: true
     url: http://github-mcp-server.krateo-system:3000/mcp
     protocol: STREAMABLE_HTTP
+    # Deploy the GitHub MCP server workload in-chart (the RemoteMCPServer above points at it).
+    # Its HTTP mode requires per-request auth, so the RemoteMCPServer injects an Authorization
+    # header from authSecret (a "Bearer <token>" secret). Both secrets are cluster prerequisites.
+    deployWorkload: true
+    image: ghcr.io/github/github-mcp-server:v1.6.0
+    port: 3000
+    tokenSecret: gh-token          # existing GitHub PAT secret
+    tokenSecretKey: token
+    authSecret: gh-mcp-auth         # secret whose value is "Bearer <token>"
+    authSecretKey: authorization
 
 # Agents — enable/disable individual agents.
 # DEFAULT IS STANDALONE: only the autopilot agent runs. The generic k8s/helm sub-agents are

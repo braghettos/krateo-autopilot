@@ -20,4 +20,74 @@ spec:
   description: "GitHub official MCP server — source code search, file contents, commits, PRs, repo management"
   protocol: {{ .Values.mcpServers.github.protocol }}
   url: {{ .Values.mcpServers.github.url }}
+  {{- if .Values.mcpServers.github.authSecret }}
+  # github-mcp-server's HTTP mode enforces per-request auth; inject the PAT as an
+  # Authorization: Bearer header (the secret value already includes the "Bearer " prefix).
+  headersFrom:
+    - name: Authorization
+      valueFrom:
+        name: {{ .Values.mcpServers.github.authSecret }}
+        key: {{ .Values.mcpServers.github.authSecretKey | default "authorization" }}
+        type: Secret
+  {{- end }}
+{{- if .Values.mcpServers.github.deployWorkload }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-mcp-server
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: github-mcp-server
+    app.kubernetes.io/name: github-mcp-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: github-mcp-server
+  template:
+    metadata:
+      labels:
+        app: github-mcp-server
+    spec:
+      containers:
+        - name: server
+          image: {{ .Values.mcpServers.github.image | default "ghcr.io/github/github-mcp-server:v1.6.0" }}
+          args: ["http", "--port", "{{ .Values.mcpServers.github.port | default 3000 }}", "--listen-host", "0.0.0.0"]
+          ports:
+            - containerPort: {{ .Values.mcpServers.github.port | default 3000 }}
+              name: mcp
+          env:
+            - name: GITHUB_PERSONAL_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mcpServers.github.tokenSecret }}
+                  key: {{ .Values.mcpServers.github.tokenSecretKey | default "token" }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.mcpServers.github.port | default 3000 }}
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 20m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: github-mcp-server
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: github-mcp-server
+spec:
+  selector:
+    app: github-mcp-server
+  ports:
+    - port: {{ .Values.mcpServers.github.port | default 3000 }}
+      targetPort: {{ .Values.mcpServers.github.port | default 3000 }}
+      name: mcp
+{{- end }}
 {{- end }}
