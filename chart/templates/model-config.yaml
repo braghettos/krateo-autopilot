@@ -34,7 +34,9 @@ spec:
     # (high) and the agents get erratic on ambiguous asks (an RCA sometimes investigated,
     # sometimes punted back as clarifying questions). Hardcoded — NOT a values field — because
     # the core-provider crdgen emits a schema `number` as a string and chokes on the value path.
-    temperature: 0.3
+    # MUST be a quoted STRING: the kagent ModelConfig CRD types geminiVertexAI.temperature as
+    # `string` and rejects a bare number ("must be of type string").
+    temperature: "0.3"
 {{- else }}
   model: {{ $m.model }}
   provider: {{ $m.provider }}
