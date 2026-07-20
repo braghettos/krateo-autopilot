@@ -40,12 +40,6 @@ vertexAI:
   # pinning one regional Dynamic Shared Quota pool (best availability / lowest 429 rate for the
   # agent fan-out). Override with a region if you need data residency.
   location: global
-  # Sampling temperature for every Vertex ModelConfig. Left unpinned, Gemini defaults to ~1.0
-  # (high), which makes the agents erratic on ambiguous asks — an RCA request sometimes gets
-  # investigated and sometimes punted back as clarifying questions. 0.3 keeps enough reasoning
-  # flexibility for authoring while making troubleshooting/investigation far more consistent.
-  # Remove the key to fall back to the provider default.
-  temperature: 0.3
   # secretName is only used for explicit SA-key auth; left unset for ADC.
   secretName: ""
 

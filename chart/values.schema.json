@@ -66,12 +66,6 @@
           "type": "string",
           "description": "Vertex AI location \u2014 defaults to `global` (recommended for Gemini 2.5); set a region (e.g. us-central1) for data residency."
         },
-        "temperature": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 2,
-          "description": "Sampling temperature for every Vertex ModelConfig. Unpinned, Gemini defaults to ~1.0 (high), making the agents erratic on ambiguous asks; 0.3 keeps reasoning flexibility for authoring while making troubleshooting/investigation far more consistent."
-        },
         "secretName": {
           "type": "string"
         }

@@ -30,9 +30,11 @@ spec:
   geminiVertexAI:
     projectID: {{ $.Values.vertexAI.projectID | quote }}
     location: {{ $.Values.vertexAI.location | quote }}
-    {{- if hasKey $.Values.vertexAI "temperature" }}
-    temperature: {{ $.Values.vertexAI.temperature }}
-    {{- end }}
+    # Pinned low so investigation/RCA behaviour is consistent. Unset, Gemini defaults to ~1.0
+    # (high) and the agents get erratic on ambiguous asks (an RCA sometimes investigated,
+    # sometimes punted back as clarifying questions). Hardcoded — NOT a values field — because
+    # the core-provider crdgen emits a schema `number` as a string and chokes on the value path.
+    temperature: 0.3
 {{- else }}
   model: {{ $m.model }}
   provider: {{ $m.provider }}
