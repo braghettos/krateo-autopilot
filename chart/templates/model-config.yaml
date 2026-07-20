@@ -30,6 +30,9 @@ spec:
   geminiVertexAI:
     projectID: {{ $.Values.vertexAI.projectID | quote }}
     location: {{ $.Values.vertexAI.location | quote }}
+    {{- if hasKey $.Values.vertexAI "temperature" }}
+    temperature: {{ $.Values.vertexAI.temperature }}
+    {{- end }}
 {{- else }}
   model: {{ $m.model }}
   provider: {{ $m.provider }}
