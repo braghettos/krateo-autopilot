@@ -15,16 +15,23 @@ geminiApiKey:
 models:
   flash:
     name: gemini-flash
-    # gemini-3.5-flash GA'd in the Gemini API but is NOT available on Vertex (GeminiVertexAI) yet —
-    # it 404s on Vertex (verified 2026-06 on Vertex us-central1). Hold at 2.5-flash
-    # for the Vertex provider; bump to 3.5 only once Vertex lists it.
-    model: gemini-2.5-flash
+    # gemini-3.6-flash: current GA workhorse (released 2026-07-21). Verified callable on Vertex
+    # (GeminiVertexAI, location global) — HTTP 200 from the cluster node SA on 2026-07-22, and
+    # smoke-tested live: the k8s-agent ran a tool-driven task on it end-to-end (google-adk log
+    # `model: gemini-3.6-flash, backend: VERTEX_AI`, no errors). This resolves the earlier hold
+    # (3.5-flash 404'd on Vertex as of 2026-06; both 3.5 and 3.6 now list). 3.6 is newer + cheaper
+    # than 2.5 (-17% output tokens, $7.50/M output) with stronger agentic multi-step tool-calling.
+    model: gemini-3.6-flash
     provider: Gemini
   pro:
     name: gemini-pro
-    # HOLD at 2.5-pro: gemini-3.5-pro is limited Vertex preview as of 2026-06 with no published
-    # GA Vertex/Gemini-API model ID. Bump to gemini-3.5-pro once Google lists it.
-    model: gemini-2.5-pro
+    # Pointed at gemini-3.6-flash: no current-gen (3.x) PRO is on Vertex yet (3.1/3.5/3.6-pro all
+    # 404 on 2026-07-22; gemini-3.5-pro is delayed, still partner-testing). 3.6-flash's agentic
+    # tool-calling suits the autopilot orchestrator's role and supersedes the previous-gen 2.5-pro;
+    # smoke-tested live (autopilot orchestrated + delegated to a sub-agent on 3.6-flash, clean).
+    # The `pro` alias is intentionally KEPT (not collapsed) so a true pro tier can be restored in one
+    # line — set this to gemini-3.5-pro — once Google GAs it on Vertex.
+    model: gemini-3.6-flash
     provider: Gemini
 
 # Gemini Vertex AI provider config.
